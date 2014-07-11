@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: uk.ac.gate:gate-compiler-jdt:4.3.2-P20140317-1600">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/uk/ac/gate/gate-compiler-jdt/4.3.2-P20140317-1600/gate-compiler-jdt-4.3.2-P20140317-1600.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/uk/ac/gate/gate-compiler-jdt/4.3.2-P20140317-1600/gate-compiler-jdt-4.3.2-P20140317-1600-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/uk/ac/gate/gate-compiler-jdt/4.3.2-P20140317-1600/gate-compiler-jdt-4.3.2-P20140317-1600-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

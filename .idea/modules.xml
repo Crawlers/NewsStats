@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Crawler/Crawler.iml" filepath="$PROJECT_DIR$/Crawler/Crawler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Database/Database.iml" filepath="$PROJECT_DIR$/Database/Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Filter/Filter.iml" filepath="$PROJECT_DIR$/Filter/Filter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NewsStats.iml" filepath="$PROJECT_DIR$/NewsStats.iml" />
+    </modules>
+  </component>
+</project>
+
