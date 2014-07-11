@@ -57,6 +57,11 @@
             <version>1.7.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.cse10.crawler</groupId>
+            <artifactId>Database</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
