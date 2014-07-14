@@ -1,13 +1,5 @@
-package com.cse10.crawler;
+package com.cse10.crawler.paperCrawler;
 
-/**
- * Created by TharinduWijewardane on 29.06.2014.
- */
-import com.cse10.crawler.contenthandler.DailyMirrorContentHandler;
-import com.cse10.crawler.contenthandler.PaperContentHandler;
-import com.cse10.crawler.contenthandler.TheIslandContentHandler;
-import com.cse10.article.Article;
-import com.cse10.database.DatabaseHandler;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -16,11 +8,17 @@ import edu.uci.ics.crawler4j.url.WebURL;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Created with IntelliJ IDEA.
+ * User: sampath
+ * Date: 7/14/14
+ * Time: 8:31 PM
+ * To change this template use File | Settings | File Templates.
+ */
 public class BasicCrawler extends WebCrawler {
 
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
             + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
-    private PaperContentHandler paperContentHandler;
 
     /**
      * You should implement this function to specify whether the given url
@@ -29,7 +27,7 @@ public class BasicCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        return !FILTERS.matcher(href).matches() && ( href.startsWith("http://www.dailymirror.lk") || href.startsWith("http://www.island.lk") ); //http://www.ics.uci.edu/
+        return !FILTERS.matcher(href).matches();
     }
 
     /**
@@ -64,46 +62,14 @@ public class BasicCrawler extends WebCrawler {
             System.out.println("Text length: " + text.length());
             System.out.println("Html length: " + html.length());
             System.out.println("Number of outgoing links: " + links.size());
-
         }
 
-//        Header[] responseHeaders = page.getFetchResponseHeaders();
+        //        Header[] responseHeaders = page.getFetchResponseHeaders();
 //        if (responseHeaders != null) {
 //            System.out.println("Response headers:");
 //            for (Header header : responseHeaders) {
 //                System.out.println("\t" + header.getName() + ": " + header.getValue());
 //            }
 //        }
-
-        System.out.println("=============");
-
-        if (page.getWebURL().getDomain().equals("dailymirror.lk")) {
-            System.out.println("********* inside if dailymirror ***********");
-            paperContentHandler = new DailyMirrorContentHandler();
-            List<Article> articles = paperContentHandler.extractArticles(page);
-
-            for (Article article : articles) {
-                System.out.println("***********************************start");
-                System.out.println(article.getContent());
-                DatabaseHandler.insertArticle(article);
-                System.out.println("***********************************end");
-            }
-
-        }else if (page.getWebURL().getDomain().equals("island.lk")){
-            System.out.println("********* inside if island ***********");
-            paperContentHandler = new TheIslandContentHandler();
-            List<Article> articles = paperContentHandler.extractArticles(page);
-
-            for (Article article : articles) {
-                System.out.println("***********************************start");
-                System.out.println(article.getContent());
-                DatabaseHandler.insertArticle(article);
-                System.out.println("***********************************end");
-            }
-
-            //testtttt
-
-        }
-
     }
 }

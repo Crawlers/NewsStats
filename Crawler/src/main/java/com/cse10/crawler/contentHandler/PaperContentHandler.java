@@ -1,4 +1,4 @@
-package com.cse10.crawler.contenthandler;
+package com.cse10.crawler.contentHandler;
 
 import com.cse10.article.Article;
 import edu.uci.ics.crawler4j.crawler.Page;
@@ -13,11 +13,13 @@ public abstract class PaperContentHandler {
 
     protected List<Article> articles;
 
-    public PaperContentHandler(){
+    public PaperContentHandler() {
         articles = new ArrayList<Article>();
     }
 
-    /** to be overridden */
+    /**
+     * to be overridden
+     */
     public abstract List extractArticles(Page page);
 
 }

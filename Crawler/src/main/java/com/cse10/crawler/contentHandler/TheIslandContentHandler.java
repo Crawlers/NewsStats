@@ -1,7 +1,7 @@
-package com.cse10.crawler.contenthandler;
+package com.cse10.crawler.contentHandler;
 
 import com.cse10.article.Article;
-import com.cse10.article.DailyMirrorArticle;
+import com.cse10.article.TheIslandArticle;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
@@ -14,9 +14,7 @@ import java.util.List;
 /**
  * Created by TharinduWijewardane on 10.07.2014.
  */
-public class DailyMirrorContentHandler extends PaperContentHandler {
-
-
+public class TheIslandContentHandler extends PaperContentHandler {
     @Override
     public List extractArticles(Page page) {
 
@@ -26,14 +24,16 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
             String html = htmlParseData.getHtml();
 
             Document doc = Jsoup.parseBodyFragment(html);
-            Elements articleElements = doc.getElementsByClass("article-content");
+            Elements divs = doc.select("body div");
 
-            for (Element articleElement : articleElements) {
-                Article article = new DailyMirrorArticle();
-                article.setContent(articleElement.ownText());
-                articles.add(article);
+            for (Element div : divs) {
+                Elements paras = div.getElementsByTag("p");
+                for (Element para : paras) {
+                    Article article = new TheIslandArticle();
+                    article.setContent(para.text());
+                    articles.add(article);
+                }
             }
-
 
         }
 
