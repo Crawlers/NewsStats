@@ -13,9 +13,9 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DailyMirrorCrawlController extends BasicCrawlController {
+public class CeylonTodayCrawlController extends BasicCrawlController {
 
-    final String FROM_DATE = "2011-01-01";
+    final String FROM_DATE = "2014-01-01";
     final String TO_DATE = "2014-06-01";
     public static String current_date;
 
@@ -44,7 +44,7 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
             int date = c.get(Calendar.DATE);
             current_date = sdf.format(c.getTime());
-            String url = "http://www.dailymirror.lk/archive.html?year=" + year + "&month=" + month + "&day=" + date + "&modid=1032";
+            String url = "http://www.ceylontoday.lk/16-0-"+ date +"-" + year + "-" + month + "-archive-list.html";
 
             controller.addSeed(url);
             System.out.println("crawling " + url);
@@ -57,4 +57,3 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
         }
     }
 }
-

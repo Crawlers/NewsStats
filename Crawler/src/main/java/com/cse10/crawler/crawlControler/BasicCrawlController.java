@@ -13,8 +13,8 @@ abstract public class BasicCrawlController {
 
     //global configurations
     final String CRAWL_STORAGE_DIR_ROOT = "/home/sampath/FYP/crawlData";
-    final String PROXY_ADDRESS = "";
-    final int PROXY_PORT = 0;
+    final String PROXY_ADDRESS = "cache.mrt.ac.lk";
+    final int PROXY_PORT = 3128;
 
     public BasicCrawlController() {
 
