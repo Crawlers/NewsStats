@@ -5,7 +5,7 @@
     <class name="com.cse10.article.CeylonTodayArticle" table="article_ceylon_today">
         <id name="id" type="int">
             <column name="id" precision="20" scale="0" />
-            <generator class="assigned"/>
+            <generator class="increment"/>
         </id>
         <property name="title" type="string">
             <column name="title" length="100" not-null="false"/>
