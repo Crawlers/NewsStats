@@ -6,6 +6,7 @@ package com.cse10.database;
 import com.cse10.article.Article;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseHandler {
@@ -52,6 +53,18 @@ public class DatabaseHandler {
 
         session.save(article);
         session.getTransaction().commit();
+    }
+
+   public static ArrayList<Article> fettchArticle() {
+       ArrayList<Article> articles;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        articles = (ArrayList<Article>)session.createCriteria(Article.class).list();
+        session.getTransaction().commit();
+
+       return  articles;
     }
 
 }
