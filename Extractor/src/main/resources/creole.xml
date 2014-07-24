@@ -1,0 +1,16 @@
+<!-- creole.xml GoldFish -->
+<!--  tharindu, 24/7/2014 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+extractor.GoldFish.
+-->
+
+<CREOLE-DIRECTORY>
+  <!--JAR SCAN="true">GoldFish.jar</JAR-->
+
+    <RESOURCE>
+        <CLASS>com.cse10.extractor.Goldfish</CLASS>
+    </RESOURCE>
+</CREOLE-DIRECTORY>
