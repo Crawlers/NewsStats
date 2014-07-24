@@ -9,6 +9,8 @@
         <module>Crawler</module>
         <module>Database</module>
         <module>Filter</module>
+        <module>Bootstrap</module>
+        <module>Extractor</module>
     </modules>
     <name>WebCrawler</name>
   <url>http://maven.apache.org</url>
