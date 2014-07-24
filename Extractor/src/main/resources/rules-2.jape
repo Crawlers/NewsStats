@@ -1,0 +1,23 @@
+/*
+*  preprocessing2.jape
+*
+* Copyright (c) 2007- , DERI, National University of Ireland, Galway.
+*  Brian Davis, 12 December 2007 
+*  $Id: preprocessing2.jape,v 1.0 2007/12/12 19:24:00 GMT
+*
+* The Phase seperates Annotations of Company relations from Lookup Annotations 
+*/
+
+Phase: Places
+Input: Lookup 
+
+Rule: Places
+(
+{Lookup.minorType==country}
+):countryName
+-->
+:countryName.Country = {kind = country}
+
+
+
+
