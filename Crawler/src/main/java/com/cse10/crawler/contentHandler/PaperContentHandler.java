@@ -23,7 +23,7 @@ public abstract class PaperContentHandler {
      */
     public abstract List extractArticles(Page page);
 
-    boolean filterArticles(String content){
+    protected boolean filterArticles(String content){
         return KeywordsFilter.filterContent(content);
     }
 
