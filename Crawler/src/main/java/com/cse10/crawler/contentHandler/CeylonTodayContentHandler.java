@@ -2,9 +2,7 @@ package com.cse10.crawler.contentHandler;
 
 import com.cse10.article.Article;
 import com.cse10.article.CeylonTodayArticle;
-import com.cse10.article.DailyMirrorArticle;
 import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
-import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
@@ -36,8 +34,15 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
             Elements articleElements = doc.select("p");
 
             for (Element articleElement : articleElements) {
+
+                String content = articleElement.ownText();
+
+                if (!filterArticles(content)) {
+                    continue; // ignore the article if it is not crime related
+                }
+
                 Article article = new CeylonTodayArticle();
-                article.setContent(articleElement.ownText());
+                article.setContent(content);
                 DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
                 try {
                     article.setCreatedDate(df.parse(CeylonTodayCrawlController.current_date));
@@ -46,7 +51,6 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
                 }
                 articles.add(article);
             }
-
 
         }
 

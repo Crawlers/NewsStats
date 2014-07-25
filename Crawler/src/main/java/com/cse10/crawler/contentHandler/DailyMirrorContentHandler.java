@@ -3,6 +3,7 @@ package com.cse10.crawler.contentHandler;
 import com.cse10.article.Article;
 import com.cse10.article.DailyMirrorArticle;
 import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
+import com.cse10.filter.KeywordsFilter;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
@@ -33,8 +34,15 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
             Elements articleElements = doc.getElementsByClass("article-content");
 
             for (Element articleElement : articleElements) {
+
+                String content = articleElement.ownText();
+
+                if (!filterArticles(content)) {
+                    continue; // ignore the article if it is not crime related
+                }
+
                 Article article = new DailyMirrorArticle();
-                article.setContent(articleElement.ownText());
+                article.setContent(content);
                 String title =  page.getWebURL().getPath().replaceAll("/.*/", "");
                 title = title.replaceAll(".html","");
                 title = title.replaceAll("^[^a-zA-Z]+","");
@@ -54,4 +62,5 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
 
         return articles;
     }
+
 }

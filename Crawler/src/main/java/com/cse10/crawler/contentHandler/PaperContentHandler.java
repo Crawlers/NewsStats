@@ -1,6 +1,7 @@
 package com.cse10.crawler.contentHandler;
 
 import com.cse10.article.Article;
+import com.cse10.filter.KeywordsFilter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 import java.util.ArrayList;
@@ -21,5 +22,9 @@ public abstract class PaperContentHandler {
      * to be overridden
      */
     public abstract List extractArticles(Page page);
+
+    boolean filterArticles(String content){
+        return KeywordsFilter.filterContent(content);
+    }
 
 }

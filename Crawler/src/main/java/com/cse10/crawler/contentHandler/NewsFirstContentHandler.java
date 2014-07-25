@@ -37,7 +37,6 @@ public class NewsFirstContentHandler extends PaperContentHandler {
                 return articles;
             }
 
-            Article article = new NewsFirstArticle();
             String title = articleElement.getElementsByClass("post-title").first().ownText();
             String dateString = articleElement.getElementsByClass("date").first().ownText();
             Date date = null;
@@ -53,6 +52,11 @@ public class NewsFirstContentHandler extends PaperContentHandler {
                 content += contentElement.ownText();
             }
 
+            if (!filterArticles(content)) {
+                return articles; // ignore the article if it is not crime related
+            }
+
+            Article article = new NewsFirstArticle();
             article.setTitle(title);
             article.setCreatedDate(date);
             article.setAuthor(author);
