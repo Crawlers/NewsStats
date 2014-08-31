@@ -35,14 +35,33 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
 
             for (Element articleElement : articleElements) {
 
-                String content = articleElement.ownText();
+                String title = articleElement.getElementsByClass("newsdetailssubtitle").remove().text();
+                String content = articleElement.text();
+
+                content = content.replaceFirst("^By.*\\s\\s","");
 
                 if (!filterArticles(content)) {
                     continue; // ignore the article if it is not crime related
                 }
 
                 Article article = new CeylonTodayArticle();
+                article.setTitle(title);
                 article.setContent(content);
+
+                String sentences[] = content.split("\\.");
+                if (sentences[0].matches("^By.*")){
+                    String author = sentences[0].replace("By","");
+                    author = author.replace("\u00a0","");
+                    String authorData[] = author.split("  +");
+                    author = authorData[0];
+                    author = author.trim();
+                    article.setAuthor(author);
+                    content = content.replaceFirst("^By.*"+author, "");
+                }
+                content = content.replace("\u00a0","");
+                content = content.trim();
+                article.setContent(content);
+
                 DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
                 try {
                     article.setCreatedDate(df.parse(CeylonTodayCrawlController.current_date));
