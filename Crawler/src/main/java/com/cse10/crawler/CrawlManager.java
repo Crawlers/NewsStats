@@ -17,10 +17,10 @@ public class CrawlManager {
 
 //        DailyMirrorCrawlController dailyMirrorCrawlController = new DailyMirrorCrawlController();
 //        dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
-
+//
 //        NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
 //        newsFirstCrawlController.crawl(NewsFirstCrawler.class);
-
+//
 //        CeylonTodayCrawlController ceylonTodayCrawlController = new CeylonTodayCrawlController();
 //        ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
 

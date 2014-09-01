@@ -4,6 +4,7 @@ package com.cse10.crawler.crawlControler;
  * Created by Sampath on 13.07.2014
  */
 
+import com.cse10.crawler.DateHandler;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -21,12 +22,13 @@ public class CeylonTodayCrawlController extends BasicCrawlController {
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
-        String dt = FROM_DATE;  // Start date
+
+        String dt = DateHandler.getFromDateToResume(FROM_DATE, "CeylonTodayArticle");  // Start date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(sdf.parse(dt));
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) < 0) {
+        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
             /*
          * Instantiate the controller for this crawl.
          */

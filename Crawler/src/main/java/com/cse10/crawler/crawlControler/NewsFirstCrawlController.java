@@ -25,7 +25,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
         Calendar c = Calendar.getInstance();
         c.setTime(sdf.parse(dt));
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) < 0) {
+        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
 
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
