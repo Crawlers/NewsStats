@@ -4,8 +4,6 @@ import com.cse10.database.HibernateUtil;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
-import org.hibernate.Query;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by root on 8/31/14.
+ * Created by sampath liyanage on 8/31/14.
+ * This class gives resuming support for the crawler
  */
 public class DateHandler {
          public static String getFromDateToResume(String startingDate, String tableName){
