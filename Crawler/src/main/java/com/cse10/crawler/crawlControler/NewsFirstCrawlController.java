@@ -1,5 +1,6 @@
 package com.cse10.crawler.crawlControler;
 
+import com.cse10.crawler.DateHandler;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -20,7 +21,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
-        String dt = FROM_DATE;  // Start date
+        String dt = DateHandler.getFromDateToResume(FROM_DATE+"-01", "article_news_first");  // Start date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         Calendar c = Calendar.getInstance();
         c.setTime(sdf.parse(dt));

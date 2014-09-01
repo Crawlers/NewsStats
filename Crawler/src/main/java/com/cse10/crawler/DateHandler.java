@@ -16,23 +16,21 @@ import java.util.List;
  * Created by root on 8/31/14.
  */
 public class DateHandler {
-         public static String getFromDateToResume(String startingDate, String newsPaperClass){
+         public static String getFromDateToResume(String startingDate, String tableName){
 
              Session session = HibernateUtil.getSessionFactory().openSession();
-             Transaction transaction = session.beginTransaction();
-             String hql = "select max(paper.createdDate)" + "from " + newsPaperClass + " as paper ";
-             Query query = session.createQuery(hql);
-             List results = query.list();
-             transaction.commit();
 
+             String q = "select max(created_date) from " + tableName ;
+             List results = session.createSQLQuery(q).list();
              Iterator iterator = results.iterator();
              Date latestDateCrawled = (Date) iterator.next();
+
              if (latestDateCrawled != null){
                  Session session1 = HibernateUtil.getSessionFactory().openSession();
                  Transaction transaction1 = session1.beginTransaction();
                  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                 hql = "delete from " + newsPaperClass + "  where createdDate = :date " ;
-                 session1.createQuery(hql).setString("date", sdf.format(latestDateCrawled)).executeUpdate();
+                 q = "delete from " + tableName + " where created_date >= '" + sdf.format(latestDateCrawled) + "'";
+                 session1.createSQLQuery(q).executeUpdate();
                  transaction1.commit();
                  try {
                      if (latestDateCrawled.compareTo(sdf.parse(startingDate)) > 0){

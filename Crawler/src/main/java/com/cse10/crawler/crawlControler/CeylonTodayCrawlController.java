@@ -23,7 +23,7 @@ public class CeylonTodayCrawlController extends BasicCrawlController {
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
 
-        String dt = DateHandler.getFromDateToResume(FROM_DATE, "CeylonTodayArticle");  // Start date
+        String dt = DateHandler.getFromDateToResume(FROM_DATE, "article_ceylon_today");  // Start date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(sdf.parse(dt));
