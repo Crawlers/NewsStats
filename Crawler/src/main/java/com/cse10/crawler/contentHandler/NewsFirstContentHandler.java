@@ -53,7 +53,7 @@ public class NewsFirstContentHandler extends PaperContentHandler {
             }
 
             if (!filterArticles(content)) {
-                return articles; // ignore the article if it is not crime related
+//                return articles; // ignore the article if it is not crime related
             }
 
             Article article = new NewsFirstArticle();

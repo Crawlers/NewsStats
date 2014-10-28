@@ -3,7 +3,6 @@ package com.cse10.crawler.contentHandler;
 import com.cse10.article.Article;
 import com.cse10.article.DailyMirrorArticle;
 import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
-import com.cse10.filter.KeywordsFilter;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
@@ -38,7 +37,7 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
                 String content = articleElement.ownText();
 
                 if (!filterArticles(content)) {
-                    continue; // ignore the article if it is not crime related
+//                    continue; // ignore the article if it is not crime related
                 }
 
                 Article article = new DailyMirrorArticle();
