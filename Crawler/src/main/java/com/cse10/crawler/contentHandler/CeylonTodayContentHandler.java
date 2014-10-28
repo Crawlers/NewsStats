@@ -41,7 +41,7 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
                 content = content.replaceFirst("^By.*\\s\\s","");
 
                 if (!filterArticles(content)) {
-                    continue; // ignore the article if it is not crime related
+//                    continue; // ignore the article if it is not crime related
                 }
 
                 Article article = new CeylonTodayArticle();
