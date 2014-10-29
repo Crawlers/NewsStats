@@ -9,6 +9,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by TharinduWijewardane on 17.07.2014.
@@ -16,15 +17,16 @@ import java.util.Calendar;
 public class NewsFirstCrawlController extends BasicCrawlController {
 
     public static String current_path;
-    final String FROM_DATE = "2014-02";
-    final String TO_DATE = "2014-06";
+    final String FROM_DATE = "2014-01-01";
+    final String TO_DATE = "2014-07-01";
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
-        String dt = DateHandler.getFromDateToResume(FROM_DATE+"-01", "article_news_first");  // Start date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startingDate = sdf.parse(FROM_DATE);
+        startingDate = DateHandler.getFromDateToResume(startingDate, "article_news_first");  // Start date
         Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(dt));
+        c.setTime(startingDate);
 
         while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
 

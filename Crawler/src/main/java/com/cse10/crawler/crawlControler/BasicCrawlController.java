@@ -12,9 +12,9 @@ abstract public class BasicCrawlController {
     private CrawlConfig config;
 
     //global configurations
-    final String CRAWL_STORAGE_DIR_ROOT = "/home/sampath/FYP/crawlData";
-    final String PROXY_ADDRESS = "cache.mrt.ac.lk";
-    final int PROXY_PORT = 3128;
+    final String CRAWL_STORAGE_DIR_ROOT = "E:/CrawlData";
+    final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
+    final int PROXY_PORT = 3128; //3128 //0;
 
     public BasicCrawlController() {
 
@@ -40,7 +40,7 @@ abstract public class BasicCrawlController {
          * Be polite: Make sure that we don't send more than 1 request per
          * second (1000 milliseconds between requests).
          */
-        config.setPolitenessDelay(1000);
+        config.setPolitenessDelay(100);
 
         /*
          * You can set the maximum crawl depth here. The default value is -1 for
@@ -91,8 +91,5 @@ abstract public class BasicCrawlController {
         return config;
     }
 
-    ;
-
     abstract public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception;
 }
-

@@ -13,19 +13,21 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DailyMirrorCrawlController extends BasicCrawlController {
 
-    final String FROM_DATE = "2011-01-01";
-    final String TO_DATE = "2014-06-01";
+    final String FROM_DATE = "2014-01-01";
+    final String TO_DATE = "2014-07-01";
     public static String current_date;
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
-        String dt = DateHandler.getFromDateToResume(FROM_DATE, "article_daily_mirror");  // Start date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date startingDate = sdf.parse(FROM_DATE);
+        startingDate = DateHandler.getFromDateToResume(startingDate, "article_daily_mirror");  // Start date
         Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(dt));
+        c.setTime(startingDate);
 
         while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
             /*
