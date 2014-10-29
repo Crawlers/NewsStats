@@ -47,7 +47,7 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
                 title = title.replaceAll("^[^a-zA-Z]+","");
                 title = title.replaceAll("-"," ");
                 article.setTitle(title);
-                DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     article.setCreatedDate(df.parse(DailyMirrorCrawlController.current_date));
                 } catch (ParseException e) {

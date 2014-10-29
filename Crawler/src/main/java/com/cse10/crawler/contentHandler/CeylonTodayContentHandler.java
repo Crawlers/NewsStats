@@ -62,7 +62,7 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
                 content = content.trim();
                 article.setContent(content);
 
-                DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 try {
                     article.setCreatedDate(df.parse(CeylonTodayCrawlController.current_date));
                 } catch (ParseException e) {
