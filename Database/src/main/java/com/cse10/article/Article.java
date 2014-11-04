@@ -3,6 +3,7 @@ package com.cse10.article;
 /**
  * Created by TharinduWijewardane on 02.07.2014.
  */
+
 import java.util.Date;
 
 public abstract class Article implements java.io.Serializable {
@@ -12,6 +13,7 @@ public abstract class Article implements java.io.Serializable {
     private String content;
     private String author;
     private Date createdDate;
+    private String label; // for classification purpose
 
     public Article() {
     }
@@ -23,6 +25,7 @@ public abstract class Article implements java.io.Serializable {
         this.content = content;
         this.author = author;
         this.createdDate = createdDate;
+        this.label = "";
     }
 
     public int getId() {
@@ -65,4 +68,11 @@ public abstract class Article implements java.io.Serializable {
         this.createdDate = createdDate;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

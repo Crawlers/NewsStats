@@ -19,5 +19,8 @@
         <property name="createdDate" type="date">
             <column name="created_date" length="7" not-null="false"/>
         </property>
+        <property name="label" type="string">
+            <column name="label" length="10" not-null="false"/>
+        </property>
     </class>
 </hibernate-mapping>
