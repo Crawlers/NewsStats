@@ -47,7 +47,7 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
             int date = c.get(Calendar.DATE);
             current_date = sdf.format(c.getTime());
-            String url = "http://www.dailymirror.lk/archive.html?year=" + year + "&month=" + month + "&day=" + date + "&modid=1032";
+            String url = "http://old.dailymirror.lk/archive.html?year=" + year + "&month=" + month + "&day=" + date + "&modid=1032";
 
             controller.addSeed(url);
             System.out.println("crawling " + url);

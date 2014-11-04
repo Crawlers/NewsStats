@@ -24,7 +24,7 @@ public class DailyMirrorCrawler extends BasicCrawler {
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        return super.shouldVisit(url) && href.startsWith("http://www.dailymirror.lk/news");
+        return super.shouldVisit(url) && href.startsWith("http://old.dailymirror.lk/news");
     }
 
     /**
