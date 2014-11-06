@@ -17,8 +17,8 @@ import java.util.Date;
 public class NewsFirstCrawlController extends BasicCrawlController {
 
     public static String current_path;
-    final String FROM_DATE = "2014-01-01";
-    final String TO_DATE = "2014-07-01";
+    final String FROM_DATE = "2013-11-08";
+    final String TO_DATE = "2013-12-31";
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
@@ -32,8 +32,9 @@ public class NewsFirstCrawlController extends BasicCrawlController {
 
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
+            int date = c.get(Calendar.DATE);
 
-            for (int pageNum = 1; pageNum < 100; pageNum++) { // there are multiple pages for a month. assuming max < 100
+            for (int pageNum = 1; pageNum < 6; pageNum++) { // there are multiple pages for a date. assuming max <= 5
 
             /*
          * Instantiate the controller for this crawl.
@@ -44,7 +45,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
 
                 CrawlController controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
 
-                String url = "http://newsfirst.lk/english/" + year + "/" + (month < 10 ? ("0" + month) : (month)); // make the month always 2 digits
+                String url = "http://newsfirst.lk/english/" + year + "/" + (month < 10 ? ("0" + month) : (month)) + "/" + date; // make the month always 2 digits
                 current_path = "/english/" + year + "/" + (month < 10 ? ("0" + month) : (month));
 
                 if (pageNum > 1) {
@@ -63,7 +64,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
              * will reach the line after this only when crawling is finished.
              */
                 controller.start(_c, 1);
-                c.add(Calendar.MONTH, 1);  // number of months to add
+                c.add(Calendar.DATE, 1);  // number of months to add
 
             }
 

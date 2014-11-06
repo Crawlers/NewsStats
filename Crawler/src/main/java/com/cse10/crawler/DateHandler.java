@@ -30,13 +30,13 @@ public class DateHandler {
             return startingDate;
         }
 
-        /* because News First is crawled month at a time */
-        if (tableName == "article_news_first") {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(latestDateCrawled);
-            cal.set(Calendar.DATE, 1); // set the first date of the given month
-            latestDateCrawled = cal.getTime();
-        }
+//        /* because News First is crawled month at a time */  // not anymore
+//        if (tableName == "article_news_first") {
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(latestDateCrawled);
+//            cal.set(Calendar.DATE, 1); // set the first date of the given month
+//            latestDateCrawled = cal.getTime();
+//        }
 
         if (latestDateCrawled.compareTo(startingDate) <= 0) { // if starting date >= latest date
             return startingDate;
