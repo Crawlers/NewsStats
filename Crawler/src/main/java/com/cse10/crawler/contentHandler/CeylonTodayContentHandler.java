@@ -38,10 +38,10 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
                 String title = articleElement.getElementsByClass("newsdetailssubtitle").remove().text();
                 String content = articleElement.text();
 
-                content = content.replaceFirst("^By.*\\s\\s","");
+                content = content.replaceFirst("^By.*\\s\\s", "");
 
                 if (!filterArticles(content)) {
-//                    continue; // ignore the article if it is not crime related
+                    continue; // ignore the article if filter does not approve
                 }
 
                 Article article = new CeylonTodayArticle();
@@ -49,16 +49,16 @@ public class CeylonTodayContentHandler extends PaperContentHandler {
                 article.setContent(content);
 
                 String sentences[] = content.split("\\.");
-                if (sentences[0].matches("^By.*")){
-                    String author = sentences[0].replace("By","");
-                    author = author.replace("\u00a0","");
+                if (sentences[0].matches("^By.*")) {
+                    String author = sentences[0].replace("By", "");
+                    author = author.replace("\u00a0", "");
                     String authorData[] = author.split("  +");
                     author = authorData[0];
                     author = author.trim();
                     article.setAuthor(author);
-                    content = content.replaceFirst("^By.*"+author, "");
+                    content = content.replaceFirst("^By.*" + author, "");
                 }
-                content = content.replace("\u00a0","");
+                content = content.replace("\u00a0", "");
                 content = content.trim();
                 article.setContent(content);
 

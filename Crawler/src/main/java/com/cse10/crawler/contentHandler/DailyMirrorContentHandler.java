@@ -37,15 +37,15 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
                 String content = articleElement.ownText();
 
                 if (!filterArticles(content)) {
-//                    continue; // ignore the article if it is not crime related
+                    continue; // ignore the article if filter does not approve
                 }
 
                 Article article = new DailyMirrorArticle();
                 article.setContent(content);
-                String title =  page.getWebURL().getPath().replaceAll("/.*/", "");
-                title = title.replaceAll(".html","");
-                title = title.replaceAll("^[^a-zA-Z]+","");
-                title = title.replaceAll("-"," ");
+                String title = page.getWebURL().getPath().replaceAll("/.*/", "");
+                title = title.replaceAll(".html", "");
+                title = title.replaceAll("^[^a-zA-Z]+", "");
+                title = title.replaceAll("-", " ");
                 article.setTitle(title);
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 try {
