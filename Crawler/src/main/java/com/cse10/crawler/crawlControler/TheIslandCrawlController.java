@@ -17,7 +17,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TheIslandCrawlController extends BasicCrawlController {
+
+    /*
+    * Web site of the Island news paper uses cookies to show n ews articles
+    * Crawler4j doesn't handle cookies
+    * As a solution a php proxy to handle cookies were implemented  (https://github.com/sampathLiyanage/phpCurlCookies.git)
+    * That php app acts as a middleware between crawler4j and the website
+    * put the theIsland directory inside www folder and update the address of localhostProxyUrl below accordingly
+    * Make sure the web server runs, and you can access the localhostProxyUrl from the browser before crawling
+    * */
     final String localhostProxyUrl = "http://localhost:8080/theIsland/";
+
+
     final String FROM_DATE = "2013-01-01";
     final String TO_DATE = "2013-12-31";
     public static String current_date;
