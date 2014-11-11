@@ -52,7 +52,7 @@ public class TheIslandContentHandler extends PaperContentHandler {
                 }
 
                 if (filterArticles(content)) {
-
+//
                     Article article = new TheIslandArticle();
                     article.setTitle(title);
                     String author = null;
@@ -67,27 +67,29 @@ public class TheIslandContentHandler extends PaperContentHandler {
                             article.setContent(articleElement.text());
                         }
                     }
-                    if (author == null){
+                    if (author == null && !articleElement.ownText().trim().equals("")){
                         author = articleElement.ownText();
                         String cont = articleElement.text();
-                        author = author.replaceFirst("(By|by|BY)\\s","");
                         article.setContent(cont.replaceFirst(author, ""));
+                        author = author.replaceFirst("(By|by|BY)\\s","");
+                    }
+
+                    if (author == null) {
+                        String text = articleElement.text();
+                        Pattern pattern = Pattern.compile("^(By|by|BY)\\s([A-Z][^\\s]*\\s)+");
+                        Matcher matcher = pattern.matcher(text);
+                        if (matcher.find()) {
+                            author = matcher.group().trim();
+                            author = author.substring(0, author.lastIndexOf(" "));
+                            text = text.replaceFirst(author, "");
+                            article.setContent(text);
+                            author = author.replaceFirst("(By|by|BY)\\s", "");
+                            article.setAuthor(author);
+                        } else {
+                            article.setContent(text);
+                        }
                     }
                     article.setAuthor(author);
-
-//                    String text = articleElement.text();
-//                    Pattern pattern = Pattern.compile("^(By|by|BY)\\s([A-Z][^\\s]*\\s)+");
-//                    Matcher matcher = pattern.matcher(text);
-//                    if (matcher.find()) {
-//                        author = matcher.group().trim();
-//                        author = author.substring(0, author.lastIndexOf(" "));
-//                        text = text.replaceFirst(author, "");
-//                        article.setContent(text);
-//                        author = author.replaceFirst("(By|by|BY)\\s", "");
-//                        article.setAuthor(author);
-//                    } else {
-//                        article.setContent(text);
-//                    }
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     try {
                         article.setCreatedDate(df.parse(TheIslandCrawlController.current_date));
