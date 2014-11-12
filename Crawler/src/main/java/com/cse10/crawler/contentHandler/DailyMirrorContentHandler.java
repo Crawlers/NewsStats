@@ -34,7 +34,7 @@ public class DailyMirrorContentHandler extends PaperContentHandler {
 
             for (Element articleElement : articleElements) {
 
-                String content = articleElement.ownText();
+                String content = articleElement.text();
 
                 if (!filterArticles(content)) {
                     continue; // ignore the article if filter does not approve
