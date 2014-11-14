@@ -17,6 +17,7 @@
         <mapping resource="com/cse10/article/TheIslandArticle.hbm.xml"></mapping>
         <mapping resource="com/cse10/article/NewsFirstArticle.hbm.xml"></mapping>
         <mapping resource="com/cse10/article/CeylonTodayArticle.hbm.xml"></mapping>
+        <mapping resource="com/cse10/article/HiruNewsArticle.hbm.xml"></mapping>
 
     </session-factory>
 </hibernate-configuration>
