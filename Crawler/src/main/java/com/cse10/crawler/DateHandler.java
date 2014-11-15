@@ -30,15 +30,15 @@ public class DateHandler {
             return startingDate;
         }
 
-//        /* because News First is crawled month at a time */  // not anymore
-//        if (tableName == "article_news_first") {
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(latestDateCrawled);
-//            cal.set(Calendar.DATE, 1); // set the first date of the given month
-//            latestDateCrawled = cal.getTime();
-//        }
+        /* because Hiru News is crawled month at a time */
+        if (tableName == "article_hiru_news") {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(latestDateCrawled);
+            cal.set(Calendar.DATE, 1); // set the first date of the given month
+            latestDateCrawled = cal.getTime();
+        }
 
-        if (latestDateCrawled.compareTo(startingDate) <= 0) { // if starting date >= latest date
+        if (latestDateCrawled.compareTo(startingDate) < 0) { // if starting date > latest date
             return startingDate;
         }
 
@@ -46,9 +46,10 @@ public class DateHandler {
         Session session1 = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction1 = session1.beginTransaction();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        q = "delete from " + tableName + " where created_date >= '" + sdf.format(latestDateCrawled) + "'"; // logically only the equivalence is significant here
+        q = "delete from " + tableName + " where created_date >= '" + sdf.format(latestDateCrawled) + "'"; // logically only the equivalence is significant here (except hiru news)
         session1.createSQLQuery(q).executeUpdate();
         transaction1.commit();
+        System.out.println("DELETED unfinished date");
 
         return latestDateCrawled;
     }
