@@ -26,9 +26,13 @@ public abstract class PaperContentHandler {
 
     protected boolean filterArticles(String content) {
 
+        if (content == null) {
+            return false;
+        }
+
         // length filter
         if (!LengthFilter.filterContent(content)) {
-            System.out.println("****** Filtered out due to low length of content ******");
+            System.out.println("****** Filtered out due to low length of content ****** Content: " + content);
             return false;
         }
 
