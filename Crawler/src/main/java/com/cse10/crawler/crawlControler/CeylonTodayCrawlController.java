@@ -18,7 +18,7 @@ import java.util.Date;
 public class CeylonTodayCrawlController extends BasicCrawlController {
 
     final String FROM_DATE = "2014-01-01";
-    final String TO_DATE = "2014-07-01";
+    final String TO_DATE = "2014-10-31";
     public static String current_date;
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {

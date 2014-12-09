@@ -17,8 +17,8 @@ import java.util.Date;
 public class NewsFirstCrawlController extends BasicCrawlController {
 
     public static String current_path;
-    final String FROM_DATE = "2013-11-08";
-    final String TO_DATE = "2013-12-31";
+    final String FROM_DATE = "2014-01-01";
+    final String TO_DATE = "2014-10-31";
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
