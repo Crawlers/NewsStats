@@ -15,18 +15,12 @@ import gate.AnnotationSet;
 import gate.Gate;
 import gate.Factory;
 import gate.annotation.AnnotationImpl;
-import gate.creole.ResourceInstantiationException;
-import gate.util.*;
 import gate.util.persistence.PersistenceManager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.OutputStreamWriter;
+
 import com.cse10.database.DatabaseHandler;
 
 public class BatchProcessApp {
@@ -46,7 +40,7 @@ public class BatchProcessApp {
         Corpus corpus = Factory.newCorpus("BatchProcessApp Corpus");
         application.setCorpus(corpus);
 
-       ArrayList<Article> articles = DatabaseHandler.fettchArticle();
+       List<Article> articles = DatabaseHandler.fetchArticles(Article.class);
 
         // process the files one by one
         for(int i = 0; i < articles.size(); i++) {
