@@ -5,8 +5,8 @@
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -54,6 +54,30 @@
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
     <orderEntry type="library" name="Maven: javassist:javassist:3.12.1.GA" level="project" />
+    <orderEntry type="module" module-name="Filter" />
+    <orderEntry type="library" name="Maven: uk.ac.gate:gate-core:7.1" level="project" />
+    <orderEntry type="library" name="Maven: uk.ac.gate:gate-asm:3.1" level="project" />
+    <orderEntry type="library" name="Maven: uk.ac.gate:gate-compiler-jdt:3.7.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
+    <orderEntry type="library" name="Maven: net.sourceforge.nekohtml:nekohtml:1.9.14" level="project" />
+    <orderEntry type="library" name="Maven: xerces:xercesImpl:2.9.1" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.woodstox:woodstox-core-lgpl:4.1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.woodstox:stax2-api:3.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ivy:ivy:2.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.4.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: xpp3:xpp3:1.1.3.4.O" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: jaxen:jaxen:1.1" level="project" />
+    <orderEntry type="library" name="Maven: urbanophile:java-getopt:1.0.9" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:2.0.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.xhtmlrenderer:flying-saucer-core:9.0.1" level="project" />
+    <orderEntry type="library" name="Maven: xmlunit:xmlunit:1.2" level="project" />
   </component>
 </module>
 
