@@ -21,7 +21,7 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
     protected StanfordCoreNLP pipeline;
 
     public StanfordCoreNLPLemmatizer() {
-        System.out.println("------------Initialize Lemmatizer-------------------------");
+        System.out.println("------------Initialize StandfordLemmatizer-------------------------");
         Properties props;
         props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -29,6 +29,11 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
 
     }
 
+    /**
+     * Convert given word into its base form
+     * @param word
+     * @return
+     */
     @Override
     public String stem(String word) {
         List<String> lemmas = new LinkedList<String>();
@@ -71,8 +76,6 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
         result = new ArrayList();
         result.add("-S");
         result.add("Stanford Core NLP");
-
         return (String[]) result.toArray(new String[result.size()]);
-
     }
 }
