@@ -3,30 +3,23 @@ package com.cse10.classifier;
 import weka.classifiers.functions.LibSVM;
 import weka.core.Instances;
 import weka.core.SelectedTag;
-import weka.core.Tag;
 import weka.filters.AllFilter;
 
 /**
  * Created by TharinduWijewardane on 2014-11-14.
  */
-public class GridSearch {
 
-    public static void main(String[] args) {
-        SVMHandler svmHandler = new SVMHandler();
-        try {
-            svmHandler.buildSVM();
-            gridSearch(svmHandler.svm, svmHandler.dataFiltered);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+/**
+ * Perform grid search to find best values for cost and gamma
+ */
+public class GridSearch {
 
     /**
      * Perform grid search to find the best values for cost and gamma
      * @param svm
      * @param dataFiltered
      */
-    public static void gridSearch(LibSVM svm, Instances dataFiltered){
+    public void gridSearch(LibSVM svm, Instances dataFiltered){
         weka.classifiers.meta.GridSearch gs = new weka.classifiers.meta.GridSearch();
         gs.setClassifier(svm);
         gs.setFilter(new AllFilter());
