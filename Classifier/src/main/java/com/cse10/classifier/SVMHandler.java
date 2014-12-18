@@ -6,6 +6,7 @@ import weka.core.*;
 import java.util.Random;
 
 /**
+ * Wrapper class for LibSVM
  * Created by Tharindu on 2014-11-11.
  */
 
