@@ -1,7 +1,4 @@
-package com.cse10.classifier;/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package com.cse10.classifier;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -10,11 +7,11 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import weka.core.OptionHandler;
 import weka.core.stemmers.Stemmer;
-
 import java.util.*;
 
 /**
- * @author hp
+ * Wrapper class for StanfordCoreNLP
+ * @author chamath
  */
 public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
 
