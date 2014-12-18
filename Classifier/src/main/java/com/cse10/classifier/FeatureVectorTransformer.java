@@ -68,9 +68,9 @@ public class FeatureVectorTransformer {
     /**
      * Transform articles to feature vectors and save in a file
      * @param instances
-     *
+     * @param fileName
      */
-    public void saveTransformedArticlesToFile(Instances instances)  {
+    public Instances getTransformedArticles(Instances instances,String fileName)  {
 
         Instances dataFiltered;
         // apply the StringToWordVector filter
@@ -85,11 +85,13 @@ public class FeatureVectorTransformer {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(dataFiltered);
         try {
-            saver.setFile(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData\\trainingDataBiWords.arff"));
+            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData\\".concat(fileName);
+            saver.setFile(new File(path));
             saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return dataFiltered;
 
     }
 
