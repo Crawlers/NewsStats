@@ -11,19 +11,26 @@ import java.io.IOException;
 /**
  * Created by chamath on 12/16/2014.
  */
-public class ArticleFilter {
+
+public class FeatureVectorTransformer {
 
     protected StringToWordVector filter;
     protected SnowballStemmer stemmer;
     protected  StanfordCoreNLPLemmatizer stanfordCoreNLPLemmatizer;
 
-    public ArticleFilter(){
+    public FeatureVectorTransformer(){
         filter=new StringToWordVector();
         stemmer = new SnowballStemmer();
         stemmer.setStemmer("english");
        // stanfordCoreNLPLemmatizer = new StanfordCoreNLPLemmatizer();
     }
 
+    /**
+     * configure filter
+     * @param minNGramSize
+     * @param maxNGramSize
+     * @param useStemmer
+     */
     public void configure(int minNGramSize,int maxNGramSize,boolean useStemmer){
         //set tokenizer - we can specify n-grams for classification
         NGramTokenizer tokenizer = new NGramTokenizer();
@@ -46,6 +53,10 @@ public class ArticleFilter {
 
     }
 
+    /**
+     * set input format of the filter
+     * @param instances
+     */
     public void setInputFormat(Instances instances){
         try {
             filter.setInputFormat(instances);
@@ -61,13 +72,12 @@ public class ArticleFilter {
      */
     public void saveTransformedArticlesToFile(Instances instances)  {
 
-
-        Instances dataFiltered = null;
+        Instances dataFiltered;
         // apply the StringToWordVector filter
         try {
-            filter.setInputFormat(instances);
             dataFiltered = weka.filters.Filter.useFilter(instances, filter);
         } catch (Exception e) {
+            dataFiltered=instances;
             e.printStackTrace();
         }
 
@@ -84,6 +94,11 @@ public class ArticleFilter {
     }
 
 
+    /**
+     *
+     * @param instances
+     * @return
+     */
     public Instances getTransformedArticles(Instances instances){
         Instances dataFiltered;
         try {
