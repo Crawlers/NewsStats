@@ -1,4 +1,4 @@
-package com.cse10.extractor;
+package com.cse10.extractor.gate;
 
 /**
  * Created by TharinduWijewardane on 18.07.2014.
@@ -39,7 +39,7 @@ public class TotalGoldfishCount {
         System.out.println("\n== USING GATE TO PROCESS THE DOCUMENTS ==");
         String[] processingResources = {"gate.creole.tokeniser.DefaultTokeniser",
                 "gate.creole.splitter.SentenceSplitter",
-                "com.cse10.extractor.Goldfish"};
+                "com.cse10.extractor.gate.Goldfish"};
         runProcessingResources(processingResources);
 
         System.out.println("\n== DOCUMENT FEATURES ==");

@@ -11,6 +11,6 @@ extractor.GoldFish.
   <!--JAR SCAN="true">GoldFish.jar</JAR-->
 
     <RESOURCE>
-        <CLASS>com.cse10.extractor.Goldfish</CLASS>
+        <CLASS>com.cse10.extractor.gate.Goldfish</CLASS>
     </RESOURCE>
 </CREOLE-DIRECTORY>

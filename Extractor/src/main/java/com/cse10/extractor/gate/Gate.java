@@ -16,7 +16,7 @@
  * http://gate.ac.uk/cgi-bin/userguide/sec:creole-model:config
  */
 
-package com.cse10.extractor;
+package com.cse10.extractor.gate;
 
 import gate.LanguageResource;
 import gate.creole.AbstractLanguageResource;

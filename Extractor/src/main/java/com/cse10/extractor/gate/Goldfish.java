@@ -1,4 +1,4 @@
-package com.cse10.extractor;
+package com.cse10.extractor.gate;
 
 /**
  * Created by TharinduWijewardane on 24.07.2014.
