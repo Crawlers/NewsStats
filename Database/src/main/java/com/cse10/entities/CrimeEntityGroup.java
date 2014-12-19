@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by TharinduWijewardane on 2014-12-19.
  */
-public class CrimeEntities implements java.io.Serializable {
+public class CrimeEntityGroup implements java.io.Serializable {
 
     private int id;
     private int crimeArticleId;
@@ -20,11 +20,11 @@ public class CrimeEntities implements java.io.Serializable {
     private int victimCount;
     private String possession;
 
-    public CrimeEntities() {
+    public CrimeEntityGroup() {
 
     }
 
-    public CrimeEntities(int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession) {
+    public CrimeEntityGroup(int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession) {
         this.crimeArticleId = crimeArticleId;
         this.crimeType = crimeType;
         this.crimeDate = crimeDate;

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.cse10.entities.CrimeEntities" table="crime_entities">
+    <class name="com.cse10.entities.CrimeEntityGroup" table="crime_entity_group">
         <id name="id" type="int">
             <column name="id" precision="11" scale="0"/>
             <generator class="increment"/>
