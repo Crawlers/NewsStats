@@ -5,6 +5,7 @@ package com.cse10.database;
  */
 
 import com.cse10.article.Article;
+import com.cse10.entities.CrimeEntityGroup;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -12,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DatabaseHandler {
@@ -135,6 +135,36 @@ public class DatabaseHandler {
         } finally {
             return rs;
         }
+    }
+
+    /**
+     * insert an object containing crime entities
+     *
+     * @param crimeEntityGroup
+     */
+    public static void insertCrimeEntities(CrimeEntityGroup crimeEntityGroup) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.save(crimeEntityGroup);
+        session.getTransaction().commit();
+    }
+
+    /**
+     * insert multiple objects containing crime entities
+     *
+     * @param crimeEntityGroups
+     */
+    public static void insertCrimeEntityGroups(List<CrimeEntityGroup> crimeEntityGroups) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        for (CrimeEntityGroup crimeEntityGroup : crimeEntityGroups) {
+            session.save(crimeEntityGroup);
+        }
+        session.getTransaction().commit();
     }
 
 }
