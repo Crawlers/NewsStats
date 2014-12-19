@@ -1,6 +1,7 @@
 package com.cse10.database;
 
 import com.cse10.article.*;
+import com.cse10.entities.CrimeEntities;
 
 import java.util.HashMap;
 
@@ -33,6 +34,7 @@ public class DatabaseConstants {
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
+        classToTableName.put(CrimeEntities.class, "crime_entities");
     }
 
 }
