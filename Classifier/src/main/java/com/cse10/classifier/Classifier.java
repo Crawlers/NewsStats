@@ -19,14 +19,14 @@ public class Classifier {
     private DataHandler dataHandler;
     private Instances trainingData;
     private Instances filteredTrainingData;
-    private SVMHandler svmHandler;
+    private SVMClassifier svmClassifier;
     private GridSearch gridSearch;
     private FeatureVectorTransformer featureVectorTransformer;
 
     public Classifier() {
         dataHandler = new GenericDataHandler();
         gridSearch = new GridSearch();
-        svmHandler = new SVMHandler();
+        svmClassifier = new SVMClassifier();
         featureVectorTransformer = new FeatureVectorTransformer();
     }
 
@@ -69,7 +69,7 @@ public class Classifier {
      */
     public void performGridSearch() {
 
-        gridSearch.gridSearch(svmHandler.getSvm(), filteredTrainingData);
+        gridSearch.gridSearch(svmClassifier.getSvm(), filteredTrainingData);
     }
 
     /**
@@ -78,8 +78,8 @@ public class Classifier {
     public void crossValidateModel() {
         System.out.println("-----------------------Start LibSVM---------------------------");
         //using parameters found during the grid search
-        svmHandler.configure(8.0, 0.001953125, "10 1", true);
-        svmHandler.crossValidateClassifier(filteredTrainingData, 10);
+        svmClassifier.configure(8.0, 0.001953125, "10 1", true);
+        svmClassifier.crossValidateClassifier(filteredTrainingData, 10);
         System.out.println("---------------------------------------------------------------");
     }
 
@@ -87,7 +87,7 @@ public class Classifier {
      * build the model using training data
      */
     public void buildModel() {
-        svmHandler.buildSVM(filteredTrainingData);
+        svmClassifier.buildSVM(filteredTrainingData);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Classifier {
 
         for (int instNumber = 0; instNumber < filteredTestData.numInstances(); instNumber++) {
 
-            double category = svmHandler.classifyInstance(filteredTestData.instance(instNumber));
+            double category = svmClassifier.classifyInstance(filteredTestData.instance(instNumber));
             if (category == 0) { // if crime
                 crimeArticleIdList.add(articleIds.get(instNumber));
             }
