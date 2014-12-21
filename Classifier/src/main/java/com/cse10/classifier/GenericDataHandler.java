@@ -31,8 +31,9 @@ public class GenericDataHandler extends DataHandler {
      *
      * @return Instances
      * @throws Exception
+     * @param featureVectorTransformer
      */
-    public Instances loadTrainingData()  {
+    public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer)  {
         printDescription();
         FastVector attributeList = new FastVector(2);
         Attribute a1 = new Attribute("text", (FastVector) null);
