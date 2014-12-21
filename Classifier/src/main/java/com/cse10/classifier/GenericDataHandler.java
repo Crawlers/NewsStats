@@ -21,6 +21,11 @@ public class GenericDataHandler extends DataHandler {
         fileName="generic";
     }
 
+    @Override
+    protected void printDescription() {
+        System.out.println("This data handler will load all of the training data and return");
+    }
+
     /**
      * fetch training data
      *
@@ -28,6 +33,7 @@ public class GenericDataHandler extends DataHandler {
      * @throws Exception
      */
     public Instances loadTrainingData()  {
+        printDescription();
         FastVector attributeList = new FastVector(2);
         Attribute a1 = new Attribute("text", (FastVector) null);
 
