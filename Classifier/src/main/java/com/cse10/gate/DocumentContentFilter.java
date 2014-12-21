@@ -1,22 +1,17 @@
 package com.cse10.gate;
 
-import gate.AnnotationSet;
-import gate.Corpus;
-import gate.Factory;
-import gate.Gate;
+import gate.*;
 import gate.annotation.AnnotationImpl;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
-import gate.Document;
 import gate.util.GateException;
-
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * use to filter the content the filter
- * Created by chamath on 12/19/2014.
+ * Created by chamath on 12/20/2014.
  */
 public class DocumentContentFilter {
     private Corpus corpus;
@@ -123,3 +118,4 @@ public class DocumentContentFilter {
         return filteredContent;
     }
 }
+
