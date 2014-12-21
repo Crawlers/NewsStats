@@ -39,14 +39,12 @@ public class KeyWordClassifierHandler {
      * @param trainingData
      */
     public void crossValidateClassifier(Instances trainingData){
-        GenericDataHandler genericDataHandler=new GenericDataHandler();
-        Instances instances=genericDataHandler.loadTrainingData();
         String words;
         boolean exist=false;
-        int crimeCorrectCount=0;
-        int crimeIncorrectCount=0;
-        int otherCorrectCount=0;
-        int otherIncorrectCount=0;
+        double crimeCorrectCount=0;
+        double crimeIncorrectCount=0;
+        double otherCorrectCount=0;
+        double otherIncorrectCount=0;
         for(int i=0;i<trainingData.numInstances();i++) {
             words = "";
             String content = trainingData.instance(i).stringValue(0);
@@ -60,27 +58,31 @@ public class KeyWordClassifierHandler {
 
             exist = documentKeyWordFinder.isKeyWordExist(words);
             if(label.equals("crime") && exist){
+                System.out.println("crime correct");
                 crimeCorrectCount++;
             }else if(label.equals("crime") && !exist){
+                System.out.println("crime incorrect");
                 crimeIncorrectCount++;
             }else if(label.equals("other") && !exist){
+                System.out.println("non crime correct");
                 otherCorrectCount++;
             }else{
+                System.out.println("non crime incorrect");
                 otherIncorrectCount++;
             }
         }
 
-        System.out.println("Crime Accuracy= "+ (crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount))+"%");
-        System.out.println("Other Accuracy= "+ (otherCorrectCount/(otherCorrectCount+otherIncorrectCount))+"%");
+        System.out.println("Crime Accuracy= "+ ((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount))*100)+"%");
+        System.out.println("Other Accuracy= " + ((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100) + "%");
     }
 
     /**
      * instance is raw article data
-     * @param instance
+     * @param testInstance
      * @return
      */
-    public double classifyInstance(Instance instance){
-        String content = instance.stringValue(0);
+    public double classifyInstance(Instance testInstance){
+        String content = testInstance.stringValue(0);
         documentKeyWordFinder.isKeyWordExist(content);
         tokenizer.tokenize(content);
         String words="";
