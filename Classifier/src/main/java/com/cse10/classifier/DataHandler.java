@@ -25,6 +25,7 @@ public abstract class DataHandler {
         fileName="file.arff";
     }
 
+    protected abstract void printDescription();
     /**
      * fetch training data from database
      */
