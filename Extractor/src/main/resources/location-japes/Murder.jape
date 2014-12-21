@@ -1,0 +1,208 @@
+Phase: Murder
+Input:  Lookup Token Date Currency Organization Occupation JobTitle PointSeperator NotLocation IncorrectLocation Location SubPerson Direction LOCATION EndSentence
+Options: control = appelt
+
+Rule: Murder
+Priority:50
+({Token.string == "killed"}
+|
+{Token.string == "killing"}
+|
+{Token.string == "murder"}
+|
+{Token.string == "murders"}
+|
+{Token.string == "dead"}
+|
+({Token.string == "shot"}
+{Token.string == "to"}
+{Token.string == "death"})
+|
+{Token.string == "murdered"}
+|
+{Token.string == "beheaded"}
+|
+{Token.string == "execution"}
+|
+{Token.string == "died"}
+|
+{Token.string == "hanged"}
+|
+{Token.string == "suicide"}
+|
+(({Token.string == "body"}
+|
+{Token.string == "bodies"}
+|
+{Token.string == "corpse"}
+|
+{Token.string == "corpses"})
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+({Token.string == "discovered"}
+|
+{Token.string == "found"})))
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "at"}
+|
+{Token.string == "in", !NotLocation.rule == "notLoc"}
+|
+{Token.string == "near"}
+|
+({Token.string == "in"}
+{Token.string == "the"}
+{Token.string == "vicinity"}
+{Token.string == "of"})
+|
+({Token.string == "in"}
+{Token.string == "the"}
+({Token.string == "area"}
+|
+{Token.string == "areas"})
+{Token.string == "of"})
+|
+({Token.string == "coast"}
+{Token.string == "of"}))
+    
+	((({Token.string =~ "[Aa]"}
+	|
+	{Token.string =~ "[Aa]n"})
+	|
+	{Token.string =~ "[Tt]he"})?
+	({Token.kind == word, Token.category == NN})
+	({Token.string == "at"}
+	|
+	({!NotLocation.rule == "notLoc"}
+	{Token.string == "in"})
+	|
+	{Token.string == "near"}
+	|
+	({Token.string == "in"}
+	{Token.string == "the"}
+	{Token.string == "vicinity"}
+	{Token.string == "of"})))?
+
+    	({Token.string =~ "[Tt]he"}
+		|
+		{Token.string =~ "[Aa]"}
+		|
+		{Token.string =~ "[Aa]n"})?
+		({Token.kind == word, Token.category == JJ})?
+		((
+		 (
+	      {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+		  ({Token.kind == punctuation, !Token.string == "."})?
+	      {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	      ({Token.kind == punctuation, !Token.string == "."})?
+	      {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+		 )
+		 |
+		 (
+	      {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+		  ({Token.kind == punctuation, !Token.string == "."})?
+	      (
+	       {Token.kind == word, Token.category == NNP, Token.orth == allCaps, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	       |
+	       {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	       |
+	       {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	      )
+		 )
+    	 |
+		 ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
+		)
+		({Token.string == ","}
+		|
+		{Token.string == "and"})?
+		(
+			(
+			 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+			 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+			 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+			)
+			|
+		    (
+			 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+			 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+			)
+			|
+			({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !Organization.rule == OrgJobTitle, !JobTitle.rule == JobTitle1, !Occupation.rule == title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
+		)?
+    ):location
+     ({Token.kind == punctuation, !Token.string == "."})?
+-->  
+{
+	//get the location annotations in a list
+	//if(inputAS.get("CrimeLocation").isEmpty()){
+   List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+
+
+   //sort the list by offset
+   Collections.sort(annList, new OffsetComparator());
+
+   //iterate through the matched annotations
+   for(int i = 0; i < annList.size(); i++)
+   {
+      Annotation anAnn = (Annotation)annList.get(i);
+
+      // check that the new annotation is not a categorical place
+	  try {
+		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University")  || content.equals("Remand") || content.equals("Federal") || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals(","))) // content.equals("Devala")
+		  {
+			FeatureMap features = Factory.newFeatureMap();
+			features.put("location", "Murder");
+
+			Node annEnd = anAnn.getEndNode();
+			int j;
+			
+			for(j= i+1; j < annList.size(); j++){
+				Annotation anAnnNext = (Annotation)annList.get(j);
+				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
+					if (!(longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya"))) // content.equals("Devala")
+					{
+						annEnd = anAnnNext.getEndNode();
+					}else{
+						break;
+					}
+				}else{	
+					break;
+				}
+			}
+			 
+			i = j-1;
+			
+			String finalAnn = "none";
+			
+			try {
+				finalAnn = doc.getContent().getContent(anAnn.getStartNode().getOffset(), annEnd.getOffset()).toString();
+			}
+			catch (InvalidOffsetException e) {
+				e.printStackTrace();
+			}
+	  
+			if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and") || finalAnn.equals("National"))){
+				outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+			}
+		  }
+	  }
+	  catch (InvalidOffsetException e) {
+        e.printStackTrace();
+      }
+   }
+  // }
+}

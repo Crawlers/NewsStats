@@ -1,0 +1,16 @@
+Phase: Finalize
+Input:  CrimeLocation 
+Options: control = all
+
+Rule: Finalize
+Priority:50
+({CrimeLocation within CrimeLocation}):duplicate
+--> 
+{
+	AnnotationSet toRemove = bindings.get("duplicate");
+	outputAS.removeAll(inputAS.get("CrimeLocation"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("location", "Robbery-Other-Reversed");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "CrimeLocation", features);
+}

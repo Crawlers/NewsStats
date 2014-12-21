@@ -1,0 +1,25 @@
+/*
+*  main.jape
+*
+*/
+
+MultiPhase:	FinalCrimeLocations
+Phases:
+Reannot
+Currency
+PointSeperator
+EndSentence
+SubPerson
+NotLocation
+IncorrectLocation
+Occupation
+RealLocation
+Murder
+RobberyOther
+RobberyFirstReversed
+Police
+Prison
+RobberyOtherReversed
+Court
+Hospital
+Finalize

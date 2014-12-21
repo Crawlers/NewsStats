@@ -1,0 +1,24 @@
+Phase:CreateMention
+Input: CrimeLocation PoliceLocation PrisonLocation
+Options: control = brill
+
+Rule: CreateMention1
+(
+{CrimeLocation}
+):crimeLocation
+-->
+ :crimeLocation.Mention = {type="crimeLocation"}
+ 
+Rule: CreateMention2
+(
+{PoliceLocation}
+):policeLocation
+-->
+ :policeLocation.Mention = {type="crimeLocation"}
+ 
+Rule: CreateMention3
+(
+{PrisonLocation}
+):prisonLocation
+-->
+ :prisonLocation.Mention = {type="crimeLocation"}

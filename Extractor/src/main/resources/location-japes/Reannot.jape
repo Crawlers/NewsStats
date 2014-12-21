@@ -1,0 +1,119 @@
+Phase: Reannot
+Input:  Lookup Token PERSON
+Options: control = appelt
+
+Rule: Reannot
+Priority:50
+(
+({Token.string == "in"}
+|
+{Token.string == "at"})
+	(
+		{PERSON}
+	):reannot
+)
+--> 
+{
+   List annList = new ArrayList((AnnotationSet)bindings.get("reannot"));
+   List personList = new ArrayList ((AnnotationSet)inputAS.get("PERSON"));
+
+   //sort the list by offset
+   Collections.sort(annList, new OffsetComparator());
+   Collections.sort(personList, new OffsetComparator());
+
+   //iterate through the matched annotations
+   for(int i = 0; i < annList.size(); i++)
+   {
+	for(int j = 0; j < personList.size(); j++)
+	{
+      Annotation anAnn = (Annotation)annList.get(i);
+	  Annotation aPerson = (Annotation)personList.get(j);
+	  
+	  if(anAnn.getStartNode().equals(aPerson.getStartNode()) && anAnn.getEndNode().equals(aPerson.getEndNode())){
+		inputAS.remove(aPerson);
+	  }
+	}
+   }
+   }
+   
+Rule: Reannot
+Priority:50
+((
+	{PERSON}
+):reannot
+{Token.string =~ "[Aa]rea"})
+--> 
+{
+   List annList = new ArrayList((AnnotationSet)bindings.get("reannot"));
+   List personList = new ArrayList ((AnnotationSet)inputAS.get("PERSON"));
+
+   //sort the list by offset
+   Collections.sort(annList, new OffsetComparator());
+   Collections.sort(personList, new OffsetComparator());
+
+   //iterate through the matched annotations
+   for(int i = 0; i < annList.size(); i++)
+   {
+	for(int j = 0; j < personList.size(); j++)
+	{
+      Annotation anAnn = (Annotation)annList.get(i);
+	  Annotation aPerson = (Annotation)personList.get(j);
+	  
+	  if(anAnn.getStartNode().equals(aPerson.getStartNode()) && anAnn.getEndNode().equals(aPerson.getEndNode())){
+		inputAS.remove(aPerson);
+	  }
+	}
+   }
+   }
+   
+Rule: Reannot
+Priority:50
+({Token.string == "Hirunika"}
+|
+{Token.string == "Premachandra"}
+|
+{Token.string == "Duminda"}
+|
+{Token.string == "Silva"}
+|
+{Token.string == "Bharatha"}
+|
+{Token.string == "Lukshman"}
+|
+{Token.string == "Dissanayake"}
+):reannot
+--> 
+:reannot.PERSON = {rule="GzPerson"}
+
+Rule: Reannot
+Priority:50
+(
+{Token.string == "North"}
+|
+{Token.string == "North-"}
+|
+{Token.string == "Central"}
+|
+{Token.string == "-Central"}
+|
+{Token.string == "South"}
+|
+{Token.string == "South-"}
+|
+{Token.string == "West"}
+|
+{Token.string == "-West"}
+|
+{Token.string == "East"}
+|
+{Token.string == "-East"}
+|
+{Token.string == "Maritime"}
+|
+{Token.string == "Boundary"}
+|
+{Token.string == "Line"}
+):reannot
+--> 
+:reannot.Direction = {rule="GzDirection"}
+

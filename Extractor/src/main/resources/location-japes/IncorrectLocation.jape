@@ -1,0 +1,48 @@
+Phase: IncorrectLocation
+Input:  Lookup Token
+Options: control = appelt
+
+Rule: IncorrectLocation
+Priority:50
+(
+	 ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+	 |
+	 {Token.kind == word, Token.category == NNP, Token.orth == allCaps})
+)
+({Token.string =~ "[Rr]iver"}
+|
+{Token.string =~ "[Ff]all"}
+|
+{Token.string =~ "[Ww]aterfall"}
+|
+{Token.string =~ "[Tt]eaching"}
+|
+{Token.string =~ "[Bb]ase"}
+|
+{Token.string =~ "[Cc]hildren"}
+|
+{Token.string =~ "[Nn]avy"}
+|
+{Token.string =~ "[Cc]amp"}
+|
+{Token.string =~ "[Hh]arbour"}
+|
+{Token.string =~ "[Aa]rabia"}
+|
+{Token.string =~ "[Ff]orest"}
+|
+{Token.string =~ "[Rr]ange"}
+|
+{Token.string =~ "[Rr]eserve"}
+|
+{Token.string =~ "[Uu]niversity"}
+|
+{Token.string =~ "[Dd]ivision"}
+|
+{Token.string =~ "[Pp]arliament"}
+|
+{Token.string =~ "[Nn]aval"}
+|
+{Token.string =~ "[Cc]ommand"}):incLocation
+--> 
+:incLocation.IncorrectLocation = {rule= "incLoc" } 
