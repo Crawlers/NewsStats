@@ -18,7 +18,7 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
     protected StanfordCoreNLP pipeline;
 
     public StanfordCoreNLPLemmatizer() {
-        System.out.println("------------Initialize StandfordLemmatizer-------------------------");
+        System.out.println("Initialize StandfordLemmatizer---------------------------------------------");
         Properties props;
         props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma");

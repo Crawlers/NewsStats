@@ -5,7 +5,6 @@ import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -13,15 +12,16 @@ import java.util.logging.Logger;
 
 /**
  * pipe line which is using for document processing
- * Created by chamath on 12/19/2014.
+ * Created by chamath on 12/20/2014.
  */
 public class CorpusPipeLine {
+
     private SerialAnalyserController serialAnalyserController;
 
     /**
      * add required processing resources and configure the pipe line
      */
-    public void configure() {
+    public void configure(){
         try {
             //load the plugin ANNIE first to use resources under that
             try {

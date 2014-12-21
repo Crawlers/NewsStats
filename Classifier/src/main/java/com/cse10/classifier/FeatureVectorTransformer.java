@@ -22,7 +22,7 @@ public class FeatureVectorTransformer {
         filter=new StringToWordVector();
         stemmer = new SnowballStemmer();
         stemmer.setStemmer("english");
-       // stanfordCoreNLPLemmatizer = new StanfordCoreNLPLemmatizer();
+        stanfordCoreNLPLemmatizer = new StanfordCoreNLPLemmatizer();
     }
 
     /**
@@ -85,7 +85,7 @@ public class FeatureVectorTransformer {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(dataFiltered);
         try {
-            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData\\".concat(fileName);
+            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\".concat(fileName);
             saver.setFile(new File(path));
             saver.writeBatch();
         } catch (IOException e) {

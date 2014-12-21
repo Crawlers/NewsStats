@@ -2,7 +2,12 @@ package com.cse10.classifier;
 
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
-import weka.core.*;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.SelectedTag;
+import weka.core.SerializationHelper;
+
+
 import java.util.Random;
 
 /**
@@ -10,12 +15,12 @@ import java.util.Random;
  * Created by Tharindu on 2014-11-11.
  */
 
-public class SVMClassifier {
+public class SVMClassifierHandler{
 
-    protected LibSVM svm;
+   protected LibSVMExtended svm;
 
-    public SVMClassifier(){
-        svm = new LibSVM();
+    public SVMClassifierHandler(){
+        svm=new LibSVMExtended();
         int kernelTypeIndex = 2;
         SelectedTag st;
         st = new SelectedTag(kernelTypeIndex , LibSVM.TAGS_KERNELTYPE);
@@ -37,39 +42,41 @@ public class SVMClassifier {
     }
 
     /**
-     * build classifier with given training data
-     * @param trainingDataFiltered
+     * build classifier with given training data and save it
+     * @param filteredTrainingData
      * @return
      */
-    public LibSVM buildSVM(Instances trainingDataFiltered) {
+    public void buildSVM(Instances filteredTrainingData) {
         try {
-            svm.buildClassifier(trainingDataFiltered);
+            svm.buildClassifier(filteredTrainingData);
+            //save classifier
+            SerializationHelper.write("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\svm.model", svm);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return svm;
+
     }
 
     /**
      *
      * @return
      */
-    public LibSVM getSvm() {
+    public LibSVMExtended getSvm() {
         return svm;
     }
 
     /**
      *
-     * @param trainingDataFiltered
+     * @param filteredTrainingData
      * @param numOfFolds
      */
-    public void crossValidateClassifier(Instances trainingDataFiltered,int numOfFolds){
+    public void crossValidateClassifier(Instances filteredTrainingData,int numOfFolds){
 
         //perform cross validation
         Evaluation evaluation = null;
         try {
-            evaluation = new Evaluation(trainingDataFiltered);
-            evaluation.crossValidateModel(svm, trainingDataFiltered, numOfFolds, new Random(1));
+            evaluation = new Evaluation(filteredTrainingData);
+            evaluation.crossValidateModel(svm, filteredTrainingData, numOfFolds, new Random(1));
             System.out.println(evaluation.toSummaryString());
             System.out.println(evaluation.weightedAreaUnderROC());
             double[][] confusionMatrix = evaluation.confusionMatrix();
@@ -89,39 +96,15 @@ public class SVMClassifier {
     }
 
 
-
-    /**
-     * Test the classification (just print the results)
-     *
-     * @param articleClass which type of articles that need to be classified (ex:- CeylonTodayArticle.class)
-     * @param constrain
-     * @throws Exception
-
-    public void testClassifier(Class articleClass, String constrain) throws Exception {
-        DataHandler dataHandler=new DataHandler();
-        //get test instances and perform predictions
-        Instances testData = dataHandler.loadTestData(articleClass, constrain);
-        Instances testDataFiltered = weka.filters.Filter.useFilter(testData, filter);
-
-        for (int i = 0; i < testDataFiltered.numInstances(); i++) {
-
-            System.out.println(testData.instance(i));
-            System.out.println(svm.classifyInstance(testDataFiltered.instance(i)));
-            System.out.println();
-
-        }
-    }
-     **/
-
     /**
      * classify the article
-     * @param instance
+     * @param filteredTestInstance
      * @return
      */
-     public double classifyInstance(Instance instance){
+     public double classifyInstance(Instance filteredTestInstance){
          double result=-1.0;
          try {
-             result=svm.classifyInstance(instance);
+             result=svm.classifyInstance(filteredTestInstance);
          } catch (Exception e) {
              e.printStackTrace();
          }

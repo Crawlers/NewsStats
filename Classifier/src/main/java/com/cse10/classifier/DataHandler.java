@@ -22,13 +22,16 @@ public abstract class DataHandler {
 
     public DataHandler() {
         articleIds = new HashMap<Integer, Integer>();
-        fileName="file.arff";
+        fileName = "file.arff";
     }
+
+    protected abstract void printDescription();
 
     /**
      * fetch training data from database
+     * @param featureVectorTransformer
      */
-    public abstract Instances loadTrainingData();
+    public abstract Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer);
 
     /**
      * fetch test data under given conditions
@@ -38,9 +41,12 @@ public abstract class DataHandler {
      * @return
      * @throws Exception
      */
-    public Instances loadTestData(Class articleClass, String constrain) {
-        articleIds.clear();
+    public Instances loadTestData(Class articleClass, String constrain, boolean isApplyingKeyWordFilter) {
+
         FastVector attributeList = new FastVector(2);
+        KeyWordClassifierHandler keyWordClassifierHandler=new KeyWordClassifierHandler();
+        keyWordClassifierHandler.configure(1,1,"\\W");
+        articleIds.clear();
         Attribute a1 = new Attribute("text", (FastVector) null);
 
         FastVector classVal = new FastVector();
@@ -71,9 +77,18 @@ public abstract class DataHandler {
                 inst.setValue(a1, news);
                 inst.setDataset(testData);
                 inst.setClassMissing();
-                testData.add(inst);
-                articleIds.put(instNumber, id); //in order to keep track of ID
-                instNumber++;
+                if (isApplyingKeyWordFilter) {
+                   double value=keyWordClassifierHandler.classifyInstance(inst);
+                    if(value==0.0){
+                        testData.add(inst);
+                        articleIds.put(instNumber, id); //in order to keep track of ID
+                        instNumber++;
+                    }
+                } else {
+                    testData.add(inst);
+                    articleIds.put(instNumber, id); //in order to keep track of ID
+                    instNumber++;
+                }
 
             }
         } catch (SQLException e) {
@@ -87,7 +102,7 @@ public abstract class DataHandler {
         return articleIds;
     }
 
-    public String getFileName(){
+    public String getFileName() {
         return fileName;
     }
 
