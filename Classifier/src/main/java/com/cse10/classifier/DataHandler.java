@@ -29,8 +29,9 @@ public abstract class DataHandler {
 
     /**
      * fetch training data from database
+     * @param featureVectorTransformer
      */
-    public abstract Instances loadTrainingData();
+    public abstract Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer);
 
     /**
      * fetch test data under given conditions
