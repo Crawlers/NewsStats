@@ -3,6 +3,7 @@ package com.cse10.classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
 import weka.core.*;
+
 import java.util.Random;
 
 /**
@@ -10,12 +11,12 @@ import java.util.Random;
  * Created by Tharindu on 2014-11-11.
  */
 
-public class SVMClassifier {
+public class SVMClassifierHandler{
 
-    protected LibSVM svm;
+   protected LibSVMExtended svm;
 
-    public SVMClassifier(){
-        svm = new LibSVM();
+    public SVMClassifierHandler(){
+        svm=new LibSVMExtended();
         int kernelTypeIndex = 2;
         SelectedTag st;
         st = new SelectedTag(kernelTypeIndex , LibSVM.TAGS_KERNELTYPE);
@@ -41,20 +42,20 @@ public class SVMClassifier {
      * @param trainingDataFiltered
      * @return
      */
-    public LibSVM buildSVM(Instances trainingDataFiltered) {
+    public void buildSVM(Instances trainingDataFiltered) {
         try {
             svm.buildClassifier(trainingDataFiltered);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return svm;
+
     }
 
     /**
      *
      * @return
      */
-    public LibSVM getSvm() {
+    public LibSVMExtended getSvm() {
         return svm;
     }
 
@@ -88,30 +89,6 @@ public class SVMClassifier {
 
     }
 
-
-
-    /**
-     * Test the classification (just print the results)
-     *
-     * @param articleClass which type of articles that need to be classified (ex:- CeylonTodayArticle.class)
-     * @param constrain
-     * @throws Exception
-
-    public void testClassifier(Class articleClass, String constrain) throws Exception {
-        DataHandler dataHandler=new DataHandler();
-        //get test instances and perform predictions
-        Instances testData = dataHandler.loadTestData(articleClass, constrain);
-        Instances testDataFiltered = weka.filters.Filter.useFilter(testData, filter);
-
-        for (int i = 0; i < testDataFiltered.numInstances(); i++) {
-
-            System.out.println(testData.instance(i));
-            System.out.println(svm.classifyInstance(testDataFiltered.instance(i)));
-            System.out.println();
-
-        }
-    }
-     **/
 
     /**
      * classify the article
