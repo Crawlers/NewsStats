@@ -16,7 +16,7 @@ public class BaggingClassifierHandler {
     private Bagging bagging;
 
     public BaggingClassifierHandler(Bagging bagging) {
-        this.bagging = bagging;
+        this.bagging = new Bagging();
     }
 
 
@@ -32,16 +32,16 @@ public class BaggingClassifierHandler {
 
     /**
      *
-     * @param trainingDataFiltered
-     * @param numOfFolds
+     * @param filteredTrainingData Instances
+     * @param numOfFolds int
      */
-    public void crossValidateClassifier(Instances trainingDataFiltered,int numOfFolds){
+    public void crossValidateClassifier(Instances filteredTrainingData,int numOfFolds){
 
         //perform cross validation
         Evaluation evaluation = null;
         try {
-            evaluation = new Evaluation(trainingDataFiltered);
-            evaluation.crossValidateModel(bagging, trainingDataFiltered, numOfFolds, new Random(1));
+            evaluation = new Evaluation(filteredTrainingData);
+            evaluation.crossValidateModel(bagging, filteredTrainingData, numOfFolds, new Random(1));
             System.out.println(evaluation.toSummaryString());
             System.out.println(evaluation.weightedAreaUnderROC());
             double[][] confusionMatrix = evaluation.confusionMatrix();
@@ -61,14 +61,14 @@ public class BaggingClassifierHandler {
     }
 
     /**
-     * classify the article
-     * @param instance
-     * @return
+     * classify the given news article
+     * @param filteredTestInstance
+     * @return double
      */
-    public double classifyInstance(Instance instance){
+    public double classifyInstance(Instance filteredTestInstance){
         double result=-1.0;
         try {
-            result= bagging.classifyInstance(instance);
+            result= bagging.classifyInstance(filteredTestInstance);
         } catch (Exception e) {
             e.printStackTrace();
         }
