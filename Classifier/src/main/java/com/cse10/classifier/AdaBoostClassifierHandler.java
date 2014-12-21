@@ -5,7 +5,6 @@ import weka.classifiers.Evaluation;
 import weka.classifiers.meta.AdaBoostM1;
 import weka.core.Instance;
 import weka.core.Instances;
-
 import java.util.Random;
 
 /**
@@ -17,7 +16,7 @@ public class AdaBoostClassifierHandler {
     private AdaBoostM1 adaBoost;
 
     public AdaBoostClassifierHandler(AdaBoostM1 adaBoost) {
-        this.adaBoost = adaBoost;
+        this.adaBoost = new AdaBoostM1();
     }
 
     /**
@@ -32,16 +31,16 @@ public class AdaBoostClassifierHandler {
 
     /**
      *
-     * @param trainingDataFiltered
+     * @param filteredTrainingData
      * @param numOfFolds
      */
-    public void crossValidateClassifier(Instances trainingDataFiltered,int numOfFolds){
+    public void crossValidateClassifier(Instances filteredTrainingData,int numOfFolds){
 
         //perform cross validation
         Evaluation evaluation = null;
         try {
-            evaluation = new Evaluation(trainingDataFiltered);
-            evaluation.crossValidateModel(adaBoost, trainingDataFiltered, numOfFolds, new Random(1));
+            evaluation = new Evaluation(filteredTrainingData);
+            evaluation.crossValidateModel(adaBoost, filteredTrainingData, numOfFolds, new Random(1));
             System.out.println(evaluation.toSummaryString());
             System.out.println(evaluation.weightedAreaUnderROC());
             double[][] confusionMatrix = evaluation.confusionMatrix();
@@ -61,14 +60,14 @@ public class AdaBoostClassifierHandler {
     }
 
     /**
-     * classify the article
-     * @param instance
+     * classify the given article instance
+     * @param filteredTestInstance
      * @return
      */
-    public double classifyInstance(Instance instance){
+    public double classifyInstance(Instance filteredTestInstance){
         double result=-1.0;
         try {
-            result=adaBoost.classifyInstance(instance);
+            result=adaBoost.classifyInstance(filteredTestInstance);
         } catch (Exception e) {
             e.printStackTrace();
         }
