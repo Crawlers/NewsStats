@@ -1,0 +1,181 @@
+Phase: CrimeType
+Input: Lookup Token
+Options: control = appelt
+
+Rule: CrimeType
+Priority:50
+(({Token.string == "arrested"}
+|
+{Token.string == "arresting"}
+|
+{Token.string == "nabbed"}
+|
+({Token.string == "taken"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "took"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "blocked"}
+{Token.string == "the"}
+{Token.string == "deportation"})
+|
+{Token.string == "sentenced"}
+|
+{Token.string == "discovered"}
+|
+{Token.string == "remanded"}
+|
+{Token.string == "apprehended"}
+|
+{Token.string == "prosecuted"}
+|
+{Token.string == "threatened"}
+|
+{Token.string == "poisoning"}
+|
+{Token.string == "assaulted"}
+|
+{Token.string == "alleged"}): crimeType1
+|
+({Token.string == "explosives"}
+|
+{Token.string == "bomb"}
+|
+{Token.string == "blast"}): crimeType2
+|
+({Token.string == "attacked"}
+|
+{Token.string == "injured"}
+|
+({Token.string == "found"}
+{Token.string == "with"}
+{Token.string == "injuries"})
+|
+{Token.string == "shot"}
+|
+{Token.string == "shooting"}
+|
+({Token.string == "shot"}
+{Token.string == "by"})
+|
+{Token.string == "stabbed"}
+|
+({Token.string == "incident"}
+{Token.string == "occurred"})): crimeType3
+|
+({Token.string == "raped"}
+|
+{Token.string == "abused"}
+|
+({Token.string == "sexual"}
+{Token.string == "assault"}) 
+|
+({Token.string == "sexually"}
+{Token.string == "assaulting"})
+|
+({Token.string == "sexually"}
+{Token.string == "harassed"})
+|
+{Token.string == "brothel"}
+|
+{Token.string == "prostitution"}
+|
+{Token.string == "molested"}
+|
+{Token.string == "torture"}
+|
+{Token.string == "tortured"}): crimeType4
+|
+({Token.string == "robbery"}
+|
+{Token.string == "hijacked"}
+|
+{Token.string == "ransacked"}) : crimeType5
+|
+({Token.string == "abducted"}
+|
+{Token.string == "abduction"}
+|
+{Token.string == "kidnap"}
+|
+{Token.string == "kidnapped"}
+|
+{Token.string == "kidnapping"}) : crimeType6
+|
+({Token.string == "raid"}
+|
+{Token.string == "raided"}
+|
+{Token.string == "counterfeit"}
+|
+{Token.string == "smuggle"}
+|
+{Token.string == "smuggled"}
+|
+{Token.string == "smuggling"}
+|
+{Token.string == "seized"}) : crimeType7
+|
+(({Token.string == "treasure"}
+{Token.string == "hunting"})
+|
+({Token.string == "treasure"}
+{Token.string == "hunt"})) : crimeType8
+|
+({Token.string == "[Ee]thanol"}
+|
+{Token.string =~ "[Hh]eroin"}
+|
+{Token.string =~ "[Dd]rugs"}
+|
+{Token.string =~ "[Dd]rug"}) : crimeType9
+|
+({Token.string == "killed"}
+|
+{Token.string == "killing"}
+|
+{Token.string == "dead"}
+|
+{Token.string == "murdered"}
+|
+{Token.string == "murder"}
+|
+{Token.string == "murders"}
+|
+({Token.string == "caused"}
+{Token.string == "the"}
+{Token.string == "death"})
+|
+{Token.string == "beheaded"}
+|
+{Token.string == "execution"}
+|
+{Token.string == "died"}
+|
+{Token.string == "hanged"}
+|
+{Token.string == "suicide"}
+|
+{Token.string == "body"}
+|
+{Token.string == "bodies"}
+|
+{Token.string == "corpse"}
+|
+{Token.string == "corpses"}) : crimeType10
+)
+
+--> 
+:crimeType1.CrimeType = {type= "other", kind= "10"},  
+:crimeType2.CrimeType = {type= "terrorist", kind= "7"},  
+:crimeType3.CrimeType = {type= "clash", kind= "6"},  
+:crimeType4.CrimeType = {type= "child_sex_crime", kind= "4"},  
+:crimeType5.CrimeType = {type= "robbery", kind= "8"},  
+:crimeType6.CrimeType = {type= "abduction", kind= "3"},  
+:crimeType7.CrimeType = {type= "illegal_trade", kind= "5"},  
+:crimeType8.CrimeType = {type= "treasure_hunt", kind= "1"},  
+:crimeType9.CrimeType = {type= "drugs", kind= "9"},  
+:crimeType10.CrimeType = {type= "murder", kind= "2"} 

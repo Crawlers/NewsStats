@@ -143,7 +143,7 @@ Priority:50
 		)?
     ):location
      ({Token.kind == punctuation, !Token.string == "."})?
--->  
+-->
 {
 	//get the location annotations in a list
 	//if(inputAS.get("CrimeLocation").isEmpty()){
@@ -161,7 +161,7 @@ Priority:50
       // check that the new annotation is not a categorical place
 	  try {
 		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
-		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University")  || content.equals("Remand") || content.equals("Federal") || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals(","))) // content.equals("Devala")
+		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University")  || content.equals("Remand") || content.equals("Federal") || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals(",") || content.equals("District"))) // content.equals("Devala")
 		  {
 			FeatureMap features = Factory.newFeatureMap();
 			features.put("location", "Murder");
@@ -173,7 +173,7 @@ Priority:50
 				Annotation anAnnNext = (Annotation)annList.get(j);
 				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
 					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
-					if (!(longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya"))) // content.equals("Devala")
+					if (!(longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya") || longContent.contains("District"))) // content.equals("Devala")
 					{
 						annEnd = anAnnNext.getEndNode();
 					}else{
