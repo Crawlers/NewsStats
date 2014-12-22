@@ -14,10 +14,16 @@ import com.cse10.entities.CrimeEntityGroup;
 import gate.*;
 import gate.Gate;
 import gate.annotation.AnnotationImpl;
+import gate.util.GateException;
 import gate.util.persistence.PersistenceManager;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.util.*;
+
+import org.jdom.JDOMException;
 
 public class BatchProcessApp {
 
@@ -34,6 +40,32 @@ public class BatchProcessApp {
     private static ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
+
+        // setting gate.home variable
+        String homePath = "\\home";
+        File gateHome;
+
+        if (Gate.getGateHome() == null)
+        {
+            homePath = System.getenv("GATE_HOME");
+
+            if(homePath == null) {
+                System.out.print("Enter GATE Home path : ");
+                BufferedReader br =
+                        new BufferedReader(new InputStreamReader(System.in));
+                homePath = br.readLine();
+            }
+        }
+
+        File pathCheck = new File(homePath+"\\gate.xml");
+        if (pathCheck.exists()){
+            gateHome = new File(homePath);
+            Gate.setGateHome(gateHome);
+            System.out.println("GATE Home Configured : "+ Gate.getGateHome());
+        }else{
+            System.out.println("GATE Home Path Incorrect");
+            System.exit(0);
+        }
 
         // initialise GATE
         Gate.init();
