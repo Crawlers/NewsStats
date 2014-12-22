@@ -31,7 +31,7 @@ public class BatchProcessApp {
     private static File gappFile = new File("Extractor/src/main/resources/Location_v1.gapp");
 
     // List of annotation types to write out.  If null, write everything as GateXML.
-    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation"));
+    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType"));
 
     // fetch district name from google map api response
     private static DistrictExtractor de = new DistrictExtractor();
@@ -135,6 +135,8 @@ public class BatchProcessApp {
             // location related entities
             String district = "NULL";
             String location = "NULL";
+            String crimeType = "NULL";
+            CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
 
             // iterate through each annotation
             Iterator annotIt = annotationsToWrite.iterator();
@@ -152,17 +154,25 @@ public class BatchProcessApp {
                     // fetch district for the location using google map api
                     district = de.getDistrict(location);
                     if (!district.equalsIgnoreCase("NULL")) {
-                        CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
                         entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
                         entityGroupOfArticle.setLocation(location);
                         entityGroupOfArticle.setDistrict(district);
-                        entityGroupsList.add(entityGroupOfArticle);
                     }
                     System.out.println("District : " + district);
+                }
+
+                if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
+                    crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
+                    System.out.println("CrimeType : " + crimeType);
+
+                    entityGroupOfArticle.setCrimeType(crimeType);
                 }
             }
             System.out.println("Article : " + i + " -Ends Here-");
 
+            if (entityGroupOfArticle.getDistrict() != null){
+                entityGroupsList.add(entityGroupOfArticle);
+            }
 
             System.out.println("done");
         } // for each file
