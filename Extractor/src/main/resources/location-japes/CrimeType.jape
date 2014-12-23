@@ -301,6 +301,8 @@ Priority:50
 (({Token.string == "treasure"}
 {Token.string == "hunting"})
 |
+{Token.string == "archeological"}
+|
 ({Token.string == "treasure"}
 {Token.string == "hunt"})) : crimeType8
 |

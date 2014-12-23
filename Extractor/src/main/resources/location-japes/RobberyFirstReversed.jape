@@ -227,6 +227,9 @@ Priority:50
 ({Token.string == "treasure"}
 {Token.string == "hunt"})
 |
+({Token.string == "archeological"}
+{Token.string == "site"})
+|
 {Token.string == "[Ee]thanol"}
 |
 {Token.string =~ "[Hh]eroin"}
@@ -485,7 +488,7 @@ Priority:50
 				Annotation anAnnNext = (Annotation)annList.get(j);
 				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
 					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
-					if (!(longContent.charAt(0) == ','  || longContent.contains("Military")  || longContent.contains("Remand") || longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya") || longContent.contains("District"))){ // content.equals("Devala")
+					if (!(longContent.charAt(0) == ','  || longContent.contains("Military")  || longContent.contains("Remand") || longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya") || longContent.contains("District") || longContent.contains("Port") || longContent.contains("Harbour"))){ // content.equals("Devala")
 						annEnd = anAnnNext.getEndNode();
 					}else{
 						break;
@@ -506,7 +509,7 @@ Priority:50
 				e.printStackTrace();
 			}
 	  
-			if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and") || finalAnn.equals("National"))){
+			if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and") || finalAnn.equals("National") || finalAnn.equals("Forest"))){
 				outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
 			}
 		  }

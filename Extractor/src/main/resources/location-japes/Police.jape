@@ -1,5 +1,5 @@
 Phase: Police
-Input:  Lookup Token 
+Input:  Lookup Token EndSentence
 Options: control = appelt
 
 Rule: Police
@@ -27,8 +27,21 @@ Priority:50
 ({Token.string == "took"}
 {Token.string == "into"}
 {Token.string == "custody"}))
-({!Token.string == "."})*
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
 ({Token.string == "by"}
+|
+({Token.string == "by"}
+{Token.string == "the"}
+{Token.string == "officers"}
+{Token.string == "of"})
 |
 {Token.string == "to"})
     
@@ -157,9 +170,25 @@ Priority:50
  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
 ):location	
  ({Token.kind == word, Token.string =~ "[Pp]olice"}) 
-({!Token.string == "."})*
+ 
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
 ((({Token.string == "conducting"})
-({!Token.string == "."})*
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
 ({Token.string == "investigation"}
 |
 {Token.string == "investigations"}))
@@ -188,28 +217,29 @@ Priority:50
 
 --> 
 {
-if(inputAS.get("CrimeLocation").isEmpty()){
-   List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+	//if(inputAS.get("CrimeLocation").isEmpty()){
+	AnnotationSet crimeLocationSet = inputAS.get("CrimeLocation");
+	List annList = new ArrayList((AnnotationSet)bindings.get("location"));
 
 
-   //sort the list by offset
-   Collections.sort(annList, new OffsetComparator());
+	//sort the list by offset
+	Collections.sort(annList, new OffsetComparator());
 
-   //iterate through the matched annotations
-   for(int i = 0; i < annList.size(); i++)
-   {
-      Annotation anAnn = (Annotation)annList.get(i);
-	  
-	  
-	  // check that the new annotation is not a categorical place
-	  try {
-		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+	//iterate through the matched annotations
+	for(int i = 0; i < annList.size(); i++)
+	{
+		Annotation anAnn = (Annotation)annList.get(i);
+
+
+		// check that the new annotation is not a categorical place
+		try {
+			String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
 			FeatureMap features = Factory.newFeatureMap();
 			features.put("location", "Police");
-			
+
 			Node annEnd = anAnn.getEndNode();
 			int j;
-			
+
 			for(j= i+1; j < annList.size(); j++){
 				Annotation anAnnNext = (Annotation)annList.get(j);
 				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
@@ -223,14 +253,17 @@ if(inputAS.get("CrimeLocation").isEmpty()){
 					break;
 				}
 			}
-			 
+
 			i = j-1;
-			
-			outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
-	  }
-	  catch (InvalidOffsetException e) {
-        e.printStackTrace();
-      }
-   }
- }
+
+			if(crimeLocationSet.isEmpty()){
+				outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+			}
+			outputAS.add(anAnn.getStartNode(), annEnd, "Police", features);
+		}
+		catch (InvalidOffsetException e) {
+			e.printStackTrace();
+		}
+	}
+	//}
 }

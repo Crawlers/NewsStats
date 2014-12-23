@@ -1,5 +1,5 @@
 Phase: Finalize
-Input:  CrimeLocation 
+Input:  CrimeLocation Police Court Hospital Prison
 Options: control = all
 
 Rule: Finalize
@@ -11,6 +11,58 @@ Priority:50
 	outputAS.removeAll(inputAS.get("CrimeLocation"));
 	
 	FeatureMap features = Factory.newFeatureMap();
-	features.put("location", "Robbery-Other-Reversed");
+	features.put("location", "Finalized");
 	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "CrimeLocation", features);
+}
+
+Rule: Finalize
+Priority:50
+({Court within Court}):duplicate
+--> 
+{
+	AnnotationSet toRemove = bindings.get("duplicate");
+	outputAS.removeAll(inputAS.get("Court"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("location", "Finalized-Court");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "Court", features);
+}
+
+Rule: Finalize
+Priority:50
+({Police within Police}):duplicate
+--> 
+{
+	AnnotationSet toRemove = bindings.get("duplicate");
+	outputAS.removeAll(inputAS.get("Police"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("location", "Finalized-Police");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "Police", features);
+}
+
+Rule: Finalize
+Priority:50
+({Hospital within Hospital}):duplicate
+--> 
+{
+	AnnotationSet toRemove = bindings.get("duplicate");
+	outputAS.removeAll(inputAS.get("Hospital"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("location", "Finalized-Hospital");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "Hospital", features);
+}
+
+Rule: Finalize
+Priority:50
+({Prison within Prison}):duplicate
+--> 
+{
+	AnnotationSet toRemove = bindings.get("duplicate");
+	outputAS.removeAll(inputAS.get("Prison"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("location", "Finalized-Prison");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "Prison", features);
 }

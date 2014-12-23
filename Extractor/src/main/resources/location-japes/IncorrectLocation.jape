@@ -43,6 +43,8 @@ Priority:50
 |
 {Token.string =~ "[Nn]aval"}
 |
+{Token.string =~ "[Cc]entral"}
+|
 {Token.string =~ "[Cc]ommand"}):incLocation
 --> 
 :incLocation.IncorrectLocation = {rule= "incLoc" } 

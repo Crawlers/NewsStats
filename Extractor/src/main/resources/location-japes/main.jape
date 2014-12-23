@@ -14,6 +14,7 @@ NotLocation
 IncorrectLocation
 Occupation
 RealLocation
+Train
 Murder
 RobberyOther
 RobberyFirstReversed
@@ -22,6 +23,7 @@ Prison
 RobberyOtherReversed
 Court
 Hospital
+Resident
 Finalize
 CrimeType
 ArticleType
