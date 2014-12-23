@@ -102,9 +102,9 @@ public class BatchProcessApp {
 
                 int articleLength = articleContent.length();
 
-                //System.out.println("New Article size : "+articleLength);
+                System.out.println("New Article size : "+articleLength);
 
-                if (articleLength > 900) {
+                if (articleLength > 1000) {
                     articleContent = currentArticle.getTitle();
                 }
 
