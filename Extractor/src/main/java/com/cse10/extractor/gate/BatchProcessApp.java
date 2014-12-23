@@ -8,6 +8,7 @@ package com.cse10.extractor.gate;
  */
 
 import com.cse10.article.Article;
+import com.cse10.article.CeylonTodayArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
@@ -45,11 +46,10 @@ public class BatchProcessApp {
         String homePath = "\\home";
         File gateHome;
 
-        if (Gate.getGateHome() == null)
-        {
+        if (Gate.getGateHome() == null) {
             homePath = System.getenv("GATE_HOME");
 
-            if(homePath == null) {
+            if (homePath == null) {
                 System.out.print("Enter GATE Home path : ");
                 BufferedReader br =
                         new BufferedReader(new InputStreamReader(System.in));
@@ -57,12 +57,12 @@ public class BatchProcessApp {
             }
         }
 
-        File pathCheck = new File(homePath+"\\gate.xml");
-        if (pathCheck.exists()){
+        File pathCheck = new File(homePath + "\\gate.xml");
+        if (pathCheck.exists()) {
             gateHome = new File(homePath);
             Gate.setGateHome(gateHome);
-            System.out.println("GATE Home Configured : "+ Gate.getGateHome());
-        }else{
+            System.out.println("GATE Home Configured : " + Gate.getGateHome());
+        } else {
             System.out.println("GATE Home Path Incorrect");
             System.exit(0);
         }
@@ -78,104 +78,120 @@ public class BatchProcessApp {
         application.setCorpus(corpus);
 
         // fetches news articles from database
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(NewsFirstArticle.class, 0, 756);
+        List<Article> articles = DatabaseHandler.fetchArticles(CeylonTodayArticle.class);
 
         // process the files one by one
         for (int i = 0; i < articles.size(); i++) {
             Article currentArticle = articles.get(i);
+            String articleLabel;
 
-            // load the document
-            Document doc = null;
             try {
-                doc = Factory.newDocument(currentArticle.getContent());
-            } catch (OutOfMemoryError e) {
-                handleOutOfMemory(doc);
+                articleLabel = currentArticle.getLabel();
+            }catch (NullPointerException e){
                 continue;
             }
 
-            // put the document in the corpus
-            corpus.add(doc);
+            if (articleLabel != null && articleLabel.equalsIgnoreCase("crime")) {
+                String articleContent;
 
-            // run the application
-            try {
+                try{
+                    articleContent = currentArticle.getContent();
+                }catch (NullPointerException e){
+                    continue;
+                }
+
+                int articleLength = articleContent.length();
+
+                //System.out.println("New Article size : "+articleLength);
+
+                if (articleLength > 900) {
+                    articleContent = currentArticle.getTitle();
+                }
+
+                // load the document
+                Document doc = Factory.newDocument(articleContent);
+
+                // put the document in the corpus
+                corpus.add(doc);
+
+                // run the application
                 application.execute();
-            } catch (OutOfMemoryError e) {
-                handleOutOfMemory(doc);
-                continue;
-            }
 
 
-            // remove the document from the corpus again
-            corpus.clear();
+                // remove the document from the corpus again
+                corpus.clear();
 
-            Set annotationsToWrite = new HashSet();
+                Set annotationsToWrite = new HashSet();
 
-            // extracting the annotations into a Set
-            if (annotTypesToWrite != null) {
+                // extracting the annotations into a Set
+                if (annotTypesToWrite != null) {
 
-                // extracting annotations from the default AnnotationSet
-                AnnotationSet defaultAnnots = doc.getAnnotations();
-                Iterator annotTypesIt = annotTypesToWrite.iterator();
-                while (annotTypesIt.hasNext()) {
-                    // extracting all the annotations of each requested type and add them to
+                    // extracting annotations from the default AnnotationSet
+                    AnnotationSet defaultAnnots = doc.getAnnotations();
+                    Iterator annotTypesIt = annotTypesToWrite.iterator();
+                    while (annotTypesIt.hasNext()) {
+                        // extracting all the annotations of each requested type and add them to
+                        // the temporary set
+                        AnnotationSet annotsOfThisType =
+                                defaultAnnots.get((String) annotTypesIt.next());
+                        if (annotsOfThisType != null) {
+                            annotationsToWrite.addAll(annotsOfThisType);
+                        }
+                    }
+                }
+
+                // Release the document
+                Factory.deleteResource(doc);
+
+                System.out.println("Article : " + i + " -Begins Here-");
+
+                // location related entities
+                String district = "NULL";
+                String location = "NULL";
+                String crimeType = "other";
+                CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
+
+                // iterate through each annotation
+                Iterator annotIt = annotationsToWrite.iterator();
+                while (annotIt.hasNext()) {
+                    // extract all the annotations of each requested type and add them to
                     // the temporary set
-                    AnnotationSet annotsOfThisType =
-                            defaultAnnots.get((String) annotTypesIt.next());
-                    if (annotsOfThisType != null) {
-                        annotationsToWrite.addAll(annotsOfThisType);
+                    AnnotationImpl CurrentAnnot = (AnnotationImpl) annotIt.next();
+                    String antText = gate.Utils.stringFor(doc, CurrentAnnot);
+
+                    // check for crime location annotation
+                    if (CurrentAnnot.getType().equalsIgnoreCase("CrimeLocation")) {
+                        System.out.println("CrimeLocation : " + antText);
+                        location = antText;
+
+                        // fetch district for the location using google map api
+                        district = de.getDistrict(location);
+                        if (!district.equalsIgnoreCase("NULL")) {
+                            entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
+                            entityGroupOfArticle.setLocation(location);
+                            entityGroupOfArticle.setDistrict(district);
+                        }
+                        System.out.println("District : " + district);
                     }
-                }
-            }
 
-            System.out.println("Article : " + i + " -Begins Here-");
+                    if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
+                        crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
+                        System.out.println("CrimeType : " + crimeType);
+                        System.out.println("Article Title : " + currentArticle.getTitle());
 
-            // Release the document
-            Factory.deleteResource(doc);
-
-            // location related entities
-            String district = "NULL";
-            String location = "NULL";
-            String crimeType = "NULL";
-            CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
-
-            // iterate through each annotation
-            Iterator annotIt = annotationsToWrite.iterator();
-            while (annotIt.hasNext()) {
-                // extract all the annotations of each requested type and add them to
-                // the temporary set
-                AnnotationImpl CurrentAnnot = (AnnotationImpl) annotIt.next();
-                String antText = gate.Utils.stringFor(doc, CurrentAnnot);
-
-                // check for crime location annotation
-                if (CurrentAnnot.getType().equalsIgnoreCase("CrimeLocation")) {
-                    System.out.println("CrimeLocation : " + antText);
-                    location = antText;
-
-                    // fetch district for the location using google map api
-                    district = de.getDistrict(location);
-                    if (!district.equalsIgnoreCase("NULL")) {
-                        entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
-                        entityGroupOfArticle.setLocation(location);
-                        entityGroupOfArticle.setDistrict(district);
+                        entityGroupOfArticle.setCrimeType(crimeType);
                     }
-                    System.out.println("District : " + district);
+
+                    if (entityGroupOfArticle.getDistrict() != null) {
+                        entityGroupsList.add(entityGroupOfArticle);
+                    }
+
                 }
 
-                if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
-                    crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
-                    System.out.println("CrimeType : " + crimeType);
-
-                    entityGroupOfArticle.setCrimeType(crimeType);
-                }
+                System.out.println("Article : " + i + " -Ends Here-");
+                System.out.println();
             }
-            System.out.println("Article : " + i + " -Ends Here-");
-
-            if (entityGroupOfArticle.getDistrict() != null){
-                entityGroupsList.add(entityGroupOfArticle);
-            }
-
-            System.out.println("done");
-        } // for each file
+        }// for each article
 
         // if any entity has been extracted add them into database table
         if (entityGroupsList.size() > 0) {
@@ -183,10 +199,5 @@ public class BatchProcessApp {
         }
 
         System.out.println("All done");
-    }
-
-    private static void handleOutOfMemory(Document document){
-        Factory.deleteResource(document);
-        System.out.println("Memory Full - Leaving the Article");
     }
 }
