@@ -82,6 +82,8 @@ Priority:50
 |
 {Token.string == "abduction"}
 |
+{Token.string == "abductor"}
+|
 {Token.string == "kidnap"}
 |
 {Token.string == "kidnapped"}
@@ -89,6 +91,16 @@ Priority:50
 {Token.string == "kidnapping"}
 |
 {Token.string == "alleged"}
+|
+{Token.string == "allegation"}
+|
+{Token.string == "altercation"}
+|
+{Token.string == "abscond"}
+|
+{Token.string == "absconded"}
+|
+{Token.string == "absconding"}
 |
 {Token.string == "prosecuted"}
 |
@@ -146,7 +158,181 @@ Priority:50
 |
 {Token.string =~ "[Dd]rugs"}
 |
-{Token.string =~ "[Dd]rug"})
+{Token.string =~ "[Dd]rug"}
+|
+{Token.string == "ammunition"}
+|
+{Token.string == "arson"}
+|
+{Token.string == "bombing"}
+|
+{Token.string == "bullet"}
+|
+{Token.string == "bullets"}
+|
+{Token.string =~ "[Cc]annabis"}
+|
+{Token.string == "clash"}
+|
+{Token.string =~ "[Cc]ocaine"}
+|
+{Token.string == "contraband"}
+|
+{Token.string == "convict"}
+|
+{Token.string == "conviction"}
+|
+{Token.string == "culprit"}
+|
+{Token.string == "explosive"}
+|
+{Token.string == "explosion"}
+|
+{Token.string == "extort"}
+|
+{Token.string == "extorted"}
+|
+{Token.string == "extorting"}
+|
+{Token.string == "extortion"}
+|
+({Token.string == "broken"}
+{Token.string == "into"})
+|
+({Token.string == "broke"}
+{Token.string == "into"})
+|
+{Token.string == "extremist"}
+|
+{Token.string == "extremists"}
+|
+{Token.string == "firearm"}
+|
+{Token.string == "firearms"}
+|
+{Token.string == "fraud"}
+|
+{Token.string == "forensic"}
+|
+{Token.string == "forensics"}
+|
+{Token.string =~ "[Gg]anja"}
+|
+{Token.string == "grenade"}
+|
+{Token.string == "grenades"}
+|
+{Token.string == "gunfire"}
+|
+{Token.string == "gunshot"}
+|
+{Token.string == "harass"}
+|
+{Token.string == "harassed"}
+|
+{Token.string == "harassing"}
+|
+{Token.string == "hunter"}
+|
+{Token.string == "hunters"}
+|
+{Token.string == "illegally"}
+|
+{Token.string == "illegal"}
+|
+{Token.string == "injury"}
+|
+{Token.string == "interdict"}
+|
+{Token.string == "interdicted"}
+|
+{Token.string == "intoxicate"}
+|
+{Token.string == "intoxicating"}
+|
+{Token.string == "intruder"}
+|
+{Token.string == "intruders"}
+|
+{Token.string == "kidnapper"}
+|
+{Token.string == "knife"}
+|
+{Token.string =~ "[Nn]arcotic"}
+|
+{Token.string =~ "[Nn]arcotics"}
+|
+{Token.string == "pistol"}
+|
+{Token.string == "pornographic"}
+|
+{Token.string == "possession"}
+|
+{Token.string == "prosecute"}
+|
+{Token.string == "prosecuted"}
+|
+{Token.string == "prosecution"}
+|
+{Token.string == "prosecutor"}
+|
+{Token.string == "revolver"}
+|
+{Token.string == "rifle"}
+|
+{Token.string == "rob"}
+|
+{Token.string == "robbed"}
+|
+{Token.string == "robbing"}
+|
+{Token.string == "robber"}
+|
+{Token.string == "sleuth"}
+|
+{Token.string == "sleuthes"}
+|
+{Token.string == "smuggler"}
+|
+{Token.string == "stabbing"}
+|
+{Token.string == "steal"}
+|
+{Token.string == "stolen"}
+|
+{Token.string == "stealing"}
+|
+{Token.string == "surrender"}
+|
+{Token.string == "sword"}
+|
+{Token.string == "theft"}
+|
+{Token.string == "thief"}
+|
+{Token.string == "thieves"}
+|
+{Token.string == "turtle"}
+|
+{Token.string == "turtles"}
+|
+{Token.string == "tusk"}
+|
+{Token.string == "tusks"}
+|
+{Token.string == "unauthorised"}
+|
+{Token.string =~ "[Ww]allapatta"}
+|
+{Token.string == "weapon"}
+|
+{Token.string == "weapons"}
+|
+{Token.string == "wound"}
+|
+{Token.string == "wounds"}
+|
+{Token.string == "wounded"})
 
 ({Token.kind == "word"}
 |

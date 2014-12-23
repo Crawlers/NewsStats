@@ -12,8 +12,6 @@ Priority:50
 {
 	//get CrimeType annotation	
 	List crimeTypeList = new ArrayList((AnnotationSet)inputAS.get("CrimeType"));
-
-	System.out.println("Running....");
 	
 	if(!crimeTypeList.isEmpty()){
 
@@ -34,8 +32,6 @@ Priority:50
 		List tokenList = new ArrayList((AnnotationSet)bindings.get("articleType"));
 		Node firstTokenStart = ((Annotation)tokenList.get(0)).getStartNode();
 		Node firstTokenEnd = ((Annotation)tokenList.get(0)).getEndNode();
-		
-		System.out.println(crimeCat);
 		
 		outputAS.add(firstTokenStart, firstTokenEnd, "ArticleType", features);
 	}

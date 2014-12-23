@@ -8,6 +8,8 @@ Priority:50
 |
 {Token.string == "arresting"}
 |
+{Token.string == "surrender"}
+|
 {Token.string == "nabbed"}
 |
 ({Token.string == "taken"}
@@ -38,17 +40,69 @@ Priority:50
 |
 {Token.string == "assaulted"}
 |
-{Token.string == "alleged"}): crimeType1
+{Token.string == "alleged"}
+|
+{Token.string == "allegation"}
+|
+{Token.string == "abscond"}
+|
+{Token.string == "absconded"}
+|
+{Token.string == "absconding"}
+|
+{Token.string == "convict"}
+|
+{Token.string == "conviction"}
+|
+{Token.string == "culprit"}
+|
+{Token.string == "interdict"}
+|
+{Token.string == "interdicted"}): crimeType1
 |
 ({Token.string == "explosives"}
 |
+{Token.string == "explosive"}
+|
+{Token.string == "explosion"}
+|
 {Token.string == "bomb"}
 |
-{Token.string == "blast"}): crimeType2
+{Token.string == "bombing"}
+|
+{Token.string == "grenade"}
+|
+{Token.string == "grenades"}
+|
+{Token.string == "weapon"}
+|
+{Token.string == "weapons"}
+|
+{Token.string == "blast"}
+|
+{Token.string == "ammunition"}
+|
+{Token.string == "bullet"}
+|
+{Token.string == "bullets"}
+|
+{Token.string == "firearm"}
+|
+{Token.string == "firearms"}
+|
+{Token.string == "arson"}): crimeType2
 |
 ({Token.string == "attacked"}
 |
 {Token.string == "injured"}
+|
+{Token.string == "injury"}
+|
+{Token.string == "wound"}
+|
+{Token.string == "wounds"}
+|
+{Token.string == "wounded"}
 |
 ({Token.string == "found"}
 {Token.string == "with"}
@@ -58,13 +112,37 @@ Priority:50
 |
 {Token.string == "shooting"}
 |
+{Token.string == "gunfire"}
+|
+{Token.string == "gunshot"}
+|
 ({Token.string == "shot"}
 {Token.string == "by"})
 |
 {Token.string == "stabbed"}
 |
+{Token.string == "stabbing"}
+|
 ({Token.string == "incident"}
-{Token.string == "occurred"})): crimeType3
+{Token.string == "occurred"})
+|
+{Token.string == "altercation"}
+|
+{Token.string == "clash"}
+|
+{Token.string == "extremist"}
+|
+{Token.string == "extremists"}
+|
+{Token.string == "knife"}
+|
+{Token.string == "pistol"}
+|
+{Token.string == "revolver"}
+|
+{Token.string == "rifle"}
+|
+{Token.string == "sword"}): crimeType3
 |
 ({Token.string == "raped"}
 |
@@ -87,23 +165,73 @@ Priority:50
 |
 {Token.string == "torture"}
 |
-{Token.string == "tortured"}): crimeType4
+{Token.string == "tortured"}
+|
+{Token.string == "harass"}
+|
+{Token.string == "harassed"}
+|
+{Token.string == "harassing"}
+|
+{Token.string == "pornographic"}): crimeType4
 |
 ({Token.string == "robbery"}
 |
+{Token.string == "rob"}
+|
+{Token.string == "robbed"}
+|
+{Token.string == "robbing"}
+|
+{Token.string == "robber"}
+|
+{Token.string == "steal"}
+|
+{Token.string == "stolen"}
+|
+{Token.string == "stealing"}
+|
+{Token.string == "theft"}
+|
+{Token.string == "thief"}
+|
+{Token.string == "thieves"}
+|
 {Token.string == "hijacked"}
 |
-{Token.string == "ransacked"}) : crimeType5
+{Token.string == "ransacked"}
+|
+{Token.string == "extort"}
+|
+{Token.string == "extorted"}
+|
+{Token.string == "extorting"}
+|
+{Token.string == "extortion"}
+|
+({Token.string == "broken"}
+{Token.string == "into"})
+|
+({Token.string == "broke"}
+{Token.string == "into"})
+|
+{Token.string == "intruder"}
+|
+{Token.string == "intruders"}) : crimeType5
 |
 ({Token.string == "abducted"}
 |
 {Token.string == "abduction"}
 |
+{Token.string == "abductor"}
+|
 {Token.string == "kidnap"}
 |
 {Token.string == "kidnapped"}
 |
-{Token.string == "kidnapping"}) : crimeType6
+{Token.string == "kidnapping"}
+|
+{Token.string == "kidnapper"}) : crimeType6
 |
 ({Token.string == "raid"}
 |
@@ -111,13 +239,53 @@ Priority:50
 |
 {Token.string == "counterfeit"}
 |
+{Token.string == "contraband"}
+|
 {Token.string == "smuggle"}
 |
 {Token.string == "smuggled"}
 |
 {Token.string == "smuggling"}
 |
-{Token.string == "seized"}) : crimeType7
+{Token.string == "smuggler"}
+|
+{Token.string == "seized"}
+|
+{Token.string == "fraud"}
+|
+{Token.string == "hunter"}
+|
+{Token.string == "hunters"}
+|
+{Token.string == "sleuth"}
+|
+{Token.string == "sleuthes"}
+|
+{Token.string == "illegally"}
+|
+{Token.string == "illegal"}
+|
+{Token.string == "possession"}
+|
+{Token.string == "prosecute"}
+|
+{Token.string == "prosecuted"}
+|
+{Token.string == "prosecution"}
+|
+{Token.string == "prosecutor"}
+|
+{Token.string == "turtle"}
+|
+{Token.string == "turtles"}
+|
+{Token.string == "tusk"}
+|
+{Token.string == "tusks"}
+|
+{Token.string =~ "[Ww]allapatta"}
+|
+{Token.string == "unauthorised"}) : crimeType7
 |
 (({Token.string == "treasure"}
 {Token.string == "hunting"})
@@ -131,11 +299,27 @@ Priority:50
 |
 {Token.string =~ "[Dd]rugs"}
 |
-{Token.string =~ "[Dd]rug"}) : crimeType9
+{Token.string =~ "[Dd]rug"}
+|
+{Token.string =~ "[Cc]annabis"}
+|
+{Token.string =~ "[Cc]ocaine"}
+|
+{Token.string =~ "[Gg]anja"}
+|
+{Token.string == "intoxicate"}
+|
+{Token.string == "intoxicating"}
+|
+{Token.string =~ "[Nn]arcotic"}
+|
+{Token.string =~ "[Nn]arcotics"}) : crimeType9
 |
 ({Token.string == "killed"}
 |
 {Token.string == "killing"}
+|
+{Token.string == "killer"}
 |
 {Token.string == "dead"}
 |
@@ -144,6 +328,8 @@ Priority:50
 {Token.string == "murder"}
 |
 {Token.string == "murders"}
+|
+{Token.string == "murderer"}
 |
 ({Token.string == "caused"}
 {Token.string == "the"}
@@ -165,7 +351,11 @@ Priority:50
 |
 {Token.string == "corpse"}
 |
-{Token.string == "corpses"}) : crimeType10
+{Token.string == "corpses"}
+|
+{Token.string == "forensic"}
+|
+{Token.string == "forensics"}) : crimeType10
 )
 
 --> 

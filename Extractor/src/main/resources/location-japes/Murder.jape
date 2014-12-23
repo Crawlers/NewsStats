@@ -8,9 +8,13 @@ Priority:50
 |
 {Token.string == "killing"}
 |
+{Token.string == "killer"}
+|
 {Token.string == "murder"}
 |
 {Token.string == "murders"}
+|
+{Token.string == "murderer"}
 |
 {Token.string == "dead"}
 |
