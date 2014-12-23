@@ -58,6 +58,13 @@ Priority:50
 |
 {Token.string == "arresting"}
 |
+(({Token.string == "taken"}
+|
+{Token.string == "took"})
+{Token.string == "before"}
+{Token.string == "a"}
+{Token.string == "magistrate"})
+|
 ({Token.string == "taken"}
 {Token.string == "into"}
 {Token.string == "custody"})
@@ -110,6 +117,8 @@ Priority:50
 {Token.string == "brothel"}
 |
 {Token.string == "prostitution"}
+|
+{Token.string == "molesting"}
 |
 {Token.string == "molested"}
 |
