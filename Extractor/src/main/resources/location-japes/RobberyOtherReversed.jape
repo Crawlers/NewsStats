@@ -416,6 +416,8 @@ Priority:50
 |
 {Token.string == "tusks"}
 |
+{Token.string == "bogus"}
+|
 {Token.string == "unauthorised"}
 |
 {Token.string =~ "[Ww]allapatta"}

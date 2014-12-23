@@ -6,6 +6,8 @@ Rule: Hospital
 Priority:50
 ({Token.string == "admitted"}
 |
+{Token.string == "admission"}
+|
 {Token.string == "rushed"})
 ({!Token.string == "."})*
 ({Token.string == "to"}

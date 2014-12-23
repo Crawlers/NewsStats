@@ -8,6 +8,13 @@ Priority:50
 |
 {Token.string == "arresting"}
 |
+(({Token.string == "taken"}
+|
+{Token.string == "took"})
+{Token.string == "before"}
+{Token.string == "a"}
+{Token.string == "magistrate"})
+|
 {Token.string == "surrender"}
 |
 {Token.string == "nabbed"}
@@ -284,6 +291,8 @@ Priority:50
 {Token.string == "tusk"}
 |
 {Token.string == "tusks"}
+|
+{Token.string == "bogus"}
 |
 {Token.string =~ "[Ww]allapatta"}
 |

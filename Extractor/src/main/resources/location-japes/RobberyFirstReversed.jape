@@ -143,7 +143,7 @@ Priority:50
 |
 {Token.string == "brothel"}
 |
-{Token.string == "prostitution
+{Token.string == "prostitution"}
 |
 {Token.string == "molesting"}
 |
@@ -438,6 +438,8 @@ Priority:50
 {Token.string == "tusk"}
 |
 {Token.string == "tusks"}
+|
+{Token.string == "bogus"}
 |
 {Token.string == "unauthorised"}
 |
