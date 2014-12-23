@@ -32,7 +32,7 @@ public class BatchProcessApp {
     private static File gappFile = new File("Extractor/src/main/resources/Location_v1.gapp");
 
     // List of annotation types to write out.  If null, write everything as GateXML.
-    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType"));
+    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court"));
 
     // fetch district name from google map api response
     private static DistrictExtractor de = new DistrictExtractor();
@@ -148,6 +148,8 @@ public class BatchProcessApp {
                 // location related entities
                 String district = "NULL";
                 String location = "NULL";
+                String police = "NULL";
+                String court = "NULL";
                 String crimeType = "other";
                 CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
 
@@ -182,10 +184,23 @@ public class BatchProcessApp {
                         entityGroupOfArticle.setCrimeType(crimeType);
                     }
 
-                    if (entityGroupOfArticle.getDistrict() != null) {
-                        entityGroupsList.add(entityGroupOfArticle);
+                    if (CurrentAnnot.getType().equalsIgnoreCase("Police")) {
+                        System.out.println("PoliceLocation : " + antText);
+                        police = antText;
+
+                        entityGroupOfArticle.setPolice(police);
                     }
 
+                    if (CurrentAnnot.getType().equalsIgnoreCase("Court")) {
+                        System.out.println("CourtLocation : " + antText);
+                        court = antText;
+
+                        entityGroupOfArticle.setCourt(court);
+                    }
+                }
+
+                if (entityGroupOfArticle.getDistrict() != null) {
+                    entityGroupsList.add(entityGroupOfArticle);
                 }
 
                 System.out.println("Article : " + i + " -Ends Here-");
