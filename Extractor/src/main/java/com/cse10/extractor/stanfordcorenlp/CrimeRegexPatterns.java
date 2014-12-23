@@ -11,10 +11,6 @@ import java.util.List;
  */
 public class CrimeRegexPatterns {
 
-    public static final String CRIME_TYPE_MURDER = "Murder";
-    public static final String CRIME_TYPE_RAPE = "Rape";
-    public static final String CRIME_TYPE_STEAL = "Steal";
-    public static final String CRIME_TYPE_TREASURE_HUNT = "Treasure hunt";
     //to do Consumer Affairs Authority, unfit for consumption
     //to do core reference
     //to do asylum seeker (15)
