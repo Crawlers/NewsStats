@@ -1,0 +1,9 @@
+Phase: Preventive
+Input:  Token Lookup
+Options: control = once
+
+Rule: Preventive
+Priority:50
+({Token.string == "till"}):preventive
+--> 
+:preventive.Preventive = {word = "date_end"}

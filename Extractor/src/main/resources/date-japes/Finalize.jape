@@ -1,0 +1,16 @@
+Phase: Finalize
+Input:  CrimeDate Police Court Hospital Prison
+Options: control = once
+
+Rule: Finalize
+Priority:50
+({CrimeDate}):first_date
+--> 
+{
+	AnnotationSet toRemove = bindings.get("first_date");
+	outputAS.removeAll(inputAS.get("CrimeDate"));
+	
+	FeatureMap features = Factory.newFeatureMap();
+	features.put("date", "Finalized");
+	outputAS.add(toRemove.firstNode(), toRemove.lastNode(), "CrimeDate", features);
+}

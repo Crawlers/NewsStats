@@ -1,0 +1,16 @@
+/*
+*  main.jape
+*
+*/
+
+MultiPhase:	FinalCrimeDate
+Phases:
+Currency
+Preventive
+PointSeperator
+EndSentence
+Murder
+MurderReversed
+RobberyOther
+RobberyOtherReversed
+Finalize

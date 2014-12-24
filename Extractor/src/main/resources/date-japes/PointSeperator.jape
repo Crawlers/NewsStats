@@ -1,0 +1,29 @@
+Phase: PointSeperator
+Input:  Lookup Token Currency Split
+Options: control = appelt
+
+Rule: PointSeperator
+Priority:50
+
+({Token.kind == number}
+|
+{Currency.rule == type})
+(
+ ({Token.string == "."})
+):decPoint	
+({Token.kind == number})
+--> 
+:decPoint.PointSeperator = {rule= "decPoint" } 
+
+Rule: PointSeperator
+Priority:50
+
+({Token.string =~ "[Aa]"}
+|
+{Token.string =~ "[Pp]"})
+(
+ ({Token.string == ".", !Split.kind == internal})
+):decPoint	
+({Token.string =~ "[Mm]"})
+--> 
+:decPoint.PointSeperator = {rule= "decPoint" } 
