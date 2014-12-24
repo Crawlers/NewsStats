@@ -40,7 +40,7 @@ public class DocumentContentFilter {
             Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
         cp = new CorpusPipeLine();
-        cp.configure();
+        cp.configure(true);
     }
 
     /**

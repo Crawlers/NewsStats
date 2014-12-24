@@ -20,8 +20,9 @@ public class CorpusPipeLine {
 
     /**
      * add required processing resources and configure the pipe line
+     * @param isPOSRequired
      */
-    public void configure(){
+    public void configure(boolean isPOSRequired){
         try {
             //load the plugin ANNIE first to use resources under that
             try {
@@ -48,9 +49,11 @@ public class CorpusPipeLine {
             serialAnalyserController.add(annotationDeletePR);
             serialAnalyserController.add(defaultTokeniser);
             serialAnalyserController.add(defaultGazetteer);
-            serialAnalyserController.add(sentenceSplitter);
-            serialAnalyserController.add(posTagger);
-            serialAnalyserController.add(ANNIETransducer);
+            if(isPOSRequired) {
+                serialAnalyserController.add(sentenceSplitter);
+                serialAnalyserController.add(posTagger);
+                serialAnalyserController.add(ANNIETransducer);
+            }
 
         } catch (ResourceInstantiationException ex) {
             Logger.getLogger(CorpusPipeLine.class.getName()).log(Level.SEVERE, null, ex);
