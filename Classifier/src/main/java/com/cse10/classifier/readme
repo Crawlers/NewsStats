@@ -1,2 +1,6 @@
 I have changed the weka version. Old version has a bug in SMOTE
 I have changed the mysql version
+////table details///////////////
+article_ceylon_today - all articles of 2013
+article_daily_mirror - all articles of 2012
+article_the_island - all articles of 2012
