@@ -8,6 +8,7 @@ import weka.core.SelectedTag;
 import weka.core.SerializationHelper;
 
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -15,26 +16,27 @@ import java.util.Random;
  * Created by Tharindu on 2014-11-11.
  */
 
-public class SVMClassifierHandler{
+public class SVMClassifierHandler {
 
-   protected LibSVMExtended svm;
+    protected LibSVMExtended svm;
 
-    public SVMClassifierHandler(){
-        svm=new LibSVMExtended();
+    public SVMClassifierHandler() {
+        svm = new LibSVMExtended();
         int kernelTypeIndex = 2;
         SelectedTag st;
-        st = new SelectedTag(kernelTypeIndex , LibSVM.TAGS_KERNELTYPE);
+        st = new SelectedTag(kernelTypeIndex, LibSVM.TAGS_KERNELTYPE);
         svm.setKernelType(st);
     }
 
     /**
      * configure svm
+     *
      * @param cost
      * @param gamma
      * @param weights
      * @param isNormalizeData
      */
-    public void configure(double cost,double gamma,String weights,boolean isNormalizeData){
+    public void configure(double cost, double gamma, String weights, boolean isNormalizeData) {
         svm.setCost(cost);
         svm.setGamma(gamma);
         svm.setWeights(weights);
@@ -43,14 +45,18 @@ public class SVMClassifierHandler{
 
     /**
      * build classifier with given training data and save it
+     *
      * @param filteredTrainingData
+     * @param isSaving
      * @return
      */
-    public void buildSVM(Instances filteredTrainingData) {
+    public void buildSVM(Instances filteredTrainingData, boolean isSaving) {
         try {
             svm.buildClassifier(filteredTrainingData);
             //save classifier
-            SerializationHelper.write("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\svm.model", svm);
+            if (isSaving) {
+                SerializationHelper.write("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\svm.model", svm);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,7 +64,6 @@ public class SVMClassifierHandler{
     }
 
     /**
-     *
      * @return
      */
     public LibSVMExtended getSvm() {
@@ -66,11 +71,10 @@ public class SVMClassifierHandler{
     }
 
     /**
-     *
      * @param filteredTrainingData
      * @param numOfFolds
      */
-    public void crossValidateClassifier(Instances filteredTrainingData,int numOfFolds){
+    public void crossValidateClassifier(Instances filteredTrainingData, int numOfFolds) {
 
         //perform cross validation
         Evaluation evaluation = null;
@@ -98,18 +102,24 @@ public class SVMClassifierHandler{
 
     /**
      * classify the article
+     *
      * @param filteredTestInstance
      * @return
      */
-     public double classifyInstance(Instance filteredTestInstance){
-         double result=-1.0;
-         try {
-             result=svm.classifyInstance(filteredTestInstance);
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-         return result;
-     }
+    public double classifyInstance(Instance filteredTestInstance) {
+        double result = -1.0;
+        try {
+            result = svm.classifyInstance(filteredTestInstance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //setters
 
 
+    public void setSvm(LibSVMExtended svm) {
+        this.svm = svm;
+    }
 }
