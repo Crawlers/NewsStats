@@ -1,0 +1,59 @@
+Phase: Prison
+Input:  Lookup Token EndSentence
+Options: control = appelt
+
+Rule: Prison
+Priority:50
+({Token.string =~ "[Pp]risoner"}
+|
+{Token.string =~ "[Pp]risoners"})
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "escaped"})
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "from"})
+({Token.string =~ "[Tt]he"})?
+(
+	({Token.kind == word, Token.category == NNP, Token.orth == upperInitial})
+):prison
+({Token.string =~ "[Rr]emand"})?
+{Token.string =~ "[Pp]rison"}
+--> 
+{
+	//if(inputAS.get("CrimeLocation").isEmpty()){
+	AnnotationSet crimeLocationSet = inputAS.get("CrimeLocation");
+	List annList = new ArrayList((AnnotationSet)bindings.get("prison"));
+
+	//sort the list by offset
+	Collections.sort(annList, new OffsetComparator());
+
+	//iterate through the matched annotations
+	for(int i = 0; i < annList.size(); i++)
+	{
+		Annotation anAnn = (Annotation)annList.get(i);
+
+		FeatureMap features = Factory.newFeatureMap();
+		features.put("location", "Prison");
+
+		if(crimeLocationSet.isEmpty()){
+			outputAS.add(anAnn.getStartNode(), anAnn.getEndNode(), "CrimeLocation", features);
+		}
+		outputAS.add(anAnn.getStartNode(), anAnn.getEndNode(), "Prison", features);
+	}
+	//}
+}

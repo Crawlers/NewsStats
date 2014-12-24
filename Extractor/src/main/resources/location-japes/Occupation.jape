@@ -1,0 +1,31 @@
+Phase: Occupation
+Input:  Lookup Token 
+Options: control = appelt
+
+Rule: Occupation
+Priority:50
+({Token.kind == word, Token.string =~ "[Jj]ailer"}
+|
+{Token.kind == word, Token.string =~ "[Gg]uard"}
+|
+{Token.kind == word, Token.string =~ "[Mm]agistrate"}
+|
+{Token.kind == word, Token.string =~ "[Ll]eader"}
+|
+{Token.kind == word, Token.string =~ "[Mm]inister"}
+|
+{Token.kind == word, Token.string =~ "[Pp]olice"}
+|
+{Token.kind == word, Token.string =~ "[Ss]pokesman"}
+|
+{Token.kind == word, Token.string =~ "[Jj]udge"}
+|
+{Token.kind == word, Token.string =~ "[Cc]ommand"}
+|
+{Token.kind == word, Token.string =~ "[Cc]hairperson"}
+|
+{Token.kind == word, Token.string =~ "[Cc]hairman"}
+|
+{Token.kind == word, Token.string =~ "[Ss]enior"}):occupation
+--> 
+:occupation.Occupation = {rule= "title" } 
