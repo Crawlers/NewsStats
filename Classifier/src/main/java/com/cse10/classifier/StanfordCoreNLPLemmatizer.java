@@ -7,13 +7,15 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import weka.core.OptionHandler;
 import weka.core.stemmers.Stemmer;
+
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Wrapper class for StanfordCoreNLP
  * @author chamath
  */
-public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
+public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serializable {
 
     protected StanfordCoreNLP pipeline;
 
