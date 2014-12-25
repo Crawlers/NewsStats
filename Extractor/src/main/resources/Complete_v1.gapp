@@ -586,7 +586,7 @@
                   <string>sourceOfDocumentDate</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList>
-                      <string>23/12/2014</string>
+                      <string>CreatedDate</string>
                     </localList>
                     <collectionType>java.util.Arrays$ArrayList</collectionType>
                   </gate.util.persistence.CollectionPersistence>
@@ -597,7 +597,7 @@
                 </entry>
                 <entry>
                   <string>dateFormat</string>
-                  <string>yyyy-MM-dd/</string>
+                  <string>yyyy-MM-dd</string>
                 </entry>
                 <entry>
                   <string>annotationName</string>
