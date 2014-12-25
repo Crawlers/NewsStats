@@ -58,6 +58,7 @@ public class GenericDataHandler extends DataHandler {
         }
         databaseLoader.setUser(DatabaseConstants.DB_USERNAME);
         databaseLoader.setPassword(DatabaseConstants.DB_PASSWORD);
+        databaseLoader.setUrl(DatabaseConstants.DB_URL);
 
         ArrayList<String> queries = new ArrayList<String>();
         queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");

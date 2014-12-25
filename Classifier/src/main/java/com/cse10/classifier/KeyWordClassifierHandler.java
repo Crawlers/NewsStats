@@ -83,7 +83,7 @@ public class KeyWordClassifierHandler {
      */
     public double classifyInstance(Instance testInstance){
         String content = testInstance.stringValue(0);
-        documentKeyWordFinder.isKeyWordExist(content);
+
         tokenizer.tokenize(content);
         String words="";
         Boolean exist=false;
@@ -92,7 +92,7 @@ public class KeyWordClassifierHandler {
             words = words.concat(lemmatizer.stem(element));
             words = words.concat(" ");
         }
-
+        //System.out.println("WORDS OF CONTENT ===" + words);
         exist = documentKeyWordFinder.isKeyWordExist(words);
         if(exist)
             return 0.0;

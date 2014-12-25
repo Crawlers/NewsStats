@@ -77,6 +77,7 @@ public abstract class DataHandler {
                 inst.setValue(a1, news);
                 inst.setDataset(testData);
                 inst.setClassMissing();
+                //if we apply key word filter, we remove obvious non-crime articles first
                 if (isApplyingKeyWordFilter) {
                    double value=keyWordClassifierHandler.classifyInstance(inst);
                     if(value==0.0){

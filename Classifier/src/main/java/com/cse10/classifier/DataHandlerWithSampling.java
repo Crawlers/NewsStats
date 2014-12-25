@@ -113,7 +113,7 @@ public class DataHandlerWithSampling extends DataHandler {
 
         SVMClassifierHandler svm = new SVMClassifierHandler();
         svm.configure(8.0, 0.001953125, "10 1", true);
-        svm.buildSVM(filteredData);
+        svm.buildSVM(filteredData, false);
 
         svm_model svmModel = svm.getSvm().getSVMModel();
         int n[] = svmModel.sv_indices;
@@ -121,8 +121,8 @@ public class DataHandlerWithSampling extends DataHandler {
 
         System.out.println("Number of support vectors=" + n.length);
 
-        int otherCount = 0;
-        int crimeCount = 0;
+        double otherCount = 0;
+        double crimeCount = 0;
         Instances otherClassSupportVectors = new Instances(filteredData); //other class support vectors
         otherClassSupportVectors.delete();
 
@@ -183,7 +183,8 @@ public class DataHandlerWithSampling extends DataHandler {
             e.printStackTrace();
         }
         // Specifies percentage of SMOTE instances to create.
-        s.setPercentage(620);
+        double percentage = ((otherCount/crimeCount)-1)*100;
+        s.setPercentage(Math.round(percentage));
         Instances dataBalanced = null;
         try {
             dataBalanced = Filter.useFilter(filteredData, s);
