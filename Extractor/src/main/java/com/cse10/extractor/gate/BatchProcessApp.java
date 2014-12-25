@@ -95,15 +95,20 @@ public class BatchProcessApp {
 
             if (articleLabel != null && articleLabel.equalsIgnoreCase("crime")) {
                 String articleContent;
+                Date articleDate;
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
                 try{
                     articleContent = currentArticle.getContent();
+                    articleDate = currentArticle.getCreatedDate();
                 }catch (NullPointerException e){
                     continue;
                 }
 
-                int articleLength = articleContent.length();
+                // append created date to the processing document
+                articleContent = articleContent + ".::" + articleDate + "::.";
 
+                int articleLength = articleContent.length();
                 System.out.println("New Article size : "+articleLength);
 
                 if (articleLength > 1500) {
@@ -113,12 +118,12 @@ public class BatchProcessApp {
                 // load the document
                 Document doc = Factory.newDocument(articleContent);
 
+
                 // put the document in the corpus
                 corpus.add(doc);
 
                 // run the application
                 application.execute();
-
 
                 // remove the document from the corpus again
                 corpus.clear();
@@ -153,8 +158,7 @@ public class BatchProcessApp {
                 String police = "NULL";
                 String court = "NULL";
                 String crimeType = "other";
-                Date crimeDate = currentArticle.getCreatedDate();
-                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                Date crimeDate = articleDate;
                 CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
 
                 // iterate through each annotation
