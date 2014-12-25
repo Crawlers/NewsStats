@@ -4,6 +4,8 @@ Options: control = once
 
 Rule: Preventive
 Priority:50
-({Token.string == "till"}):preventive
+({Token.string == "till"}
+|
+{Token.string == "until"}):preventive
 --> 
 :preventive.Preventive = {word = "date_end"}
