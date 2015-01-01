@@ -3,26 +3,23 @@ package com.cse10.classifier;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.stemmers.SnowballStemmer;
+import weka.core.stemmers.Stemmer;
 import weka.core.tokenizers.NGramTokenizer;
 import weka.filters.unsupervised.attribute.StringToWordVector;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 
 /**
  * Created by chamath on 12/16/2014.
  */
 
-public class FeatureVectorTransformer {
+public class FeatureVectorTransformer implements Serializable {
 
     protected StringToWordVector filter;
-    protected SnowballStemmer stemmer;
-    protected  StanfordCoreNLPLemmatizer stanfordCoreNLPLemmatizer;
+
 
     public FeatureVectorTransformer(){
         filter=new StringToWordVector();
-        stemmer = new SnowballStemmer();
-        stemmer.setStemmer("english");
-       // stanfordCoreNLPLemmatizer = new StanfordCoreNLPLemmatizer();
     }
 
     /**
@@ -39,9 +36,13 @@ public class FeatureVectorTransformer {
         tokenizer.setDelimiters("\\W");
         //set stemmer or lemmatizer
         if (useStemmer) {
+            SnowballStemmer stemmer = new SnowballStemmer();
+            stemmer.setStemmer("english");
             filter.setStemmer(stemmer);
         } else {
-            filter.setStemmer(stanfordCoreNLPLemmatizer);
+            StanfordCoreNLPLemmatizer lemmatizer;
+            lemmatizer = new StanfordCoreNLPLemmatizer();
+            filter.setStemmer(lemmatizer);
         }
         //create new filter for vector transformation
         filter.setLowerCaseTokens(true);
@@ -85,7 +86,7 @@ public class FeatureVectorTransformer {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(dataFiltered);
         try {
-            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData\\".concat(fileName);
+            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\".concat(fileName);
             saver.setFile(new File(path));
             saver.writeBatch();
         } catch (IOException e) {
@@ -110,5 +111,11 @@ public class FeatureVectorTransformer {
             e.printStackTrace();
         }
         return dataFiltered;
+    }
+
+
+    //getters
+    public StringToWordVector getFilter() {
+        return filter;
     }
 }

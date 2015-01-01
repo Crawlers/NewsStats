@@ -1,0 +1,15 @@
+Phase: NotLocation
+Input:  Lookup Token
+Options: control = appelt
+
+Rule: NotLocation
+Priority:50
+
+({Token.string =~ "[Dd]iploma"}
+|
+{Token.string =~ "[Ss]ource"}
+|
+{Token.string =~ "[Ss]ources"})
+({Token.string == "in"}):noLocation
+--> 
+:noLocation.NotLocation = {rule= "notLoc" } 

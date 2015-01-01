@@ -21,13 +21,20 @@ public class GenericDataHandler extends DataHandler {
         fileName="generic";
     }
 
+    @Override
+    protected void printDescription() {
+        System.out.println("This data handler will load all of the training data and return");
+    }
+
     /**
      * fetch training data
      *
      * @return Instances
      * @throws Exception
+     * @param featureVectorTransformer
      */
-    public Instances loadTrainingData()  {
+    public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer)  {
+        printDescription();
         FastVector attributeList = new FastVector(2);
         Attribute a1 = new Attribute("text", (FastVector) null);
 
@@ -51,6 +58,7 @@ public class GenericDataHandler extends DataHandler {
         }
         databaseLoader.setUser(DatabaseConstants.DB_USERNAME);
         databaseLoader.setPassword(DatabaseConstants.DB_PASSWORD);
+        databaseLoader.setUrl(DatabaseConstants.DB_URL);
 
         ArrayList<String> queries = new ArrayList<String>();
         queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");

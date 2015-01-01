@@ -1,0 +1,37 @@
+Phase: SubPerson
+Input:  Lookup Token PERSON Person
+Options: control = appelt
+
+Rule: SubPerson
+Priority:50
+(
+	({PERSON}
+	|
+	{Person}):reannot
+)
+--> 
+{
+   List annList = new ArrayList((AnnotationSet)bindings.get("reannot"));
+
+   //sort the list by offset
+   Collections.sort(annList, new OffsetComparator());
+
+   //iterate through the matched annotations
+   for(int i = 0; i < annList.size(); i++)
+   {
+      Annotation anAnn = (Annotation)annList.get(i);
+	
+	  List tokenList = new ArrayList ((AnnotationSet)inputAS.get("Token", anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()));
+	  
+	  if(!tokenList.isEmpty()){
+		for(int j = 0; j < tokenList.size(); j++){
+			Annotation aPersonToken = (Annotation)tokenList.get(j);
+			
+			FeatureMap features = Factory.newFeatureMap();
+			features.put("location", "SubPerson");
+			outputAS.add(aPersonToken.getStartNode(), aPersonToken.getEndNode(), "SubPerson", features);
+		
+		}
+	  }
+  }
+}

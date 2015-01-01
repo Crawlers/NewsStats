@@ -1,0 +1,2688 @@
+Phase: RealLocation
+Input:  Token
+Options: control = appelt
+
+Rule: RealLocation
+Priority:50
+(
+{Token.string == "'s"}
+|
+{Token.string == "-RRB-"}
+|
+{Token.string == "AZ"}
+|
+{Token.string == "Abaya"}
+|
+{Token.string == "Abha"}
+|
+{Token.string == "Abu"}
+|
+{Token.string == "Achchuveli"}
+|
+{Token.string == "Achchuweli"}
+|
+{Token.string == "Adan"}
+|
+{Token.string == "Adelaide"}
+|
+{Token.string == "Afghan"}
+|
+{Token.string == "Afghanistan"}
+|
+{Token.string == "Africa"}
+|
+{Token.string == "Air"}
+|
+{Token.string == "Airport"}
+|
+{Token.string == "Aiyanagar"}
+|
+{Token.string == "Ajman"}
+|
+{Token.string == "Akkaraipattu"}
+|
+{Token.string == "Akkaravissa"}
+|
+{Token.string == "Akkaripattu"}
+|
+{Token.string == "Akkaripttu"}
+|
+{Token.string == "Akmeemana"}
+|
+{Token.string == "Akurala"}
+|
+{Token.string == "Akurana"}
+|
+{Token.string == "Al"}
+|
+{Token.string == "Albans"}
+|
+{Token.string == "Alkozai"}
+|
+{Token.string == "Allahabad"}
+|
+{Token.string == "Allathota"}
+|
+{Token.string == "Aluthgama"}
+|
+{Token.string == "Aluva"}
+|
+{Token.string == "Aluviharaya"}
+|
+{Token.string == "Alvitigala"}
+|
+{Token.string == "Ambagaha"}
+|
+{Token.string == "Ambalangoda"}
+|
+{Token.string == "Ambanwala"}
+|
+{Token.string == "Ambara"}
+|
+{Token.string == "Ambatenna"}
+|
+{Token.string == "Ambepussa"}
+|
+{Token.string == "Ambilipitiya"}
+|
+{Token.string == "Ameela"}
+|
+{Token.string == "America"}
+|
+{Token.string == "American"}
+|
+{Token.string == "Ampara"}
+|
+{Token.string == "Ampitiya"}
+|
+{Token.string == "Amr"}
+|
+{Token.string == "Anamaduwa"}
+|
+{Token.string == "Ananda"}
+|
+{Token.string == "Andhra"}
+|
+{Token.string == "Angoda"}
+|
+{Token.string == "Angolu"}
+|
+{Token.string == "Angunakolapelessa"}
+|
+{Token.string == "Ankumbura"}
+|
+{Token.string == "Anniewatta"}
+|
+{Token.string == "Anuradhapura"}
+|
+{Token.string == "Ara"}
+|
+{Token.string == "Arab"}
+|
+{Token.string == "Arabia"}
+|
+{Token.string == "Arachchikattuwa"}
+|
+{Token.string == "Aralaganwila"}
+|
+{Token.string == "Arambagh"}
+|
+{Token.string == "Aranayake"}
+|
+{Token.string == "Aranthangi"}
+|
+{Token.string == "Arippu"}
+|
+{Token.string == "Ariyamangalam"}
+|
+{Token.string == "Arkattuturai"}
+|
+{Token.string == "Arrawela"}
+|
+{Token.string == "Ashmore"}
+|
+{Token.string == "Asia"}
+|
+{Token.string == "Asia-Pacific"}
+|
+{Token.string == "Asian"}
+|
+{Token.string == "Assam"}
+|
+{Token.string == "Atakalapanna"}
+|
+{Token.string == "Athakada"}
+|
+{Token.string == "Athens"}
+|
+{Token.string == "Athurugiriya"}
+|
+{Token.string == "Attorney"}
+|
+{Token.string == "Aturugiriya"}
+|
+{Token.string == "Austin"}
+|
+{Token.string == "Australia"}
+|
+{Token.string == "Authority"}
+|
+{Token.string == "Avenue"}
+|
+{Token.string == "Avissawella"}
+|
+{Token.string == "Awissawella"}
+|
+{Token.string == "BAGHDAD"}
+|
+{Token.string == "BEIRUT"}
+|
+{Token.string == "Baba"}
+|
+{Token.string == "Baby"}
+|
+{Token.string == "Bacchus"}
+|
+{Token.string == "Baddegama"}
+|
+{Token.string == "Badegama"}
+|
+{Token.string == "Badowita"}
+|
+{Token.string == "Baduka"}
+|
+{Token.string == "Badulla"}
+|
+{Token.string == "Baduraliya"}
+|
+{Token.string == "Baghdad"}
+|
+{Token.string == "Bailey"}
+|
+{Token.string == "Baksa"}
+|
+{Token.string == "Balagolla"}
+|
+{Token.string == "Balangoda"}
+|
+{Token.string == "Balaya"}
+|
+{Token.string == "Baluchistan"}
+|
+{Token.string == "Bambalapitiya"}
+|
+{Token.string == "Bambaragala"}
+|
+{Token.string == "Banagala"}
+|
+{Token.string == "Bandar"}
+|
+{Token.string == "Bandaragama"}
+|
+{Token.string == "Bandaranaike"}
+|
+{Token.string == "Bandarawela"}
+|
+{Token.string == "Bangadeniya"}
+|
+{Token.string == "Bangkok"}
+|
+{Token.string == "Bangladesh"}
+|
+{Token.string == "Baqouba"}
+|
+{Token.string == "Barajneh"}
+|
+{Token.string == "Barnes"}
+|
+{Token.string == "Base"}
+|
+{Token.string == "Baththalangunduwa"}
+|
+{Token.string == "Battaramulla"}
+|
+{Token.string == "Batticaloa"}
+|
+{Token.string == "Batticoloa"}
+|
+{Token.string == "Batupitiya"}
+|
+{Token.string == "Bay"}
+|
+{Token.string == "Beach"}
+|
+{Token.string == "Beddegana"}
+|
+{Token.string == "Bedford"}
+|
+{Token.string == "Bedfordshire"}
+|
+{Token.string == "Beirut"}
+|
+{Token.string == "Belgium"}
+|
+{Token.string == "Beliatte"}
+|
+{Token.string == "Bengal"}
+|
+{Token.string == "Bern"}
+|
+{Token.string == "Beruwala"}
+|
+{Token.string == "Besar"}
+|
+{Token.string == "Bharatha"}
+|
+{Token.string == "Bharathipuram"}
+|
+{Token.string == "Bhavani"}
+|
+{Token.string == "Bhopal"}
+|
+{Token.string == "Bhutan"}
+|
+{Token.string == "Bibile"}
+|
+{Token.string == "Bidor"}
+|
+{Token.string == "Biyagama"}
+|
+{Token.string == "Bloemendhal"}
+|
+{Token.string == "Bodhiya"}
+|
+{Token.string == "Bogahawatta"}
+|
+{Token.string == "Bogambara"}
+|
+{Token.string == "Bogawanthalawa"}
+|
+{Token.string == "Boralanda"}
+|
+{Token.string == "Boralesgamuwa"}
+|
+{Token.string == "Boralesgmuwa"}
+|
+{Token.string == "Boralukanda"}
+|
+{Token.string == "Borella"}
+|
+{Token.string == "Borneo"}
+|
+{Token.string == "Boston"}
+|
+{Token.string == "Brahadeeswarar"}
+|
+{Token.string == "Branch"}
+|
+{Token.string == "Brazil"}
+|
+{Token.string == "Bridge"}
+|
+{Token.string == "Britain"}
+|
+{Token.string == "British"}
+|
+{Token.string == "British-Sri"}
+|
+{Token.string == "Brooklyn"}
+|
+{Token.string == "Broome"}
+|
+{Token.string == "Brown"}
+|
+{Token.string == "Brunei"}
+|
+{Token.string == "Bullers"}
+|
+{Token.string == "Bulugahadeniya"}
+|
+{Token.string == "Burj"}
+|
+{Token.string == "Buttala"}
+|
+{Token.string == "Buwaneka"}
+|
+{Token.string == "C."}
+|
+{Token.string == "CHENNAI"}
+|
+{Token.string == "CITY"}
+|
+{Token.string == "Cairo"}
+|
+{Token.string == "Camberwell"}
+|
+{Token.string == "Cambridge"}
+|
+{Token.string == "Cambridgeshire"}
+|
+{Token.string == "Cameroon"}
+|
+{Token.string == "Canada"}
+|
+{Token.string == "Canadian"}
+|
+{Token.string == "Canal"}
+|
+{Token.string == "Canberra"}
+|
+{Token.string == "Canterbury"}
+|
+{Token.string == "Cartier"}
+|
+{Token.string == "Catania"}
+|
+{Token.string == "Caucasus"}
+|
+{Token.string == "Cayathri"}
+|
+{Token.string == "Central"}
+|
+{Token.string == "Chairman"}
+|
+{Token.string == "Chandrapala"}
+|
+{Token.string == "Chandrapalan"}
+|
+{Token.string == "Charles"}
+|
+{Token.string == "Chavakachcheri"}
+|
+{Token.string == "Chechnya"}
+|
+{Token.string == "Chengalpet"}
+|
+{Token.string == "Chenkallady"}
+|
+{Token.string == "Chennai"}
+|
+{Token.string == "Cheran"}
+|
+{Token.string == "Chesterton"}
+|
+{Token.string == "Chidambaram"}
+|
+{Token.string == "Chilaw"}
+|
+{Token.string == "Children"}
+|
+{Token.string == "Chile"}
+|
+{Token.string == "Chillaw"}
+|
+{Token.string == "China"}
+|
+{Token.string == "Chinese"}
+|
+{Token.string == "Chinthalakkarai"}
+|
+{Token.string == "Chirang"}
+|
+{Token.string == "Christchurch"}
+|
+{Token.string == "Christmas"}
+|
+{Token.string == "Cinnamon"}
+|
+{Token.string == "City"}
+|
+{Token.string == "Co"}
+|
+{Token.string == "Coast"}
+|
+{Token.string == "Cochin"}
+|
+{Token.string == "Coimbatore"}
+|
+{Token.string == "Colombo"}
+|
+{Token.string == "Colombo-Polonnaruwa"}
+|
+{Token.string == "Colpetty"}
+|
+{Token.string == "Comayagua"}
+|
+{Token.string == "Congo"}
+|
+{Token.string == "County"}
+|
+{Token.string == "Court"}
+|
+{Token.string == "Culloden"}
+|
+{Token.string == "Czech"}
+|
+{Token.string == "DELHI"}
+|
+{Token.string == "DUBAI"}
+|
+{Token.string == "Dabolim"}
+|
+{Token.string == "Dagestan"}
+|
+{Token.string == "Dalada"}
+|
+{Token.string == "Daladagama"}
+|
+{Token.string == "Dalugama"}
+|
+{Token.string == "Damana"}
+|
+{Token.string == "Damar"}
+|
+{Token.string == "Dambaramulla"}
+|
+{Token.string == "Dambulla"}
+|
+{Token.string == "Dambullam"}
+|
+{Token.string == "Damman"}
+|
+{Token.string == "Dampe"}
+|
+{Token.string == "Dankotuwa"}
+|
+{Token.string == "Darasuram"}
+|
+{Token.string == "Darwin"}
+|
+{Token.string == "Dawadmi"}
+|
+{Token.string == "Dawadmy"}
+|
+{Token.string == "Dayata"}
+|
+{Token.string == "Deanston"}
+|
+{Token.string == "Deanstone"}
+|
+{Token.string == "Dedigama"}
+|
+{Token.string == "Dehiattakandiya"}
+|
+{Token.string == "Dehiowita"}
+|
+{Token.string == "Dehiwala"}
+|
+{Token.string == "Dehiwela"}
+|
+{Token.string == "Delft"}
+|
+{Token.string == "Delhi"}
+|
+{Token.string == "Delkada"}
+|
+{Token.string == "Delkande"}
+|
+{Token.string == "Dematagoda"}
+|
+{Token.string == "Deraniyagala"}
+|
+{Token.string == "Desiya"}
+|
+{Token.string == "Devala"}
+|
+{Token.string == "Deyata"}
+|
+{Token.string == "Dhabi"}
+|
+{Token.string == "Dhammarama"}
+|
+{Token.string == "Dharma"}
+|
+{Token.string == "Dharmarathna"}
+|
+{Token.string == "Dickwella"}
+|
+{Token.string == "Digana"}
+|
+{Token.string == "Diggala"}
+|
+{Token.string == "Dikkiriya"}
+|
+{Token.string == "Dimbulagala"}
+|
+{Token.string == "District"}
+|
+{Token.string == "Divakalala"}
+|
+{Token.string == "Divulapitiya"}
+|
+{Token.string == "Diwulagala"}
+|
+{Token.string == "Diyabeduma"}
+|
+{Token.string == "Diyapalagoda"}
+|
+{Token.string == "Diyatalawa"}
+|
+{Token.string == "Diyawanna"}
+|
+{Token.string == "Doha"}
+|
+{Token.string == "Dolapihilla"}
+|
+{Token.string == "Doluwa"}
+|
+{Token.string == "Domain"}
+|
+{Token.string == "Dompe"}
+|
+{Token.string == "Duabi"}
+|
+{Token.string == "Dubai"}
+|
+{Token.string == "Dumbara"}
+|
+{Token.string == "Duminda"}
+|
+{Token.string == "Dunupothagama"}
+|
+{Token.string == "Durdens"}
+|
+{Token.string == "EU"}
+|
+{Token.string == "East"}
+|
+{Token.string == "Eechalanpattu"}
+|
+{Token.string == "Egmore"}
+|
+{Token.string == "Egoda"}
+|
+{Token.string == "Egodauyana"}
+|
+{Token.string == "Egypt"}
+|
+{Token.string == "Ekala"}
+|
+{Token.string == "El"}
+|
+{Token.string == "Elikehena"}
+|
+{Token.string == "Eliya"}
+|
+{Token.string == "Elizabeth"}
+|
+{Token.string == "Ella"}
+|
+{Token.string == "Elpitiya"}
+|
+{Token.string == "Elstow"}
+|
+{Token.string == "Embilipitiya"}
+|
+{Token.string == "Emirates"}
+|
+{Token.string == "England"}
+|
+{Token.string == "Eppawala"}
+|
+{Token.string == "Eravur"}
+|
+{Token.string == "Esquimalt"}
+|
+{Token.string == "Estate"}
+|
+{Token.string == "Eswatta"}
+|
+{Token.string == "Eta"}
+|
+{Token.string == "Ethiopia"}
+|
+{Token.string == "Ettayapuram"}
+|
+{Token.string == "Ettukala"}
+|
+{Token.string == "Ettukale"}
+|
+{Token.string == "Etukala"}
+|
+{Token.string == "Europe"}
+|
+{Token.string == "European"}
+|
+{Token.string == "Euston"}
+|
+{Token.string == "Fairfax"}
+|
+{Token.string == "Farwaniya"}
+|
+{Token.string == "Ferguson"}
+|
+{Token.string == "Finland"}
+|
+{Token.string == "Fishery"}
+|
+{Token.string == "Flora"}
+|
+{Token.string == "Forest"}
+|
+{Token.string == "Fort"}
+|
+{Token.string == "France"}
+|
+{Token.string == "Frazer"}
+|
+{Token.string == "Frazier"}
+|
+{Token.string == "Fribourg"}
+|
+{Token.string == "Galagedara"}
+|
+{Token.string == "Galagedera"}
+|
+{Token.string == "Galaha"}
+|
+{Token.string == "Galahitiyawa"}
+|
+{Token.string == "Galauda"}
+|
+{Token.string == "Galenbindunuwewa"}
+|
+{Token.string == "Galessahena"}
+|
+{Token.string == "Galewala"}
+|
+{Token.string == "Galewela"}
+|
+{Token.string == "Galgamuwa"}
+|
+{Token.string == "Galkanda"}
+|
+{Token.string == "Galkiriyagama"}
+|
+{Token.string == "Galle"}
+|
+{Token.string == "Galleon"}
+|
+{Token.string == "Galnewa"}
+|
+{Token.string == "Galpatha"}
+|
+{Token.string == "Gambir"}
+|
+{Token.string == "Gampaha"}
+|
+{Token.string == "Gampola"}
+|
+{Token.string == "Gandara"}
+|
+{Token.string == "Ganemulla"}
+|
+{Token.string == "Gangaikondacholapuram"}
+|
+{Token.string == "Gangaramaya"}
+|
+{Token.string == "Ganges"}
+|
+{Token.string == "Gangodawila"}
+|
+{Token.string == "Ganidu"}
+|
+{Token.string == "Gardens"}
+|
+{Token.string == "Gaza"}
+|
+{Token.string == "Gebilideniya"}
+|
+{Token.string == "Gelanigama"}
+|
+{Token.string == "General"}
+|
+{Token.string == "Geneva"}
+|
+{Token.string == "Georgia"}
+|
+{Token.string == "Geraldton"}
+|
+{Token.string == "Germany"}
+|
+{Token.string == "Ghana"}
+|
+{Token.string == "Girimallegoda"}
+|
+{Token.string == "Gnanaloka"}
+|
+{Token.string == "Gnanamoli"}
+|
+{Token.string == "Goa"}
+|
+{Token.string == "Godagama"}
+|
+{Token.string == "Godakawela"}
+|
+{Token.string == "Godawala"}
+|
+{Token.string == "Gomarankadawala"}
+|
+{Token.string == "Gonagoda"}
+|
+{Token.string == "Gonigala"}
+|
+{Token.string == "Govipala"}
+|
+{Token.string == "Grama"}
+|
+{Token.string == "Grandpass"}
+|
+{Token.string == "Grant"}
+|
+{Token.string == "Guinea"}
+|
+{Token.string == "Gunaraja"}
+|
+{Token.string == "Gunasinghepura"}
+|
+{Token.string == "Gungamuwa"}
+|
+{Token.string == "Gurunagar"}
+|
+{Token.string == "H.N.B."}
+|
+{Token.string == "Habaraduwa"}
+|
+{Token.string == "Haguranketa"}
+|
+{Token.string == "Haguranketha"}
+|
+{Token.string == "Haiti"}
+|
+{Token.string == "Hala"}
+|
+{Token.string == "Hallawela"}
+|
+{Token.string == "Halloluwa"}
+|
+{Token.string == "Halmillara"}
+|
+{Token.string == "Hambanthota"}
+|
+{Token.string == "Hambantota"}
+|
+{Token.string == "Hammam"}
+|
+{Token.string == "Hammer"}
+|
+{Token.string == "Hanguranketa"}
+|
+{Token.string == "Hanguranketha"}
+|
+{Token.string == "Hantana"}
+|
+{Token.string == "Hanwella"}
+|
+{Token.string == "Hapugastheniya"}
+|
+{Token.string == "Hapugoda"}
+|
+{Token.string == "Haragama"}
+|
+{Token.string == "Harasgama"}
+|
+{Token.string == "Harbour"}
+|
+{Token.string == "Haridwar"}
+|
+{Token.string == "Harispattuwa"}
+|
+{Token.string == "Harrow"}
+|
+{Token.string == "Hasakala"}
+|
+{Token.string == "Hasalaka"}
+|
+{Token.string == "Hasitha"}
+|
+{Token.string == "Hataraliyadda"}
+|
+{Token.string == "Hawaeliya"}
+|
+{Token.string == "Heathrow"}
+|
+{Token.string == "Heiyanthuduwa"}
+|
+{Token.string == "Hekitta"}
+|
+{Token.string == "Hemmathagama"}
+|
+{Token.string == "Henanigala"}
+|
+{Token.string == "High"}
+|
+{Token.string == "Highland"}
+|
+{Token.string == "Hikkaduwa"}
+|
+{Token.string == "Hinduism"}
+|
+{Token.string == "Hingurakgoda"}
+|
+{Token.string == "Hingurana"}
+|
+{Token.string == "Hiniduma"}
+|
+{Token.string == "Hodhalla"}
+|
+{Token.string == "Homagama"}
+|
+{Token.string == "Homs"}
+|
+{Token.string == "Honduras"}
+|
+{Token.string == "Horana"}
+|
+{Token.string == "Horewala"}
+|
+{Token.string == "Hospital"}
+|
+{Token.string == "Hotel"}
+|
+{Token.string == "Hudson"}
+|
+{Token.string == "Hulftsdorp"}
+|
+{Token.string == "Hungama"}
+|
+{Token.string == "Hutwil"}
+|
+{Token.string == "Hyderabad"}
+|
+{Token.string == "Ibankatuwa"}
+|
+{Token.string == "Idampitiya"}
+|
+{Token.string == "Ihalawela"}
+|
+{Token.string == "Iluppakadavei"}
+|
+{Token.string == "Independence"}
+|
+{Token.string == "Indhana"}
+|
+{Token.string == "India"}
+|
+{Token.string == "India-Sri"}
+|
+{Token.string == "Indian"}
+|
+{Token.string == "Indika"}
+|
+{Token.string == "Indonesia"}
+|
+{Token.string == "Indonesian"}
+|
+{Token.string == "International"}
+|
+{Token.string == "Iran"}
+|
+{Token.string == "Iraq"}
+|
+{Token.string == "Iraqi"}
+|
+{Token.string == "Irrakkamam"}
+|
+{Token.string == "Ishbiliya"}
+|
+{Token.string == "Islamabad"}
+|
+{Token.string == "Island"}
+|
+{Token.string == "Islands"}
+|
+{Token.string == "Italy"}
+|
+{Token.string == "JAKARTA"}
+|
+{Token.string == "Ja-Ela"}
+|
+{Token.string == "Jaffna"}
+|
+{Token.string == "Jakarta"}
+|
+{Token.string == "Japan"}
+|
+{Token.string == "Jati"}
+|
+{Token.string == "Jayanthipura"}
+|
+{Token.string == "Jayawardenapura"}
+|
+{Token.string == "Jayawardenepura"}
+|
+{Token.string == "Jayewardenepura"}
+|
+{Token.string == "Jeddah"}
+|
+{Token.string == "Jegathapattinam"}
+|
+{Token.string == "Joomla"}
+|
+{Token.string == "Junction"}
+|
+{Token.string == "KANDY"}
+|
+{Token.string == "KARACHI"}
+|
+{Token.string == "KM"}
+|
+{Token.string == "KOCHI"}
+|
+{Token.string == "KUWAIT"}
+|
+{Token.string == "Kaandankuliya"}
+|
+{Token.string == "Kabul"}
+|
+{Token.string == "Kachatheevu"}
+|
+{Token.string == "Kadawatha"}
+|
+{Token.string == "Kadiraveli"}
+|
+{Token.string == "Kadugannawa"}
+|
+{Token.string == "Kaduwela"}
+|
+{Token.string == "Kahatagastenna"}
+|
+{Token.string == "Kahatapitiya"}
+|
+{Token.string == "Kahathuduwa"}
+|
+{Token.string == "Kahawatta"}
+|
+{Token.string == "Kahawatte"}
+|
+{Token.string == "Kalapatti"}
+|
+{Token.string == "Kaliwarippuwa"}
+|
+{Token.string == "Kalkuda"}
+|
+{Token.string == "Kalkudah"}
+|
+{Token.string == "Kalladi"}
+|
+{Token.string == "Kalmunai"}
+|
+{Token.string == "Kalpitiya"}
+|
+{Token.string == "Kalubanda"}
+|
+{Token.string == "Kalubovila"}
+|
+{Token.string == "Kalubowila"}
+|
+{Token.string == "Kalugal"}
+|
+{Token.string == "Kalugamuwa"}
+|
+{Token.string == "Kalutara"}
+|
+{Token.string == "Kaluwamodara"}
+|
+{Token.string == "Kamla"}
+|
+{Token.string == "Kampung"}
+|
+{Token.string == "Kanadarawa"}
+|
+{Token.string == "Kanda"}
+|
+{Token.string == "Kandahar"}
+|
+{Token.string == "Kandakuliya"}
+|
+{Token.string == "Kandana"}
+|
+{Token.string == "Kandewatte"}
+|
+{Token.string == "Kandy"}
+|
+{Token.string == "Kankesanthurai"}
+|
+{Token.string == "Kanyakumari"}
+|
+{Token.string == "Karachi"}
+|
+{Token.string == "Karalla"}
+|
+{Token.string == "Karandeniya"}
+|
+{Token.string == "Karapitiya"}
+|
+{Token.string == "Karaveddi"}
+|
+{Token.string == "Karradah"}
+|
+{Token.string == "Karuwalagaswewa"}
+|
+{Token.string == "Katambulawa"}
+|
+{Token.string == "Katana"}
+|
+{Token.string == "Kataragama"}
+|
+{Token.string == "Katchatheevu"}
+|
+{Token.string == "Katchi"}
+|
+{Token.string == "Kathireshan"}
+|
+{Token.string == "Katiyawa"}
+|
+{Token.string == "Katubedda"}
+|
+{Token.string == "Katugastota"}
+|
+{Token.string == "Katuinayake"}
+|
+{Token.string == "Katunayaka"}
+|
+{Token.string == "Katunayake"}
+|
+{Token.string == "Katuwana"}
+|
+{Token.string == "Kavindya"}
+|
+{Token.string == "Kayts"}
+|
+{Token.string == "Kazakhstan"}
+|
+{Token.string == "Kazimiyah"}
+|
+{Token.string == "Kebayoran"}
+|
+{Token.string == "Keeling"}
+|
+{Token.string == "Keenagaspitiya"}
+|
+{Token.string == "Kegalle"}
+|
+{Token.string == "Kekirawa"}
+|
+{Token.string == "Kelaniya"}
+|
+{Token.string == "Kendaliyadda"}
+|
+{Token.string == "Kennington"}
+|
+{Token.string == "Kenya"}
+|
+{Token.string == "Kerala"}
+|
+{Token.string == "Kesbewa"}
+|
+{Token.string == "Keselwatta"}
+|
+{Token.string == "Keselwatte"}
+|
+{Token.string == "Khaldiya"}
+|
+{Token.string == "Khusus"}
+|
+{Token.string == "Kilinochchi"}
+|
+{Token.string == "Kilinochhi"}
+|
+{Token.string == "Killinochchi"}
+|
+{Token.string == "Kimbulapitiya"}
+|
+{Token.string == "Kimbulawewa"}
+|
+{Token.string == "Kingdom"}
+|
+{Token.string == "Kingston"}
+|
+{Token.string == "Kinsey"}
+|
+{Token.string == "Kiralaoya"}
+|
+{Token.string == "Kiribathgoa"}
+|
+{Token.string == "Kiribathgoda"}
+|
+{Token.string == "Kiribathkumbura"}
+|
+{Token.string == "Kirindiwela"}
+|
+{Token.string == "Kirula"}
+|
+{Token.string == "Kirulapana"}
+|
+{Token.string == "Kirulapone"}
+|
+{Token.string == "Kiulegama"}
+|
+{Token.string == "Kochi"}
+|
+{Token.string == "Kodayaya"}
+|
+{Token.string == "Kohuwala"}
+|
+{Token.string == "Kokkadicholai"}
+|
+{Token.string == "Kokmotai"}
+|
+{Token.string == "Kolampulam"}
+|
+{Token.string == "Kolawole"}
+|
+{Token.string == "Kollonawa"}
+|
+{Token.string == "Kollonnawa"}
+|
+{Token.string == "Kollupitiya"}
+|
+{Token.string == "Kolonnawa"}
+|
+{Token.string == "Kompanna"}
+|
+{Token.string == "Konthota"}
+|
+{Token.string == "Korea"}
+|
+{Token.string == "Kosgama"}
+|
+{Token.string == "Kosovo"}
+|
+{Token.string == "Koswatta"}
+|
+{Token.string == "Koswatte"}
+|
+{Token.string == "Kota"}
+|
+{Token.string == "Kotadeniyawa"}
+|
+{Token.string == "Kotahena"}
+|
+{Token.string == "Kotakethana"}
+|
+{Token.string == "Kotawala"}
+|
+{Token.string == "Kothavalchavadi"}
+|
+{Token.string == "Kothmale"}
+|
+{Token.string == "Kotikawatte-Mulleriyawa"}
+|
+{Token.string == "Kotmale"}
+|
+{Token.string == "Kottagama"}
+|
+{Token.string == "Kottagoda"}
+|
+{Token.string == "Kottawa"}
+|
+{Token.string == "Kotte"}
+|
+{Token.string == "Kottegoda"}
+|
+{Token.string == "Kotugoda"}
+|
+{Token.string == "Kovil"}
+|
+{Token.string == "Kovilam"}
+|
+{Token.string == "Kovilegedera"}
+|
+{Token.string == "Krishnapet"}
+|
+{Token.string == "Krithas"}
+|
+{Token.string == "Kuchchaveli"}
+|
+{Token.string == "Kudamaduwella"}
+|
+{Token.string == "Kugan"}
+|
+{Token.string == "Kuliyapitiya"}
+|
+{Token.string == "Kundasale"}
+|
+{Token.string == "Kurudugahahethekma"}
+|
+{Token.string == "Kurukulamba"}
+|
+{Token.string == "Kurukulawa"}
+|
+{Token.string == "Kurundugahahatakma"}
+|
+{Token.string == "Kurundugahahethepma"}
+|
+{Token.string == "Kurunduwatte"}
+|
+{Token.string == "Kurunegala"}
+|
+{Token.string == "Kuruvita"}
+|
+{Token.string == "Kuruwita"}
+|
+{Token.string == "Kuwait"}
+|
+{Token.string == "Kuwaiti"}
+|
+{Token.string == "Kytes"}
+|
+{Token.string == "LAHORE"}
+|
+{Token.string == "Labrador"}
+|
+{Token.string == "Labuduwa"}
+|
+{Token.string == "Laggala"}
+|
+{Token.string == "Lakan"}
+|
+{Token.string == "Lakshman"}
+|
+{Token.string == "Lama"}
+|
+{Token.string == "Lanka"}
+|
+{Token.string == "Lanka-e-News"}
+|
+{Token.string == "Lankan"}
+|
+{Token.string == "Lankans"}
+|
+{Token.string == "Lashkar-e-Islam"}
+|
+{Token.string == "Lavinia"}
+|
+{Token.string == "Law"}
+|
+{Token.string == "Lebanon"}
+|
+{Token.string == "Leone"}
+|
+{Token.string == "Lewella"}
+|
+{Token.string == "Lewisham"}
+|
+{Token.string == "Libya"}
+|
+{Token.string == "Libyan"}
+|
+{Token.string == "Loluwagoda"}
+|
+{Token.string == "Lome"}
+|
+{Token.string == "London"}
+|
+{Token.string == "Longfield"}
+|
+{Token.string == "Lotus"}
+|
+{Token.string == "Lunawa"}
+|
+{Token.string == "Lunugala"}
+|
+{Token.string == "Lunugamwehera"}
+|
+{Token.string == "Lunuwila"}
+|
+{Token.string == "Luton"}
+|
+{Token.string == "MOH"}
+|
+{Token.string == "Mabola"}
+|
+{Token.string == "Madampe"}
+|
+{Token.string == "Madanwala"}
+|
+{Token.string == "Madawala"}
+|
+{Token.string == "Madawela"}
+|
+{Token.string == "Madilla"}
+|
+{Token.string == "Madras"}
+|
+{Token.string == "Madulsima"}
+|
+{Token.string == "Madurai"}
+|
+{Token.string == "Maduruoya"}
+|
+{Token.string == "Magistrate"}
+|
+{Token.string == "Mahaiyawa"}
+|
+{Token.string == "Mahakanadarawa"}
+|
+{Token.string == "Mahaoya"}
+|
+{Token.string == "Mahara"}
+|
+{Token.string == "Maharagama"}
+|
+{Token.string == "Mahasenpura"}
+|
+{Token.string == "Mahawa"}
+|
+{Token.string == "Mahawela"}
+|
+{Token.string == "Mahawilachchiya"}
+|
+{Token.string == "Mailawa"}
+|
+{Token.string == "Makola"}
+|
+{Token.string == "Makubura"}
+|
+{Token.string == "Makumbura"}
+|
+{Token.string == "Malabe"}
+|
+{Token.string == "Malaka"}
+|
+{Token.string == "Malambe"}
+|
+{Token.string == "Malaysia"}
+|
+{Token.string == "Malden"}
+|
+{Token.string == "Maldives"}
+|
+{Token.string == "Maldivian"}
+|
+{Token.string == "Maligathanna"}
+|
+{Token.string == "Maligawatta"}
+|
+{Token.string == "Mall"}
+|
+{Token.string == "Mallagam"}
+|
+{Token.string == "Mallakam"}
+|
+{Token.string == "Mallawana"}
+|
+{Token.string == "Mallawapitiya"}
+|
+{Token.string == "Mallipatinam"}
+|
+{Token.string == "Malpolaya"}
+|
+{Token.string == "Malwana"}
+|
+{Token.string == "Malwatte"}
+|
+{Token.string == "Manavakkal"}
+|
+{Token.string == "Mandapam"}
+|
+{Token.string == "Mandoor"}
+|
+{Token.string == "Manhattan"}
+|
+{Token.string == "Manikdiwela"}
+|
+{Token.string == "Manila"}
+|
+{Token.string == "Mankulam"}
+|
+{Token.string == "Mannady"}
+|
+{Token.string == "Mannar"}
+|
+{Token.string == "Manoj"}
+|
+{Token.string == "Manus"}
+|
+{Token.string == "Maradana"}
+|
+{Token.string == "Marathon"}
+|
+{Token.string == "Marawila"}
+|
+{Token.string == "Maria"}
+|
+{Token.string == "Marissa"}
+|
+{Token.string == "Mark"}
+|
+{Token.string == "Markandu"}
+|
+{Token.string == "Marsfield"}
+|
+{Token.string == "Massachusetts"}
+|
+{Token.string == "Maswela"}
+|
+{Token.string == "Matale"}
+|
+{Token.string == "Matara"}
+|
+{Token.string == "Mathurata"}
+|
+{Token.string == "Mattala"}
+|
+{Token.string == "Mattupalli"}
+|
+{Token.string == "Matugama"}
+|
+{Token.string == "Mawanella"}
+|
+{Token.string == "Mawatha"}
+|
+{Token.string == "Mawathagama"}
+|
+{Token.string == "Mayadunna"}
+|
+{Token.string == "Medagama"}
+|
+{Token.string == "Medagamuwa"}
+|
+{Token.string == "Medagangoda"}
+|
+{Token.string == "Medawachchiya"}
+|
+{Token.string == "Medawala"}
+|
+{Token.string == "Meegoda"}
+|
+{Token.string == "Meerigama"}
+|
+{Token.string == "Meethotamulla"}
+|
+{Token.string == "Meetotamulla"}
+|
+{Token.string == "Megodagama"}
+|
+{Token.string == "Melbourne"}
+|
+{Token.string == "Menikhinna"}
+|
+{Token.string == "Metn"}
+|
+{Token.string == "Miami"}
+|
+{Token.string == "Middeniya"}
+|
+{Token.string == "Middle"}
+|
+{Token.string == "Middlesex"}
+|
+{Token.string == "Mighajandura"}
+|
+{Token.string == "Mihin"}
+|
+{Token.string == "Mihintale"}
+|
+{Token.string == "Mill"}
+|
+{Token.string == "Milnrow"}
+|
+{Token.string == "Minneriy"}
+|
+{Token.string == "Minneriya"}
+|
+{Token.string == "Minuwangoda"}
+|
+{Token.string == "Mirigama"}
+|
+{Token.string == "Mirihana"}
+|
+{Token.string == "Mirissa"}
+|
+{Token.string == "Modara"}
+|
+{Token.string == "Mogallana"}
+|
+{Token.string == "Mohontuwarama"}
+|
+{Token.string == "Molwewa"}
+|
+{Token.string == "Monaragala"}
+|
+{Token.string == "Moneragala"}
+|
+{Token.string == "Moragahahena"}
+|
+{Token.string == "Moranthuduwa"}
+|
+{Token.string == "Morantuduwa"}
+|
+{Token.string == "Moratuwa"}
+|
+{Token.string == "Morenda"}
+|
+{Token.string == "Moscow"}
+|
+{Token.string == "Mount"}
+|
+{Token.string == "Moyakata"}
+|
+{Token.string == "Mt."}
+|
+{Token.string == "Mubarakiya"}
+|
+{Token.string == "Mugalan"}
+|
+{Token.string == "Mullaitivu"}
+|
+{Token.string == "Mulleriyawa"}
+|
+{Token.string == "Mumbai"}
+|
+{Token.string == "Mumbasa"}
+|
+{Token.string == "Mundalama"}
+|
+{Token.string == "Munigillaru"}
+|
+{Token.string == "Murugan"}
+|
+{Token.string == "Murutalawa"}
+|
+{Token.string == "Musayyib"}
+|
+{Token.string == "Museum"}
+|
+{Token.string == "Muslim-majority"}
+|
+{Token.string == "Muthur"}
+|
+{Token.string == "Muttu"}
+|
+{Token.string == "Muttukadu"}
+|
+{Token.string == "Muttur"}
+|
+{Token.string == "Mutur"}
+|
+{Token.string == "Mutuwal"}
+|
+{Token.string == "N.Y."}
+|
+{Token.string == "NEW"}
+|
+{Token.string == "Nadu"}
+|
+{Token.string == "Nadutheru"}
+|
+{Token.string == "Nafeek"}
+|
+{Token.string == "Naga"}
+|
+{Token.string == "Nagaiya"}
+|
+{Token.string == "Nagapattinam"}
+|
+{Token.string == "Nagar"}
+|
+{Token.string == "Nagoda"}
+|
+{Token.string == "Nairobi"}
+|
+{Token.string == "Najeeban"}
+|
+{Token.string == "Nandeepan"}
+|
+{Token.string == "Narahenpita"}
+|
+{Token.string == "Naranganuwa"}
+|
+{Token.string == "Narantanai"}
+|
+{Token.string == "Narehenpita"}
+|
+{Token.string == "Nasik"}
+|
+{Token.string == "National"}
+|
+{Token.string == "Nattandiya"}
+|
+{Token.string == "Nattaranpotha"}
+|
+{Token.string == "Nauru"}
+|
+{Token.string == "Navagatthegama"}
+|
+{Token.string == "Navigala"}
+|
+{Token.string == "Navy"}
+|
+{Token.string == "Nawa"}
+|
+{Token.string == "Nawagamuwa"}
+|
+{Token.string == "Nawala"}
+|
+{Token.string == "Nawalapitiya"}
+|
+{Token.string == "Nawaloka"}
+|
+{Token.string == "Nawam"}
+|
+{Token.string == "Nawandakulam"}
+|
+{Token.string == "Neduntheevu"}
+|
+{Token.string == "Negombo"}
+|
+{Token.string == "Nelukwatte"}
+|
+{Token.string == "Nepal"}
+|
+{Token.string == "Netherland"}
+|
+{Token.string == "Netherlands"}
+|
+{Token.string == "New"}
+|
+{Token.string == "Nigeria"}
+|
+{Token.string == "Nikaweratiya"}
+|
+{Token.string == "Nilamba"}
+|
+{Token.string == "Nitharsan"}
+|
+{Token.string == "Nivithigala"}
+|
+{Token.string == "Nochchimunai"}
+|
+{Token.string == "Nochchiyagama"}
+|
+{Token.string == "North"}
+|
+{Token.string == "Northern"}
+|
+{Token.string == "Northlands"}
+|
+{Token.string == "Northwick"}
+|
+{Token.string == "Norway"}
+|
+{Token.string == "Norwegian"}
+|
+{Token.string == "Norwood"}
+|
+{Token.string == "Nugadola"}
+|
+{Token.string == "Nugape"}
+|
+{Token.string == "Nugathalawa"}
+|
+{Token.string == "Nuge"}
+|
+{Token.string == "Nugegoda"}
+|
+{Token.string == "Nunnangoda"}
+|
+{Token.string == "Nurdeen"}
+|
+{Token.string == "Nuriya"}
+|
+{Token.string == "Nuwara"}
+|
+{Token.string == "Nuwaraeliya"}
+|
+{Token.string == "Nuwaragala"}
+|
+{Token.string == "OSLO"}
+|
+{Token.string == "OTTAWA"}
+|
+{Token.string == "Ocean"}
+|
+{Token.string == "Odikayamulla"}
+|
+{Token.string == "Old"}
+|
+{Token.string == "Oluvil"}
+|
+{Token.string == "Oluwil"}
+|
+{Token.string == "Omanthai"}
+|
+{Token.string == "Opatha"}
+|
+{Token.string == "Orugodawatta"}
+|
+{Token.string == "Oslo"}
+|
+{Token.string == "Ottawa"}
+|
+{Token.string == "Oxford"}
+|
+{Token.string == "Oya"}
+|
+{Token.string == "Oyster"}
+|
+{Token.string == "PARIS"}
+|
+{Token.string == "PESHAWAR"}
+|
+{Token.string == "PS"}
+|
+{Token.string == "Padikaramaduwa"}
+|
+{Token.string == "Padiyatalawe"}
+|
+{Token.string == "Padukka"}
+|
+{Token.string == "Pahala"}
+|
+{Token.string == "Pakistan"}
+|
+{Token.string == "Palagama"}
+|
+{Token.string == "Palali"}
+|
+{Token.string == "Palamnagar"}
+|
+{Token.string == "Palautthu"}
+|
+{Token.string == "Palihawadana"}
+|
+{Token.string == "Palk"}
+|
+{Token.string == "Pallama"}
+|
+{Token.string == "Palleguruththapana"}
+|
+{Token.string == "Pallemunai"}
+|
+{Token.string == "Pallivasal"}
+|
+{Token.string == "Paluwa"}
+|
+{Token.string == "Pamburugaspitiya"}
+|
+{Token.string == "Panadura"}
+|
+{Token.string == "Panamura"}
+|
+{Token.string == "Panjwai"}
+|
+{Token.string == "Pannala"}
+|
+{Token.string == "Pannipitiya"}
+|
+{Token.string == "Pansalgoda"}
+|
+{Token.string == "Paola"}
+|
+{Token.string == "Papua"}
+|
+{Token.string == "Parana"}
+|
+{Token.string == "Paranagama"}
+|
+{Token.string == "Parigala"}
+|
+{Token.string == "Paris"}
+|
+{Token.string == "Park"}
+|
+{Token.string == "Parramatta"}
+|
+{Token.string == "Pasikuda"}
+|
+{Token.string == "Pass"}
+|
+{Token.string == "Pasyala"}
+|
+{Token.string == "Pathahewaheta"}
+|
+{Token.string == "Pattiya"}
+|
+{Token.string == "Pedro"}
+|
+{Token.string == "Peliyagoda"}
+|
+{Token.string == "Penawar"}
+|
+{Token.string == "Pengerang"}
+|
+{Token.string == "Peninsula"}
+|
+{Token.string == "Pepiliyana"}
+|
+{Token.string == "Peradeniya"}
+|
+{Token.string == "Perak"}
+|
+{Token.string == "Periamet"}
+|
+{Token.string == "Periyakulam"}
+|
+{Token.string == "Perth"}
+|
+{Token.string == "Peru"}
+|
+{Token.string == "Peruwa"}
+|
+{Token.string == "Pettah"}
+|
+{Token.string == "Pewewewa"}
+|
+{Token.string == "Philippines"}
+|
+{Token.string == "Pibidena"}
+|
+{Token.string == "Picanello"}
+|
+{Token.string == "Piliyandala"}
+|
+{Token.string == "Pimburugaspitiya"}
+|
+{Token.string == "Pingama"}
+|
+{Token.string == "Pinnaduwa"}
+|
+{Token.string == "Pitakotte"}
+|
+{Token.string == "Place"}
+|
+{Token.string == "Poddala"}
+|
+{Token.string == "Poduvudamai"}
+|
+{Token.string == "Point"}
+|
+{Token.string == "Polgahawela"}
+|
+{Token.string == "Polgaswatte"}
+|
+{Token.string == "Polhena"}
+|
+{Token.string == "Police"}
+|
+{Token.string == "Pollonaruwa"}
+|
+{Token.string == "Pollwatte"}
+|
+{Token.string == "Polonnaruwa"}
+|
+{Token.string == "Pondicherry"}
+|
+{Token.string == "Ponnukone"}
+|
+{Token.string == "Ponramu"}
+|
+{Token.string == "Poonamallee"}
+|
+{Token.string == "Port"}
+|
+{Token.string == "Poruthota"}
+|
+{Token.string == "Potankadu"}
+|
+{Token.string == "Pothuarawa"}
+|
+{Token.string == "Pothuhera"}
+|
+{Token.string == "Pottuvil"}
+|
+{Token.string == "Pradesh"}
+|
+{Token.string == "Pradeshiya"}
+|
+{Token.string == "Pradesiya"}
+|
+{Token.string == "Pradheshiya"}
+|
+{Token.string == "Pratunam"}
+|
+{Token.string == "Premaratne"}
+|
+{Token.string == "Priory"}
+|
+{Token.string == "Prison"}
+|
+{Token.string == "Province"}
+|
+{Token.string == "Puducherry"}
+|
+{Token.string == "Pudukottai"}
+|
+{Token.string == "Pudukudyirippu"}
+|
+{Token.string == "Pulmoddai"}
+|
+{Token.string == "Pulmudai"}
+|
+{Token.string == "Punani"}
+|
+{Token.string == "Punchi"}
+|
+{Token.string == "Punggai"}
+|
+{Token.string == "Pungudu"}
+|
+{Token.string == "Punjab"}
+|
+{Token.string == "Pussalawa"}
+|
+{Token.string == "Pussallawa"}
+|
+{Token.string == "Pussellawa"}
+|
+{Token.string == "Puttalam"}
+|
+{Token.string == "Puttalam-Mannar"}
+|
+{Token.string == "Puttur"}
+|
+{Token.string == "Putuhapuwa"}
+|
+{Token.string == "Puwakpitiya"}
+|
+{Token.string == "Puzhal"}
+|
+{Token.string == "Pyongyang"}
+|
+{Token.string == "Qatar"}
+|
+{Token.string == "Quasi"}
+|
+{Token.string == "Quebec"}
+|
+{Token.string == "Queen"}
+|
+{Token.string == "Quetta"}
+|
+{Token.string == "RAMESWARAM"}
+|
+{Token.string == "Rabarwatta"}
+|
+{Token.string == "Radella"}
+|
+{Token.string == "Rafaa"}
+|
+{Token.string == "Ragama"}
+|
+{Token.string == "Raja"}
+|
+{Token.string == "Rajagiriya"}
+|
+{Token.string == "Rajamaha"}
+|
+{Token.string == "Rajanganaya"}
+|
+{Token.string == "Rajapihilla"}
+|
+{Token.string == "Rajya"}
+|
+{Token.string == "Rakna"}
+|
+{Token.string == "Ramadan"}
+|
+{Token.string == "Ramanathapuram"}
+|
+{Token.string == "Rambukkana"}
+|
+{Token.string == "Rameswaram"}
+|
+{Token.string == "Ranaala"}
+|
+{Token.string == "Ranaweera"}
+|
+{Token.string == "Rangala"}
+|
+{Token.string == "Range"}
+|
+{Token.string == "Rashid"}
+|
+{Token.string == "Ratmalana"}
+|
+{Token.string == "Ratmalwewa"}
+|
+{Token.string == "Ratnapura"}
+|
+{Token.string == "Ravana"}
+|
+{Token.string == "Ravindra"}
+|
+{Token.string == "Reef"}
+|
+{Token.string == "Rekawa"}
+|
+{Token.string == "Republic"}
+|
+{Token.string == "River"}
+|
+{Token.string == "Riverston"}
+|
+{Token.string == "Rivira"}
+|
+{Token.string == "Riyadh"}
+|
+{Token.string == "Riyas"}
+|
+{Token.string == "Rizana"}
+|
+{Token.string == "Road"}
+|
+{Token.string == "Rochana"}
+|
+{Token.string == "Rochdale"}
+|
+{Token.string == "Russia"}
+|
+{Token.string == "Russian"}
+|
+{Token.string == "Sabaragamuwa"}
+|
+{Token.string == "Sabha"}
+|
+{Token.string == "Sagar"}
+|
+{Token.string == "Sagara"}
+|
+{Token.string == "Sahaspura"}
+|
+{Token.string == "Saidapet"}
+|
+{Token.string == "Salil"}
+|
+{Token.string == "Saliyawewa"}
+|
+{Token.string == "Salve"}
+|
+{Token.string == "Samanthuraya"}
+|
+{Token.string == "Samapura"}
+|
+{Token.string == "Samayangalakanda"}
+|
+{Token.string == "Sambuddhaloka"}
+|
+{Token.string == "San"}
+|
+{Token.string == "Santa"}
+|
+{Token.string == "Santipur"}
+|
+{Token.string == "Santipura"}
+|
+{Token.string == "Sao"}
+|
+{Token.string == "Sapugaskanda"}
+|
+{Token.string == "Sarath"}
+|
+{Token.string == "Saravanabavan"}
+|
+{Token.string == "Sarbia"}
+|
+{Token.string == "Sariputta"}
+|
+{Token.string == "Sasikan"}
+|
+{Token.string == "Sathosa"}
+|
+{Token.string == "Saudi"}
+|
+{Token.string == "Schengen"}
+|
+{Token.string == "Scotland"}
+|
+{Token.string == "Sea"}
+|
+{Token.string == "Seattle"}
+|
+{Token.string == "Sedawaththa"}
+|
+{Token.string == "Sedawatta"}
+|
+{Token.string == "Sedawatte"}
+|
+{Token.string == "Sedili"}
+|
+{Token.string == "Seeduwa"}
+|
+{Token.string == "Seethawella"}
+|
+{Token.string == "Selaiyur"}
+|
+{Token.string == "Sellamuttu"}
+|
+{Token.string == "Senevipura"}
+|
+{Token.string == "Seribu"}
+|
+{Token.string == "Serunuwara"}
+|
+{Token.string == "Sevaka"}
+|
+{Token.string == "Sevanagala"}
+|
+{Token.string == "Sevenagala"}
+|
+{Token.string == "Sewanagala"}
+|
+{Token.string == "Shanghai"}
+|
+{Token.string == "Sharjah"}
+|
+{Token.string == "Shasthralaya"}
+|
+{Token.string == "Shri"}
+|
+{Token.string == "Sierra"}
+|
+{Token.string == "Sigiriya"}
+|
+{Token.string == "Sihala"}
+|
+{Token.string == "Silawathura"}
+|
+{Token.string == "Sindh"}
+|
+{Token.string == "Singalese"}
+|
+{Token.string == "Singapore"}
+|
+{Token.string == "Singharaja"}
+|
+{Token.string == "Sinhala"}
+|
+{Token.string == "Sinneveham"}
+|
+{Token.string == "Sippikulama"}
+|
+{Token.string == "Sirikotha"}
+|
+{Token.string == "Sirimalgama"}
+|
+{Token.string == "Sirupura"}
+|
+{Token.string == "Sitinamaluwa"}
+|
+{Token.string == "Sivagangai"}
+|
+{Token.string == "Siyabalagaswewa"}
+|
+{Token.string == "Siyambalagahamula"}
+|
+{Token.string == "Siyambalagaswewa"}
+|
+{Token.string == "Siyambalanduwa"}
+|
+{Token.string == "Siyapathgama"}
+|
+{Token.string == "Skandapuram"}
+|
+{Token.string == "Slave"}
+|
+{Token.string == "Sokkikulam"}
+|
+{Token.string == "Somalia"}
+|
+{Token.string == "Soorasena"}
+|
+{Token.string == "South"}
+|
+{Token.string == "Spain"}
+|
+{Token.string == "Sri"}
+|
+{Token.string == "Sri-Lanka"}
+|
+{Token.string == "Sriyawasa"}
+|
+{Token.string == "St"}
+|
+{Token.string == "St."}
+|
+{Token.string == "States"}
+|
+{Token.string == "Straits"}
+|
+{Token.string == "Streatham"}
+|
+{Token.string == "Street"}
+|
+{Token.string == "Strip"}
+|
+{Token.string == "Suffolk"}
+|
+{Token.string == "Sukhumvit"}
+|
+{Token.string == "Sula"}
+|
+{Token.string == "Sun"}
+|
+{Token.string == "Suriyawewa"}
+|
+{Token.string == "Switzerland"}
+|
+{Token.string == "Sydney"}
+|
+{Token.string == "Syria"}
+|
+{Token.string == "Taipei"}
+|
+{Token.string == "Taiwan"}
+|
+{Token.string == "Talaimannar"}
+|
+{Token.string == "Talatuoya"}
+|
+{Token.string == "Talawila"}
+|
+{Token.string == "Tamil"}
+|
+{Token.string == "Tanamalwila"}
+|
+{Token.string == "Tangalle"}
+|
+{Token.string == "Tanzania"}
+|
+{Token.string == "Tapah"}
+|
+{Token.string == "Teaching"}
+|
+{Token.string == "Tegucigalpa"}
+|
+{Token.string == "Teldeniya"}
+|
+{Token.string == "Temple"}
+|
+{Token.string == "Thabbowa"}
+|
+{Token.string == "Thai"}
+|
+{Token.string == "Thailand"}
+|
+{Token.string == "Thalaimannar"}
+|
+{Token.string == "Thalakubura"}
+|
+{Token.string == "Thalangama"}
+|
+{Token.string == "Thalavi"}
+|
+{Token.string == "Thalawathugoda"}
+|
+{Token.string == "Thalpitiya"}
+|
+{Token.string == "Thambalagamuwa"}
+|
+{Token.string == "Thambuttegama"}
+|
+{Token.string == "Thamizh"}
+|
+{Token.string == "Thammanna"}
+|
+{Token.string == "Thanayangoda"}
+|
+{Token.string == "Thangachimadam"}
+|
+{Token.string == "Thanjavur"}
+|
+{Token.string == "The"}
+|
+{Token.string == "Thekkadi"}
+|
+{Token.string == "Thekkady"}
+|
+{Token.string == "Thelwatta"}
+|
+{Token.string == "Theni"}
+|
+{Token.string == "Thero"}
+|
+{Token.string == "Thibirigaskatuwa"}
+|
+{Token.string == "Thimbirigasyaya"}
+|
+{Token.string == "Thiniaru"}
+|
+{Token.string == "Thiriwanaketiya"}
+|
+{Token.string == "Thirukumaran"}
+|
+{Token.string == "Thiruvananthapuram"}
+|
+{Token.string == "Thissamaharama"}
+|
+{Token.string == "Thondi"}
+|
+{Token.string == "Thotalanga"}
+|
+{Token.string == "Thummulla"}
+|
+{Token.string == "Thurai"}
+|
+{Token.string == "Tidung"}
+|
+{Token.string == "Tinggi"}
+|
+{Token.string == "Tirah"}
+|
+{Token.string == "Tiruchi"}
+|
+{Token.string == "Tiruchirapalli"}
+|
+{Token.string == "Tiruchirappalli"}
+|
+{Token.string == "Tiruchy"}
+|
+{Token.string == "Tissamaharama"}
+|
+{Token.string == "Tissamaharame"}
+|
+{Token.string == "Tkacheva"}
+|
+{Token.string == "Togo"}
+|
+{Token.string == "Tolani"}
+|
+{Token.string == "Torrington"}
+|
+{Token.string == "Town"}
+|
+{Token.string == "Trichy"}
+|
+{Token.string == "Trincomalee"}
+|
+{Token.string == "Tsarnaev"}
+|
+{Token.string == "Tunisia"}
+|
+{Token.string == "Turkey"}
+|
+{Token.string == "Tuticorin"}
+|
+{Token.string == "U.S."}
+|
+{Token.string == "UAE"}
+|
+{Token.string == "UK"}
+|
+{Token.string == "UPFA"}
+|
+{Token.string == "US"}
+|
+{Token.string == "USA"}
+|
+{Token.string == "Udagaldebokka"}
+|
+{Token.string == "Udahamulla"}
+|
+{Token.string == "Udanan"}
+|
+{Token.string == "Udaththawa"}
+|
+{Token.string == "Udawalawa"}
+|
+{Token.string == "Udayanagar"}
+|
+{Token.string == "Udugampola"}
+|
+{Token.string == "Udupiddi"}
+|
+{Token.string == "Uduruwa"}
+|
+{Token.string == "Uhana"}
+|
+{Token.string == "Ujain"}
+|
+{Token.string == "Ulpatha"}
+|
+{Token.string == "Ummul"}
+|
+{Token.string == "Unawatuna"}
+|
+{Token.string == "Union"}
+|
+{Token.string == "United"}
+|
+{Token.string == "Uppuweli"}
+|
+{Token.string == "Uragaha"}
+|
+{Token.string == "Uragasmanhandiya"}
+|
+{Token.string == "Urappakkam"}
+|
+{Token.string == "Urugamuwa"}
+|
+{Token.string == "Urumaya"}
+|
+{Token.string == "Uthayan"}
+|
+{Token.string == "Uthuwankanda"}
+|
+{Token.string == "Utoeya"}
+|
+{Token.string == "Uttar"}
+|
+{Token.string == "Uva"}
+|
+{Token.string == "Uyana"}
+|
+{Token.string == "Uyandana"}
+|
+{Token.string == "Vadapalani"}
+|
+{Token.string == "Vakarai"}
+|
+{Token.string == "Valachchenai"}
+|
+{Token.string == "Valiveriya"}
+|
+{Token.string == "Valley"}
+|
+{Token.string == "Valvettithurai"}
+|
+{Token.string == "Vancouver"}
+|
+{Token.string == "Vandavol"}
+|
+{Token.string == "Vardanarama"}
+|
+{Token.string == "Vasco"}
+|
+{Token.string == "Vavunia"}
+|
+{Token.string == "Vavuniya"}
+|
+{Token.string == "Veediya"}
+|
+{Token.string == "Venezuela"}
+|
+{Token.string == "Vengambakkam"}
+|
+{Token.string == "Victoria"}
+|
+{Token.string == "Vidyalaya"}
+|
+{Token.string == "Vietnam"}
+|
+{Token.string == "Vihara"}
+|
+{Token.string == "Viharaya"}
+|
+{Token.string == "Vihare"}
+|
+{Token.string == "Village"}
+|
+{Token.string == "Viluthu"}
+|
+{Token.string == "Visakhapatnam"}
+|
+{Token.string == "Vishvamadu"}
+|
+{Token.string == "WA"}
+|
+{Token.string == "Wadduwa"}
+|
+{Token.string == "Wadi"}
+|
+{Token.string == "Wadiya"}
+|
+{Token.string == "Waidya"}
+|
+{Token.string == "Wakamulla"}
+|
+{Token.string == "Walahapitiya"}
+|
+{Token.string == "Walakumburegama"}
+|
+{Token.string == "Walapana"}
+|
+{Token.string == "Walasmulla"}
+|
+{Token.string == "Walgama"}
+|
+{Token.string == "Waligama"}
+|
+{Token.string == "Wallagoda"}
+|
+{Token.string == "Walpola"}
+|
+{Token.string == "Wanathamulla"}
+|
+{Token.string == "Waragoda"}
+|
+{Token.string == "Warakapola"}
+|
+{Token.string == "Washington"}
+|
+{Token.string == "Waterford"}
+|
+{Token.string == "Waterloo"}
+|
+{Token.string == "Watertown"}
+|
+{Token.string == "Watford"}
+|
+{Token.string == "Watsapp"}
+|
+{Token.string == "Watta"}
+|
+{Token.string == "Wattala"}
+|
+{Token.string == "Watte"}
+|
+{Token.string == "Wattegama"}
+|
+{Token.string == "Weeraketiya"}
+|
+{Token.string == "Wehigala"}
+|
+{Token.string == "Weligama"}
+|
+{Token.string == "Weligepola"}
+|
+{Token.string == "Welikada"}
+|
+{Token.string == "Welikanda"}
+|
+{Token.string == "Welimada"}
+|
+{Token.string == "Welimadam"}
+|
+{Token.string == "Welipenna"}
+|
+{Token.string == "Welisara"}
+|
+{Token.string == "Weliweriya"}
+|
+{Token.string == "Welkandala"}
+|
+{Token.string == "Wella"}
+|
+{Token.string == "Wellamadama"}
+|
+{Token.string == "Wellampitiya"}
+|
+{Token.string == "Wellampitiyaa"}
+|
+{Token.string == "Wellangoda"}
+|
+{Token.string == "Wellawatta"}
+|
+{Token.string == "Wellawatte"}
+|
+{Token.string == "Wellawaya"}
+|
+{Token.string == "Wembley"}
+|
+{Token.string == "Werahera"}
+|
+{Token.string == "West"}
+|
+{Token.string == "Western"}
+|
+{Token.string == "Wewaudaha"}
+|
+{Token.string == "Wickrematunge"}
+|
+{Token.string == "Wijerama"}
+|
+{Token.string == "Wildwood"}
+|
+{Token.string == "Willeton"}
+|
+{Token.string == "Women"}
+|
+{Token.string == "Worli"}
+|
+{Token.string == "Yaangalmodara"}
+|
+{Token.string == "Yagodamulla"}
+|
+{Token.string == "Yakalla"}
+|
+{Token.string == "Yakkala"}
+|
+{Token.string == "Yala"}
+|
+{Token.string == "Yalkumbura"}
+|
+{Token.string == "Yamuna"}
+|
+{Token.string == "Yatagala"}
+|
+{Token.string == "Yatawara"}
+|
+{Token.string == "Yatinuwara"}
+|
+{Token.string == "Yaya"}
+|
+{Token.string == "York"}
+|
+{Token.string == "Zealand"}
+|
+{Token.string == "Zurich"}
+|
+{Token.string == "district"}
+|
+{Token.string == "east"}
+|
+{Token.string == "south"}
+):location
+-->
+:location.LOCATION = {source="Stanford"}
+
+Rule: RealLocationX
+Priority:50
+((
+{Token.string == "Bandaranayake"}
+|
+{Token.string == "Bandaranayaka"}
+|
+{Token.string == "Bandaranike"}
+):location1
+({Token.string == "International"}):location2
+({Token.string == "Airport"}):location3
+)
+-->
+:location1.LOCATION = {source="Stanford"},
+:location2.LOCATION = {source="Stanford"},
+:location3.LOCATION = {source="Stanford"}
+
+

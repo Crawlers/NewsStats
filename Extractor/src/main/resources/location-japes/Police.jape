@@ -1,0 +1,269 @@
+Phase: Police
+Input:  Lookup Token EndSentence
+Options: control = appelt
+
+Rule: Police
+Priority:50
+({Token.string == "arrested"}
+|
+{Token.string == "nabbed"}
+|
+{Token.string == "discovered"}
+|
+{Token.string == "found"}
+|
+{Token.string == "remanded"}
+|
+{Token.string == "seized"}
+|
+{Token.string == "raided"}
+|
+{Token.string == "apprehended"}
+|
+({Token.string == "taken"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "took"}
+{Token.string == "into"}
+{Token.string == "custody"}))
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "by"}
+|
+({Token.string == "by"}
+{Token.string == "the"}
+{Token.string == "officers"}
+{Token.string == "of"})
+|
+{Token.string == "to"})
+    
+({Token.string =~ "[Tt]he"})?
+
+(
+ (
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+ )
+ |
+ (
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  (
+   {Token.kind == word, Token.category == NNP, Token.orth == allCaps}
+   |
+   ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  )
+ )
+ |
+ ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+ {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+):location	
+ ({Token.kind == word, Token.string =~ "[Pp]olice"}
+ |
+ ({Token.kind == word, Token.string =~ "[Ff]orest"}
+ {Token.kind == word, Token.string =~ "[Rr]ange"}))
+--> 
+{
+if(inputAS.get("CrimeLocation").isEmpty()){
+   List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+
+
+   //sort the list by offset
+   Collections.sort(annList, new OffsetComparator());
+
+   //iterate through the matched annotations
+   for(int i = 0; i < annList.size(); i++)
+   {
+      Annotation anAnn = (Annotation)annList.get(i);
+	  
+	  
+	  // check that the new annotation is not a categorical place
+	  try {
+		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+			FeatureMap features = Factory.newFeatureMap();
+			features.put("location", "Police");
+			
+			Node annEnd = anAnn.getEndNode();
+			int j;
+			
+			for(j= i+1; j < annList.size(); j++){
+				Annotation anAnnNext = (Annotation)annList.get(j);
+				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
+					if (!(longContent.charAt(0) == ',')){
+						annEnd = anAnnNext.getEndNode();
+					}else{
+						break;
+					}
+				}else{	
+					break;
+				}
+			}
+			 
+			i = j-1;
+			
+			outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+	  }
+	  catch (InvalidOffsetException e) {
+        e.printStackTrace();
+      }
+   }
+ }
+}
+   
+Rule: Police
+Priority:50    
+({Token.string =~ "[Tt]he"})?
+(
+ (
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+ )
+ |
+ (
+  ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  ({Token.kind == punctuation, !Token.string == "."})?
+  (
+   {Token.kind == word, Token.category == NNP, Token.orth == allCaps}
+   |
+   ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+  {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+  )
+ )
+ |
+ ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+  |
+ {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial})
+):location	
+ ({Token.kind == word, Token.string =~ "[Pp]olice"}) 
+ 
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+((({Token.string == "conducting"})
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "investigation"}
+|
+{Token.string == "investigations"}))
+|
+{Token.string == "arrested"}
+|
+{Token.string == "nabbed"}
+|
+{Token.string == "discovered"}
+|
+{Token.string == "remanded"}
+|
+{Token.string == "seized"}
+|
+{Token.string == "raided"}
+|
+{Token.string == "apprehended"}
+|
+({Token.string == "taken"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "took"}
+{Token.string == "into"}
+{Token.string == "custody"}))
+
+--> 
+{
+	//if(inputAS.get("CrimeLocation").isEmpty()){
+	AnnotationSet crimeLocationSet = inputAS.get("CrimeLocation");
+	List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+
+
+	//sort the list by offset
+	Collections.sort(annList, new OffsetComparator());
+
+	//iterate through the matched annotations
+	for(int i = 0; i < annList.size(); i++)
+	{
+		Annotation anAnn = (Annotation)annList.get(i);
+
+
+		// check that the new annotation is not a categorical place
+		try {
+			String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+			FeatureMap features = Factory.newFeatureMap();
+			features.put("location", "Police");
+
+			Node annEnd = anAnn.getEndNode();
+			int j;
+
+			for(j= i+1; j < annList.size(); j++){
+				Annotation anAnnNext = (Annotation)annList.get(j);
+				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
+					if (!(longContent.charAt(0) == ',')){
+						annEnd = anAnnNext.getEndNode();
+					}else{
+						break;
+					}
+				}else{	
+					break;
+				}
+			}
+
+			i = j-1;
+
+			if(crimeLocationSet.isEmpty()){
+				outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+			}
+			outputAS.add(anAnn.getStartNode(), annEnd, "Police", features);
+		}
+		catch (InvalidOffsetException e) {
+			e.printStackTrace();
+		}
+	}
+	//}
+}

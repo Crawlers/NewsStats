@@ -1,0 +1,68 @@
+Phase: MurderReversed
+Input:  Lookup Token Date Currency PointSeperator EndSentence
+Options: control = once
+
+Rule: MurderReversed
+Priority:50
+(
+ {Date}
+):date
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "killed"}
+|
+{Token.string == "killing"}
+|
+{Token.string == "dead"}
+|
+{Token.string == "murdered"}
+|
+{Token.string == "murder"}
+|
+{Token.string == "murders"}
+|
+({Token.string == "caused"}
+{Token.string == "the"}
+{Token.string == "death"})
+|
+{Token.string == "beheaded"}
+|
+{Token.string == "execution"}
+|
+{Token.string == "died"}
+|
+{Token.string == "hanged"}
+|
+{Token.string == "suicide"}
+|
+(({Token.string == "body"}
+|
+{Token.string == "bodies"}
+|
+{Token.string == "corpse"}
+|
+{Token.string == "corpses"})
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+({Token.string == "discovered"}
+|
+{Token.string == "found"}))
+|
+{Token.string == "killer"}
+|
+{Token.string == "murderer"})
+
+--> 
+:date.CrimeDate = {type = "before_mcw"}

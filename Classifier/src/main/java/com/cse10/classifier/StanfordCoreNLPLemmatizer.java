@@ -7,18 +7,20 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import weka.core.OptionHandler;
 import weka.core.stemmers.Stemmer;
+
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Wrapper class for StanfordCoreNLP
  * @author chamath
  */
-public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler {
+public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serializable {
 
     protected StanfordCoreNLP pipeline;
 
     public StanfordCoreNLPLemmatizer() {
-        System.out.println("------------Initialize StandfordLemmatizer-------------------------");
+        System.out.println("Initialize StandfordLemmatizer---------------------------------------------");
         Properties props;
         props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma");

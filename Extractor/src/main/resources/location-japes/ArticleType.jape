@@ -1,0 +1,39 @@
+Phase: ArticleType 
+Input: Token CrimeType
+Options: control = once
+
+Rule:  ArticleType
+Priority:50
+(
+{Token}
+) : articleType
+
+--> 
+{
+	//get CrimeType annotation	
+	List crimeTypeList = new ArrayList((AnnotationSet)inputAS.get("CrimeType"));
+	
+	if(!crimeTypeList.isEmpty()){
+
+		//sort the list by offset
+		Collections.sort(crimeTypeList, new Comparator<Annotation>(){
+			public int compare(Annotation a1, Annotation a2) {
+				return (Integer.valueOf(a1.getFeatures().get("kind").toString()).compareTo(Integer.valueOf(a2.getFeatures().get("kind").toString())));
+			}
+		});
+		
+		Annotation crimeType = (Annotation)crimeTypeList.get(0);
+		
+		String crimeCat = crimeType.getFeatures().get("type").toString();
+		
+		FeatureMap features = Factory.newFeatureMap();
+		features.put("article_type", crimeCat);
+		
+		List tokenList = new ArrayList((AnnotationSet)bindings.get("articleType"));
+		Node firstTokenStart = ((Annotation)tokenList.get(0)).getStartNode();
+		Node firstTokenEnd = ((Annotation)tokenList.get(0)).getEndNode();
+		
+		outputAS.add(firstTokenStart, firstTokenEnd, "ArticleType", features);
+	}
+}
+

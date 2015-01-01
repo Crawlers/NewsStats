@@ -1,0 +1,19 @@
+Phase: CreatedDate
+Input: Token
+Options: control = once
+
+Rule: CreatedDate
+Priority:50
+(
+{Token.string == ":"}
+{Token.string == ":"}
+({Token.kind == number}
+{Token.string == "-"}
+{Token.kind == number}
+{Token.string == "-"}
+{Token.kind == number}):created_date
+{Token.string == ":"}
+{Token.string == ":"}
+)
+--> 
+:created_date.CreatedDate = {type = "source_date"}

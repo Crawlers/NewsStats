@@ -1,0 +1,22 @@
+Phase: Currency
+Input:  Lookup Token 
+Options: control = appelt
+
+Rule: Currency
+Priority:50
+({Token.string == "valued"})
+({Token.string == "at"})
+	(
+	 ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial})
+    ):currency	
+	({Token.kind == number})
+--> 
+:currency.Currency = {rule= "type" } 
+
+Rule: type
+Priority:50
+({Token.string =~ "R[Ss]"}):currency
+({Token.string == "."})?
+({Token.kind == number})
+--> 
+:currency.Currency = {rule= "type" } 
