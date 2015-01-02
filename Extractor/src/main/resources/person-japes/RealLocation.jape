@@ -1799,11 +1799,17 @@ Priority:50
 |
 {Token.string == "Periyakulam"}
 |
+{Token.string == "Perth"}
+|
+{Token.string == "Peru"}
+|
 {Token.string == "Peruwa"}
 |
 {Token.string == "Pettah"}
 |
 {Token.string == "Pewewewa"}
+|
+{Token.string == "Philippines"}
 |
 {Token.string == "Pibidena"}
 |
@@ -1832,6 +1838,8 @@ Priority:50
 {Token.string == "Polgaswatte"}
 |
 {Token.string == "Polhena"}
+|
+{Token.string == "Police"}
 |
 {Token.string == "Pollonaruwa"}
 |
@@ -1871,6 +1879,10 @@ Priority:50
 |
 {Token.string == "Premaratne"}
 |
+{Token.string == "Priory"}
+|
+{Token.string == "Prison"}
+|
 {Token.string == "Province"}
 |
 {Token.string == "Puducherry"}
@@ -1891,6 +1903,8 @@ Priority:50
 |
 {Token.string == "Pungudu"}
 |
+{Token.string == "Punjab"}
+|
 {Token.string == "Pussalawa"}
 |
 {Token.string == "Pussallawa"}
@@ -1910,6 +1924,8 @@ Priority:50
 {Token.string == "Puzhal"}
 |
 {Token.string == "Pyongyang"}
+|
+{Token.string == "Qatar"}
 |
 {Token.string == "Quasi"}
 |
@@ -2353,6 +2369,8 @@ Priority:50
 |
 {Token.string == "Urugamuwa"}
 |
+{Token.string == "Urumaya"}
+|
 {Token.string == "Uthayan"}
 |
 {Token.string == "Uthuwankanda"}
@@ -2523,6 +2541,8 @@ Priority:50
 |
 {Token.string == "Willeton"}
 |
+{Token.string == "Women"}
+|
 {Token.string == "Worli"}
 |
 {Token.string == "Yaangalmodara"}
@@ -2544,6 +2564,8 @@ Priority:50
 {Token.string == "Yatinuwara"}
 |
 {Token.string == "Yaya"}
+|
+{Token.string == "York"}
 |
 {Token.string == "Zealand"}
 |

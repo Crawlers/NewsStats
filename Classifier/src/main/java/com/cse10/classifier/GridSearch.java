@@ -6,7 +6,7 @@ import weka.core.SelectedTag;
 import weka.filters.AllFilter;
 
 /**
- * Created by TharinduWijewardane on 2014-11-14.
+ * Created by chamath on 12/20/2014
  */
 
 /**

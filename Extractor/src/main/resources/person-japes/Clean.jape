@@ -1,0 +1,11 @@
+Phase: Clean
+Input:  TempPerson paragraph
+Options: control = once
+
+Rule: Clean
+Priority:50
+({TempPerson}):cleaner
+--> 
+{	
+	outputAS.removeAll(inputAS.get("TempPerson"));
+}

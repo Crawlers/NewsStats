@@ -1,59 +1,9 @@
-Phase: RobberyOtherReversed
+Phase: RobberyOtherForward
 Input:  Lookup Token Date Currency JobTitle PointSeperator NotLocation Occupation Title PERSON IncorrectLocation Organization Location SubPerson Direction LOCATION EndSentence
 Options: control = appelt
 
-Rule: RobberyOtherReversed
+Rule: RobberyOtherForward
 Priority:50
-((
- (
-  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-  ({Token.kind == punctuation, !Token.string == "."})?
-  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-  ({Token.kind == punctuation, !Token.string == "."})?
-  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
- )
- |
- (
-  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-  ({Token.kind == punctuation, !Token.string == "."})?
-  (
-   {Token.kind == word, Token.category == NNP, Token.orth == allCaps, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-   |
-   {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-   |
-   {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-  )
- )
- |
- ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
-)
-({Token.string == ","}
-|
-{Token.string == "and"})?
-(
-	(
-	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-	)
-	|
-	(
-	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
-	)
-	|
-	({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
-)?
-):location
-
-({Token.kind == "word"}
-|
-{Token.kind == "number"}
-|
-{Token.kind == "symbol"}
-|
-{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
-
 ({Token.string == "arrested"}
 |
 {Token.string == "arresting"}
@@ -438,6 +388,55 @@ Priority:50
 |
 {Token.string == "wounded"})
 
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+((
+ (
+  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+  ({Token.kind == punctuation, !Token.string == "."})?
+  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+  ({Token.kind == punctuation, !Token.string == "."})?
+  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+ )
+ |
+ (
+  {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+  ({Token.kind == punctuation, !Token.string == "."})?
+  (
+   {Token.kind == word, Token.category == NNP, Token.orth == allCaps, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+   |
+   {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+   |
+   {Token.kind == word, Token.category == NNPS, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+  )
+ )
+ |
+ ({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
+)
+({Token.string == ","}
+|
+{Token.string == "and"})?
+(
+	(
+	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	)
+	|
+	(
+	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobTitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	 {Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION}
+	)
+	|
+	({Token.kind == word, Token.category == NNP, Token.orth == upperInitial, !Date.kind == date, !Currency.rule == type, !JobTitle.rule == JobTitle1, !Lookup.majorType == organization, !Occupation.rule == title, !Title.rule == Title, !Lookup.majorType == jobtitle, !IncorrectLocation, !Organization.orgType == company, !Location.locType == country, LOCATION})
+)?
+):location
 --> 
 {
 	//get the location annotations in a list
@@ -459,7 +458,7 @@ Priority:50
 		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal")  || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals(",") || content.equals("Military")  || content.equals("Remand") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals("District"))) // content.equals("Devala")
 		  {
 			FeatureMap features = Factory.newFeatureMap();
-			features.put("location", "Robbery-Other-Reversed");
+			features.put("location", "Robbery-Other-Forward");
 			
 			Node annEnd = anAnn.getEndNode();
 			int j;
