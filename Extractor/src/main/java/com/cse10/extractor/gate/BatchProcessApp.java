@@ -9,9 +9,11 @@ package com.cse10.extractor.gate;
 
 import com.cse10.article.Article;
 import com.cse10.article.CeylonTodayArticle;
+import com.cse10.article.CrimeArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.LocationDistrictMapper;
 import gate.*;
 import gate.Gate;
 import gate.annotation.AnnotationImpl;
@@ -26,6 +28,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.hibernate.ObjectNotFoundException;
 import org.jdom.JDOMException;
 
 public class BatchProcessApp {
@@ -34,7 +37,7 @@ public class BatchProcessApp {
     private static File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
 
     // List of annotation types to write out.  If null, write everything as GateXML.
-    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate"));
+    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
 
     // fetch district name from google map api response
     private static DistrictExtractor de = new DistrictExtractor();
@@ -80,7 +83,9 @@ public class BatchProcessApp {
         application.setCorpus(corpus);
 
         // fetches news articles from database
-        List<Article> articles = DatabaseHandler.fetchArticles(CeylonTodayArticle.class);
+       // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class, 1, 1000);
+
 
         // process the files one by one
         for (int i = 0; i < articles.size(); i++) {
@@ -111,7 +116,7 @@ public class BatchProcessApp {
                 int articleLength = articleContent.length();
                 System.out.println("New Article size : "+articleLength);
 
-                if (articleLength > 1500) {
+                if (articleLength > 2500) {
                     articleContent = currentArticle.getTitle();
                 }
 
@@ -158,7 +163,10 @@ public class BatchProcessApp {
                 String police = "NULL";
                 String court = "NULL";
                 String crimeType = "other";
+                String crimePeople = "NULL";
+                int articleID = currentArticle.getId();
                 Date crimeDate = articleDate;
+                LocationDistrictMapper locationDistrict;
                 CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
 
                 // iterate through each annotation
@@ -174,12 +182,8 @@ public class BatchProcessApp {
                         location = antText;
 
                         // fetch district for the location using google map api
-                        district = de.getDistrict(location);
-                        if (!district.equalsIgnoreCase("NULL")) {
-                            entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
-                            entityGroupOfArticle.setLocation(location);
-                            entityGroupOfArticle.setDistrict(district);
-                        }
+                        resolveLocation(location, entityGroupOfArticle, articleID);
+
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
@@ -190,6 +194,14 @@ public class BatchProcessApp {
                             System.out.println("****** Not normalized : " + currentArticle.getTitle() + " **********");
                         }
 
+                    }
+
+                    if (CurrentAnnot.getType().equalsIgnoreCase("CrimePerson")) {
+                        if(crimePeople.equals("NULL")){
+                            crimePeople = antText;
+                        }else{
+                            crimePeople = crimePeople + " : " + antText;
+                        }
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("Police")) {
@@ -212,32 +224,26 @@ public class BatchProcessApp {
                     }
                 }
 
-                if (entityGroupOfArticle.getDistrict() == null && entityGroupOfArticle.getPolice() != null){
+                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getPolice() != null){
                     police = entityGroupOfArticle.getPolice();
 
                     // fetch district for the location using google map api
-                    district = de.getDistrict(police);
-                    if (!district.equalsIgnoreCase("NULL")) {
-                        entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
-                        entityGroupOfArticle.setLocation(police);
-                        entityGroupOfArticle.setDistrict(district);
-                    }
+                    resolveLocation(police, entityGroupOfArticle, articleID);
                 }
 
-                if (entityGroupOfArticle.getDistrict() == null && entityGroupOfArticle.getCourt() != null){
+
+
+
+                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getCourt() != null){
                     court = entityGroupOfArticle.getCourt();
 
                     // fetch district for the location using google map api
-                    district = de.getDistrict(court);
-                    if (!district.equalsIgnoreCase("NULL")) {
-                        entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
-                        entityGroupOfArticle.setLocation(court);
-                        entityGroupOfArticle.setDistrict(district);
-                    }
+                    resolveLocation(court, entityGroupOfArticle, articleID);
                 }
 
-                if (entityGroupOfArticle.getDistrict() != null) {
+                if (entityGroupOfArticle.getLocationDistrict() != null) {
                     entityGroupOfArticle.setCrimeDate(crimeDate);
+                    entityGroupOfArticle.setCriminal(crimePeople);
                     entityGroupsList.add(entityGroupOfArticle);
                 }
 
@@ -246,7 +252,12 @@ public class BatchProcessApp {
                 System.out.println("Crime Date : " + format.format(crimeDate));
                 System.out.println("Article Title : " + currentArticle.getTitle());
                 System.out.println("Crime Location : " + location);
-                System.out.println("District : " + district);
+
+                if(entityGroupOfArticle.getLocationDistrict() != null){
+                    System.out.println("District : " + entityGroupOfArticle.getLocationDistrict().getDistrict());
+                }
+
+                System.out.println("Crime People : " + crimePeople);
                 System.out.println("Police Location : " + police);
                 System.out.println("Court Location : " + court);
 
@@ -262,4 +273,27 @@ public class BatchProcessApp {
 
         System.out.println("All done");
     }
+
+    public static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID){
+        LocationDistrictMapper locationDistrict;
+        String district = "NULL";
+
+        try {
+            locationDistrict = DatabaseHandler.fetchLocation(location);
+            district = locationDistrict.getDistrict();
+            entityGroupOfArticle.setCrimeArticleId(articleID);
+            entityGroupOfArticle.setLocation(location);
+            entityGroupOfArticle.setLocationDistrict(locationDistrict);
+        }catch (ObjectNotFoundException e){
+            district = de.getDistrict(location);
+            if (!district.equalsIgnoreCase("NULL")) {
+                locationDistrict = new LocationDistrictMapper(location, district);
+                DatabaseHandler.insertLocationDistrict(locationDistrict);
+                entityGroupOfArticle.setCrimeArticleId(articleID);
+                entityGroupOfArticle.setLocation(location);
+                entityGroupOfArticle.setLocationDistrict(locationDistrict);
+            }
+        }
+    }
 }
+
