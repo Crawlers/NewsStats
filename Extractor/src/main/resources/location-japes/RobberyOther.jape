@@ -248,6 +248,9 @@ Priority:50
 |
 {Token.string == "hunters"}
 |
+({Token.string == "human"}
+{Token.string == "consumption"})
+|
 {Token.string == "illegally"}
 |
 {Token.string == "illegal"}
