@@ -6,14 +6,11 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SelectedTag;
 import weka.core.SerializationHelper;
-
-
-import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Wrapper class for LibSVM
- * Created by Tharindu on 2014-11-11.
+ * Created by chamath on 12/20/2014
  */
 
 public class SVMClassifierHandler {

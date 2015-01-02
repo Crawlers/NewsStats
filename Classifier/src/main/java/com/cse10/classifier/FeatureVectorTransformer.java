@@ -3,7 +3,6 @@ package com.cse10.classifier;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.stemmers.SnowballStemmer;
-import weka.core.stemmers.Stemmer;
 import weka.core.tokenizers.NGramTokenizer;
 import weka.filters.unsupervised.attribute.StringToWordVector;
 
