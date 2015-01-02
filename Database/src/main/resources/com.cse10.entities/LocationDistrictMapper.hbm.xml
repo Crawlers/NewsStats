@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.cse10.entities.LocationDistrictMapper" table="location_district_mapper">
+        <id name="location" type="string">
+            <column name="location" length="50" not-null="true"/>
+            <generator class="assigned" />
+        </id>
+        <property name="district" type="string">
+            <column name="district" length="20" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
