@@ -1,0 +1,15 @@
+Phase: NotPerson
+Input:  Token PERSON
+Options: control = all
+
+Rule: NotPerson
+Priority:50
+(
+({Token.string == "Ajith"}
+{Token.string == "Rohana"})
+|
+({Token.string == "Mahinda"}
+{Token.string == "Rajapaksa"})
+):notPerson
+-->
+:notPerson.NotPerson = {source="standard"}

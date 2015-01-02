@@ -1,0 +1,21 @@
+/*
+*  main.jape
+*
+*/
+
+MultiPhase:	FinalCrimeDate
+Phases:
+Currency
+Verb
+PointSeperator
+EndSentence
+RealLocation
+Preventive
+NickName
+NotPerson
+Murder
+MurderReversed
+RobberyOther
+RobberyOtherReversed
+Finalize
+Clean
