@@ -34,8 +34,8 @@
         <property name="victim" type="string">
             <column name="victim" length="50" not-null="false"/>
         </property>
-        <property name="victim_count" type="int">
-            <column name="victimCount" precision="11" scale="0" not-null="false"/>
+        <property name="victimCount" type="int">
+            <column name="victim_count" precision="11" scale="0" not-null="false"/>
         </property>
         <property name="possession" type="string">
             <column name="possession" length="50" not-null="false"/>
