@@ -198,7 +198,6 @@ public class DatabaseHandler {
 
         locationDistrict = (LocationDistrictMapper)session.load(LocationDistrictMapper.class, location);
         session.getTransaction().commit();
-        session.close();
 
         return locationDistrict;
     }
