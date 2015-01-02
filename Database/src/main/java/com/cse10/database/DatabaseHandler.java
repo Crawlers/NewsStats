@@ -6,6 +6,7 @@ package com.cse10.database;
 
 import com.cse10.article.Article;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.LocationDistrictMapper;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -167,4 +168,38 @@ public class DatabaseHandler {
         session.getTransaction().commit();
     }
 
+
+    /**
+     * insert details of a certain location
+     */
+    public static void insertLocationDistrict(LocationDistrictMapper locationDistrict) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.save(locationDistrict);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * fetch details of a certain location
+     *
+     * @param location name of the location
+     * @return
+     */
+    public static LocationDistrictMapper fetchLocation(String location) {
+
+        LocationDistrictMapper locationDistrict;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        locationDistrict = (LocationDistrictMapper)session.load(LocationDistrictMapper.class, location);
+        session.getTransaction().commit();
+        session.close();
+
+        return locationDistrict;
+    }
 }
