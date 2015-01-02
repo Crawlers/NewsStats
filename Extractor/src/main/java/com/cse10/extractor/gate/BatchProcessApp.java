@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.jdom.JDOMException;
@@ -29,10 +31,10 @@ import org.jdom.JDOMException;
 public class BatchProcessApp {
 
     // Path to the saved application file.
-    private static File gappFile = new File("Extractor/src/main/resources/Location_v1.gapp");
+    private static File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
 
     // List of annotation types to write out.  If null, write everything as GateXML.
-    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court"));
+    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate"));
 
     // fetch district name from google map api response
     private static DistrictExtractor de = new DistrictExtractor();
@@ -93,15 +95,20 @@ public class BatchProcessApp {
 
             if (articleLabel != null && articleLabel.equalsIgnoreCase("crime")) {
                 String articleContent;
+                Date articleDate;
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
                 try{
                     articleContent = currentArticle.getContent();
+                    articleDate = currentArticle.getCreatedDate();
                 }catch (NullPointerException e){
                     continue;
                 }
 
-                int articleLength = articleContent.length();
+                // append created date to the processing document
+                articleContent = articleContent + ".::" + articleDate + "::.";
 
+                int articleLength = articleContent.length();
                 System.out.println("New Article size : "+articleLength);
 
                 if (articleLength > 1500) {
@@ -111,12 +118,12 @@ public class BatchProcessApp {
                 // load the document
                 Document doc = Factory.newDocument(articleContent);
 
+
                 // put the document in the corpus
                 corpus.add(doc);
 
                 // run the application
                 application.execute();
-
 
                 // remove the document from the corpus again
                 corpus.clear();
@@ -151,6 +158,7 @@ public class BatchProcessApp {
                 String police = "NULL";
                 String court = "NULL";
                 String crimeType = "other";
+                Date crimeDate = articleDate;
                 CrimeEntityGroup entityGroupOfArticle = new CrimeEntityGroup();
 
                 // iterate through each annotation
@@ -163,7 +171,6 @@ public class BatchProcessApp {
 
                     // check for crime location annotation
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimeLocation")) {
-                        System.out.println("CrimeLocation : " + antText);
                         location = antText;
 
                         // fetch district for the location using google map api
@@ -173,35 +180,75 @@ public class BatchProcessApp {
                             entityGroupOfArticle.setLocation(location);
                             entityGroupOfArticle.setDistrict(district);
                         }
-                        System.out.println("District : " + district);
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
-                        crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
-                        System.out.println("CrimeType : " + crimeType);
-                        System.out.println("Article Title : " + currentArticle.getTitle());
+                        try {
+                            crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
+                            entityGroupOfArticle.setCrimeType(crimeType);
+                        }catch (NullPointerException e){
+                            System.out.println("****** Not normalized : " + currentArticle.getTitle() + " **********");
+                        }
 
-                        entityGroupOfArticle.setCrimeType(crimeType);
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("Police")) {
-                        System.out.println("PoliceLocation : " + antText);
                         police = antText;
-
                         entityGroupOfArticle.setPolice(police);
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("Court")) {
-                        System.out.println("CourtLocation : " + antText);
                         court = antText;
-
                         entityGroupOfArticle.setCourt(court);
+                    }
+
+                    if (CurrentAnnot.getType().equalsIgnoreCase("CrimeDate")) {
+                        try{
+                            crimeDate = format.parse(CurrentAnnot.getFeatures().get("normalized").toString());
+                        }catch (NullPointerException e){
+                            System.out.println("****** Not normalized : " + antText + " **********");
+                        }
+
+                    }
+                }
+
+                if (entityGroupOfArticle.getDistrict() == null && entityGroupOfArticle.getPolice() != null){
+                    police = entityGroupOfArticle.getPolice();
+
+                    // fetch district for the location using google map api
+                    district = de.getDistrict(police);
+                    if (!district.equalsIgnoreCase("NULL")) {
+                        entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
+                        entityGroupOfArticle.setLocation(police);
+                        entityGroupOfArticle.setDistrict(district);
+                    }
+                }
+
+                if (entityGroupOfArticle.getDistrict() == null && entityGroupOfArticle.getCourt() != null){
+                    court = entityGroupOfArticle.getCourt();
+
+                    // fetch district for the location using google map api
+                    district = de.getDistrict(court);
+                    if (!district.equalsIgnoreCase("NULL")) {
+                        entityGroupOfArticle.setCrimeArticleId(currentArticle.getId());
+                        entityGroupOfArticle.setLocation(court);
+                        entityGroupOfArticle.setDistrict(district);
                     }
                 }
 
                 if (entityGroupOfArticle.getDistrict() != null) {
+                    entityGroupOfArticle.setCrimeDate(crimeDate);
                     entityGroupsList.add(entityGroupOfArticle);
                 }
+
+
+                System.out.println("CrimeType : " + crimeType);
+                System.out.println("Crime Date : " + format.format(crimeDate));
+                System.out.println("Article Title : " + currentArticle.getTitle());
+                System.out.println("Crime Location : " + location);
+                System.out.println("District : " + district);
+                System.out.println("Police Location : " + police);
+                System.out.println("Court Location : " + court);
 
                 System.out.println("Article : " + i + " -Ends Here-");
                 System.out.println();

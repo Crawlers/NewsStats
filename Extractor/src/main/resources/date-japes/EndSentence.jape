@@ -1,0 +1,12 @@
+Phase: EndSentence
+Input:  Lookup Token PointSeperator Split
+Options: control = appelt
+
+Rule: EndSentence
+Priority:50
+
+(
+{Split.kind == internal, !PointSeperator}
+):endSentence	
+--> 
+:endSentence.EndSentence = {rule= "endSentence"} 
