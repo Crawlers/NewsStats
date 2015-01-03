@@ -221,8 +221,8 @@ public class DatabaseHandler {
     /**
      * fetch a list of CrimeEntityGroups within the given id range
      *
-     * @param startId      start id (inclusive)
-     * @param endId        end id (inclusive)
+     * @param startId start id (inclusive)
+     * @param endId   end id (inclusive)
      * @return
      */
     public static List<CrimeEntityGroup> fetchCrimeEntityGroupsByIdRange(int startId, int endId) {
