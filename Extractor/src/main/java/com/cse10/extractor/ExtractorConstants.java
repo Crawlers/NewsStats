@@ -8,7 +8,17 @@ public class ExtractorConstants {
     public static final String CRIME_TYPE_MURDER = "murder";
     public static final String CRIME_TYPE_RAPE = "rape";
     public static final String CRIME_TYPE_STEAL = "steal";
-    public static final String CRIME_TYPE_TREASURE_HUNT = "treasure hunt";
+    public static final String CRIME_TYPE_TREASURE_HUNT = "treasure hunt";  // treasure hunt -> treasure_hunt
+
+    /****************Modified************************************/
+    public static final String CRIME_TYPE_ROBBERY = "robbery";              //  this is instead of CRIME_TYPE_STEAL
+    public static final String CRIME_TYPE_CHILD_SEX = "child_sex_crime";    //  this is instead of CRIME_TYPE_RAPE
+    public static final String CRIME_TYPE_CLASH = "clash";
+    public static final String CRIME_TYPE_ABDUCTION = "abduction";
+    public static final String CRIME_TYPE_ILLEGAL_TRADE = "illegal_trade";
+    public static final String CRIME_TYPE_TERRORIST = "terrorist";
+    public static final String CRIME_TYPE_OTHER = "other";
+    /***********************************************************/
 
     public static final String DISTRICT_AMPARA = "Ampara";
     public static final String DISTRICT_ANURADHAPURA = "Anuradhapura";
