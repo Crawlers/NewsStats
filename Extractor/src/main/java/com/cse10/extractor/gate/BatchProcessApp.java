@@ -84,8 +84,8 @@ public class BatchProcessApp {
         application.setCorpus(corpus);
 
         // fetches news articles from database
-       // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class, 1, 1000);
+        List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
+        // List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class, 1, 1000);
 
 
         // process the files one by one
@@ -95,7 +95,7 @@ public class BatchProcessApp {
 
             try {
                 articleLabel = currentArticle.getLabel();
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 continue;
             }
 
@@ -104,10 +104,10 @@ public class BatchProcessApp {
                 Date articleDate;
                 DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-                try{
+                try {
                     articleContent = currentArticle.getContent();
                     articleDate = currentArticle.getCreatedDate();
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     continue;
                 }
 
@@ -115,7 +115,7 @@ public class BatchProcessApp {
                 articleContent = articleContent + ".::" + articleDate + "::.";
 
                 int articleLength = articleContent.length();
-                System.out.println("New Article size : "+articleLength);
+                System.out.println("New Article size : " + articleLength);
 
                 if (articleLength > 2500) {
                     articleContent = currentArticle.getTitle();
@@ -158,7 +158,7 @@ public class BatchProcessApp {
 
                 System.out.println("Article : " + i + " -Begins Here-");
 
-                // location related entities
+                // crime entity details
                 String district = "NULL";
                 String location = "NULL";
                 String police = "NULL";
@@ -174,6 +174,7 @@ public class BatchProcessApp {
                 // iterate through each annotation
                 Iterator annotIt = annotationsToWrite.iterator();
                 while (annotIt.hasNext()) {
+
                     // extract all the annotations of each requested type and add them to
                     // the temporary set
                     AnnotationImpl CurrentAnnot = (AnnotationImpl) annotIt.next();
@@ -183,101 +184,87 @@ public class BatchProcessApp {
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimeLocation")) {
                         location = antText;
 
-                        // fetch district for the location using google map api
+                        // fetch district for the location using google map api, unless it is in the location - district
+                        // mapping table
                         resolveLocation(location, entityGroupOfArticle, articleID);
 
                     }
 
+                    // check for crime type annotation and set crime type on crime entity details
                     if (CurrentAnnot.getType().equalsIgnoreCase("ArticleType")) {
                         try {
                             crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
                             entityGroupOfArticle.setCrimeType(crimeType);
-                        }catch (NullPointerException e){
+                        } catch (NullPointerException e) {
                             System.out.println("****** Not normalized : " + currentArticle.getTitle() + " **********");
                         }
 
                     }
 
+                    // check for crime person annotation and add into a HashSet of crime people
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimePerson")) {
-                        if(!crimePeopleSet.contains(antText)){
+                        if (!crimePeopleSet.contains(antText)) {
                             crimePeopleSet.add(antText);
                         }
-                        /*
-                        if(crimePeople.equals("NULL")){
-                            crimePeople = antText;
-                        }else{
-                            crimePeople = crimePeople + " : " + antText;
-                        }*/
                     }
 
+                    // check for police annotation and set police location on crime entity details
                     if (CurrentAnnot.getType().equalsIgnoreCase("Police")) {
                         police = antText;
                         entityGroupOfArticle.setPolice(police);
                     }
 
+                    // check for court annotation and set court location on crime entity details
                     if (CurrentAnnot.getType().equalsIgnoreCase("Court")) {
                         court = antText;
                         entityGroupOfArticle.setCourt(court);
                     }
 
+                    // check for crime date annotation, get normalized date and parse it to the required date format
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimeDate")) {
-                        try{
+                        try {
                             crimeDate = format.parse(CurrentAnnot.getFeatures().get("normalized").toString());
-                        }catch (NullPointerException e){
+                        } catch (NullPointerException e) {
                             System.out.println("****** Not normalized : " + antText + " **********");
                         }
 
                     }
                 }
 
-                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getPolice() != null){
+                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getPolice() != null) {
                     police = entityGroupOfArticle.getPolice();
 
-                    // fetch district for the location using google map api
+                    // fetch district for the location using google map api, unless it is in the location - district
+                    // mapping table
                     resolveLocation(police, entityGroupOfArticle, articleID);
                 }
 
 
-
-
-                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getCourt() != null){
+                if (entityGroupOfArticle.getLocationDistrict() == null && entityGroupOfArticle.getCourt() != null) {
                     court = entityGroupOfArticle.getCourt();
 
-                    // fetch district for the location using google map api
+                    // fetch district for the location using google map api, unless it is in the location - district
+                    // mapping table
                     resolveLocation(court, entityGroupOfArticle, articleID);
                 }
 
                 if (entityGroupOfArticle.getLocationDistrict() != null) {
+
+                    // set crime date on crime entity details
                     entityGroupOfArticle.setCrimeDate(crimeDate);
 
-                   /* if (crimePeopleSet != null && !crimePeopleSet.isEmpty()){
-
-                        Set<CrimePerson> crimePersonSet = new HashSet<>();
-                        for(String person : crimePeopleSet){
-                            CrimePerson crimePerson = new CrimePerson();
-                            crimePerson.setName(person);
-                            crimePerson.setEntityGroup(entityGroupOfArticle);
-                            DatabaseHandler.insertCrimePerson(crimePerson);
-                            crimePersonSet.add(crimePerson);
-                        }
-                        entityGroupOfArticle.setCrimePersonSet(crimePersonSet);
-
-                    }
-
-
-                    //entityGroupOfArticle.setCriminal(crimePeople);
-                    entityGroupsList.add(entityGroupOfArticle);*/
-
+                    // insert people involved in the crime to crime etity details and add crime entity and people
+                    // involved it into the DB
                     DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
-
+                // check all crime details are properly entered
                 System.out.println("CrimeType : " + crimeType);
                 System.out.println("Crime Date : " + format.format(crimeDate));
                 System.out.println("Article Title : " + currentArticle.getTitle());
                 System.out.println("Crime Location : " + location);
 
-                if(entityGroupOfArticle.getLocationDistrict() != null){
+                if (entityGroupOfArticle.getLocationDistrict() != null) {
                     System.out.println("District : " + entityGroupOfArticle.getLocationDistrict().getDistrict());
                 }
 
@@ -289,11 +276,6 @@ public class BatchProcessApp {
                 System.out.println();
             }
         }// for each article
-
-        // if any entity has been extracted add them into database table
-        /*if (entityGroupsList.size() > 0) {
-            DatabaseHandler.insertCrimeEntityGroups(entityGroupsList);
-        }*/
 
         System.out.println("All done");
 
@@ -308,17 +290,25 @@ public class BatchProcessApp {
 
     }
 
-    public static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID){
+    // method to fetch district for the location using google map api, unless it is in the location - district
+    // mapping table
+    public static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
         LocationDistrictMapper locationDistrict;
         String district = "NULL";
 
         try {
+
+            // try to retrieve district of the location from the location - district mapping table
             locationDistrict = DatabaseHandler.fetchLocation(location);
             district = locationDistrict.getDistrict();
             entityGroupOfArticle.setCrimeArticleId(articleID);
             entityGroupOfArticle.setLocation(location);
             entityGroupOfArticle.setLocationDistrict(locationDistrict);
-        }catch (ObjectNotFoundException e){
+        } catch (ObjectNotFoundException e) {
+
+            // unless district is present in the location - district mapping table
+            // fetch district for the location using google map api and relevant location - district mapping data into
+            // the location - district mapping table for future reference
             district = de.getDistrict(location);
             if (!district.equalsIgnoreCase("NULL")) {
                 locationDistrict = new LocationDistrictMapper(location, district);
