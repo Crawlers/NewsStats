@@ -16,9 +16,6 @@
         <property name="crimeDate" type="date">
             <column name="crime_date" length="7" not-null="false"/>
         </property>
-        <property name="location" type="string">
-            <column name="location" length="50" not-null="false"/>
-        </property>
         <property name="district" type="string">
             <column name="district" length="20" not-null="false"/>
         </property>
@@ -35,7 +32,7 @@
             <column name="victim" length="50" not-null="false"/>
         </property>
         <property name="victimCount" type="int">
-            <column name="victimCount" precision="11" scale="0" not-null="false"/>
+            <column name="victim_count" precision="11" scale="0" not-null="false"/>
         </property>
         <property name="possession" type="string">
             <column name="possession" length="50" not-null="false"/>
@@ -44,5 +41,12 @@
         <many-to-one name="locationDistrict" class="com.cse10.entities.LocationDistrictMapper"
                      column="location" unique="true" not-null="true"
                      cascade="all" />
+        <set name="crimePersonSet" table="crime_person"
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="entity_group_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cse10.entities.CrimePerson" />
+        </set>
     </class>
 </hibernate-mapping>
