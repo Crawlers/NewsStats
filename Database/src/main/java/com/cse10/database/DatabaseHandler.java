@@ -217,4 +217,27 @@ public class DatabaseHandler {
 
         return crimeEntityGroups;
     }
+
+    /**
+     * fetch a list of CrimeEntityGroups within the given id range
+     *
+     * @param startId      start id (inclusive)
+     * @param endId        end id (inclusive)
+     * @return
+     */
+    public static List<CrimeEntityGroup> fetchCrimeEntityGroupsByIdRange(int startId, int endId) {
+
+        ArrayList<CrimeEntityGroup> crimeEntityGroups;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        crimeEntityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
+                .add(Restrictions.ge("id", startId))
+                .add(Restrictions.le("id", endId))
+                .list();
+        session.getTransaction().commit();
+
+        return crimeEntityGroups;
+    }
 }
