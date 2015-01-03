@@ -145,5 +145,6 @@ public class HashCalculator {
         System.out.println(Long.toBinaryString(hashCalculator.hash64("apple")));
         System.out.println(Long.toBinaryString(hashCalculator.hash64("applee")));
     }
+    //TODO format the code
 
 }
