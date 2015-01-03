@@ -13,6 +13,7 @@ import com.cse10.article.CrimeArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
 import gate.*;
 import gate.Gate;
@@ -164,6 +165,7 @@ public class BatchProcessApp {
                 String court = "NULL";
                 String crimeType = "other";
                 String crimePeople = "NULL";
+                HashSet<String> crimePeopleSet = new HashSet<>();
                 int articleID = currentArticle.getId();
                 Date crimeDate = articleDate;
                 LocationDistrictMapper locationDistrict;
@@ -197,11 +199,15 @@ public class BatchProcessApp {
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimePerson")) {
+                        if(!crimePeopleSet.contains(antText)){
+                            crimePeopleSet.add(antText);
+                        }
+                        /*
                         if(crimePeople.equals("NULL")){
                             crimePeople = antText;
                         }else{
                             crimePeople = crimePeople + " : " + antText;
-                        }
+                        }*/
                     }
 
                     if (CurrentAnnot.getType().equalsIgnoreCase("Police")) {
@@ -243,8 +249,26 @@ public class BatchProcessApp {
 
                 if (entityGroupOfArticle.getLocationDistrict() != null) {
                     entityGroupOfArticle.setCrimeDate(crimeDate);
-                    entityGroupOfArticle.setCriminal(crimePeople);
-                    entityGroupsList.add(entityGroupOfArticle);
+
+                   /* if (crimePeopleSet != null && !crimePeopleSet.isEmpty()){
+
+                        Set<CrimePerson> crimePersonSet = new HashSet<>();
+                        for(String person : crimePeopleSet){
+                            CrimePerson crimePerson = new CrimePerson();
+                            crimePerson.setName(person);
+                            crimePerson.setEntityGroup(entityGroupOfArticle);
+                            DatabaseHandler.insertCrimePerson(crimePerson);
+                            crimePersonSet.add(crimePerson);
+                        }
+                        entityGroupOfArticle.setCrimePersonSet(crimePersonSet);
+
+                    }
+
+
+                    //entityGroupOfArticle.setCriminal(crimePeople);
+                    entityGroupsList.add(entityGroupOfArticle);*/
+
+                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
 
@@ -267,11 +291,21 @@ public class BatchProcessApp {
         }// for each article
 
         // if any entity has been extracted add them into database table
-        if (entityGroupsList.size() > 0) {
+        /*if (entityGroupsList.size() > 0) {
             DatabaseHandler.insertCrimeEntityGroups(entityGroupsList);
-        }
+        }*/
 
         System.out.println("All done");
+
+        /********************Check Details of People Ok************/
+       /* ArrayList<CrimeEntityGroup> entityGroupList = DatabaseHandler.fetchCrimeEntityGroups();
+
+        for(CrimeEntityGroup entity : entityGroupList){
+            if(entity.getCrimePersonSet() != null && !entity.getCrimePersonSet().isEmpty()){
+                System.out.println("Crime People : "+entity.getCrimePersonSet());
+            }
+        }*/
+
     }
 
     public static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID){
