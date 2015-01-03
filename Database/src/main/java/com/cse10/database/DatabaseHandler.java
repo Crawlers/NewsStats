@@ -18,7 +18,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DatabaseHandler {
 
@@ -74,7 +73,7 @@ public class DatabaseHandler {
      * fetch articles of given class (given table) which have the specified IDs
      *
      * @param articleClass ex:- CeylonTodayArticle.class
-     * @param idList list of ids which the fetched rows should have
+     * @param idList       list of ids which the fetched rows should have
      * @return
      */
     public static List<Article> fetchArticlesByIdList(Class articleClass, List<Integer> idList) {
@@ -93,10 +92,9 @@ public class DatabaseHandler {
     }
 
     /**
-     *
      * @param articleClass ex:- Article.class
-     * @param startId start id (inclusive)
-     * @param endId end id (inclusive)
+     * @param startId      start id (inclusive)
+     * @param endId        end id (inclusive)
      * @return
      */
     public static List<Article> fetchArticlesByIdRange(Class articleClass, int startId, int endId) {
@@ -190,6 +188,28 @@ public class DatabaseHandler {
         return entityGroups;
     }
 
+    /**
+     * fetch a list of CrimeEntityGroups within the given id range
+     *
+     * @param startId start id (inclusive)
+     * @param endId   end id (inclusive)
+     * @return
+     */
+    public static List<CrimeEntityGroup> fetchCrimeEntityGroupsByIdRange(int startId, int endId) {
+
+        ArrayList<CrimeEntityGroup> crimeEntityGroups;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        crimeEntityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
+                .add(Restrictions.ge("id", startId))
+                .add(Restrictions.le("id", endId))
+                .list();
+        session.getTransaction().commit();
+
+        return crimeEntityGroups;
+    }
 
     /**
      * insert details of a certain location
@@ -220,7 +240,7 @@ public class DatabaseHandler {
 
         session.beginTransaction();
 
-        locationDistrict = (LocationDistrictMapper)session.load(LocationDistrictMapper.class, location);
+        locationDistrict = (LocationDistrictMapper) session.load(LocationDistrictMapper.class, location);
         Hibernate.initialize(locationDistrict);
         session.getTransaction().commit();
         session.close();
@@ -257,7 +277,7 @@ public class DatabaseHandler {
 
         session.beginTransaction();
 
-        crimePersonList = (ArrayList<CrimePerson>)session.createCriteria(CrimePerson.class).list();
+        crimePersonList = (ArrayList<CrimePerson>) session.createCriteria(CrimePerson.class).list();
         Hibernate.initialize(crimePersonList);
         session.getTransaction().commit();
         session.close();
@@ -269,7 +289,7 @@ public class DatabaseHandler {
      * insert a certain crime entity and people involved in it at a single operation
      *
      * @param crimeEntityGroup details of a certain crime entity
-     * @param crimePeopleSet names of people involved in that crime
+     * @param crimePeopleSet   names of people involved in that crime
      */
     public static void insertCrimeDetails(CrimeEntityGroup crimeEntityGroup, HashSet<String> crimePeopleSet) {
 
@@ -279,8 +299,8 @@ public class DatabaseHandler {
 
         session.save(crimeEntityGroup);
 
-        if (crimePeopleSet != null && !crimePeopleSet.isEmpty()){
-            for(String person : crimePeopleSet){
+        if (crimePeopleSet != null && !crimePeopleSet.isEmpty()) {
+            for (String person : crimePeopleSet) {
                 CrimePerson crimePerson = new CrimePerson();
                 crimePerson.setName(person);
                 crimePerson.setEntityGroup(crimeEntityGroup);
