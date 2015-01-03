@@ -19,6 +19,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
     private String victim;
     private int victimCount;
     private String possession;
+    private LocationDistrictMapper locationDistrict;
 
     public CrimeEntityGroup() {
 
@@ -40,9 +41,13 @@ public class CrimeEntityGroup implements java.io.Serializable {
         this.possession = possession;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getCrimeArticleId() {
         return crimeArticleId;
@@ -76,12 +81,16 @@ public class CrimeEntityGroup implements java.io.Serializable {
         this.location = location;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getDistrict() {  return district;}
+
+    public void setDistrict(String district) { this.district = district; }
+
+    public LocationDistrictMapper getLocationDistrict() {
+        return locationDistrict;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setLocationDistrict(LocationDistrictMapper locationDistrict) {
+        this.locationDistrict = locationDistrict;
     }
 
     public String getPolice() {

@@ -1,0 +1,21 @@
+Phase: Verb
+Input:  Token
+Options: control = all
+
+Rule: Verb
+Priority:50
+(
+{Token.category == VBD}
+|
+{Token.category == VBG}
+|
+{Token.category == VBN}
+|
+{Token.category == VBP}
+|
+{Token.category == VB}
+|
+{Token.category == VBZ}
+):verb
+--> 
+:verb.Verb = {category = "verb"}

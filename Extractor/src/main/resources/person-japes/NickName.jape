@@ -1,0 +1,22 @@
+Phase: NickName
+Input:  Token
+Options: control = all
+
+Rule: NickName
+Priority:50
+(
+((({Token.string == "known"}
+|
+{Token.string == "identified"})
+{Token.string == "as"})
+|
+(({Token.string == "person"}
+|
+{Token.string == "man"})
+{Token.string == "called"}))
+{Token.position == startpunct}
+({Token.category == NNP}):nickname
+{Token.position == endpunct}
+)
+-->
+:nickname.NickName = {source="standard"}

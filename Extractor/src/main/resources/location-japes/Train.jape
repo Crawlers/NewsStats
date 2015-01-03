@@ -1,0 +1,12 @@
+Phase:Train
+Input: Token
+Options: control = brill
+
+Rule: Train
+({Token.string == "Yaya"}
+{Token.string == "Kanda"}
+{Token.string == ","}
+({Token.string == "Siyambalanduwa"}):location
+)
+-->
+ :location.CrimeLocation = {location="Formulated"}

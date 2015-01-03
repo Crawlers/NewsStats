@@ -1,0 +1,87 @@
+Phase: MurderReversed
+Input:  Lookup Token PERSON Currency PointSeperator EndSentence Preventive RealLocation NickName NotPerson
+Options: control = all
+
+Rule: MurderReversed
+Priority:50
+(
+	{PERSON, !RealLocation, !NotPerson, !Preventive}
+	|
+	{NickName, !RealLocation, !NotPerson, !Preventive}
+):person
+
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+
+({Token.string == "killed"}
+|
+{Token.string == "killing"}
+|
+{Token.string == "dead"}
+|
+{Token.string == "murdered"}
+|
+{Token.string == "murder"}
+|
+{Token.string == "murders"}
+|
+({Token.string == "caused"}
+{Token.string == "the"}
+{Token.string == "death"})
+|
+{Token.string == "beheaded"}
+|
+{Token.string == "execution"}
+|
+{Token.string == "died"}
+|
+{Token.string == "hanged"}
+|
+{Token.string == "suicide"}
+|
+(({Token.string == "body"}
+|
+{Token.string == "bodies"}
+|
+{Token.string == "corpse"}
+|
+{Token.string == "corpses"})
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+({Token.string == "discovered"}
+|
+{Token.string == "found"}))
+|
+{Token.string == "killer"}
+|
+{Token.string == "murderer"})
+
+--> 
+{
+	List annList = new ArrayList((AnnotationSet)bindings.get("person"));
+
+	//sort the list by offset
+	Collections.sort(annList, new OffsetComparator());
+
+	//iterate through the matched annotations
+	for(int i = 0; i < annList.size(); i++)
+	{
+		Annotation anAnn = (Annotation)annList.get(i);
+		
+		FeatureMap features = Factory.newFeatureMap();
+		features.put("type", "before_mcw");
+
+		outputAS.add(anAnn.getStartNode(), anAnn.getEndNode(), "TempPerson", features);
+	}
+}

@@ -1,0 +1,33 @@
+Phase: Preventive
+Input:  Token Lookup PERSON EndSentence Verb
+Options: control = all
+
+Rule: Preventive
+Priority:50
+({Token.string == "OIC"}
+|
+{Token.string == "DIG"}
+|
+{Token.string =~ "[Jj]udge"}
+|
+{Token.string =~ "[Mm]agistrate"}
+|
+{Token.string =~ "[Cc]ommissioner"}
+|
+{Token.string =~ "[Cc]ounsel"}
+|
+{Token.string =~ "[Cc]ounsels"}
+|
+{Token.string =~ "[Ss]pokesman"})
+
+({Token.kind == word, !Verb.category == verb}
+|
+{Token.kind == number}
+|
+{Token.kind == symbol}
+|
+{Token.kind == punctuation,!EndSentence.rule == endSentence})*
+
+({PERSON}):preventive
+--> 
+:preventive.Preventive = {category = "title"}
