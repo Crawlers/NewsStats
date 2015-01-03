@@ -32,12 +32,6 @@ public class LocationDistrictMapper implements java.io.Serializable {
         return district;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getDistrictForLocation(String location) {
-        return location;
-    }
+    public void setDistrict(String district) { this.district = district; }
 
 }
