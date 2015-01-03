@@ -174,8 +174,9 @@ public class DatabaseHandler {
 
 
     /**
-     * fetch objects containing crime entities
-     * @return
+     * fetch ArrayList of objects containing crime entities
+     *
+     * @return ArrayList<CrimeEntityGroup> entityGroups
      */
     public static ArrayList<CrimeEntityGroup> fetchCrimeEntityGroups() {
         ArrayList<CrimeEntityGroup> entityGroups;
@@ -192,6 +193,8 @@ public class DatabaseHandler {
 
     /**
      * insert details of a certain location
+     *
+     * @param locationDistrict
      */
     public static void insertLocationDistrict(LocationDistrictMapper locationDistrict) {
 
@@ -208,7 +211,7 @@ public class DatabaseHandler {
      * fetch details of a certain location
      *
      * @param location name of the location
-     * @return LocationDistrictMapper
+     * @return LocationDistrictMapper contains district of the location
      */
     public static LocationDistrictMapper fetchLocation(String location) {
 
@@ -226,7 +229,9 @@ public class DatabaseHandler {
     }
 
     /**
-     * insert details of a certain location
+     * insert details of a person related to a crime
+     *
+     * @param crimePerson name of the person and crime he/she involved
      */
     public static void insertCrimePerson(CrimePerson crimePerson) {
 
@@ -240,10 +245,10 @@ public class DatabaseHandler {
     }
 
     /**
-     * fetch people involved in a crime
+     * fetch ArrayList of people involved in a crime
      *
-     * @param entityGroupID
-     * @return ArrayList<CrimePerson>
+     * @param entityGroupID certain crime entity
+     * @return ArrayList<CrimePerson> people involved in the crime
      */
     public static ArrayList<CrimePerson> fetchCrimePeople(int entityGroupID) {
 
@@ -261,7 +266,10 @@ public class DatabaseHandler {
     }
 
     /**
-     * insert details of a certain location
+     * insert a certain crime entity and people involved in it at a single operation
+     *
+     * @param crimeEntityGroup details of a certain crime entity
+     * @param crimePeopleSet names of people involved in that crime
      */
     public static void insertCrimeDetails(CrimeEntityGroup crimeEntityGroup, HashSet<String> crimePeopleSet) {
 
@@ -272,8 +280,6 @@ public class DatabaseHandler {
         session.save(crimeEntityGroup);
 
         if (crimePeopleSet != null && !crimePeopleSet.isEmpty()){
-
-            //Set<CrimePerson> crimePersonSet = new HashSet<>();
             for(String person : crimePeopleSet){
                 CrimePerson crimePerson = new CrimePerson();
                 crimePerson.setName(person);
@@ -281,8 +287,6 @@ public class DatabaseHandler {
                 session.save(crimePerson);
                 crimeEntityGroup.getCrimePersonSet().add(crimePerson);
             }
-            //crimeEntityGroup.setCrimePersonSet(crimePersonSet);
-
         }
 
         session.save(crimeEntityGroup);
