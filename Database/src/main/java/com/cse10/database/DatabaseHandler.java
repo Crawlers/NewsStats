@@ -159,7 +159,7 @@ public class DatabaseHandler {
     /**
      * insert multiple objects containing crime entities
      *
-     * @param crimeEntityGroups
+     * @param crimeEntityGroups details about crime entity
      */
     public static void insertCrimeEntityGroups(List<CrimeEntityGroup> crimeEntityGroups) {
         Session session = HibernateUtil.getSessionFactory().openSession();
