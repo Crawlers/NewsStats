@@ -6,7 +6,9 @@ package com.cse10.database;
 
 import com.cse10.article.Article;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -14,7 +16,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DatabaseHandler {
 
@@ -170,6 +174,23 @@ public class DatabaseHandler {
 
 
     /**
+     * fetch objects containing crime entities
+     * @return
+     */
+    public static ArrayList<CrimeEntityGroup> fetchCrimeEntityGroups() {
+        ArrayList<CrimeEntityGroup> entityGroups;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class).list();
+        session.getTransaction().commit();
+
+        return entityGroups;
+    }
+
+
+    /**
      * insert details of a certain location
      */
     public static void insertLocationDistrict(LocationDistrictMapper locationDistrict) {
@@ -187,18 +208,85 @@ public class DatabaseHandler {
      * fetch details of a certain location
      *
      * @param location name of the location
-     * @return
+     * @return LocationDistrictMapper
      */
     public static LocationDistrictMapper fetchLocation(String location) {
 
-        LocationDistrictMapper locationDistrict;
+        LocationDistrictMapper locationDistrict = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
 
         locationDistrict = (LocationDistrictMapper)session.load(LocationDistrictMapper.class, location);
+        Hibernate.initialize(locationDistrict);
         session.getTransaction().commit();
+        session.close();
 
         return locationDistrict;
+    }
+
+    /**
+     * insert details of a certain location
+     */
+    public static void insertCrimePerson(CrimePerson crimePerson) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.save(crimePerson);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * fetch people involved in a crime
+     *
+     * @param entityGroupID
+     * @return ArrayList<CrimePerson>
+     */
+    public static ArrayList<CrimePerson> fetchCrimePeople(int entityGroupID) {
+
+        ArrayList<CrimePerson> crimePersonList;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        crimePersonList = (ArrayList<CrimePerson>)session.createCriteria(CrimePerson.class).list();
+        Hibernate.initialize(crimePersonList);
+        session.getTransaction().commit();
+        session.close();
+
+        return crimePersonList;
+    }
+
+    /**
+     * insert details of a certain location
+     */
+    public static void insertCrimeDetails(CrimeEntityGroup crimeEntityGroup, HashSet<String> crimePeopleSet) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.save(crimeEntityGroup);
+
+        if (crimePeopleSet != null && !crimePeopleSet.isEmpty()){
+
+            //Set<CrimePerson> crimePersonSet = new HashSet<>();
+            for(String person : crimePeopleSet){
+                CrimePerson crimePerson = new CrimePerson();
+                crimePerson.setName(person);
+                crimePerson.setEntityGroup(crimeEntityGroup);
+                session.save(crimePerson);
+                crimeEntityGroup.getCrimePersonSet().add(crimePerson);
+            }
+            //crimeEntityGroup.setCrimePersonSet(crimePersonSet);
+
+        }
+
+        session.save(crimeEntityGroup);
+        session.getTransaction().commit();
+        session.close();
     }
 }
