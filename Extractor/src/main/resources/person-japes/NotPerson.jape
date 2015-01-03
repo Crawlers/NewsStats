@@ -10,6 +10,8 @@ Priority:50
 |
 ({Token.string == "Mahinda"}
 {Token.string == "Rajapaksa"})
+|
+({Token.string == "Mora"})
 ):notPerson
 -->
 :notPerson.NotPerson = {source="standard"}

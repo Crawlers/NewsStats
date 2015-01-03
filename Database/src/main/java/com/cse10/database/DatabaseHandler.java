@@ -70,7 +70,7 @@ public class DatabaseHandler {
      * fetch articles of given class (given table) which have the specified IDs
      *
      * @param articleClass ex:- CeylonTodayArticle.class
-     * @param idList       list of ids which the fetched rows should have
+     * @param idList list of ids which the fetched rows should have
      * @return
      */
     public static List<Article> fetchArticlesByIdList(Class articleClass, List<Integer> idList) {
@@ -89,9 +89,10 @@ public class DatabaseHandler {
     }
 
     /**
+     *
      * @param articleClass ex:- Article.class
-     * @param startId      start id (inclusive)
-     * @param endId        end id (inclusive)
+     * @param startId start id (inclusive)
+     * @param endId end id (inclusive)
      * @return
      */
     public static List<Article> fetchArticlesByIdRange(Class articleClass, int startId, int endId) {
@@ -195,49 +196,9 @@ public class DatabaseHandler {
 
         session.beginTransaction();
 
-        locationDistrict = (LocationDistrictMapper) session.load(LocationDistrictMapper.class, location);
+        locationDistrict = (LocationDistrictMapper)session.load(LocationDistrictMapper.class, location);
         session.getTransaction().commit();
 
         return locationDistrict;
-    }
-
-    /**
-     * fetch a list of CrimeEntityGroups
-     *
-     * @return
-     */
-    public static List<CrimeEntityGroup> fetchCrimeEntityGroups() {
-        ArrayList<CrimeEntityGroup> crimeEntityGroups;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        session.beginTransaction();
-
-        crimeEntityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class).list();
-        session.getTransaction().commit();
-
-        return crimeEntityGroups;
-    }
-
-    /**
-     * fetch a list of CrimeEntityGroups within the given id range
-     *
-     * @param startId start id (inclusive)
-     * @param endId   end id (inclusive)
-     * @return
-     */
-    public static List<CrimeEntityGroup> fetchCrimeEntityGroupsByIdRange(int startId, int endId) {
-
-        ArrayList<CrimeEntityGroup> crimeEntityGroups;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        session.beginTransaction();
-
-        crimeEntityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
-                .add(Restrictions.ge("id", startId))
-                .add(Restrictions.le("id", endId))
-                .list();
-        session.getTransaction().commit();
-
-        return crimeEntityGroups;
     }
 }

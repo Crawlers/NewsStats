@@ -1,6 +1,6 @@
 Phase: Preventive
 Input:  Token Lookup
-Options: control = once
+Options: control = all
 
 Rule: Preventive
 Priority:50
