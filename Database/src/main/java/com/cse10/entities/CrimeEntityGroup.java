@@ -1,6 +1,8 @@
 package com.cse10.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by TharinduWijewardane on 2014-12-19.
@@ -20,13 +22,13 @@ public class CrimeEntityGroup implements java.io.Serializable {
     private int victimCount;
     private String possession;
     private LocationDistrictMapper locationDistrict;
+    private Set<CrimePerson> crimePersonSet =  new HashSet<CrimePerson>(0);
 
     public CrimeEntityGroup() {
-
     }
 
 
-    public CrimeEntityGroup(int id, int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession) {
+    public CrimeEntityGroup(int id, int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession, Set<CrimePerson> crimePersonSet) {
         this.id = id;
         this.crimeArticleId = crimeArticleId;
         this.crimeType = crimeType;
@@ -39,6 +41,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
         this.victim = victim;
         this.victimCount = victimCount;
         this.possession = possession;
+        this.crimePersonSet = crimePersonSet;
     }
 
     public int getId() { return id; }
@@ -133,7 +136,9 @@ public class CrimeEntityGroup implements java.io.Serializable {
         return possession;
     }
 
-    public void setPossession(String possession) {
-        this.possession = possession;
-    }
+    public void setPossession(String possession) { this.possession = possession;}
+
+    public Set<CrimePerson> getCrimePersonSet() { return crimePersonSet;}
+
+    public void setCrimePersonSet(Set<CrimePerson> crimePersonSet) { this.crimePersonSet = crimePersonSet;}
 }
