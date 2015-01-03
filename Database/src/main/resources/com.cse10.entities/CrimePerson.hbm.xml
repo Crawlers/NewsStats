@@ -8,7 +8,7 @@
             <generator class="increment"/>
         </id>
         <property name="name" type="string">
-            <column name="name" length="50" not-null="true"/>
+            <column name="name" length="75" not-null="true"/>
         </property>
         <many-to-one name="entityGroup" class="com.cse10.entities.CrimeEntityGroup"
                      column="entity_group_id" insert="true" update="true" not-null="true" cascade="all"/>
