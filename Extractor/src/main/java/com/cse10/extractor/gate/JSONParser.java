@@ -33,7 +33,8 @@ public class JSONParser {
         StringBuilder stringBuilder = new StringBuilder();
         try {
 
-            address = address.replaceAll(" ", "%20");
+            // replace white spaces
+            address = address.replaceAll("[ \\u00A0]", "%20");
 
             // make request to google map api and get response
             HttpPost httppost = new HttpPost("http://maps.google.com/maps/api/geocode/json?address=" + address + "&sensor=false");
