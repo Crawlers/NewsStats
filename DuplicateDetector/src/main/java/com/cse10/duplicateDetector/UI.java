@@ -93,12 +93,12 @@ public class UI {
     public void findDuplicates() {
 
         SimHashCalculator simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
-        // DocHashes is a list that will contain all of the calculated hashes.
+        //this will contain all the calculated sim hash value
         ArrayList<Long> documentSimHashes = new ArrayList<Long>();
         // Read the documents from database
         List<String> documents = readArticlesFromDB();
 
-        //write articleHashValues to the file
+
         File articleHashValues = new File("C:\\Users\\hp\\Desktop\\DuplicateDetetcionImplementation\\Implementations\\sim hash\\simhash-java-master\\simhash-java-master\\src\\test_out_idea_s");
         //clear the file before writing
         PrintWriter writer = null;
@@ -111,7 +111,7 @@ public class UI {
         writer.close();
 
         for (String document : documents) {
-            // Calculate the document sim hash.
+            // Calculate the sim hash value of document.
             long docHash = simHashCalculator.simhash64(document);
             System.out.println("Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits");
             try {
@@ -119,11 +119,9 @@ public class UI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // Store the document hash in a list.
             documentSimHashes.add(docHash);
         }
 
-        //write articleHashValues to the file
         File articleHammingDistances = new File("C:\\Users\\hp\\Desktop\\DuplicateDetetcionImplementation\\Implementations\\sim hash\\simhash-java-master\\simhash-java-master\\src\\test_out_idea_h");
 
         try {
@@ -143,6 +141,7 @@ public class UI {
             for (int i = 0; i < documentSimHashes.size(); i++) {
                 int dist = simHashCalculator.hammingDistance(docHash, documentSimHashes.get(i));
                 // System.out.println(dist);
+                //check the hamming distance difference
                 if (dist <= 3) {
                     similarDocs.add(i);
                     docDistances.put(i, dist);
@@ -181,7 +180,6 @@ public class UI {
 
     public static void main(String[] args) {
         UI ui=new UI();
-       // ui.readArticlesFromDB();
         ui.findDuplicates();
     }
 
