@@ -22,8 +22,8 @@
         <mapping resource="com/cse10/article/TrainingArticle.hbm.xml"></mapping>
         <mapping resource="com/cse10/article/CrimeArticle.hbm.xml"></mapping>
 
-        <mapping resource="com/cse10/entities/CrimeEntityGroup.hbm.xml"></mapping>
         <mapping resource="com/cse10/entities/LocationDistrictMapper.hbm.xml"></mapping>
+        <mapping resource="com/cse10/entities/CrimeEntityGroup.hbm.xml"></mapping>
         <mapping resource="com/cse10/entities/CrimePerson.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>

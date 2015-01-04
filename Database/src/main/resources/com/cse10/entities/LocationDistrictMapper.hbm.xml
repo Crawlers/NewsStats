@@ -4,7 +4,7 @@
 <hibernate-mapping>
     <class name="com.cse10.entities.LocationDistrictMapper" table="location_district_mapper">
         <id name="location" type="string">
-            <column name="location" length="50" not-null="true"/>
+            <column name="location" length="50" unique="true" not-null="true"/>
             <generator class="assigned" />
         </id>
         <property name="district" type="string">
