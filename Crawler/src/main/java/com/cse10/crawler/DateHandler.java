@@ -1,10 +1,9 @@
 package com.cse10.crawler;
 
 import com.cse10.database.HibernateUtil;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

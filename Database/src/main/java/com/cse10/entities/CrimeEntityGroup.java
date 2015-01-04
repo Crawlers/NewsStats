@@ -44,45 +44,25 @@ public class CrimeEntityGroup implements java.io.Serializable {
         this.crimePersonSet = crimePersonSet;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id;}
 
-    public int getCrimeArticleId() {
-        return crimeArticleId;
-    }
+    public int getCrimeArticleId() { return crimeArticleId;}
 
-    public void setCrimeArticleId(int crimeArticleId) {
-        this.crimeArticleId = crimeArticleId;
-    }
+    public void setCrimeArticleId(int crimeArticleId) { this.crimeArticleId = crimeArticleId;}
 
-    public String getCrimeType() {
-        return crimeType;
-    }
+    public String getCrimeType() { return crimeType;}
 
-    public void setCrimeType(String crimeType) {
-        this.crimeType = crimeType;
-    }
+    public void setCrimeType(String crimeType) { this.crimeType = crimeType;}
 
-    public Date getCrimeDate() {
-        return crimeDate;
-    }
+    public Date getCrimeDate() { return crimeDate;}
 
-    public void setCrimeDate(Date crimeDate) {
-        this.crimeDate = crimeDate;
-    }
+    public void setCrimeDate(Date crimeDate) { this.crimeDate = crimeDate;}
 
-    public String getLocation() {
-        return location;
-    }
+    public String getLocation() { return location;}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public void setLocation(String location) { this.location = location;}
 
     public String getDistrict() {  return district;}
 
@@ -92,9 +72,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
         return locationDistrict;
     }
 
-    public void setLocationDistrict(LocationDistrictMapper locationDistrict) {
-        this.locationDistrict = locationDistrict;
-    }
+    public void setLocationDistrict(LocationDistrictMapper locationDistrict) {this.locationDistrict = locationDistrict;}
 
     public String getPolice() {
         return police;
