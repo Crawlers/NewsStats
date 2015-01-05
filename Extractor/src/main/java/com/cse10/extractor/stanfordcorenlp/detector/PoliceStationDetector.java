@@ -11,26 +11,41 @@ import java.util.List;
  */
 public class PoliceStationDetector {
 
-    protected static TokenSequencePattern policePattern = TokenSequencePattern.compile("(/arrested|apprehended|nabbed|seized|remanded|raided/ | /taken/ /into/ /custody/ ) []{0,8} /by/ [/the/]{0,1} ([{tag:NNP}]{1,3}) /police|Police/");
-    protected static TokenSequencePattern policeActivePattern = TokenSequencePattern.compile("([{tag:NNP}]{1,3}) /police|Police/ []{0,4} (/arrested|apprehended|nabbed|seized|remanded|raided/ | /took/ /into/ /custody/ )");
-    protected static TokenSequencePattern policeAllPattern = TokenSequencePattern.compile("([{tag:NNP}]{1,3}) /police|Police/");
+    private static TokenSequencePattern policePattern = TokenSequencePattern.compile("(/arrested|apprehended|nabbed|seized|remanded|raided/ | /taken/ /into/ /custody/ ) []{0,8} /by/ [/the/]{0,1} ([{tag:NNP}]{1,3}) /police|Police/");
+    private static TokenSequencePattern policeActivePattern = TokenSequencePattern.compile("([{tag:NNP}]{1,3}) /police|Police/ []{0,4} (/arrested|apprehended|nabbed|seized|remanded|raided/ | /took/ /into/ /custody/ )");
+    private static TokenSequencePattern policeAllPattern = TokenSequencePattern.compile("([{tag:NNP}]{1,3}) /police|Police/");
 
-    public static void printPolice(List<CoreLabel> tokens) {
+    public static String findPolice(List<CoreLabel> tokens) {
+
+        String policeStation = "";
 
         TokenSequenceMatcher policeMatcher = policePattern.getMatcher(tokens);
         while (policeMatcher.find()) {
-            System.out.println(" police1: " + policeMatcher.group(policeMatcher.groupCount())); // get last group
+            policeStation = policeMatcher.group(policeMatcher.groupCount()); // get last group
+            System.out.println(" police1: " + policeStation);
+        }
+
+        if (policeStation.length() > 0) {
+            return policeStation;
         }
 
         policeMatcher = policeActivePattern.getMatcher(tokens);
         while (policeMatcher.find()) {
-            System.out.println(" police2: " + policeMatcher.group(1));
+            policeStation = policeMatcher.group(1);
+            System.out.println(" police2: " + policeStation);
+        }
+
+        if (policeStation.length() > 0) {
+            return policeStation;
         }
 
         policeMatcher = policeAllPattern.getMatcher(tokens);
         while (policeMatcher.find()) {
-            System.out.println(" police3: " + policeMatcher.group(1));
+            policeStation = policeMatcher.group(1);
+            System.out.println(" police3: " + policeStation);
         }
+
+        return policeStation;
     }
 
 }
