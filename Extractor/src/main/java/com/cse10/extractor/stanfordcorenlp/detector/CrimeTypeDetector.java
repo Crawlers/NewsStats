@@ -29,7 +29,7 @@ public class CrimeTypeDetector {
         }
 
         if (crimeType.length() > 0) {
-            return crimeType;
+            return standardize(crimeType);
         }
 
         criminalMatcher = criminalActivePattern.getMatcher(tokens);
@@ -39,7 +39,7 @@ public class CrimeTypeDetector {
         }
 
         if (crimeType.length() > 0) {
-            return crimeType;
+            return standardize(crimeType);
         }
 
         criminalMatcher = criminalIngPattern.getMatcher(tokens);
@@ -49,7 +49,7 @@ public class CrimeTypeDetector {
         }
 
         if (crimeType.length() > 0) {
-            return crimeType;
+            return standardize(crimeType);
         }
 
         TokenSequenceMatcher victimMatcher = victimPattern.getMatcher(tokens);
@@ -58,14 +58,29 @@ public class CrimeTypeDetector {
             System.out.println(" crime type: " + crimeType);
         }
 
+        if (crimeType.length() > 0) {
+            return standardize(crimeType);
+        }
+
         TokenSequenceMatcher suicideVictimMatcher = suicidePattern.getMatcher(tokens);
         while (suicideVictimMatcher.find()) {
             crimeType = ExtractorConstants.CRIME_TYPE_SUICIDE;
             System.out.println(" suicide type");
         }
 
-        return crimeType;
+        return standardize(crimeType);
 
+    }
+
+    private static String standardize(String keyword) {
+
+        if (keyword.startsWith("kill") || keyword.startsWith("murder") || keyword.startsWith("stab")) {
+            keyword = ExtractorConstants.CRIME_TYPE_MURDER;
+        } else if (keyword.startsWith("rape")) {
+            keyword = ExtractorConstants.CRIME_TYPE_RAPE;
+        }
+
+        return keyword;
     }
 
 }
