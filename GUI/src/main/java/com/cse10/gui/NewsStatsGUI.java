@@ -13,6 +13,11 @@ public class NewsStatsGUI {
     private JTabbedPane tabbedPane1;
     private JPanel panelWizard;
     private JScrollPane scrollPaneCrawl;
+    private JPanel panelCrawl;
+    private JPanel panelCrawlPapers;
+    private JPanel panelCrawlTimePeriod;
+    private JPanel panelCrawlControl;
+    private JPanel panelCrawlResults;
 
     public static void main(String[] args) {
 
