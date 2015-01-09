@@ -1,5 +1,6 @@
 package com.cse10.gui;
 
+import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 
 import javax.swing.*;
@@ -18,8 +19,20 @@ public class NewsStatsGUI {
     private JPanel panelCrawlTimePeriod;
     private JPanel panelCrawlControl;
     private JPanel panelCrawlResults;
+    private JCheckBox ceylonTodayCheckBox;
+    private JCheckBox dailyMirrorCheckBox;
+    private JCheckBox newsFirstCheckBox;
+    private JCheckBox theIslandCheckBox;
+    private JDateChooser JDateChooser1;
+    private JDateChooser JDateChooser2;
+    private JButton startCrawlingButton;
+    private JProgressBar progressBar1;
+    private JProgressBar progressBar2;
+    private JProgressBar progressBar3;
+    private JProgressBar progressBar4;
+    private JProgressBar progressBar5;
 
-    public static void main(String[] args) {
+    public void init() {
 
         try {
 //            UIManager.setLookAndFeel(new SyntheticaBlueIceLookAndFeel());
@@ -28,7 +41,7 @@ public class NewsStatsGUI {
             e.printStackTrace();
         }
 
-        JFrame frame = new JFrame("Form2");
+        JFrame frame = new JFrame("NewsStats");
         frame.setContentPane(new NewsStatsGUI().panelMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack(); // packs the window according to components inside. this is not removed because its required to correct layouts
@@ -37,5 +50,18 @@ public class NewsStatsGUI {
         frame.setBounds(0, 0, screenSize.width / 2, screenSize.height / 2);
 
         frame.setVisible(true);
+
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                int percent = 50;
+
+                progressBar1.setString("Processing " + percent + "%");
+                progressBar1.setValue(percent);
+            }
+        });
+
     }
 }
