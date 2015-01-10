@@ -18,11 +18,14 @@ import java.beans.PropertyChangeListener;
  * Created by TharinduWijewardane on 2015-01-08.
  */
 public class NewsStatsGUI {
+
+    private JFrame frame;
+
     private JPanel panelMain;
     private JTabbedPane tabbedPane1;
     private JPanel panelWizard;
-    private JScrollPane scrollPaneCrawl;
-    private JPanel panelCrawl;
+    private JScrollPane scrollPaneCrawler;
+    private JPanel panelCrawler;
     private JPanel panelCrawlPapers;
     private JPanel panelCrawlTimePeriod;
     private JPanel panelCrawlControl;
@@ -41,6 +44,9 @@ public class NewsStatsGUI {
     private JProgressBar overallProgressBar;
     private JPanel panelStatusBar;
     private JLabel statusLabel;
+    private JScrollPane scrollPaneClassifier;
+    private JPanel panelClassifier;
+    private JButton stopCrawlingButton;
 
     private int ceylonTodayProgress;
     private int dailyMirrorProgress;
@@ -54,6 +60,8 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
 
                 statusLabel.setText("Crawling...");
+
+                disableUI();
 
                 CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
                 ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
@@ -117,6 +125,14 @@ public class NewsStatsGUI {
 
             }
         });
+        stopCrawlingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO stop swing worker tasks
+                enableUI();
+                resetProgressBars();
+            }
+        });
     }
 
     public void init() {
@@ -128,7 +144,7 @@ public class NewsStatsGUI {
             e.printStackTrace();
         }
 
-        JFrame frame = new JFrame("NewsStats");
+        frame = new JFrame("NewsStats");
         frame.setContentPane(new NewsStatsGUI().panelMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack(); // packs the window according to components inside. this is not removed because its required to correct layouts
@@ -149,7 +165,44 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
             statusLabel.setText("Ready");
+            CrawlEndDialog crawDialog = new CrawlEndDialog();
+            crawDialog.init(frame);
+
+            enableUI();
+            resetProgressBars();
         }
+    }
+
+    private void disableUI() {
+        ceylonTodayCheckBox.setEnabled(false);
+        dailyMirrorCheckBox.setEnabled(false);
+        newsFirstCheckBox.setEnabled(false);
+        theIslandCheckBox.setEnabled(false);
+        startCrawlDateChooser.setEnabled(false);
+        endCrawlDateChooser.setEnabled(false);
+        startCrawlingButton.setEnabled(false);
+
+        stopCrawlingButton.setEnabled(true);
+    }
+
+    private void enableUI() {
+        ceylonTodayCheckBox.setEnabled(true);
+        dailyMirrorCheckBox.setEnabled(true);
+        newsFirstCheckBox.setEnabled(true);
+        theIslandCheckBox.setEnabled(true);
+        startCrawlDateChooser.setEnabled(true);
+        endCrawlDateChooser.setEnabled(true);
+        startCrawlingButton.setEnabled(true);
+
+        stopCrawlingButton.setEnabled(false);
+    }
+
+    private void resetProgressBars() {
+        ceylonTodayProgressBar.setValue(0);
+        dailyMirrorProgressBar.setValue(0);
+        newsFirstProgressBar.setValue(0);
+        theIslandProgressBar.setValue(0);
+        overallProgressBar.setValue(0);
     }
 
 }
