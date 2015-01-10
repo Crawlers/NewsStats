@@ -2,8 +2,10 @@ package com.cse10.classifier;
 
 import com.cse10.article.*;
 import com.cse10.database.DatabaseHandler;
+import com.cse10.util.ArticleConverter;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
