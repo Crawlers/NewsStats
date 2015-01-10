@@ -47,6 +47,10 @@ public class NewsStatsGUI {
     private JScrollPane scrollPaneClassifier;
     private JPanel panelClassifier;
     private JButton stopCrawlingButton;
+    private JPanel panelClassifierResults;
+    private JPanel panelClassifierControl;
+    private JPanel panelClassifierPapers;
+    private JPanel panelClassifierTimePeriod;
 
     private int ceylonTodayProgress;
     private int dailyMirrorProgress;
