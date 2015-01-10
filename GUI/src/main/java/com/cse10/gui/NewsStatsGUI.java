@@ -1,10 +1,18 @@
 package com.cse10.gui;
 
+import com.cse10.gui.task.CeylonTodayCrawlTask;
+import com.cse10.gui.task.DailyMirrorCrawlTask;
+import com.cse10.gui.task.NewsFirstCrawlTask;
+import com.cse10.gui.task.TheIslandCrawlTask;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * Created by TharinduWijewardane on 2015-01-08.
@@ -23,14 +31,93 @@ public class NewsStatsGUI {
     private JCheckBox dailyMirrorCheckBox;
     private JCheckBox newsFirstCheckBox;
     private JCheckBox theIslandCheckBox;
-    private JDateChooser JDateChooser1;
-    private JDateChooser JDateChooser2;
+    private JDateChooser startCrawlDateChooser;
+    private JDateChooser endCrawlDateChooser;
     private JButton startCrawlingButton;
-    private JProgressBar progressBar1;
-    private JProgressBar progressBar2;
-    private JProgressBar progressBar3;
-    private JProgressBar progressBar4;
-    private JProgressBar progressBar5;
+    private JProgressBar ceylonTodayProgressBar;
+    private JProgressBar dailyMirrorProgressBar;
+    private JProgressBar newsFirstProgressBar;
+    private JProgressBar theIslandProgressBar;
+    private JProgressBar overallProgressBar;
+    private JPanel panelStatusBar;
+    private JLabel statusLabel;
+
+    private int ceylonTodayProgress;
+    private int dailyMirrorProgress;
+    private int newsFirstProgress;
+    private int theIslandProgress;
+
+    public NewsStatsGUI() {
+
+        startCrawlingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                statusLabel.setText("Crawling...");
+
+                CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
+                ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            ceylonTodayProgress = progress;
+                            ceylonTodayProgressBar.setValue(progress);
+                            ceylonTodayProgressBar.setStringPainted(true);
+                            setOverallProgress();
+                        }
+                    }
+                });
+                ceylonTodayCrawlTask.execute();
+
+                DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask();
+                dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            dailyMirrorProgress = progress;
+                            dailyMirrorProgressBar.setValue(progress);
+                            dailyMirrorProgressBar.setStringPainted(true);
+                            setOverallProgress();
+                        }
+                    }
+                });
+                dailyMirrorCrawlTask.execute();
+
+                NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask();
+                newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            newsFirstProgress = progress;
+                            newsFirstProgressBar.setValue(progress);
+                            newsFirstProgressBar.setStringPainted(true);
+                            setOverallProgress();
+                        }
+                    }
+                });
+                newsFirstCrawlTask.execute();
+
+                final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask();
+                theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            theIslandProgress = progress;
+                            theIslandProgressBar.setValue(progress);
+                            theIslandProgressBar.setStringPainted(true);
+                            setOverallProgress();
+                        }
+                    }
+                });
+                theIslandCrawlTask.execute();
+
+            }
+        });
+    }
 
     public void init() {
 
@@ -51,17 +138,18 @@ public class NewsStatsGUI {
 
         frame.setVisible(true);
 
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                int percent = 50;
-
-                progressBar1.setString("Processing " + percent + "%");
-                progressBar1.setValue(percent);
-            }
-        });
-
     }
+
+    private void setOverallProgress() {
+
+        int overallProgress = (ceylonTodayProgress + dailyMirrorProgress + newsFirstProgress + theIslandProgress) / 4;
+
+        overallProgressBar.setValue(overallProgress);
+        overallProgressBar.setStringPainted(true);
+
+        if (overallProgress == 100) {
+            statusLabel.setText("Ready");
+        }
+    }
+
 }
