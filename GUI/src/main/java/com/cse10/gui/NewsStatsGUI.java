@@ -6,6 +6,10 @@ import com.cse10.gui.task.NewsFirstCrawlTask;
 import com.cse10.gui.task.TheIslandCrawlTask;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,11 +33,11 @@ public class NewsStatsGUI {
     private JPanel panelCrawlPapers;
     private JPanel panelCrawlTimePeriod;
     private JPanel panelCrawlControl;
-    private JPanel panelCrawlResults;
-    private JCheckBox ceylonTodayCheckBox;
-    private JCheckBox dailyMirrorCheckBox;
-    private JCheckBox newsFirstCheckBox;
-    private JCheckBox theIslandCheckBox;
+    private JPanel panelCrawlProgress;
+    private JCheckBox ceylonTodayCrawlerCheckBox;
+    private JCheckBox dailyMirrorCrawlerCheckBox;
+    private JCheckBox newsFirstCrawlerCheckBox;
+    private JCheckBox theIslandCrawlerCheckBox;
     private JDateChooser startCrawlDateChooser;
     private JDateChooser endCrawlDateChooser;
     private JButton startCrawlingButton;
@@ -47,10 +51,23 @@ public class NewsStatsGUI {
     private JScrollPane scrollPaneClassifier;
     private JPanel panelClassifier;
     private JButton stopCrawlingButton;
-    private JPanel panelClassifierResults;
+    private JPanel panelClassifierProgress;
     private JPanel panelClassifierControl;
     private JPanel panelClassifierPapers;
     private JPanel panelClassifierTimePeriod;
+    private JPanel panelCrawlResults;
+    private ChartPanel chartPanelCrawler;
+    private JPanel panelClassifierMOdel;
+    private JCheckBox ceylonTodayClassifierCheckBox;
+    private JCheckBox dailyMirrorClassifierCheckBox;
+    private JCheckBox newsFirstClassifierCheckBox;
+    private JCheckBox theIslandClassifierCheckBox;
+    private JDateChooser startClassifyJDateChooser;
+    private JDateChooser endClassifyJDateChooser;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JPanel panelClassifierResults;
 
     private int ceylonTodayProgress;
     private int dailyMirrorProgress;
@@ -160,6 +177,19 @@ public class NewsStatsGUI {
 
     }
 
+    private void createUIComponents() {
+        // place custom component creation code here
+
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        pieDataset.setValue("Ceylon Today", new Integer(10));
+        pieDataset.setValue("Daily Mirror", new Integer(20));
+        pieDataset.setValue("News First", new Integer(30));
+        pieDataset.setValue("The Island", new Integer(10));
+        JFreeChart chart = ChartFactory.createPieChart3D("Crawled Articles", pieDataset, true, true, true);
+        chartPanelCrawler = new ChartPanel(chart);
+        chartPanelCrawler.setVisible(false);
+    }
+
     private void setOverallProgress() {
 
         int overallProgress = (ceylonTodayProgress + dailyMirrorProgress + newsFirstProgress + theIslandProgress) / 4;
@@ -174,14 +204,16 @@ public class NewsStatsGUI {
 
             enableUI();
             resetProgressBars();
+            chartPanelCrawler.setVisible(true);
+
         }
     }
 
     private void disableUI() {
-        ceylonTodayCheckBox.setEnabled(false);
-        dailyMirrorCheckBox.setEnabled(false);
-        newsFirstCheckBox.setEnabled(false);
-        theIslandCheckBox.setEnabled(false);
+        ceylonTodayCrawlerCheckBox.setEnabled(false);
+        dailyMirrorCrawlerCheckBox.setEnabled(false);
+        newsFirstCrawlerCheckBox.setEnabled(false);
+        theIslandCrawlerCheckBox.setEnabled(false);
         startCrawlDateChooser.setEnabled(false);
         endCrawlDateChooser.setEnabled(false);
         startCrawlingButton.setEnabled(false);
@@ -190,10 +222,10 @@ public class NewsStatsGUI {
     }
 
     private void enableUI() {
-        ceylonTodayCheckBox.setEnabled(true);
-        dailyMirrorCheckBox.setEnabled(true);
-        newsFirstCheckBox.setEnabled(true);
-        theIslandCheckBox.setEnabled(true);
+        ceylonTodayCrawlerCheckBox.setEnabled(true);
+        dailyMirrorCrawlerCheckBox.setEnabled(true);
+        newsFirstCrawlerCheckBox.setEnabled(true);
+        theIslandCrawlerCheckBox.setEnabled(true);
         startCrawlDateChooser.setEnabled(true);
         endCrawlDateChooser.setEnabled(true);
         startCrawlingButton.setEnabled(true);
