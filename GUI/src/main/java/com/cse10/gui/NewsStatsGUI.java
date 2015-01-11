@@ -41,11 +41,11 @@ public class NewsStatsGUI {
     private JDateChooser startCrawlDateChooser;
     private JDateChooser endCrawlDateChooser;
     private JButton startCrawlingButton;
-    private JProgressBar ceylonTodayProgressBar;
-    private JProgressBar dailyMirrorProgressBar;
-    private JProgressBar newsFirstProgressBar;
-    private JProgressBar theIslandProgressBar;
-    private JProgressBar overallProgressBar;
+    private JProgressBar ceylonTodayCrawlProgressBar;
+    private JProgressBar dailyMirrorCrawlProgressBar;
+    private JProgressBar newsFirstCrawlProgressBar;
+    private JProgressBar theIslandCrawlProgressBar;
+    private JProgressBar overallCrawlProgressBar;
     private JPanel panelStatusBar;
     private JLabel statusLabel;
     private JScrollPane scrollPaneClassifier;
@@ -68,6 +68,12 @@ public class NewsStatsGUI {
     private JButton button2;
     private JButton button3;
     private JPanel panelClassifierResults;
+    private JProgressBar ceylonTodayClassifyProgressBar;
+    private JProgressBar dailyMirrorClassifyProgressBar;
+    private JProgressBar newsFirstClassifyProgressBar;
+    private JProgressBar theIslandClassifyProgressBar;
+    private JProgressBar overallClassifyProgressBar;
+    private ChartPanel chartPanelClassifier;
 
     private int ceylonTodayProgress;
     private int dailyMirrorProgress;
@@ -91,8 +97,8 @@ public class NewsStatsGUI {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
                             ceylonTodayProgress = progress;
-                            ceylonTodayProgressBar.setValue(progress);
-                            ceylonTodayProgressBar.setStringPainted(true);
+                            ceylonTodayCrawlProgressBar.setValue(progress);
+                            ceylonTodayCrawlProgressBar.setStringPainted(true);
                             setOverallProgress();
                         }
                     }
@@ -106,8 +112,8 @@ public class NewsStatsGUI {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
                             dailyMirrorProgress = progress;
-                            dailyMirrorProgressBar.setValue(progress);
-                            dailyMirrorProgressBar.setStringPainted(true);
+                            dailyMirrorCrawlProgressBar.setValue(progress);
+                            dailyMirrorCrawlProgressBar.setStringPainted(true);
                             setOverallProgress();
                         }
                     }
@@ -121,8 +127,8 @@ public class NewsStatsGUI {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
                             newsFirstProgress = progress;
-                            newsFirstProgressBar.setValue(progress);
-                            newsFirstProgressBar.setStringPainted(true);
+                            newsFirstCrawlProgressBar.setValue(progress);
+                            newsFirstCrawlProgressBar.setStringPainted(true);
                             setOverallProgress();
                         }
                     }
@@ -136,8 +142,8 @@ public class NewsStatsGUI {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
                             theIslandProgress = progress;
-                            theIslandProgressBar.setValue(progress);
-                            theIslandProgressBar.setStringPainted(true);
+                            theIslandCrawlProgressBar.setValue(progress);
+                            theIslandCrawlProgressBar.setStringPainted(true);
                             setOverallProgress();
                         }
                     }
@@ -180,22 +186,33 @@ public class NewsStatsGUI {
     private void createUIComponents() {
         // place custom component creation code here
 
-        DefaultPieDataset pieDataset = new DefaultPieDataset();
-        pieDataset.setValue("Ceylon Today", new Integer(10));
-        pieDataset.setValue("Daily Mirror", new Integer(20));
-        pieDataset.setValue("News First", new Integer(30));
-        pieDataset.setValue("The Island", new Integer(10));
-        JFreeChart chart = ChartFactory.createPieChart3D("Crawled Articles", pieDataset, true, true, true);
-        chartPanelCrawler = new ChartPanel(chart);
+        /* crawler chart */
+        DefaultPieDataset pieDatasetCrawler = new DefaultPieDataset();
+        pieDatasetCrawler.setValue("Ceylon Today", new Integer(10));
+        pieDatasetCrawler.setValue("Daily Mirror", new Integer(20));
+        pieDatasetCrawler.setValue("News First", new Integer(30));
+        pieDatasetCrawler.setValue("The Island", new Integer(10));
+        JFreeChart chartCrawler = ChartFactory.createPieChart3D("Crawled Articles", pieDatasetCrawler, true, true, true);
+        chartPanelCrawler = new ChartPanel(chartCrawler);
         chartPanelCrawler.setVisible(false);
+
+        /* classifier chart */
+        DefaultPieDataset pieDatasetClassifer = new DefaultPieDataset();
+        pieDatasetClassifer.setValue("Ceylon Today", new Integer(10));
+        pieDatasetClassifer.setValue("Daily Mirror", new Integer(20));
+        pieDatasetClassifer.setValue("News First", new Integer(30));
+        pieDatasetClassifer.setValue("The Island", new Integer(10));
+        JFreeChart chartClassifier = ChartFactory.createPieChart3D("Classified Articles", pieDatasetClassifer, true, true, true);
+        chartPanelClassifier = new ChartPanel(chartClassifier);
+        chartPanelClassifier.setVisible(false);
     }
 
     private void setOverallProgress() {
 
         int overallProgress = (ceylonTodayProgress + dailyMirrorProgress + newsFirstProgress + theIslandProgress) / 4;
 
-        overallProgressBar.setValue(overallProgress);
-        overallProgressBar.setStringPainted(true);
+        overallCrawlProgressBar.setValue(overallProgress);
+        overallCrawlProgressBar.setStringPainted(true);
 
         if (overallProgress == 100) {
             statusLabel.setText("Ready");
@@ -234,11 +251,11 @@ public class NewsStatsGUI {
     }
 
     private void resetProgressBars() {
-        ceylonTodayProgressBar.setValue(0);
-        dailyMirrorProgressBar.setValue(0);
-        newsFirstProgressBar.setValue(0);
-        theIslandProgressBar.setValue(0);
-        overallProgressBar.setValue(0);
+        ceylonTodayCrawlProgressBar.setValue(0);
+        dailyMirrorCrawlProgressBar.setValue(0);
+        newsFirstCrawlProgressBar.setValue(0);
+        theIslandCrawlProgressBar.setValue(0);
+        overallCrawlProgressBar.setValue(0);
     }
 
 }
