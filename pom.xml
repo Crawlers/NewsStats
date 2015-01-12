@@ -11,6 +11,8 @@
         <module>Filter</module>
         <module>Extractor</module>
         <module>Classifier</module>
+        <module>GUI</module>
+        <module>Predictor</module>
     </modules>
     <name>NewsStats</name>
     <url>http://maven.apache.org</url>
