@@ -216,8 +216,8 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
             statusLabel.setText("Ready");
-            CrawlEndDialog crawDialog = new CrawlEndDialog();
-            crawDialog.init(frame);
+            InfoDialog crawDialog = new InfoDialog();
+            crawDialog.init(frame, "Crawling Completed Successfully!");
 
             enableUI();
             resetProgressBars();

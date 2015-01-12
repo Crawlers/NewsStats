@@ -6,12 +6,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CrawlEndDialog extends JDialog {
+public class InfoDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
+    private JLabel labelInfo;
     //    private JButton buttonCancel;
 
-    public CrawlEndDialog() {
+    public InfoDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -54,7 +55,7 @@ public class CrawlEndDialog extends JDialog {
 //        dispose();
 //    }
 
-    public void init(JFrame frame) {
+    public void init(JFrame frame, String msg) {
 
         try {
 //            UIManager.setLookAndFeel(new SyntheticaBlueIceLookAndFeel());
@@ -63,10 +64,11 @@ public class CrawlEndDialog extends JDialog {
             e.printStackTrace();
         }
 
-        CrawlEndDialog dialog = new CrawlEndDialog();
-        dialog.pack();
+        InfoDialog dialog = new InfoDialog();
         dialog.setTitle("Info");
+        dialog.labelInfo.setText(msg);
         dialog.setLocationRelativeTo(frame);
+        dialog.pack();
         dialog.setVisible(true);
 
     }
