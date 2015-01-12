@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.cse10.gui.NewsStatsGUI">
+  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="831" height="648"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <splitpane id="17aca">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties>
+          <dividerSize value="1"/>
+          <orientation value="0"/>
+          <resizeWeight value="0.999"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <tabbedpane id="f1290" binding="tabbedPane1" default-binding="true">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <visible value="true"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="cb6a6" binding="panelWizard" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <tabbedpane title="Wizard"/>
+                </constraints>
+                <properties/>
+                <border type="empty"/>
+                <children/>
+              </grid>
+              <scrollpane id="b345" binding="scrollPaneCrawler">
+                <constraints>
+                  <tabbedpane title="Crawler"/>
+                </constraints>
+                <properties/>
+                <border type="empty"/>
+                <children>
+                  <grid id="83695" binding="panelCrawler" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <splitpane id="fdc92">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <enabled value="true"/>
+                          <resizeWeight value="0.5"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <splitpane id="94f9">
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties>
+                              <orientation value="0"/>
+                              <requestFocusEnabled value="true"/>
+                              <resizeWeight value="0.4"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <splitpane id="d5eac">
+                                <constraints>
+                                  <splitpane position="left"/>
+                                </constraints>
+                                <properties>
+                                  <orientation value="0"/>
+                                  <resizeWeight value="0.6"/>
+                                </properties>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="6947b" binding="panelCrawlPapers" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="0" right="0"/>
+                                    <constraints>
+                                      <splitpane position="left"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Papers"/>
+                                    <children>
+                                      <component id="3de02" class="javax.swing.JCheckBox" binding="ceylonTodayCrawlerCheckBox">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Ceylon Today"/>
+                                        </properties>
+                                      </component>
+                                      <vspacer id="cf36f">
+                                        <constraints>
+                                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </vspacer>
+                                      <component id="75815" class="javax.swing.JCheckBox" binding="dailyMirrorCrawlerCheckBox">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Daily Mirror"/>
+                                        </properties>
+                                      </component>
+                                      <component id="380bc" class="javax.swing.JCheckBox" binding="newsFirstCrawlerCheckBox">
+                                        <constraints>
+                                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="News First"/>
+                                        </properties>
+                                      </component>
+                                      <component id="47043" class="javax.swing.JCheckBox" binding="theIslandCrawlerCheckBox">
+                                        <constraints>
+                                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="The Island"/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <grid id="6ab54" binding="panelCrawlTimePeriod" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="10" right="0"/>
+                                    <constraints>
+                                      <splitpane position="right"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Time Period"/>
+                                    <children>
+                                      <component id="adb1a" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Start:"/>
+                                        </properties>
+                                      </component>
+                                      <component id="b5278" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="End:"/>
+                                        </properties>
+                                      </component>
+                                      <component id="40a25" class="com.toedter.calendar.JDateChooser" binding="startCrawlDateChooser">
+                                        <constraints>
+                                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </component>
+                                      <component id="72dec" class="com.toedter.calendar.JDateChooser" binding="endCrawlDateChooser">
+                                        <constraints>
+                                          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </splitpane>
+                              <grid id="56a15" binding="panelCrawlControl" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="10" left="10" bottom="10" right="0"/>
+                                <constraints>
+                                  <splitpane position="right"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Controllers"/>
+                                <children>
+                                  <component id="a20ac" class="javax.swing.JButton" binding="startCrawlingButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Start Crawling"/>
+                                    </properties>
+                                  </component>
+                                  <component id="dce3b" class="javax.swing.JButton" binding="stopCrawlingButton" default-binding="true">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Stop Crawling"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
+                            </children>
+                          </splitpane>
+                          <splitpane id="87a56">
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties>
+                              <orientation value="0"/>
+                              <resizeWeight value="0.2"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <grid id="ee8fa" binding="panelCrawlProgress" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="10" bottom="10" right="10"/>
+                                <constraints>
+                                  <splitpane position="left"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Progress"/>
+                                <children>
+                                  <component id="fe597" class="javax.swing.JProgressBar" binding="ceylonTodayCrawlProgressBar">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="4e185" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Ceylon Today"/>
+                                    </properties>
+                                  </component>
+                                  <component id="bb2c3" class="javax.swing.JProgressBar" binding="dailyMirrorCrawlProgressBar">
+                                    <constraints>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="9931a" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Daily Mirror"/>
+                                    </properties>
+                                  </component>
+                                  <component id="8bc03" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="News First"/>
+                                    </properties>
+                                  </component>
+                                  <component id="33b7b" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="The Island"/>
+                                    </properties>
+                                  </component>
+                                  <component id="6441f" class="javax.swing.JProgressBar" binding="newsFirstCrawlProgressBar">
+                                    <constraints>
+                                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="dd5a2" class="javax.swing.JProgressBar" binding="theIslandCrawlProgressBar">
+                                    <constraints>
+                                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="68088" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Overall"/>
+                                    </properties>
+                                  </component>
+                                  <component id="7df70" class="javax.swing.JProgressBar" binding="overallCrawlProgressBar">
+                                    <constraints>
+                                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                              <grid id="25430" binding="panelCrawlResults" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <splitpane position="right"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Results"/>
+                                <children>
+                                  <component id="469b" class="org.jfree.chart.ChartPanel" binding="chartPanelCrawler" custom-create="true">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                            </children>
+                          </splitpane>
+                        </children>
+                      </splitpane>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+              <scrollpane id="b6e62" binding="scrollPaneClassifier">
+                <constraints>
+                  <tabbedpane title="Classifier"/>
+                </constraints>
+                <properties/>
+                <border type="empty"/>
+                <children>
+                  <grid id="3d984" binding="panelClassifier" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <splitpane id="319a8">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <resizeWeight value="0.5"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <splitpane id="dd193">
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties>
+                              <orientation value="0"/>
+                              <resizeWeight value="0.6"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <splitpane id="30083">
+                                <constraints>
+                                  <splitpane position="left"/>
+                                </constraints>
+                                <properties>
+                                  <orientation value="0"/>
+                                  <resizeWeight value="0.6"/>
+                                </properties>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="73656" binding="panelClassifierPapers" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="10" right="10"/>
+                                    <constraints>
+                                      <splitpane position="left"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Papers"/>
+                                    <children>
+                                      <component id="fd27c" class="javax.swing.JCheckBox" binding="ceylonTodayClassifierCheckBox">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Ceylon Today"/>
+                                        </properties>
+                                      </component>
+                                      <component id="91ffa" class="javax.swing.JCheckBox" binding="dailyMirrorClassifierCheckBox">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Daily Mirror"/>
+                                        </properties>
+                                      </component>
+                                      <component id="7e56b" class="javax.swing.JCheckBox" binding="newsFirstClassifierCheckBox">
+                                        <constraints>
+                                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="News First"/>
+                                        </properties>
+                                      </component>
+                                      <component id="621aa" class="javax.swing.JCheckBox" binding="theIslandClassifierCheckBox">
+                                        <constraints>
+                                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="The Island"/>
+                                        </properties>
+                                      </component>
+                                      <vspacer id="6a16c">
+                                        <constraints>
+                                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </vspacer>
+                                    </children>
+                                  </grid>
+                                  <grid id="bdda3" binding="panelClassifierTimePeriod" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="10" right="10"/>
+                                    <constraints>
+                                      <splitpane position="right"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Time Period"/>
+                                    <children>
+                                      <component id="3b681" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Start:"/>
+                                        </properties>
+                                      </component>
+                                      <component id="a4a6e" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="End:"/>
+                                        </properties>
+                                      </component>
+                                      <component id="62f8e" class="com.toedter.calendar.JDateChooser" binding="startClassifyJDateChooser">
+                                        <constraints>
+                                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </component>
+                                      <component id="b2275" class="com.toedter.calendar.JDateChooser" binding="endClassifyJDateChooser">
+                                        <constraints>
+                                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </splitpane>
+                              <splitpane id="88cce">
+                                <constraints>
+                                  <splitpane position="right"/>
+                                </constraints>
+                                <properties>
+                                  <orientation value="0"/>
+                                </properties>
+                                <border type="none"/>
+                                <children>
+                                  <grid id="44df" binding="panelClassifierControl" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="10" right="10"/>
+                                    <constraints>
+                                      <splitpane position="right"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Controllers"/>
+                                    <children>
+                                      <component id="38024" class="javax.swing.JButton" binding="button2" default-binding="true">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Button"/>
+                                        </properties>
+                                      </component>
+                                      <component id="47b65" class="javax.swing.JButton" binding="button3" default-binding="true">
+                                        <constraints>
+                                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Button"/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                  <grid id="5aed7" binding="panelClassifierMOdel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                    <margin top="10" left="10" bottom="10" right="10"/>
+                                    <constraints>
+                                      <splitpane position="left"/>
+                                    </constraints>
+                                    <properties/>
+                                    <border type="etched" title="Model"/>
+                                    <children>
+                                      <component id="60fbd" class="javax.swing.JLabel">
+                                        <constraints>
+                                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Select Model:"/>
+                                        </properties>
+                                      </component>
+                                      <component id="b4b51" class="javax.swing.JButton" binding="button1" default-binding="true">
+                                        <constraints>
+                                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                        </constraints>
+                                        <properties>
+                                          <text value="Button"/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </grid>
+                                </children>
+                              </splitpane>
+                            </children>
+                          </splitpane>
+                          <splitpane id="29eb">
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties>
+                              <orientation value="0"/>
+                              <resizeWeight value="0.2"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <grid id="9b874" binding="panelClassifierProgress" layout-manager="GridLayoutManager" row-count="5" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="10" bottom="10" right="10"/>
+                                <constraints>
+                                  <splitpane position="left"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Progress"/>
+                                <children>
+                                  <component id="a8808" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Ceylon Today"/>
+                                    </properties>
+                                  </component>
+                                  <component id="63632" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Daily Mirror"/>
+                                    </properties>
+                                  </component>
+                                  <component id="e6f61" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="News First"/>
+                                    </properties>
+                                  </component>
+                                  <component id="6ea5e" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="The Island"/>
+                                    </properties>
+                                  </component>
+                                  <component id="e579a" class="javax.swing.JProgressBar" binding="ceylonTodayClassifyProgressBar">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="99af9" class="javax.swing.JProgressBar" binding="dailyMirrorClassifyProgressBar">
+                                    <constraints>
+                                      <grid row="1" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="1780b" class="javax.swing.JProgressBar" binding="newsFirstClassifyProgressBar">
+                                    <constraints>
+                                      <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="c47a3" class="javax.swing.JProgressBar" binding="theIslandClassifyProgressBar">
+                                    <constraints>
+                                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="a4ff4" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Overall"/>
+                                    </properties>
+                                  </component>
+                                  <component id="12996" class="javax.swing.JProgressBar" binding="overallClassifyProgressBar">
+                                    <constraints>
+                                      <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                              <grid id="6d388" binding="panelClassifierResults" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="0" left="0" bottom="0" right="0"/>
+                                <constraints>
+                                  <splitpane position="right"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Results"/>
+                                <children>
+                                  <component id="af14" class="org.jfree.chart.ChartPanel" binding="chartPanelClassifier" custom-create="true">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                            </children>
+                          </splitpane>
+                        </children>
+                      </splitpane>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+            </children>
+          </tabbedpane>
+          <grid id="bc8c0" binding="panelStatusBar" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties>
+              <autoscrolls value="false"/>
+              <enabled value="true"/>
+              <focusCycleRoot value="false"/>
+            </properties>
+            <border type="bevel-raised"/>
+            <children>
+              <component id="38142" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="11"/>
+                  <text value="Status: "/>
+                </properties>
+              </component>
+              <component id="35869" class="javax.swing.JLabel" binding="statusLabel">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="-1"/>
+                    <preferred-size width="100" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <horizontalAlignment value="4"/>
+                  <text value="Ready"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </splitpane>
+    </children>
+  </grid>
+</form>
