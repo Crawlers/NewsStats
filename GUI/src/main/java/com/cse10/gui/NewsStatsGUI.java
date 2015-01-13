@@ -65,8 +65,8 @@ public class NewsStatsGUI {
     private JDateChooser startClassifyJDateChooser;
     private JDateChooser endClassifyJDateChooser;
     private JButton button1;
-    private JButton button2;
-    private JButton button3;
+    private JButton startClassifyingButton;
+    private JButton stopClassifyingButton;
     private JPanel panelClassifierResults;
     private JProgressBar ceylonTodayClassifyProgressBar;
     private JProgressBar dailyMirrorClassifyProgressBar;
@@ -75,10 +75,15 @@ public class NewsStatsGUI {
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
 
-    private int ceylonTodayProgress;
-    private int dailyMirrorProgress;
-    private int newsFirstProgress;
-    private int theIslandProgress;
+    private int ceylonTodayCrawlProgress;
+    private int dailyMirrorCrawlProgress;
+    private int newsFirstCrawlProgress;
+    private int theIslandCrawlProgress;
+
+    private int ceylonTodayClassifyProgress;
+    private int dailyMirrorClassifyProgress;
+    private int newsFirstClassifyProgress;
+    private int theIslandClassifyProgress;
 
     public NewsStatsGUI() {
 
@@ -88,7 +93,7 @@ public class NewsStatsGUI {
 
                 statusLabel.setText("Crawling...");
 
-                disableUI();
+                disableCrawlerUI();
 
                 CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
                 ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
@@ -96,10 +101,10 @@ public class NewsStatsGUI {
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
-                            ceylonTodayProgress = progress;
+                            ceylonTodayCrawlProgress = progress;
                             ceylonTodayCrawlProgressBar.setValue(progress);
                             ceylonTodayCrawlProgressBar.setStringPainted(true);
-                            setOverallProgress();
+                            setOverallCrawlProgress();
                         }
                     }
                 });
@@ -111,10 +116,10 @@ public class NewsStatsGUI {
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
-                            dailyMirrorProgress = progress;
+                            dailyMirrorCrawlProgress = progress;
                             dailyMirrorCrawlProgressBar.setValue(progress);
                             dailyMirrorCrawlProgressBar.setStringPainted(true);
-                            setOverallProgress();
+                            setOverallCrawlProgress();
                         }
                     }
                 });
@@ -126,10 +131,10 @@ public class NewsStatsGUI {
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
-                            newsFirstProgress = progress;
+                            newsFirstCrawlProgress = progress;
                             newsFirstCrawlProgressBar.setValue(progress);
                             newsFirstCrawlProgressBar.setStringPainted(true);
-                            setOverallProgress();
+                            setOverallCrawlProgress();
                         }
                     }
                 });
@@ -141,10 +146,10 @@ public class NewsStatsGUI {
                     public void propertyChange(PropertyChangeEvent evt) {
                         if ("progress" == evt.getPropertyName()) {
                             int progress = (Integer) evt.getNewValue();
-                            theIslandProgress = progress;
+                            theIslandCrawlProgress = progress;
                             theIslandCrawlProgressBar.setValue(progress);
                             theIslandCrawlProgressBar.setStringPainted(true);
-                            setOverallProgress();
+                            setOverallCrawlProgress();
                         }
                     }
                 });
@@ -156,8 +161,20 @@ public class NewsStatsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO stop swing worker tasks
-                enableUI();
-                resetProgressBars();
+                enableCrawlerUI();
+                resetCrawlProgressBars();
+            }
+        });
+        startClassifyingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        stopClassifyingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -207,9 +224,9 @@ public class NewsStatsGUI {
         chartPanelClassifier.setVisible(false);
     }
 
-    private void setOverallProgress() {
+    private void setOverallCrawlProgress() {
 
-        int overallProgress = (ceylonTodayProgress + dailyMirrorProgress + newsFirstProgress + theIslandProgress) / 4;
+        int overallProgress = (ceylonTodayCrawlProgress + dailyMirrorCrawlProgress + newsFirstCrawlProgress + theIslandCrawlProgress) / 4;
 
         overallCrawlProgressBar.setValue(overallProgress);
         overallCrawlProgressBar.setStringPainted(true);
@@ -219,14 +236,14 @@ public class NewsStatsGUI {
             InfoDialog crawDialog = new InfoDialog();
             crawDialog.init(frame, "Crawling Completed Successfully!");
 
-            enableUI();
-            resetProgressBars();
+            enableCrawlerUI();
+            resetCrawlProgressBars();
             chartPanelCrawler.setVisible(true);
 
         }
     }
 
-    private void disableUI() {
+    private void disableCrawlerUI() {
         ceylonTodayCrawlerCheckBox.setEnabled(false);
         dailyMirrorCrawlerCheckBox.setEnabled(false);
         newsFirstCrawlerCheckBox.setEnabled(false);
@@ -238,7 +255,7 @@ public class NewsStatsGUI {
         stopCrawlingButton.setEnabled(true);
     }
 
-    private void enableUI() {
+    private void enableCrawlerUI() {
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -250,7 +267,7 @@ public class NewsStatsGUI {
         stopCrawlingButton.setEnabled(false);
     }
 
-    private void resetProgressBars() {
+    private void resetCrawlProgressBars() {
         ceylonTodayCrawlProgressBar.setValue(0);
         dailyMirrorCrawlProgressBar.setValue(0);
         newsFirstCrawlProgressBar.setValue(0);

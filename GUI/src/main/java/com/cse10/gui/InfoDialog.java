@@ -55,7 +55,7 @@ public class InfoDialog extends JDialog {
 //        dispose();
 //    }
 
-    public void init(JFrame frame, String msg) {
+    public void init(JFrame frame, String msg) { // frame is used to set relative location
 
         try {
 //            UIManager.setLookAndFeel(new SyntheticaBlueIceLookAndFeel());
