@@ -65,7 +65,9 @@ Priority:50
 |
 {Token.string == "interdict"}
 |
-{Token.string == "interdicted"}): crimeType1
+{Token.string == "interdicted"}
+|
+{Token.string == "recovered"}): crimeType1
 |
 ({Token.string == "explosives"}
 |
@@ -246,9 +248,28 @@ Priority:50
 |
 {Token.string == "raided"}
 |
+{Token.string == "confiscate"}
+|
+{Token.string == "confiscated"}
+|
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
 {Token.string == "counterfeit"}
 |
 {Token.string == "contraband"}
+|
+{Token.string == "detection"}
+|
+{Token.string == "detections"}
+|
+{Token.string == "infest"}
+|
+{Token.string == "infested"}
+|
+({Token.string == "low"}
+{Token.string == "quality"}) 
 |
 {Token.string == "smuggle"}
 |
@@ -259,6 +280,8 @@ Priority:50
 {Token.string == "smuggler"}
 |
 {Token.string == "seized"}
+|
+{Token.string == "seizing"}
 |
 {Token.string == "fraud"}
 |
@@ -298,6 +321,10 @@ Priority:50
 |
 {Token.string == "unauthorised"}) : crimeType7
 |
+({Token.string == "CAA"}
+|
+{Token.string == "Consumer"}) : crimeType11
+|
 (({Token.string == "treasure"}
 {Token.string == "hunting"})
 |
@@ -332,7 +359,8 @@ Priority:50
 |
 {Token.string == "killing"}
 |
-{Token.string == "killer"}
+({!Token.string == "pain"}
+{Token.string == "killer"})
 |
 {Token.string == "dead"}
 |
@@ -358,7 +386,10 @@ Priority:50
 |
 {Token.string == "suicide"}
 |
-{Token.string == "body"}
+(
+	{Token.string == "body"}
+	{!Token.string == "sprays"}
+)
 |
 {Token.string == "bodies"}
 |
@@ -372,13 +403,14 @@ Priority:50
 )
 
 --> 
-:crimeType1.CrimeType = {type= "other", kind= "10"},  
-:crimeType2.CrimeType = {type= "terrorist", kind= "7"},  
-:crimeType3.CrimeType = {type= "clash", kind= "6"},  
-:crimeType4.CrimeType = {type= "child_sex_crime", kind= "4"},  
-:crimeType5.CrimeType = {type= "robbery", kind= "8"},  
-:crimeType6.CrimeType = {type= "abduction", kind= "3"},  
-:crimeType7.CrimeType = {type= "illegal_trade", kind= "5"},  
-:crimeType8.CrimeType = {type= "treasure_hunt", kind= "1"},  
-:crimeType9.CrimeType = {type= "drugs", kind= "9"},  
-:crimeType10.CrimeType = {type= "murder", kind= "2"} 
+:crimeType1.CrimeType = {type= "Other", kind= "11"},  
+:crimeType2.CrimeType = {type= "Terrorism", kind= "8"},  
+:crimeType3.CrimeType = {type= "Clash", kind= "7"},  
+:crimeType4.CrimeType = {type= "Sex Crime", kind= "4"},  
+:crimeType5.CrimeType = {type= "Theft", kind= "9"},  
+:crimeType6.CrimeType = {type= "Abduction", kind= "3"},  
+:crimeType7.CrimeType = {type= "Illegal Trading", kind= "6"},  
+:crimeType8.CrimeType = {type= "Treasure Hunting", kind= "1"},  
+:crimeType9.CrimeType = {type= "Drug Offenses", kind= "10"},  
+:crimeType10.CrimeType = {type= "Violent Crimes", kind= "2"},  
+:crimeType11.CrimeType = {type= "Unsuitable Consumer Goods", kind= "5"} 
