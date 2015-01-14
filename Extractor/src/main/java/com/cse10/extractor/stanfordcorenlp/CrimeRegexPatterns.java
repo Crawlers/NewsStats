@@ -15,9 +15,19 @@ public class CrimeRegexPatterns {
     //to do core reference
     //to do asylum seeker (15)
 
+    private static String crimeType = "";
+    private static String criminal = "";
+    private static String victim = "";
+    private static String location = "";
+    private static String police = "";
+    private static String court = "";
+    private static String possession = "";
+    private static String prison = "";
+
+
     public static void printAll(List<CoreLabel> tokens) {
 
-        printCriminal(tokens);
+        detectCriminal(tokens);
         printVictim(tokens);
         printSuicide(tokens);
         printLocation(tokens);
@@ -32,23 +42,43 @@ public class CrimeRegexPatterns {
     protected static TokenSequencePattern criminalActivePattern = TokenSequencePattern.compile("([ner: PERSON]{1,4}) []{0,4} (/killed|murdered|stabbed|raped/)");
     protected static TokenSequencePattern criminalIngPattern = TokenSequencePattern.compile("[{tag:IN}]{1,1} []{0,4} (/killing|murdering|stabbing|raping/)");
 
-    public static void printCriminal(List<CoreLabel> tokens) {
+    public static void detectCriminal(List<CoreLabel> tokens) {
+
+        if (crimeType.length() > 0 && criminal.length() > 0) {
+            return;
+        }
 
         TokenSequenceMatcher criminalMatcher = criminalPattern.getMatcher(tokens);
         while (criminalMatcher.find()) {
-            System.out.println(" crime type: " + criminalMatcher.group(1));
-            System.out.println(" criminal: " + criminalMatcher.group(criminalMatcher.groupCount())); // get last group
+            crimeType = criminalMatcher.group(1);
+            System.out.println(" crime type: " + crimeType);
+            criminal = criminalMatcher.group(criminalMatcher.groupCount()); // get last group
+            System.out.println(" criminal: " + criminal);
+        }
+
+        if (crimeType.length() > 0 && criminal.length() > 0) {
+            return;
         }
 
         criminalMatcher = criminalActivePattern.getMatcher(tokens);
         while (criminalMatcher.find()) {
-            System.out.println(" crime type: " + criminalMatcher.group(criminalMatcher.groupCount()));
-            System.out.println(" criminal: " + criminalMatcher.group(1));
+            crimeType = criminalMatcher.group(criminalMatcher.groupCount());
+            System.out.println(" crime type: " + crimeType);
+            criminal = criminalMatcher.group(1);
+            System.out.println(" criminal: " + criminal);
+        }
+
+        if (crimeType.length() > 0 && criminal.length() > 0) {
+            return;
         }
 
         criminalMatcher = criminalIngPattern.getMatcher(tokens);
         while (criminalMatcher.find()) {
             System.out.println(" crime type: " + criminalMatcher.group(1));
+        }
+
+        if (crimeType.length() > 0 && criminal.length() > 0) {
+            return;
         }
 
     }

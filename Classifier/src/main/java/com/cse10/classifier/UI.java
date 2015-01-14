@@ -2,8 +2,10 @@ package com.cse10.classifier;
 
 import com.cse10.article.*;
 import com.cse10.database.DatabaseHandler;
+import com.cse10.util.ArticleConverter;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +103,7 @@ public class UI {
      */
     public void classifyNewsArticles(Class tableName) {
 
-        Instances testData = dataHandler.loadTestData(tableName, "WHERE 1",true); //`created_date`<'2013-06-01'
+        Instances testData = dataHandler.loadTestData(tableName, "WHERE  `created_date` >  '2013-12-31'",true); //`created_date`<'2013-06-01'
         System.out.println("Size of test data= "+testData.numInstances());
         System.out.println("classfy-1");
         HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
@@ -169,9 +171,7 @@ public class UI {
        // performGridSearch();
         crossValidateModel();
         buildModel();
-        classifyNewsArticles(TheIslandArticle.class);
-        classifyNewsArticles(CeylonTodayArticle.class);
-        classifyNewsArticles(DailyMirrorArticle.class);
+
     }
 
     /**
@@ -182,7 +182,7 @@ public class UI {
      */
     public void classify(Class tableName){
 
-        try {
+        /*try {
             LibSVMExtended libSVMExtended = (LibSVMExtended) SerializationHelper.read("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\svm.model");
             svmClassifierHandler.setSvm(libSVMExtended);
             GenericDataHandler genericDataHandler=new GenericDataHandler();
@@ -199,7 +199,10 @@ public class UI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
+        classifyNewsArticles(tableName);
+        // classifyNewsArticles(CeylonTodayArticle.class);
+        // classifyNewsArticles(DailyMirrorArticle.class);
 
     }
 
@@ -207,7 +210,7 @@ public class UI {
 
         UI UI = new UI();
         UI.build();
-       // UI.classify(DailyMirrorArticle.class);
+        UI.classify(DailyMirrorArticle.class);
 
     }
 

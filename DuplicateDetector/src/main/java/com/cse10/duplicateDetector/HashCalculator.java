@@ -12,6 +12,7 @@ public class HashCalculator {
 
     /**
      * calculate 32 bit hash value for given word
+     *
      * @param word
      * @return
      */
@@ -25,6 +26,7 @@ public class HashCalculator {
 
     /**
      * calculate 64 bit hash value for given word
+     *
      * @param doc
      * @return
      */
@@ -40,6 +42,7 @@ public class HashCalculator {
      * implemented by Viliam Holub
      * https://github.com/tnm/murmurhash-java/blob/master/src/main/java/ie/ucd/murmur/MurmurHash.java
      * generate 32 bit hash from given byte buffer
+     *
      * @param data
      * @param length
      * @param seed
@@ -52,13 +55,13 @@ public class HashCalculator {
         final int r = 24;
 
         // Initialize the hash to a random value
-        int h = seed^length;
-        int length4 = length/4;
+        int h = seed ^ length;
+        int length4 = length / 4;
 
-        for (int i=0; i<length4; i++) {
-            final int i4 = i*4;
-            int k = (data[i4+0]&0xff) +((data[i4+1]&0xff)<<8)
-                    +((data[i4+2]&0xff)<<16) +((data[i4+3]&0xff)<<24);
+        for (int i = 0; i < length4; i++) {
+            final int i4 = i * 4;
+            int k = (data[i4 + 0] & 0xff) + ((data[i4 + 1] & 0xff) << 8)
+                    + ((data[i4 + 2] & 0xff) << 16) + ((data[i4 + 3] & 0xff) << 24);
             k *= m;
             k ^= k >>> r;
             k *= m;
@@ -67,10 +70,13 @@ public class HashCalculator {
         }
 
         // Handle the last few bytes of the input array
-        switch (length%4) {
-            case 3: h ^= (data[(length&~3) +2]&0xff) << 16;
-            case 2: h ^= (data[(length&~3) +1]&0xff) << 8;
-            case 1: h ^= (data[length&~3]&0xff);
+        switch (length % 4) {
+            case 3:
+                h ^= (data[(length & ~3) + 2] & 0xff) << 16;
+            case 2:
+                h ^= (data[(length & ~3) + 1] & 0xff) << 8;
+            case 1:
+                h ^= (data[length & ~3] & 0xff);
                 h *= m;
         }
 
@@ -85,6 +91,7 @@ public class HashCalculator {
      * implemented by Viliam Holub
      * https://github.com/tnm/murmurhash-java/blob/master/src/main/java/ie/ucd/murmur/MurmurHash.java
      * generate 64 bit hash from given byte buffer
+     *
      * @param data
      * @param length
      * @param seed
@@ -94,16 +101,16 @@ public class HashCalculator {
         final long m = 0xc6a4a7935bd1e995L;
         final int r = 47;
 
-        long h = (seed&0xffffffffl)^(length*m);
+        long h = (seed & 0xffffffffl) ^ (length * m);
 
-        int length8 = length/8;
+        int length8 = length / 8;
 
-        for (int i=0; i<length8; i++) {
-            final int i8 = i*8;
-            long k =  ((long)data[i8+0]&0xff)      +(((long)data[i8+1]&0xff)<<8)
-                    +(((long)data[i8+2]&0xff)<<16) +(((long)data[i8+3]&0xff)<<24)
-                    +(((long)data[i8+4]&0xff)<<32) +(((long)data[i8+5]&0xff)<<40)
-                    +(((long)data[i8+6]&0xff)<<48) +(((long)data[i8+7]&0xff)<<56);
+        for (int i = 0; i < length8; i++) {
+            final int i8 = i * 8;
+            long k = ((long) data[i8 + 0] & 0xff) + (((long) data[i8 + 1] & 0xff) << 8)
+                    + (((long) data[i8 + 2] & 0xff) << 16) + (((long) data[i8 + 3] & 0xff) << 24)
+                    + (((long) data[i8 + 4] & 0xff) << 32) + (((long) data[i8 + 5] & 0xff) << 40)
+                    + (((long) data[i8 + 6] & 0xff) << 48) + (((long) data[i8 + 7] & 0xff) << 56);
 
             k *= m;
             k ^= k >>> r;
@@ -113,16 +120,24 @@ public class HashCalculator {
             h *= m;
         }
 
-        switch (length%8) {
-            case 7: h ^= (long)(data[(length&~7)+6]&0xff) << 48;
-            case 6: h ^= (long)(data[(length&~7)+5]&0xff) << 40;
-            case 5: h ^= (long)(data[(length&~7)+4]&0xff) << 32;
-            case 4: h ^= (long)(data[(length&~7)+3]&0xff) << 24;
-            case 3: h ^= (long)(data[(length&~7)+2]&0xff) << 16;
-            case 2: h ^= (long)(data[(length&~7)+1]&0xff) << 8;
-            case 1: h ^= (long)(data[length&~7]&0xff);
+        switch (length % 8) {
+            case 7:
+                h ^= (long) (data[(length & ~7) + 6] & 0xff) << 48;
+            case 6:
+                h ^= (long) (data[(length & ~7) + 5] & 0xff) << 40;
+            case 5:
+                h ^= (long) (data[(length & ~7) + 4] & 0xff) << 32;
+            case 4:
+                h ^= (long) (data[(length & ~7) + 3] & 0xff) << 24;
+            case 3:
+                h ^= (long) (data[(length & ~7) + 2] & 0xff) << 16;
+            case 2:
+                h ^= (long) (data[(length & ~7) + 1] & 0xff) << 8;
+            case 1:
+                h ^= (long) (data[length & ~7] & 0xff);
                 h *= m;
-        };
+        }
+        ;
 
         h ^= h >>> r;
         h *= m;
@@ -132,19 +147,19 @@ public class HashCalculator {
     }
 
     public static void main(String[] args) {
-       String word="apple";
-       byte[] buffer = word.getBytes(Charset.forName("utf-8"));
-       ByteBuffer data = ByteBuffer.wrap(buffer);
-        int length=20;
-        int answer=length>>2;
+        String word = "apple";
+        byte[] buffer = word.getBytes(Charset.forName("utf-8"));
+        ByteBuffer data = ByteBuffer.wrap(buffer);
+        int length = 20;
+        int answer = length >> 2;
         System.out.println(answer);
 
-        HashCalculator hashCalculator=new HashCalculator();
+        HashCalculator hashCalculator = new HashCalculator();
         System.out.println(Integer.toBinaryString(hashCalculator.hash32("apple")));
         System.out.println(Integer.toBinaryString(hashCalculator.hash32("applee")));
         System.out.println(Long.toBinaryString(hashCalculator.hash64("apple")));
         System.out.println(Long.toBinaryString(hashCalculator.hash64("applee")));
     }
-    //TODO format the code
+
 
 }
