@@ -1,0 +1,468 @@
+Phase: IdentifiedReversed
+Input:  Lookup Token PointSeperator EndSentence
+Options: control = appelt
+
+Rule: IdentifiedReversed
+Priority:50
+(
+	({Token.string == "Grandpass"})
+	|
+	({Token.string == "Isipatana"}
+	{Token.string == "Mawatha"})
+	|
+	({Token.string == "Kandana"})
+	|
+	({Token.string == "Kandy"})
+	|
+	({Token.string == "Maligakanda"})
+):location
+
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})* 
+
+({Token.string == "arrested"}
+|
+{Token.string == "arresting"}
+|
+(({Token.string == "taken"}
+|
+{Token.string == "took"})
+{Token.string == "before"}
+{Token.string == "a"}
+{Token.string == "magistrate"})
+|
+({Token.string == "taken"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "took"}
+{Token.string == "into"}
+{Token.string == "custody"})
+|
+({Token.string == "blocked"}
+{Token.string == "the"}
+{Token.string == "deportation"})
+|
+{Token.string == "explosives"}
+|
+{Token.string == "bomb"}
+|
+{Token.string == "blast"}
+|
+{Token.string == "sentenced"}
+|
+{Token.string == "nabbed"}
+|
+{Token.string == "discovered"}
+|
+{Token.string == "attacked"}
+|
+{Token.string == "remanded"}
+|
+{Token.string == "apprehended"}
+|
+{Token.string == "recovered"}
+|
+{Token.string == "injured"}
+|
+({Token.string == "found"}
+{Token.string == "with"}
+{Token.string == "injuries"})
+|
+{Token.string == "raped"}
+|
+{Token.string == "abused"}
+|
+({Token.string == "sexual"}
+{Token.string == "assault"}) 
+|
+({Token.string == "sexually"}
+{Token.string == "assaulting"})
+|
+({Token.string == "sexually"}
+{Token.string == "harassed"})
+|
+{Token.string == "brothel"}
+|
+{Token.string == "prostitution"}
+|
+{Token.string == "molesting"}
+|
+{Token.string == "molested"}
+|
+{Token.string == "torture"}
+|
+{Token.string == "tortured"}
+|
+{Token.string == "robbery"}
+|
+{Token.string == "rob"}
+|
+{Token.string == "robbed"}
+|
+{Token.string == "abducted"}
+|
+{Token.string == "abductor"}
+|
+{Token.string == "abduction"}
+|
+{Token.string == "kidnap"}
+|
+{Token.string == "kidnapped"}
+|
+{Token.string == "kidnapping"}
+|
+{Token.string == "alleged"}
+|
+{Token.string == "allegation"}
+|
+{Token.string == "altercation"}
+|
+{Token.string == "abscond"}
+|
+{Token.string == "absconded"}
+|
+{Token.string == "absconding"}
+|
+{Token.string == "prosecuted"}
+|
+{Token.string == "threatened"}
+|
+{Token.string == "shot"}
+|
+{Token.string == "shooting"}
+|
+({Token.string == "shot"}
+{Token.string == "by"})
+|
+{Token.string == "raid"}
+|
+{Token.string == "raided"}
+|
+{Token.string == "confiscate"}
+|
+{Token.string == "confiscated"}
+|
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
+{Token.string == "CAA"}
+|
+{Token.string == "Consumer"}
+|
+{Token.string == "counterfeit"}
+|
+{Token.string == "detection"}
+|
+{Token.string == "detections"}
+|
+{Token.string == "infest"}
+|
+{Token.string == "infested"}
+|
+({Token.string == "low"}
+{Token.string == "quality"}) 
+|
+{Token.string == "smuggle"}
+|
+{Token.string == "smuggled"}
+|
+{Token.string == "smuggling"}
+|
+{Token.string == "poisoning"}
+|
+{Token.string == "ransacked"}
+|
+{Token.string == "assaulted"}
+|
+{Token.string == "hijacked"}
+|
+{Token.string == "seized"}
+|
+{Token.string == "stabbed"}
+|
+({Token.string == "incident"}
+{Token.string == "occurred"})
+|
+({Token.string == "treasure"}
+{Token.string == "hunting"})
+|
+({Token.string == "treasure"}
+{Token.string == "hunt"})
+|
+({Token.string == "archeological"}
+{Token.string == "site"})
+|
+{Token.string == "[Ee]thanol"}
+|
+{Token.string =~ "[Hh]eroin"}
+|
+{Token.string =~ "[Dd]rugs"}
+|
+{Token.string =~ "[Dd]rug"}
+|
+{Token.string == "killed"}
+|
+{Token.string == "killing"}
+|
+{Token.string == "dead"}
+|
+{Token.string == "murdered"}
+|
+{Token.string == "murder"}
+|
+{Token.string == "murders"}
+|
+({Token.string == "caused"}
+{Token.string == "the"}
+{Token.string == "death"})
+|
+{Token.string == "beheaded"}
+|
+{Token.string == "execution"}
+|
+{Token.string == "died"}
+|
+{Token.string == "hanged"}
+|
+{Token.string == "suicide"}
+|
+(({Token.string == "body"}
+|
+{Token.string == "bodies"}
+|
+{Token.string == "corpse"}
+|
+{Token.string == "corpses"})
+({Token.kind == "word"}
+|
+{Token.kind == "number"}
+|
+{Token.kind == "symbol"}
+|
+{Token.kind == "punctuation",!EndSentence.rule == endSentence})*
+({Token.string == "discovered"}
+|
+{Token.string == "found"}))
+|
+{Token.string == "ammunition"}
+|
+{Token.string == "arson"}
+|
+{Token.string == "bombing"}
+|
+{Token.string == "bullet"}
+|
+{Token.string == "bullets"}
+|
+{Token.string =~ "[Cc]annabis"}
+|
+{Token.string == "clash"}
+|
+{Token.string =~ "[Cc]ocaine"}
+|
+{Token.string == "contraband"}
+|
+{Token.string == "convict"}
+|
+{Token.string == "conviction"}
+|
+{Token.string == "culprit"}
+|
+{Token.string == "explosive"}
+|
+{Token.string == "explosion"}
+|
+{Token.string == "extort"}
+|
+{Token.string == "extorted"}
+|
+{Token.string == "extorting"}
+|
+{Token.string == "extortion"}
+|
+({Token.string == "broken"}
+{Token.string == "into"})
+|
+({Token.string == "broke"}
+{Token.string == "into"})
+|
+{Token.string == "extremist"}
+|
+{Token.string == "extremists"}
+|
+{Token.string == "firearm"}
+|
+{Token.string == "firearms"}
+|
+{Token.string == "fraud"}
+|
+{Token.string == "forensic"}
+|
+{Token.string == "forensics"}
+|
+{Token.string =~ "[Gg]anja"}
+|
+{Token.string == "grenade"}
+|
+{Token.string == "grenades"}
+|
+{Token.string == "gunfire"}
+|
+{Token.string == "gunshot"}
+|
+{Token.string == "harass"}
+|
+{Token.string == "harassed"}
+|
+{Token.string == "harassing"}
+|
+{Token.string == "hunter"}
+|
+{Token.string == "hunters"}
+|
+({Token.string == "human"}
+{Token.string == "consumption"})
+|
+{Token.string == "illegally"}
+|
+{Token.string == "illegal"}
+|
+{Token.string == "injury"}
+|
+{Token.string == "interdict"}
+|
+{Token.string == "interdicted"}
+|
+{Token.string == "intoxicate"}
+|
+{Token.string == "intoxicating"}
+|
+{Token.string == "intruder"}
+|
+{Token.string == "intruders"}
+|
+{Token.string == "kidnapper"}
+|
+{Token.string == "killer"}
+|
+{Token.string == "knife"}
+|
+{Token.string == "murderer"}
+|
+{Token.string =~ "[Nn]arcotic"}
+|
+{Token.string =~ "[Nn]arcotics"}
+|
+{Token.string == "pistol"}
+|
+{Token.string == "pornographic"}
+|
+{Token.string == "possession"}
+|
+{Token.string == "prosecute"}
+|
+{Token.string == "prosecuted"}
+|
+{Token.string == "prosecution"}
+|
+{Token.string == "prosecutor"}
+|
+{Token.string == "revolver"}
+|
+{Token.string == "rifle"}
+|
+{Token.string == "rob"}
+|
+{Token.string == "robbed"}
+|
+{Token.string == "robbing"}
+|
+{Token.string == "robber"}
+|
+{Token.string == "sleuth"}
+|
+{Token.string == "sleuthes"}
+|
+{Token.string == "smuggler"}
+|
+{Token.string == "stabbing"}
+|
+{Token.string == "steal"}
+|
+{Token.string == "stolen"}
+|
+{Token.string == "stealing"}
+|
+{Token.string == "surrender"}
+|
+{Token.string == "sword"}
+|
+{Token.string == "theft"}
+|
+{Token.string == "thief"}
+|
+{Token.string == "thieves"}
+|
+{Token.string == "turtle"}
+|
+{Token.string == "turtles"}
+|
+{Token.string == "tusk"}
+|
+{Token.string == "tusks"}
+|
+{Token.string == "bogus"}
+|
+{Token.string == "unauthorised"}
+|
+{Token.string =~ "[Ww]allapatta"}
+|
+{Token.string == "weapon"}
+|
+{Token.string == "weapons"}
+|
+{Token.string == "wound"}
+|
+{Token.string == "wounds"}
+|
+{Token.string == "wounded"})
+--> 
+{
+	//get the location annotations in a list
+	if(inputAS.get("CrimeLocation").isEmpty()){
+		List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+
+		//sort the list by offset
+		Collections.sort(annList, new OffsetComparator());
+
+		//iterate through the matched annotations
+		for(int i = 0; i < annList.size(); i++)
+		{
+			Annotation anAnn = (Annotation)annList.get(i);
+			
+			FeatureMap features = Factory.newFeatureMap();
+			features.put("location", "Identified");
+			
+			Node annEnd = anAnn.getEndNode();
+			int j;
+			
+			for(j= i+1; j < annList.size(); j++){
+				Annotation anAnnNext = (Annotation)annList.get(j);
+				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+					annEnd = anAnnNext.getEndNode();
+				}else{	
+					break;
+				}
+			}
+
+			outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+		}
+	}
+}
