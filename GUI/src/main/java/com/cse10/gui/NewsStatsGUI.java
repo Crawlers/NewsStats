@@ -62,8 +62,8 @@ public class NewsStatsGUI {
     private JCheckBox dailyMirrorClassifierCheckBox;
     private JCheckBox newsFirstClassifierCheckBox;
     private JCheckBox theIslandClassifierCheckBox;
-    private JDateChooser startClassifyJDateChooser;
-    private JDateChooser endClassifyJDateChooser;
+    private JDateChooser startClassifyDateChooser;
+    private JDateChooser endClassifyDateChooser;
     private JButton button1;
     private JButton startClassifyingButton;
     private JButton stopClassifyingButton;
@@ -224,6 +224,8 @@ public class NewsStatsGUI {
         chartPanelClassifier.setVisible(false);
     }
 
+    /* CRAWLER TAB */
+
     private void setOverallCrawlProgress() {
 
         int overallProgress = (ceylonTodayCrawlProgress + dailyMirrorCrawlProgress + newsFirstCrawlProgress + theIslandCrawlProgress) / 4;
@@ -233,8 +235,8 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
             statusLabel.setText("Ready");
-            InfoDialog crawDialog = new InfoDialog();
-            crawDialog.init(frame, "Crawling Completed Successfully!");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Crawling Completed Successfully!");
 
             enableCrawlerUI();
             resetCrawlProgressBars();
@@ -275,4 +277,56 @@ public class NewsStatsGUI {
         overallCrawlProgressBar.setValue(0);
     }
 
+    /* CLASSIFIER TAB */
+
+    private void setOverallClassifyProgress() {
+
+        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / 4;
+
+        overallClassifyProgressBar.setValue(overallProgress);
+        overallClassifyProgressBar.setStringPainted(true);
+
+        if (overallProgress == 100) {
+            statusLabel.setText("Ready");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Classifying Completed Successfully!");
+
+            enableClassifierUI();
+            resetClassifyProgressBars();
+            chartPanelClassifier.setVisible(true);
+
+        }
+    }
+
+    private void disableClassifierUI() {
+        ceylonTodayClassifierCheckBox.setEnabled(false);
+        dailyMirrorClassifierCheckBox.setEnabled(false);
+        newsFirstClassifierCheckBox.setEnabled(false);
+        theIslandClassifierCheckBox.setEnabled(false);
+        startClassifyDateChooser.setEnabled(false);
+        endClassifyDateChooser.setEnabled(false);
+        startClassifyingButton.setEnabled(false);
+
+        stopClassifyingButton.setEnabled(true);
+    }
+
+    private void enableClassifierUI() {
+        ceylonTodayClassifierCheckBox.setEnabled(true);
+        dailyMirrorClassifierCheckBox.setEnabled(true);
+        newsFirstClassifierCheckBox.setEnabled(true);
+        theIslandClassifierCheckBox.setEnabled(true);
+        startClassifyDateChooser.setEnabled(true);
+        endClassifyDateChooser.setEnabled(true);
+        startClassifyingButton.setEnabled(true);
+
+        stopClassifyingButton.setEnabled(false);
+    }
+
+    private void resetClassifyProgressBars() {
+        ceylonTodayClassifyProgressBar.setValue(0);
+        dailyMirrorClassifyProgressBar.setValue(0);
+        newsFirstClassifyProgressBar.setValue(0);
+        theIslandClassifyProgressBar.setValue(0);
+        overallClassifyProgressBar.setValue(0);
+    }
 }
