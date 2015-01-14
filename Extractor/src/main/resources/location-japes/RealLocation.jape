@@ -5,25 +5,11 @@ Options: control = all
 Rule: RealLocation
 Priority:50
 (
-{Token.string == "'s"}
-|
-{Token.string == "-RRB-"}
-|
-{Token.string == "AZ"}
-|
-{Token.string == "Abha"}
-|
-{Token.string == "Abu"}
-|
 {Token.string == "Achchuveli"}
 |
 {Token.string == "Achchuweli"}
 |
 {Token.string == "Adan"}
-|
-{Token.string == "Adelaide"}
-|
-{Token.string == "Afghan"}
 |
 {Token.string == "Afghanistan"}
 |
@@ -152,12 +138,6 @@ Priority:50
 {Token.string == "Attorney"}
 |
 {Token.string == "Aturugiriya"}
-|
-{Token.string == "Austin"}
-|
-{Token.string == "Australia"}
-|
-{Token.string == "Authority"}
 |
 {Token.string == "Avenue"}
 |
@@ -331,12 +311,6 @@ Priority:50
 |
 {Token.string == "Buwaneka"}
 |
-{Token.string == "C."}
-|
-{Token.string == "CHENNAI"}
-|
-{Token.string == "CITY"}
-|
 {Token.string == "Cairo"}
 |
 {Token.string == "Camberwell"}
@@ -367,17 +341,11 @@ Priority:50
 |
 {Token.string == "Central"}
 |
-{Token.string == "Chairman"}
-|
 {Token.string == "Chavakachcheri"}
-|
-{Token.string == "Chechnya"}
 |
 {Token.string == "Chengalpet"}
 |
 {Token.string == "Chenkallady"}
-|
-{Token.string == "Chennai"}
 |
 {Token.string == "Cheran"}
 |
@@ -385,15 +353,9 @@ Priority:50
 |
 {Token.string == "Chilaw"}
 |
-{Token.string == "Children"}
-|
 {Token.string == "Chile"}
 |
 {Token.string == "Chillaw"}
-|
-{Token.string == "China"}
-|
-{Token.string == "Chinese"}
 |
 {Token.string == "Chinthalakkarai"}
 |
@@ -406,8 +368,6 @@ Priority:50
 {Token.string == "Cinnamon"}
 |
 {Token.string == "City"}
-|
-{Token.string == "Co"}
 |
 {Token.string == "Coast"}
 |
@@ -516,8 +476,6 @@ Priority:50
 {Token.string == "Dikkiriya"}
 |
 {Token.string == "Dimbulagala"}
-|
-{Token.string == "District"}
 |
 {Token.string == "Divakalala"}
 |
@@ -677,6 +635,8 @@ Priority:50
 |
 {Token.string == "Gambir"}
 |
+{Token.string == "GAMPAHA"}
+|
 {Token.string == "Gampaha"}
 |
 {Token.string == "Gampola"}
@@ -750,8 +710,6 @@ Priority:50
 {Token.string == "Gungamuwa"}
 |
 {Token.string == "Gurunagar"}
-|
-{Token.string == "H.N.B."}
 |
 {Token.string == "Habaraduwa"}
 |
@@ -888,6 +846,8 @@ Priority:50
 {Token.string == "Irrakkamam"}
 |
 {Token.string == "Ishbiliya"}
+|
+{Token.string == "Isipatana"}
 |
 {Token.string == "Islamabad"}
 |
@@ -1235,23 +1195,7 @@ Priority:50
 |
 {Token.string == "Laggala"}
 |
-{Token.string == "Lakan"}
-|
-{Token.string == "Lanka"}
-|
-{Token.string == "Lanka-e-News"}
-|
-{Token.string == "Lankan"}
-|
-{Token.string == "Lankans"}
-|
-{Token.string == "Lashkar-e-Islam"}
-|
 {Token.string == "Lavinia"}
-|
-{Token.string == "Law"}
-|
-{Token.string == "Lebanon"}
 |
 {Token.string == "Leone"}
 |
@@ -1259,19 +1203,7 @@ Priority:50
 |
 {Token.string == "Lewisham"}
 |
-{Token.string == "Libya"}
-|
-{Token.string == "Libyan"}
-|
 {Token.string == "Loluwagoda"}
-|
-{Token.string == "Lome"}
-|
-{Token.string == "London"}
-|
-{Token.string == "Longfield"}
-|
-{Token.string == "Lotus"}
 |
 {Token.string == "Lunawa"}
 |
@@ -1282,8 +1214,6 @@ Priority:50
 {Token.string == "Lunuwila"}
 |
 {Token.string == "Luton"}
-|
-{Token.string == "MOH"}
 |
 {Token.string == "Mabola"}
 |
@@ -1300,8 +1230,6 @@ Priority:50
 {Token.string == "Madurai"}
 |
 {Token.string == "Maduruoya"}
-|
-{Token.string == "Magistrate"}
 |
 {Token.string == "Mahaiyawa"}
 |
@@ -1337,9 +1265,9 @@ Priority:50
 |
 {Token.string == "Malden"}
 |
-{Token.string == "Maldives"}
-|
 {Token.string == "Maldivian"}
+|
+{Token.string == "Maligakanda"}
 |
 {Token.string == "Maligathanna"}
 |
@@ -1381,6 +1309,8 @@ Priority:50
 |
 {Token.string == "Mannar"}
 |
+{Token.string == "Manning"}
+|
 {Token.string == "Manoj"}
 |
 {Token.string == "Manus"}
@@ -1398,6 +1328,8 @@ Priority:50
 {Token.string == "Mark"}
 |
 {Token.string == "Markandu"}
+|
+{Token.string == "Market"}
 |
 {Token.string == "Marsfield"}
 |
@@ -1550,8 +1482,6 @@ Priority:50
 {Token.string == "Mutuwal"}
 |
 {Token.string == "N.Y."}
-|
-{Token.string == "NEW"}
 |
 {Token.string == "Nadu"}
 |
@@ -1941,8 +1871,6 @@ Priority:50
 |
 {Token.string == "Rajya"}
 |
-{Token.string == "Ramadan"}
-|
 {Token.string == "Ramanathapuram"}
 |
 {Token.string == "Rambukkana"}
@@ -2103,8 +2031,6 @@ Priority:50
 |
 {Token.string == "Singharaja"}
 |
-{Token.string == "Sinhala"}
-|
 {Token.string == "Sinneveham"}
 |
 {Token.string == "Sippikulama"}
@@ -2186,8 +2112,6 @@ Priority:50
 {Token.string == "Talatuoya"}
 |
 {Token.string == "Talawila"}
-|
-{Token.string == "Tamil"}
 |
 {Token.string == "Tanamalwila"}
 |
@@ -2549,14 +2473,12 @@ Priority:50
 |
 {Token.string == "Zurich"}
 |
-{Token.string == "district"}
-|
 {Token.string == "east"}
 |
 {Token.string == "south"}
 ):location
 -->
-:location.RealLocation = {source="Stanford"}
+:location.LOCATION = {source="Stanford"}
 
 Rule: RealLocationX
 Priority:50

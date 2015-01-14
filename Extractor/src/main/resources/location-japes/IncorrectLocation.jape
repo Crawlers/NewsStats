@@ -48,3 +48,22 @@ Priority:50
 {Token.string =~ "[Cc]ommand"}):incLocation
 --> 
 :incLocation.IncorrectLocation = {rule= "incLoc" } 
+
+
+Rule: IncorrectLocation
+Priority:50
+(({Token.string == "Baratha"}
+{Token.string == "Lakshman"})
+|
+({Token.string == "Keeri"}
+{Token.string == "Samba"})
+|
+({Token.string == "Street"})
+|
+({Token.string == "Bombay"})
+|
+({Token.string == "Chennai"})
+|
+({Token.string == "Sathosa"})):incLocation
+--> 
+:incLocation.IncorrectLocation = {rule= "incLoc" } 

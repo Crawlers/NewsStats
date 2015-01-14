@@ -1,6 +1,6 @@
 Phase: PointSeperator
 Input:  Lookup Token Currency Split
-Options: control = appelt
+Options: control =  all
 
 Rule: PointSeperator
 Priority:50
@@ -25,5 +25,20 @@ Priority:50
  ({Token.string == ".", !Split.kind == internal})
 ):decPoint	
 ({Token.string =~ "[Mm]"})
+--> 
+:decPoint.PointSeperator = {rule= "decPoint" } 
+
+Rule: PointSeperator
+Priority:50
+
+({Token.string =~ "[Aa]"}
+|
+{Token.string =~ "[Pp]"})
+({Token.string == ".", !Split.kind == internal})
+({Token.string =~ "[Mm]"})
+(
+	({Token.string == "."})
+):decPoint
+({Token.kind == word, Token.category == NN, Token.orth == lowercase})
 --> 
 :decPoint.PointSeperator = {rule= "decPoint" } 

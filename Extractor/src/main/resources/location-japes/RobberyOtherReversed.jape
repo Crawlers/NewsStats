@@ -95,6 +95,8 @@ Priority:50
 |
 {Token.string == "apprehended"}
 |
+{Token.string == "recovered"}
+|
 {Token.string == "injured"}
 |
 ({Token.string == "found"}
@@ -171,7 +173,30 @@ Priority:50
 |
 {Token.string == "raided"}
 |
+{Token.string == "confiscate"}
+|
+{Token.string == "confiscated"}
+|
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
+{Token.string == "CAA"}
+|
+{Token.string == "Consumer"}
+|
 {Token.string == "counterfeit"}
+|
+{Token.string == "detection"}
+|
+{Token.string == "detections"}
+|
+{Token.string == "infest"}
+|
+{Token.string == "infested"}
+|
+({Token.string == "low"}
+{Token.string == "quality"}) 
 |
 {Token.string == "smuggle"}
 |
@@ -188,6 +213,8 @@ Priority:50
 {Token.string == "hijacked"}
 |
 {Token.string == "seized"}
+|
+{Token.string == "seizing"}
 |
 {Token.string == "stabbed"}
 |
@@ -442,63 +469,63 @@ Priority:50
 {
 	//get the location annotations in a list
 	if(inputAS.get("CrimeLocation").isEmpty()){
-   List annList = new ArrayList((AnnotationSet)bindings.get("location"));
+	   List annList = new ArrayList((AnnotationSet)bindings.get("location"));
 
 
-   //sort the list by offset
-   Collections.sort(annList, new OffsetComparator());
+	   //sort the list by offset
+	   Collections.sort(annList, new OffsetComparator());
 
-   //iterate through the matched annotations
-   for(int i = 0; i < annList.size(); i++)
-   {
-      Annotation anAnn = (Annotation)annList.get(i);
+	   //iterate through the matched annotations
+	   for(int i = 0; i < annList.size(); i++)
+	   {
+		  Annotation anAnn = (Annotation)annList.get(i);
 
-      // check that the new annotation is not a categorical place
-	  try {
-		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
-		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal")  || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals(",") || content.equals("Military")  || content.equals("Remand") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals("District"))) // content.equals("Devala")
-		  {
-			FeatureMap features = Factory.newFeatureMap();
-			features.put("location", "Robbery-Other-Reversed");
-			
-			Node annEnd = anAnn.getEndNode();
-			int j;
-			
-			for(j= i+1; j < annList.size(); j++){
-				Annotation anAnnNext = (Annotation)annList.get(j);
-				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
-					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
-					if (!(longContent.charAt(0) == ','  || longContent.contains("Military")  || longContent.contains("Remand")  || longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya") || longContent.contains("District") || longContent.contains("Port") || longContent.contains("Harbour"))){ // content.equals("Devala")
-						annEnd = anAnnNext.getEndNode();
-					}else{
+		  // check that the new annotation is not a categorical place
+		  try {
+			String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+			  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal")  || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals(",") || content.equals("Military")  || content.equals("Remand") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals("District"))) // content.equals("Devala")
+			  {
+				FeatureMap features = Factory.newFeatureMap();
+				features.put("location", "Robbery-Other-Reversed");
+				
+				Node annEnd = anAnn.getEndNode();
+				int j;
+				
+				for(j= i+1; j < annList.size(); j++){
+					Annotation anAnnNext = (Annotation)annList.get(j);
+					if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+						String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
+						if (!(longContent.charAt(0) == ','  || longContent.contains("Military")  || longContent.contains("Remand")  || longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Pradeshiya") || longContent.contains("District") || longContent.contains("Port") || longContent.contains("Harbour"))){ // content.equals("Devala")
+							annEnd = anAnnNext.getEndNode();
+						}else{
+							break;
+						}
+					}else{	
 						break;
 					}
-				}else{	
-					break;
 				}
-			}
-			 
-			i = j-1;
-			
-			String finalAnn = "none";
-			
-			try {
-				finalAnn = doc.getContent().getContent(anAnn.getStartNode().getOffset(), annEnd.getOffset()).toString();
-			}
-			catch (InvalidOffsetException e) {
-				e.printStackTrace();
-			}
-	  
-			if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and") || finalAnn.contains("Sobitha") || finalAnn.equals("National") || finalAnn.equals("Forest"))){
-				if(inputAS.get("PERSON", anAnn.getStartNode().getOffset(), annEnd.getOffset()).isEmpty()){
-					outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+				 
+				i = j-1;
+				
+				String finalAnn = "none";
+				
+				try {
+					finalAnn = doc.getContent().getContent(anAnn.getStartNode().getOffset(), annEnd.getOffset()).toString();
 				}
-			}
+				catch (InvalidOffsetException e) {
+					e.printStackTrace();
+				}
+		  
+				if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and") || finalAnn.contains("Sobitha") || finalAnn.equals("National") || finalAnn.equals("Forest"))){
+					if(inputAS.get("PERSON", anAnn.getStartNode().getOffset(), annEnd.getOffset()).isEmpty()){
+						outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+					}
+				}
+			  }
 		  }
-	  }
-	  catch (InvalidOffsetException e) {
-        e.printStackTrace();
-      }
-   }
+		  catch (InvalidOffsetException e) {
+			e.printStackTrace();
+		  }
+	   }
    }
 }
