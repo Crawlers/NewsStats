@@ -1,5 +1,5 @@
 Phase: Court
-Input:  Lookup Token RealLocation PointSeperator EndSentence
+Input:  Lookup Token EndSentence
 Options: control = appelt
 
 Rule: Court
@@ -43,33 +43,50 @@ Priority:50
 ({Token.string =~ "[Tt]he"}
 |
 {Token.string =~ "[Aa]"})?
+
 (
-({Token.kind == word, Token.category == NNP, Token.orth == upperInitial})
+	(
+		{Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+	)
 |
+	(
+		({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
+		{Token.kind == word, Token.category == NNP, Token.orth == upperInitial})
+	)
+):location
+	
 (
-	({Token.kind == word, Token.category == NNP, Token.orth == upperInitial}
-	{Token.kind == word, Token.category == NNP, Token.orth == upperInitial}))
-):location	
-((({Token.string =~ "[Mm]agistrate"})
-({Token.kind == punctuation})
-({Token.string == "s"})
-({Token.kind == word, Token.string =~ "[Cc]ourt"}))
-|
-({Token.string == "Chief"}
-{Token.string == "Magistrate"})
-|
-({Token.string == "Magistrate"})
-|
-(({Token.string =~ "[Hh]igh"})
-({Token.kind == word, Token.string =~ "[Cc]ourt"}))	
-|
-({Token.kind == word, Token.string =~ "[Cc]ourt"}))
+	(
+		({Token.string =~ "[Mm]agistrate"})
+		({Token.kind == punctuation})
+		({Token.string == "s"})
+		({Token.kind == word, Token.string =~ "[Cc]ourt"})
+	)
+	|
+	(
+		{Token.string == "Chief"}
+		{Token.string == "Magistrate"}
+	)
+	|
+	(
+		{Token.string == "Magistrate"}
+	)
+	|
+	(
+		({Token.string =~ "[Hh]igh"})
+		({Token.kind == word, Token.string =~ "[Cc]ourt"})
+	)	
+	|
+	(
+		{Token.kind == word, Token.string =~ "[Cc]ourt"}
+	)
+)
 
 --> 
 {
 	//get the location annotations in a list
-	//if(inputAS.get("CrimeLocation").isEmpty()){
 	AnnotationSet crimeLocationSet = inputAS.get("CrimeLocation");
+	
 	List annList = new ArrayList((AnnotationSet)bindings.get("location"));
 
 	//sort the list by offset
@@ -79,54 +96,25 @@ Priority:50
 	for(int i = 0; i < annList.size(); i++)
 	{
 		Annotation anAnn = (Annotation)annList.get(i);
-
-		// check that the new annotation is not a categorical place
-		try {
-			String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
-			if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal") || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals("Remand") || content.equals(",") || content.equals("Military") || content.equals("Chief") || content.equals("High"))) // content.equals("Devala")
-			{
-				FeatureMap features = Factory.newFeatureMap();
-				features.put("location", "Court");
-
-				Node annEnd = anAnn.getEndNode();
-				int j;
-
-				for(j= i+1; j < annList.size(); j++){
-					Annotation anAnnNext = (Annotation)annList.get(j);
-					if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
-						String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
-						if (!(longContent.charAt(0) == ','  || longContent.contains("Military")  || longContent.contains("Remand") || longContent.contains("Resort") || longContent.contains("High") || longContent.contains("Court") || longContent.contains("Chief"))){ // content.equals("Devala")
-							annEnd = anAnnNext.getEndNode();
-						}else{
-							break;
-						}
-					}else{	
-						break;
-					}
-				}
-
-				i = j-1;
-
-				String finalAnn = "none";
-
-				try {
-					finalAnn = doc.getContent().getContent(anAnn.getStartNode().getOffset(), annEnd.getOffset()).toString();
-				}
-				catch (InvalidOffsetException e) {
-					e.printStackTrace();
-				}
-
-				if(!(finalAnn.contains("Bulletin") || finalAnn.contains("Anti") || finalAnn.contains("Ministry") || finalAnn.contains("Council") || finalAnn.contains("none") || finalAnn.contains("Lanka") || finalAnn.equals("Sharia") || finalAnn.contains("Lankan") || finalAnn.contains("Indian") || finalAnn.contains("Human") || finalAnn.contains("Rights") || finalAnn.contains("Correspondent") || finalAnn.contains("and"))){	
-					if(crimeLocationSet.isEmpty()){
-						outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
-					}
-					outputAS.add(anAnn.getStartNode(), annEnd, "Court", features);
-				}
+		
+		FeatureMap features = Factory.newFeatureMap();
+		features.put("location", "Identified");
+		
+		Node annEnd = anAnn.getEndNode();
+		int j;
+		
+		for(j= i+1; j < annList.size(); j++){
+			Annotation anAnnNext = (Annotation)annList.get(j);
+			if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+				annEnd = anAnnNext.getEndNode();
+			}else{	
+				break;
 			}
 		}
-		catch (InvalidOffsetException e) {
-			e.printStackTrace();
+
+		if(crimeLocationSet.isEmpty()){
+			outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
 		}
+		outputAS.add(anAnn.getStartNode(), annEnd, "Court", features);
 	}
-	//}
 }

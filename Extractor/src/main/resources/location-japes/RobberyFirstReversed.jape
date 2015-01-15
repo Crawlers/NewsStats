@@ -4,6 +4,7 @@ Options: control = appelt
 
 Rule: RobberyFirstReversed
 Priority:50
+
 ({Token.string == "at"}
 |
 {Token.string == "in", !NotLocation.rule == "notLoc"}
@@ -25,11 +26,38 @@ Priority:50
 ({Token.string == "coast"}
 {Token.string == "of"}))
 
+((({Token.string =~ "[Aa]"}
+|
+{Token.string =~ "[Aa]n"})
+|
+{Token.string =~ "[Tt]he"})?
+(
+	({Token.kind == word, Token.category == VBN})
+	({Token.kind == word, Token.category == NN})
+|
+	({Token.kind == word, Token.category == VBN})
+|
+	({Token.kind == word, Token.category == NN})
+|
+	({Token.kind == word, Token.category == NNP})
+)
+({Token.string == "at"}
+|
+{Token.string == "in"}
+|
+{Token.string == "near"}
+|
+({Token.string == "in"}
+{Token.string == "the"}
+{Token.string == "vicinity"}
+{Token.string == "of"})))?
+
 ({Token.string =~ "[Tt]he"}
 |
 {Token.string =~ "[Aa]"}
 |
 {Token.string =~ "[Aa]n"})?
+({Token.kind == word, Token.category == JJ})?
 
 ((
  (
@@ -198,7 +226,22 @@ Priority:50
 |
 {Token.string == "raided"}
 |
+{Token.string == "confiscate"}
+|
+{Token.string == "confiscated"}
+|
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
+{Token.string == "CAA"}
+|
+{Token.string == "Consumer"}
+|
 {Token.string == "counterfeit"}
+|
+({Token.string == "low"}
+{Token.string == "quality"}) 
 |
 {Token.string == "smuggle"}
 |
@@ -215,6 +258,8 @@ Priority:50
 {Token.string == "hijacked"}
 |
 {Token.string == "seized"}
+|
+{Token.string == "seizing"}
 |
 {Token.string == "stabbed"}
 |

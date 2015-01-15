@@ -45,6 +45,8 @@ Priority:50
 |
 {Token.string == "apprehended"}
 |
+{Token.string == "recovered"}
+|
 {Token.string == "injured"}
 |
 ({Token.string == "found"}
@@ -121,7 +123,30 @@ Priority:50
 |
 {Token.string == "raided"}
 |
+{Token.string == "confiscate"}
+|
+{Token.string == "confiscated"}
+|
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
+{Token.string == "CAA"}
+|
+{Token.string == "Consumer"}
+|
 {Token.string == "counterfeit"}
+|
+{Token.string == "detection"}
+|
+{Token.string == "detections"}
+|
+{Token.string == "infest"}
+|
+{Token.string == "infested"}
+|
+({Token.string == "low"}
+{Token.string == "quality"}) 
 |
 {Token.string == "smuggle"}
 |
@@ -138,6 +163,8 @@ Priority:50
 {Token.string == "hijacked"}
 |
 {Token.string == "seized"}
+|
+{Token.string == "seizing"}
 |
 {Token.string == "stabbed"}
 |
