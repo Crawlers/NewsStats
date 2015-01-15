@@ -1,9 +1,6 @@
 package com.cse10.gui;
 
-import com.cse10.gui.task.CeylonTodayCrawlTask;
-import com.cse10.gui.task.DailyMirrorCrawlTask;
-import com.cse10.gui.task.NewsFirstCrawlTask;
-import com.cse10.gui.task.TheIslandCrawlTask;
+import com.cse10.gui.task.*;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
@@ -168,13 +165,77 @@ public class NewsStatsGUI {
         startClassifyingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Classifying...");
 
+                disableCrawlerUI();
+
+                CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask();
+                ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            ceylonTodayClassifyProgress = progress;
+                            ceylonTodayClassifyProgressBar.setValue(progress);
+                            ceylonTodayClassifyProgressBar.setStringPainted(true);
+                            setOverallClassifyProgress();
+                        }
+                    }
+                });
+                ceylonTodayClassifyTask.execute();
+
+                DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask();
+                dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            dailyMirrorClassifyProgress = progress;
+                            dailyMirrorClassifyProgressBar.setValue(progress);
+                            dailyMirrorClassifyProgressBar.setStringPainted(true);
+                            setOverallClassifyProgress();
+                        }
+                    }
+                });
+                dailyMirrorClassifyTask.execute();
+
+                NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask();
+                newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            newsFirstClassifyProgress = progress;
+                            newsFirstClassifyProgressBar.setValue(progress);
+                            newsFirstClassifyProgressBar.setStringPainted(true);
+                            setOverallClassifyProgress();
+                        }
+                    }
+                });
+                newsFirstClassifyTask.execute();
+
+                final TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask();
+                theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        if ("progress" == evt.getPropertyName()) {
+                            int progress = (Integer) evt.getNewValue();
+                            theIslandClassifyProgress = progress;
+                            theIslandClassifyProgressBar.setValue(progress);
+                            theIslandClassifyProgressBar.setStringPainted(true);
+                            setOverallClassifyProgress();
+                        }
+                    }
+                });
+                theIslandClassifyTask.execute();
             }
         });
         stopClassifyingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO stop swing worker tasks
+                enableClassifierUI();
+                resetClassifyProgressBars();
             }
         });
     }
