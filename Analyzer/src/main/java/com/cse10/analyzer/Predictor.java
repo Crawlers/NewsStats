@@ -1,4 +1,4 @@
-package com.cse10.predictor;
+package com.cse10.analyzer;
 
 import mltk.core.*;
 import mltk.core.io.InstancesReader;
@@ -203,17 +203,5 @@ public class Predictor {
         } else {
             instances.setTargetAttribute(new NumericalAttribute("target"));
         }
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws SQLException {
-        Predictor p = new Predictor();
-        System.out.println(p.predictUsingLR(100.0));
-        System.out.println(p.predictUsingENL());
-        System.out.println(p.predictUsingENLDataFromDB());
-
-
     }
 }
