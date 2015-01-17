@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * Created by TharinduWijewardane on 2015-01-08.
@@ -72,6 +73,8 @@ public class NewsStatsGUI {
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
 
+    private ArrayList uiComponents;
+
     private int ceylonTodayCrawlProgress;
     private int dailyMirrorCrawlProgress;
     private int newsFirstCrawlProgress;
@@ -84,7 +87,9 @@ public class NewsStatsGUI {
 
     public NewsStatsGUI() {
 
-        startCrawlingButton.addActionListener(new ActionListener() {
+        initComponentLists(); // initialize list containing UI components
+
+        startCrawlingButton.addActionListener(new ActionListener() { //when crawler button is clicked
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -92,65 +97,73 @@ public class NewsStatsGUI {
 
                 disableCrawlerUI();
 
-                CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
-                ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            ceylonTodayCrawlProgress = progress;
-                            ceylonTodayCrawlProgressBar.setValue(progress);
-                            ceylonTodayCrawlProgressBar.setStringPainted(true);
-                            setOverallCrawlProgress();
+                if (ceylonTodayCrawlerCheckBox.isSelected()) {
+                    CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
+                    ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                ceylonTodayCrawlProgress = progress;
+                                ceylonTodayCrawlProgressBar.setValue(progress);
+                                ceylonTodayCrawlProgressBar.setStringPainted(true);
+                                setOverallCrawlProgress();
+                            }
                         }
-                    }
-                });
-                ceylonTodayCrawlTask.execute();
+                    });
+                    ceylonTodayCrawlTask.execute();
+                }
 
-                DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask();
-                dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            dailyMirrorCrawlProgress = progress;
-                            dailyMirrorCrawlProgressBar.setValue(progress);
-                            dailyMirrorCrawlProgressBar.setStringPainted(true);
-                            setOverallCrawlProgress();
+                if (dailyMirrorCrawlerCheckBox.isSelected()) {
+                    DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask();
+                    dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                dailyMirrorCrawlProgress = progress;
+                                dailyMirrorCrawlProgressBar.setValue(progress);
+                                dailyMirrorCrawlProgressBar.setStringPainted(true);
+                                setOverallCrawlProgress();
+                            }
                         }
-                    }
-                });
-                dailyMirrorCrawlTask.execute();
+                    });
+                    dailyMirrorCrawlTask.execute();
+                }
 
-                NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask();
-                newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            newsFirstCrawlProgress = progress;
-                            newsFirstCrawlProgressBar.setValue(progress);
-                            newsFirstCrawlProgressBar.setStringPainted(true);
-                            setOverallCrawlProgress();
+                if (newsFirstCrawlerCheckBox.isSelected()) {
+                    NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask();
+                    newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                newsFirstCrawlProgress = progress;
+                                newsFirstCrawlProgressBar.setValue(progress);
+                                newsFirstCrawlProgressBar.setStringPainted(true);
+                                setOverallCrawlProgress();
+                            }
                         }
-                    }
-                });
-                newsFirstCrawlTask.execute();
+                    });
+                    newsFirstCrawlTask.execute();
+                }
 
-                final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask();
-                theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            theIslandCrawlProgress = progress;
-                            theIslandCrawlProgressBar.setValue(progress);
-                            theIslandCrawlProgressBar.setStringPainted(true);
-                            setOverallCrawlProgress();
+                if (theIslandCrawlerCheckBox.isSelected()) {
+                    final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask();
+                    theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                theIslandCrawlProgress = progress;
+                                theIslandCrawlProgressBar.setValue(progress);
+                                theIslandCrawlProgressBar.setStringPainted(true);
+                                setOverallCrawlProgress();
+                            }
                         }
-                    }
-                });
-                theIslandCrawlTask.execute();
+                    });
+                    theIslandCrawlTask.execute();
+                }
 
             }
         });
@@ -283,6 +296,30 @@ public class NewsStatsGUI {
         JFreeChart chartClassifier = ChartFactory.createPieChart3D("Classified Articles", pieDatasetClassifer, true, true, true);
         chartPanelClassifier = new ChartPanel(chartClassifier);
         chartPanelClassifier.setVisible(false);
+    }
+
+    /**
+     * lists of UI components. for extendability
+     */
+    private void initComponentLists() {
+
+        uiComponents = new ArrayList();
+        ArrayList crawlerUI = new ArrayList();
+        uiComponents.add(crawlerUI);
+        ArrayList classifierUI = new ArrayList();
+        uiComponents.add(classifierUI);
+
+        ArrayList checkBoxesCrawler = new ArrayList();
+        ArrayList progressBarsCrawler = new ArrayList();
+        crawlerUI.add(checkBoxesCrawler);
+        crawlerUI.add(progressBarsCrawler);
+
+        ArrayList checkBoxesClassifier = new ArrayList();
+        ArrayList progressBarsClassifier = new ArrayList();
+        classifierUI.add(checkBoxesClassifier);
+        classifierUI.add(progressBarsClassifier);
+
+
     }
 
     /* CRAWLER TAB */
