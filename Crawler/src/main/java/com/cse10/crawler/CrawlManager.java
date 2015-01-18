@@ -5,31 +5,18 @@ package com.cse10.crawler;
  */
 
 import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
-import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
-import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
-import com.cse10.crawler.crawlControler.TheIslandCrawlController;
 import com.cse10.crawler.paperCrawler.CeylonTodayCrawler;
-import com.cse10.crawler.paperCrawler.DailyMirrorCrawler;
-import com.cse10.crawler.paperCrawler.NewsFirstCrawler;
-import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 
 public class CrawlManager {
 
     public static void main(String[] args) throws Exception {
 
-//        DailyMirrorCrawlController dailyMirrorCrawlController = new DailyMirrorCrawlController();
-//        dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
-//
-//        NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
-//        newsFirstCrawlController.crawl(NewsFirstCrawler.class);
-//
-//        CeylonTodayCrawlController ceylonTodayCrawlController = new CeylonTodayCrawlController();
-//        ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
-
 //        new Thread() {
 //            @Override
 //            public void run() {
 //                DailyMirrorCrawlController dailyMirrorCrawlController = new DailyMirrorCrawlController();
+//                dailyMirrorCrawlController.setStartDate("2014-01-01");
+//                dailyMirrorCrawlController.setEndDate("2014-02-01");
 //                try {
 //                    dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
 //                } catch (Exception e) {
@@ -37,26 +24,16 @@ public class CrawlManager {
 //                }
 //            }
 //        }.start();
-
-
-            new Thread() {
-                @Override
-                public void run() {
-                    TheIslandCrawlController theIslandCrawlController = new TheIslandCrawlController();
-                    try {
-                        theIslandCrawlController.crawl(TheIslandCrawler.class);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-
+//
+//
 //        new Thread() {
 //            @Override
 //            public void run() {
-//                NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
+//                TheIslandCrawlController theIslandCrawlController = new TheIslandCrawlController();
+//                theIslandCrawlController.setStartDate("2014-01-01");
+//                theIslandCrawlController.setEndDate("2014-02-01");
 //                try {
-//                    newsFirstCrawlController.crawl(NewsFirstCrawler.class);
+//                    theIslandCrawlController.crawl(TheIslandCrawler.class);
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
@@ -66,15 +43,30 @@ public class CrawlManager {
 //        new Thread() {
 //            @Override
 //            public void run() {
-//                CeylonTodayCrawlController ceylonTodayCrawlController = new CeylonTodayCrawlController();
+//                NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
+//                newsFirstCrawlController.setStartDate("2014-01-01");
+//                newsFirstCrawlController.setEndDate("2014-02-01");
 //                try {
-//                    ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
+//                    newsFirstCrawlController.crawl(NewsFirstCrawler.class);
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
 //            }
 //        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                CeylonTodayCrawlController ceylonTodayCrawlController = new CeylonTodayCrawlController();
+                ceylonTodayCrawlController.setStartDate("2014-06-30");
+                ceylonTodayCrawlController.setEndDate("2014-12-31");
+                try {
+                    ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
 }
-
