@@ -5,7 +5,6 @@ package com.cse10.crawler.crawlControler;
  */
 
 import com.cse10.crawler.DateHandler;
-import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -28,21 +27,23 @@ public class TheIslandCrawlController extends BasicCrawlController {
     * */
     final String localhostProxyUrl = "http://localhost:8080/theIsland/";
 
-
-    final String FROM_DATE = "2013-01-01";
-    final String TO_DATE = "2013-12-31";
     public static String current_date;
 
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
+        if (startDate == null || endDate == null) {
+            System.out.println("Error: You should set start and end dates");
+            return;
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date startingDate = sdf.parse(FROM_DATE);
+        Date startingDate = sdf.parse(startDate);
         startingDate = DateHandler.getFromDateToResume(startingDate, "article_the_island");  // Start date
         Calendar c = Calendar.getInstance();
         c.setTime(startingDate);
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
+        while (c.getTime().compareTo(sdf.parse(endDate)) <= 0) {
             /*
          * Instantiate the controller for this crawl.
          */
@@ -73,4 +74,3 @@ public class TheIslandCrawlController extends BasicCrawlController {
         }
     }
 }
-

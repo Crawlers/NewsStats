@@ -16,6 +16,24 @@ abstract public class BasicCrawlController {
     final String PROXY_ADDRESS = ""; //"cache.mrt.ac.lk" //"";
     final int PROXY_PORT = 0; //3128 //0;
 
+    // start and end dates used by sub classes
+    protected String startDate;
+    protected String endDate;
+
+    /**
+     * @param startDate format: yyyy-mm-dd
+     */
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * @param endDate format: yyyy-mm-dd
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
     public BasicCrawlController() {
 
         config = new CrawlConfig();
