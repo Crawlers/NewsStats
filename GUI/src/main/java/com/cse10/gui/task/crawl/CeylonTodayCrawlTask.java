@@ -1,7 +1,6 @@
 package com.cse10.gui.task.crawl;
 
 import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
-import com.cse10.crawler.paperCrawler.CeylonTodayCrawler;
 
 import java.util.Date;
 import java.util.Random;
@@ -31,7 +30,7 @@ public class CeylonTodayCrawlTask extends CrawlTask {
             ceylonTodayCrawlController.setStartDate("2014-06-30");
             ceylonTodayCrawlController.setEndDate("2014-12-31");
             try {
-                ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
+//                ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
