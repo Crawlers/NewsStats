@@ -27,6 +27,7 @@ public class StatGenerator {
                         "WHERE crime_date >= '2012-01-01' AND crime_date <= '2014-12-31' " +
                         "GROUP BY crime_type, district, crime_date " +
                         "ORDER BY YEAR (crime_date)").executeUpdate();
+        session.createSQLQuery("UPDATE news_statistics SET crime_type = 'Other' WHERE crime_type IS NULL OR crime_type = ''").executeUpdate();
         tx.commit();
         session.close();
     }
