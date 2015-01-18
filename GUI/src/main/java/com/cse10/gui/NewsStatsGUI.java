@@ -1,6 +1,13 @@
 package com.cse10.gui;
 
-import com.cse10.gui.task.*;
+import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
+import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
+import com.cse10.gui.task.classify.NewsFirstClassifyTask;
+import com.cse10.gui.task.classify.TheIslandClassifyTask;
+import com.cse10.gui.task.crawl.CeylonTodayCrawlTask;
+import com.cse10.gui.task.crawl.DailyMirrorCrawlTask;
+import com.cse10.gui.task.crawl.NewsFirstCrawlTask;
+import com.cse10.gui.task.crawl.TheIslandCrawlTask;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
@@ -344,6 +351,7 @@ public class NewsStatsGUI {
     }
 
     private void disableCrawlerUI() {
+
         ceylonTodayCrawlerCheckBox.setEnabled(false);
         dailyMirrorCrawlerCheckBox.setEnabled(false);
         newsFirstCrawlerCheckBox.setEnabled(false);

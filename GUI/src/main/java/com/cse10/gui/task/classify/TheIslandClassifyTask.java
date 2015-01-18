@@ -1,4 +1,4 @@
-package com.cse10.gui.task;
+package com.cse10.gui.task.classify;
 
 import javax.swing.*;
 import java.util.Random;
@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class CeylonTodayCrawlTask extends SwingWorker<Void, Void> {
+public class TheIslandClassifyTask extends SwingWorker<Void, Void> {
     /*
      * Main task. Executed in background thread.
      */

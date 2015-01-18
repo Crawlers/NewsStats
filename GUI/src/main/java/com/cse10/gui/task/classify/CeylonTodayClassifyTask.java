@@ -1,4 +1,4 @@
-package com.cse10.gui.task;
+package com.cse10.gui.task.classify;
 
 import javax.swing.*;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.cse10.gui.task;
+package com.cse10.gui.task.crawl;
 
 import javax.swing.*;
 import java.util.Random;
@@ -6,11 +6,19 @@ import java.util.Random;
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class DailyMirrorClassifyTask extends SwingWorker<Void, Void> {
+public class DailyMirrorCrawlTask extends SwingWorker<Void, Void> {
     /*
      * Main task. Executed in background thread.
      */
-    boolean done = false;
+    private boolean done = false;
+
+    String startDate;
+    String endDate;
+
+    public DailyMirrorCrawlTask(String startDate, String endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     @Override
     public Void doInBackground() {

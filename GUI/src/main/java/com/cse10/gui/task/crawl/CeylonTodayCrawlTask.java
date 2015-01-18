@@ -1,4 +1,7 @@
-package com.cse10.gui.task;
+package com.cse10.gui.task.crawl;
+
+import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
+import com.cse10.crawler.paperCrawler.CeylonTodayCrawler;
 
 import javax.swing.*;
 import java.util.Random;
@@ -6,11 +9,19 @@ import java.util.Random;
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class NewsFirstClassifyTask extends SwingWorker<Void, Void> {
+public class CeylonTodayCrawlTask extends SwingWorker<Void, Void> {
     /*
      * Main task. Executed in background thread.
      */
-    boolean done = false;
+    private boolean done = false;
+
+    String startDate;
+    String endDate;
+
+    public CeylonTodayCrawlTask(String startDate, String endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     @Override
     public Void doInBackground() {
@@ -20,6 +31,16 @@ public class NewsFirstClassifyTask extends SwingWorker<Void, Void> {
             int progress = 0;
             //Initialize progress property.
             setProgress(0);
+
+            CeylonTodayCrawlController ceylonTodayCrawlController = new CeylonTodayCrawlController();
+            ceylonTodayCrawlController.setStartDate("2014-06-30");
+            ceylonTodayCrawlController.setEndDate("2014-12-31");
+            try {
+                ceylonTodayCrawlController.crawl(CeylonTodayCrawler.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             while (progress < 100) {
                 //Sleep for up to one second.
                 try {

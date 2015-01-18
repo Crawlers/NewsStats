@@ -1,4 +1,4 @@
-package com.cse10.gui.task;
+package com.cse10.gui.task.crawl;
 
 import javax.swing.*;
 import java.util.Random;
@@ -10,7 +10,15 @@ public class NewsFirstCrawlTask extends SwingWorker<Void, Void> {
     /*
      * Main task. Executed in background thread.
      */
-    boolean done = false;
+    private boolean done = false;
+
+    String startDate;
+    String endDate;
+
+    public NewsFirstCrawlTask(String startDate, String endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     @Override
     public Void doInBackground() {
