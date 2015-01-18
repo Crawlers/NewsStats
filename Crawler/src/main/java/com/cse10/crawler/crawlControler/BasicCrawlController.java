@@ -7,6 +7,10 @@ package com.cse10.crawler.crawlControler;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 abstract public class BasicCrawlController {
 
     private CrawlConfig config;
@@ -21,17 +25,31 @@ abstract public class BasicCrawlController {
     protected String endDate;
 
     /**
-     * @param startDate format: yyyy-mm-dd
+     * @param startDate format: yyyy-MM-dd
      */
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
+    public void setStartDate(Date startDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.startDate = sdf.format(c.getTime());
+    }
+
     /**
-     * @param endDate format: yyyy-mm-dd
+     * @param endDate format: yyyy-MM-dd
      */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(endDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.endDate = sdf.format(c.getTime());
     }
 
     public BasicCrawlController() {
