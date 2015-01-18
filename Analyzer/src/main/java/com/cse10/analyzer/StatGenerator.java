@@ -18,36 +18,16 @@ import java.util.List;
 public class StatGenerator {
     public void generateStats(){
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
         session.createSQLQuery("truncate table news_statistics").executeUpdate();
-        Query query = session.createSQLQuery(
-                "SELECT crime_type,(SELECT district FROM location_district_mapper ldm WHERE ceg.location = ldm.location) , crime_date, YEAR (crime_date), CONCAT(YEAR (crime_date), ' - ', QUARTER(crime_date)), count(id) " +
+        session.createSQLQuery(
+                "INSERT INTO news_statistics (crime_type, crime_district, crime_date, crime_year, crime_yearquarter, crime_count) " +
+                        "SELECT crime_type,(SELECT district FROM location_district_mapper ldm WHERE ceg.location = ldm.location) , crime_date, YEAR (crime_date), CONCAT(YEAR (crime_date), ' - ', QUARTER(crime_date)), count(id) " +
                         "FROM crime_entity_group ceg " +
                         "WHERE crime_date >= '2012-01-01' AND crime_date <= '2014-12-31' " +
                         "GROUP BY crime_type, district, crime_date " +
-                        "ORDER BY YEAR ('crime_date')");
-        List<Object[]> entities = query.list();
-
-
-        for(Object[] row : entities){
-            Transaction tx = session.beginTransaction();
-            NewsStatistic stat = new NewsStatistic();
-            stat.setCrimeType((row[0] != null)?row[0].toString():"Other");
-            stat.setCrimeDistrict((row[1] != null)?row[1].toString():"Other");
-
-            DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-            try {
-                Date date = format.parse((row[2] != null)?row[2].toString():null);
-                stat.setCrimeDate(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            stat.setCrimeYear((row[3] != null)?row[3].toString():null);
-            stat.setCrimeYearQuarter((row[4] != null)?row[4].toString():null);
-            stat.setCrimeCount(Integer.parseInt(row[5].toString()));
-            session.save(stat);
-
-            tx.commit();
-        }
+                        "ORDER BY YEAR (crime_date)").executeUpdate();
+        tx.commit();
+        session.close();
     }
 }
