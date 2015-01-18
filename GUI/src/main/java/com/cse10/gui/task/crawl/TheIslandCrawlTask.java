@@ -1,25 +1,20 @@
 package com.cse10.gui.task.crawl;
 
-import javax.swing.*;
+import java.util.Date;
 import java.util.Random;
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class TheIslandCrawlTask extends SwingWorker<Void, Void> {
+public class TheIslandCrawlTask extends CrawlTask {
+
+    public TheIslandCrawlTask(Date startDate, Date endDate) {
+        super(startDate, endDate);
+    }
+
     /*
      * Main task. Executed in background thread.
      */
-    private boolean done = false;
-
-    String startDate;
-    String endDate;
-
-    public TheIslandCrawlTask(String startDate, String endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     @Override
     public Void doInBackground() {
         if (!done) {

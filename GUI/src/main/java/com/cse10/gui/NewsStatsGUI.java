@@ -105,7 +105,7 @@ public class NewsStatsGUI {
                 disableCrawlerUI();
 
                 if (ceylonTodayCrawlerCheckBox.isSelected()) {
-                    CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
+                    CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -122,7 +122,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorCrawlerCheckBox.isSelected()) {
-                    DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask();
+                    DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -139,7 +139,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstCrawlerCheckBox.isSelected()) {
-                    NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask();
+                    NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -156,7 +156,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandCrawlerCheckBox.isSelected()) {
-                    final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask();
+                    final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
