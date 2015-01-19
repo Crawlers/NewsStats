@@ -13,7 +13,7 @@
         <module>Classifier</module>
         <module>GUI</module>
         <module>Predictor</module>
-        <module>NearDuplicateDetector</module>
+        <module>DuplicateDetector</module>
     </modules>
     <name>NewsStats</name>
     <url>http://maven.apache.org</url>
