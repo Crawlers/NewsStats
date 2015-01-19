@@ -1,17 +1,20 @@
 package com.cse10.gui.task.classify;
 
-import javax.swing.*;
+import java.util.Date;
 import java.util.Random;
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class TheIslandClassifyTask extends SwingWorker<Void, Void> {
+public class TheIslandClassifyTask extends ClassifyTask {
+
+    public TheIslandClassifyTask(Date startDate, Date endDate) {
+        super(startDate, endDate);
+    }
+
     /*
      * Main task. Executed in background thread.
      */
-    boolean done = false;
-
     @Override
     public Void doInBackground() {
         if (!done) {
