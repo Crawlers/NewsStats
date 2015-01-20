@@ -178,6 +178,7 @@ public class NewsStatsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO stop swing worker tasks
+                statusLabel.setText("Ready");
                 enableCrawlerUI();
                 resetCrawlProgressBars();
             }
@@ -187,7 +188,7 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Classifying...");
 
-                disableCrawlerUI();
+                disableClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
                     CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
@@ -262,6 +263,7 @@ public class NewsStatsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO stop swing worker tasks
+                statusLabel.setText("Ready");
                 enableClassifierUI();
                 resetClassifyProgressBars();
             }
@@ -395,7 +397,21 @@ public class NewsStatsGUI {
 
     private void setOverallClassifyProgress() {
 
-        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / 4;
+        int divider = 0;
+        if (ceylonTodayClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (dailyMirrorClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (newsFirstClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (theIslandClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+
+        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / divider;
 
         overallClassifyProgressBar.setValue(overallProgress);
         overallClassifyProgressBar.setStringPainted(true);
