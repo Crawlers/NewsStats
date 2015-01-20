@@ -1,6 +1,9 @@
 package com.cse10.gui.task.crawl;
 
+import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
+
 import java.util.Date;
+import java.util.Observable;
 import java.util.Random;
 
 /**
@@ -23,6 +26,17 @@ public class NewsFirstCrawlTask extends CrawlTask {
             int progress = 0;
             //Initialize progress property.
             setProgress(0);
+
+            NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
+            newsFirstCrawlController.setStartDate("2014-06-30");
+            newsFirstCrawlController.setEndDate("2014-12-31");
+            newsFirstCrawlController.addObserver(this);
+            try {
+//                newsFirstCrawlController.crawl(NewsFirstCrawler.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             while (progress < 100) {
                 //Sleep for up to one second.
                 try {
@@ -44,5 +58,10 @@ public class NewsFirstCrawlTask extends CrawlTask {
     public void done() {
         System.out.println("done");
         done = true;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

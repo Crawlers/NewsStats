@@ -1,6 +1,7 @@
 package com.cse10.gui.task.crawl;
 
 import java.util.Date;
+import java.util.Observable;
 import java.util.Random;
 
 /**
@@ -44,5 +45,10 @@ public class DailyMirrorCrawlTask extends CrawlTask {
     public void done() {
         System.out.println("done");
         done = true;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
