@@ -178,6 +178,7 @@ public class NewsStatsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO stop swing worker tasks
+                statusLabel.setText("Ready");
                 enableCrawlerUI();
                 resetCrawlProgressBars();
             }
@@ -187,73 +188,82 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Classifying...");
 
-                disableCrawlerUI();
+                disableClassifierUI();
 
-                CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
-                ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            ceylonTodayClassifyProgress = progress;
-                            ceylonTodayClassifyProgressBar.setValue(progress);
-                            ceylonTodayClassifyProgressBar.setStringPainted(true);
-                            setOverallClassifyProgress();
+                if (ceylonTodayClassifierCheckBox.isSelected()) {
+                    CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                ceylonTodayClassifyProgress = progress;
+                                ceylonTodayClassifyProgressBar.setValue(progress);
+                                ceylonTodayClassifyProgressBar.setStringPainted(true);
+                                setOverallClassifyProgress();
+                            }
                         }
-                    }
-                });
-                ceylonTodayClassifyTask.execute();
+                    });
+                    ceylonTodayClassifyTask.execute();
+                }
 
-                DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
-                dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            dailyMirrorClassifyProgress = progress;
-                            dailyMirrorClassifyProgressBar.setValue(progress);
-                            dailyMirrorClassifyProgressBar.setStringPainted(true);
-                            setOverallClassifyProgress();
+                if (dailyMirrorClassifierCheckBox.isSelected()) {
+                    DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                dailyMirrorClassifyProgress = progress;
+                                dailyMirrorClassifyProgressBar.setValue(progress);
+                                dailyMirrorClassifyProgressBar.setStringPainted(true);
+                                setOverallClassifyProgress();
+                            }
                         }
-                    }
-                });
-                dailyMirrorClassifyTask.execute();
+                    });
+                    dailyMirrorClassifyTask.execute();
+                }
 
-                NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
-                newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            newsFirstClassifyProgress = progress;
-                            newsFirstClassifyProgressBar.setValue(progress);
-                            newsFirstClassifyProgressBar.setStringPainted(true);
-                            setOverallClassifyProgress();
+                if (newsFirstClassifierCheckBox.isSelected()) {
+                    NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                newsFirstClassifyProgress = progress;
+                                newsFirstClassifyProgressBar.setValue(progress);
+                                newsFirstClassifyProgressBar.setStringPainted(true);
+                                setOverallClassifyProgress();
+                            }
                         }
-                    }
-                });
-                newsFirstClassifyTask.execute();
+                    });
+                    newsFirstClassifyTask.execute();
+                }
 
-                final TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
-                theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent evt) {
-                        if ("progress" == evt.getPropertyName()) {
-                            int progress = (Integer) evt.getNewValue();
-                            theIslandClassifyProgress = progress;
-                            theIslandClassifyProgressBar.setValue(progress);
-                            theIslandClassifyProgressBar.setStringPainted(true);
-                            setOverallClassifyProgress();
+                if (theIslandClassifierCheckBox.isSelected()) {
+                    TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                theIslandClassifyProgress = progress;
+                                theIslandClassifyProgressBar.setValue(progress);
+                                theIslandClassifyProgressBar.setStringPainted(true);
+                                setOverallClassifyProgress();
+                            }
                         }
-                    }
-                });
-                theIslandClassifyTask.execute();
+                    });
+                    theIslandClassifyTask.execute();
+                }
             }
         });
         stopClassifyingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO stop swing worker tasks
+                statusLabel.setText("Ready");
                 enableClassifierUI();
                 resetClassifyProgressBars();
             }
@@ -387,7 +397,21 @@ public class NewsStatsGUI {
 
     private void setOverallClassifyProgress() {
 
-        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / 4;
+        int divider = 0;
+        if (ceylonTodayClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (dailyMirrorClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (newsFirstClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+        if (theIslandClassifierCheckBox.isSelected()) {
+            divider++;
+        }
+
+        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / divider;
 
         overallClassifyProgressBar.setValue(overallProgress);
         overallClassifyProgressBar.setStringPainted(true);
