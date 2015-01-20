@@ -14,29 +14,37 @@ public class UIComponents {
     public static final String CHECKBOXES = "checkboxes";
     public static final String PROGRESS_BARS = "progress_bars";
 
-    public HashMap<String, HashMap> uiComponents;
     public HashMap<String, ArrayList> crawlerUI;
     public HashMap<String, ArrayList> classifierUI;
     public ArrayList<JCheckBox> checkBoxesCrawler;
-    public ArrayList<JCheckBox> progressBarsCrawler;
+    public ArrayList<JProgressBar> progressBarsCrawler;
     public ArrayList<JCheckBox> checkBoxesClassifier;
-    public ArrayList<JCheckBox> progressBarsClassifier;
+    public ArrayList<JProgressBar> progressBarsClassifier;
 
     public UIComponents() {
-        uiComponents = new HashMap<>();
-        crawlerUI = new HashMap<>();
+
+        setNewCrawlerUI();
+        setNewClassifierUI();
+    }
+
+    public void setNewClassifierUI() {
         classifierUI = new HashMap<>();
 
-        checkBoxesCrawler = new ArrayList();
-        progressBarsCrawler = new ArrayList();
         checkBoxesClassifier = new ArrayList();
         progressBarsClassifier = new ArrayList();
 
-        crawlerUI.put(CHECKBOXES, checkBoxesCrawler);
-        crawlerUI.put(PROGRESS_BARS, progressBarsCrawler);
         classifierUI.put(CHECKBOXES, checkBoxesClassifier);
         classifierUI.put(PROGRESS_BARS, progressBarsClassifier);
+    }
 
+    public void setNewCrawlerUI() {
+        crawlerUI = new HashMap<>();
+
+        checkBoxesCrawler = new ArrayList();
+        progressBarsCrawler = new ArrayList();
+
+        crawlerUI.put(CHECKBOXES, checkBoxesCrawler);
+        crawlerUI.put(PROGRESS_BARS, progressBarsCrawler);
     }
 
     public void addCheckBoxes(String tab, JCheckBox... jCheckBoxes) {
@@ -54,6 +62,21 @@ public class UIComponents {
         }
     }
 
+    public void addProgressBars(String tab, JProgressBar... jProgressBars) {
+        switch (tab) {
+            case CRAWLER:
+                for (JProgressBar jProgressBar : jProgressBars) {
+                    progressBarsCrawler.add(jProgressBar);
+                }
+                break;
+            case CLASSIFIER:
+                for (JProgressBar jProgressBar : jProgressBars) {
+                    progressBarsClassifier.add(jProgressBar);
+                }
+                break;
+        }
+    }
+
     public ArrayList<JCheckBox> getCheckBoxes(String tab) {
 
         switch (tab) {
@@ -61,6 +84,18 @@ public class UIComponents {
                 return checkBoxesCrawler;
             case CLASSIFIER:
                 return checkBoxesClassifier;
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<JProgressBar> getProgressBars(String tab) {
+
+        switch (tab) {
+            case CRAWLER:
+                return progressBarsCrawler;
+            case CLASSIFIER:
+                return progressBarsClassifier;
             default:
                 return new ArrayList<>();
         }
