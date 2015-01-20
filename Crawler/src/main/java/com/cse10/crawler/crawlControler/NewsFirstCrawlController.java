@@ -70,8 +70,10 @@ public class NewsFirstCrawlController extends BasicCrawlController {
 
             }
 
-            c.add(Calendar.DATE, 1);  // number of months to add
+            setChanged();
+            notifyObservers(sdf.format(c.getTime()));
 
+            c.add(Calendar.DATE, 1);  // number of months to add
         }
     }
 }
