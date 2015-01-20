@@ -1,6 +1,7 @@
 package com.cse10.gui.task.crawl;
 
 import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
+import com.cse10.crawler.paperCrawler.NewsFirstCrawler;
 
 import java.util.Date;
 import java.util.Observable;
@@ -28,25 +29,25 @@ public class NewsFirstCrawlTask extends CrawlTask {
             setProgress(0);
 
             NewsFirstCrawlController newsFirstCrawlController = new NewsFirstCrawlController();
-            newsFirstCrawlController.setStartDate("2014-06-30");
-            newsFirstCrawlController.setEndDate("2014-12-31");
+            newsFirstCrawlController.setStartDate(startDate);
+            newsFirstCrawlController.setEndDate(endDate);
             newsFirstCrawlController.addObserver(this);
             try {
-//                newsFirstCrawlController.crawl(NewsFirstCrawler.class);
+                newsFirstCrawlController.crawl(NewsFirstCrawler.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            while (progress < 100) {
-                //Sleep for up to one second.
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ignore) {
-                }
-                //Make random progress.
-                progress += random.nextInt(10);
-                setProgress(Math.min(progress, 100));
-            }
+//            while (progress < 100) {
+//                //Sleep for up to one second.
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException ignore) {
+//                }
+//                //Make random progress.
+//                progress += random.nextInt(10);
+//                setProgress(Math.min(progress, 100));
+//            }
         }
         return null;
     }
@@ -62,6 +63,7 @@ public class NewsFirstCrawlTask extends CrawlTask {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        setProgress(100 * ++dateCount / numberOfDates);
+        System.out.println("CRAWLING " + arg.toString() + " COMPLETED");
     }
 }

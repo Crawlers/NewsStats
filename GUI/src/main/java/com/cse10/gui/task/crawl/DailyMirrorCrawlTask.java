@@ -1,5 +1,8 @@
 package com.cse10.gui.task.crawl;
 
+import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
+import com.cse10.crawler.paperCrawler.DailyMirrorCrawler;
+
 import java.util.Date;
 import java.util.Observable;
 import java.util.Random;
@@ -24,6 +27,17 @@ public class DailyMirrorCrawlTask extends CrawlTask {
             int progress = 0;
             //Initialize progress property.
             setProgress(0);
+
+            DailyMirrorCrawlController dailyMirrorCrawlController = new DailyMirrorCrawlController();
+            dailyMirrorCrawlController.setStartDate("2014-12-01");
+            dailyMirrorCrawlController.setEndDate("2014-12-10");
+            dailyMirrorCrawlController.addObserver(this);
+            try {
+                dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             while (progress < 100) {
                 //Sleep for up to one second.
                 try {
@@ -49,6 +63,7 @@ public class DailyMirrorCrawlTask extends CrawlTask {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        setProgress(100 * ++dateCount / numberOfDates);
+        System.out.println("CRAWLING " + arg.toString() + " COMPLETED");
     }
 }

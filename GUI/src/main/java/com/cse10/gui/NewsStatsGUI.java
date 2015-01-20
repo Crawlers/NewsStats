@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 /**
  * Created by TharinduWijewardane on 2015-01-08.
@@ -80,7 +79,8 @@ public class NewsStatsGUI {
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
 
-    private ArrayList uiComponents;
+    private UIComponents uiComponentsAll;
+    private UIComponents uiComponentsActive;
 
     private int ceylonTodayCrawlProgress;
     private int dailyMirrorCrawlProgress;
@@ -103,6 +103,7 @@ public class NewsStatsGUI {
                 statusLabel.setText("Crawling...");
 
                 disableCrawlerUI();
+                uiComponentsActive.setNewCrawlerUI();
 
                 if (ceylonTodayCrawlerCheckBox.isSelected()) {
                     CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
@@ -118,6 +119,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CRAWLER, ceylonTodayCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CRAWLER, ceylonTodayCrawlProgressBar);
                     ceylonTodayCrawlTask.execute();
                 }
 
@@ -135,6 +138,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CRAWLER, dailyMirrorCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CRAWLER, dailyMirrorCrawlProgressBar);
                     dailyMirrorCrawlTask.execute();
                 }
 
@@ -152,6 +157,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CRAWLER, newsFirstCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CRAWLER, newsFirstCrawlProgressBar);
                     newsFirstCrawlTask.execute();
                 }
 
@@ -169,6 +176,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CRAWLER, theIslandCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CRAWLER, theIslandCrawlProgressBar);
                     theIslandCrawlTask.execute();
                 }
 
@@ -189,6 +198,7 @@ public class NewsStatsGUI {
                 statusLabel.setText("Classifying...");
 
                 disableClassifierUI();
+                uiComponentsActive.setNewClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
                     CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
@@ -204,6 +214,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CLASSIFIER, ceylonTodayCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CLASSIFIER, ceylonTodayCrawlProgressBar);
                     ceylonTodayClassifyTask.execute();
                 }
 
@@ -221,6 +233,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CLASSIFIER, dailyMirrorCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CLASSIFIER, dailyMirrorCrawlProgressBar);
                     dailyMirrorClassifyTask.execute();
                 }
 
@@ -238,6 +252,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CLASSIFIER, newsFirstCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CLASSIFIER, newsFirstCrawlProgressBar);
                     newsFirstClassifyTask.execute();
                 }
 
@@ -255,6 +271,8 @@ public class NewsStatsGUI {
                             }
                         }
                     });
+                    uiComponentsActive.addCheckBoxes(UIComponents.CLASSIFIER, theIslandCrawlerCheckBox);
+                    uiComponentsActive.addProgressBars(UIComponents.CLASSIFIER, theIslandCrawlProgressBar);
                     theIslandClassifyTask.execute();
                 }
             }
@@ -285,7 +303,7 @@ public class NewsStatsGUI {
         frame.pack(); // packs the window according to components inside. this is not removed because its required to correct layouts
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setBounds(0, 0, screenSize.width / 2, screenSize.height / 2);
+        frame.setBounds(0, 0, screenSize.width * 2 / 3, screenSize.height * 2 / 3);
 
         frame.setVisible(true);
 
@@ -320,22 +338,11 @@ public class NewsStatsGUI {
      */
     private void initComponentLists() {
 
-        uiComponents = new ArrayList();
-        ArrayList crawlerUI = new ArrayList();
-        uiComponents.add(crawlerUI);
-        ArrayList classifierUI = new ArrayList();
-        uiComponents.add(classifierUI);
+        uiComponentsAll = new UIComponents();
+        uiComponentsActive = new UIComponents();
 
-        ArrayList checkBoxesCrawler = new ArrayList();
-        ArrayList progressBarsCrawler = new ArrayList();
-        crawlerUI.add(checkBoxesCrawler);
-        crawlerUI.add(progressBarsCrawler);
-
-        ArrayList checkBoxesClassifier = new ArrayList();
-        ArrayList progressBarsClassifier = new ArrayList();
-        classifierUI.add(checkBoxesClassifier);
-        classifierUI.add(progressBarsClassifier);
-
+        uiComponentsAll.addCheckBoxes(UIComponents.CRAWLER, ceylonTodayCrawlerCheckBox, dailyMirrorCrawlerCheckBox, newsFirstCrawlerCheckBox, theIslandCrawlerCheckBox);
+        uiComponentsAll.addCheckBoxes(UIComponents.CLASSIFIER, ceylonTodayClassifierCheckBox, dailyMirrorClassifierCheckBox, newsFirstClassifierCheckBox, theIslandClassifierCheckBox);
 
     }
 
@@ -343,7 +350,9 @@ public class NewsStatsGUI {
 
     private void setOverallCrawlProgress() {
 
-        int overallProgress = (ceylonTodayCrawlProgress + dailyMirrorCrawlProgress + newsFirstCrawlProgress + theIslandCrawlProgress) / 4;
+        int numOfSelectedPapers = uiComponentsActive.getCheckBoxes(UIComponents.CRAWLER).size();
+
+        int overallProgress = (ceylonTodayCrawlProgress + dailyMirrorCrawlProgress + newsFirstCrawlProgress + theIslandCrawlProgress) / numOfSelectedPapers;
 
         overallCrawlProgressBar.setValue(overallProgress);
         overallCrawlProgressBar.setStringPainted(true);
@@ -397,21 +406,9 @@ public class NewsStatsGUI {
 
     private void setOverallClassifyProgress() {
 
-        int divider = 0;
-        if (ceylonTodayClassifierCheckBox.isSelected()) {
-            divider++;
-        }
-        if (dailyMirrorClassifierCheckBox.isSelected()) {
-            divider++;
-        }
-        if (newsFirstClassifierCheckBox.isSelected()) {
-            divider++;
-        }
-        if (theIslandClassifierCheckBox.isSelected()) {
-            divider++;
-        }
+        int numOfSelectedPapers = uiComponentsActive.getCheckBoxes(UIComponents.CLASSIFIER).size();
 
-        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / divider;
+        int overallProgress = (ceylonTodayClassifyProgress + dailyMirrorClassifyProgress + newsFirstClassifyProgress + theIslandClassifyProgress) / numOfSelectedPapers;
 
         overallClassifyProgressBar.setValue(overallProgress);
         overallClassifyProgressBar.setStringPainted(true);

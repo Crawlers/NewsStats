@@ -62,6 +62,7 @@ public class CeylonTodayCrawlTask extends CrawlTask {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        setProgress(100 * ++dateCount / numberOfDates);
+        System.out.println("CRAWLING " + arg.toString() + " COMPLETED");
     }
 }
