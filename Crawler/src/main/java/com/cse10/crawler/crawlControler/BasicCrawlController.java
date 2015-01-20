@@ -10,8 +10,9 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Observable;
 
-abstract public class BasicCrawlController {
+abstract public class BasicCrawlController extends Observable {
 
     private CrawlConfig config;
 

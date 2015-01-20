@@ -60,6 +60,9 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
              */
             controller.start(_c, 1);
             c.add(Calendar.DATE, 1);  // number of days to add
+
+            setChanged();
+            notifyObservers(current_date);
         }
     }
 }
