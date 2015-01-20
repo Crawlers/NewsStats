@@ -189,7 +189,7 @@ public class NewsStatsGUI {
 
                 disableCrawlerUI();
 
-                CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask();
+                CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                 ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
@@ -204,7 +204,7 @@ public class NewsStatsGUI {
                 });
                 ceylonTodayClassifyTask.execute();
 
-                DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask();
+                DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                 dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
@@ -219,7 +219,7 @@ public class NewsStatsGUI {
                 });
                 dailyMirrorClassifyTask.execute();
 
-                NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask();
+                NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                 newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
@@ -234,7 +234,7 @@ public class NewsStatsGUI {
                 });
                 newsFirstClassifyTask.execute();
 
-                final TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask();
+                final TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                 theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt) {
