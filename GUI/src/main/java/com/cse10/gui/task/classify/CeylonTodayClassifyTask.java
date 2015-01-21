@@ -23,6 +23,9 @@ public class CeylonTodayClassifyTask extends ClassifyTask {
             int progress = 0;
             //Initialize progress property.
             setProgress(0);
+            //remove while loop and add my implementation
+
+
             while (progress < 100) {
                 //Sleep for up to one second.
                 try {
