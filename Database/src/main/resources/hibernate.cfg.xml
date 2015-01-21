@@ -27,5 +27,8 @@
         <mapping resource="com/cse10/entities/CrimePerson.hbm.xml"></mapping>
 
         <mapping resource="com/cse10/results/NewsStatistic.hbm.xml"></mapping>
+        <mapping resource="com/cse10/results/Prediction.hbm.xml"></mapping>
+        <mapping resource="com/cse10/results/Prediction_District.hbm.xml"></mapping>
+        <mapping resource="com/cse10/results/Prediction_Type.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>

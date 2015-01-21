@@ -9,7 +9,9 @@ public class Analyzer {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        StatGenerator statGen = new StatGenerator();
-        statGen.generateStats();
+        //StatGenerator statGen = new StatGenerator();
+        //statGen.generateStats();
+        Predictor p = new Predictor();
+        p.predict();
     }
 }
