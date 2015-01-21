@@ -17,3 +17,8 @@ a classes
 DB name should be change in hybernate file, weka file and constants in database module
 
 fetch+merge=pull
+
+gate infrastructure classes are added by jar files. plugin are loaded using class path
+
+System.getenv("ANT_HOME") // access environmental variables
+System.getProperty("BB") // access JVM properties
