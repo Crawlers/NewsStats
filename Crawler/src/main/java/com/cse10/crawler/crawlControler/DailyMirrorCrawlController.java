@@ -60,6 +60,10 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
              */
             controller.start(_c, 1);
 
+            if(crawlingStopped){ //if stopped from calling class
+                return;
+            }
+
             setChanged();
             notifyObservers(sdf.format(c.getTime()));
 
