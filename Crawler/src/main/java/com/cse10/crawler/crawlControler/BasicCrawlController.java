@@ -5,6 +5,7 @@ package com.cse10.crawler.crawlControler;
  */
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
+import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 
 import java.text.SimpleDateFormat;
@@ -18,12 +19,15 @@ abstract public class BasicCrawlController extends Observable {
 
     //global configurations
     final String CRAWL_STORAGE_DIR_ROOT = "E:/CrawlData";
-    final String PROXY_ADDRESS = ""; //"cache.mrt.ac.lk" //"";
-    final int PROXY_PORT = 0; //3128 //0;
+    final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
+    final int PROXY_PORT = 3128; //3128 //0;
 
     // start and end dates used by sub classes
     protected String startDate;
     protected String endDate;
+
+    protected CrawlController controller; //to be used in subclasses
+    protected boolean crawlingStopped = false;
 
     /**
      * @param startDate format: yyyy-MM-dd
@@ -129,4 +133,11 @@ abstract public class BasicCrawlController extends Observable {
     }
 
     abstract public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception;
+
+    public void stopCrawl() {
+        crawlingStopped = true;
+        if (controller != null) {
+            controller.shutdown();
+        }
+    }
 }

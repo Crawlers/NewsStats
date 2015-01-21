@@ -46,7 +46,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
-                CrawlController controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
+                controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
 
                 String url = "http://newsfirst.lk/english/" + year + "/" + (month < 10 ? ("0" + month) : (month)) + "/" + date; // make the month always 2 digits
                 current_path = "/english/" + year + "/" + (month < 10 ? ("0" + month) : (month));
@@ -68,10 +68,15 @@ public class NewsFirstCrawlController extends BasicCrawlController {
              */
                 controller.start(_c, 1);
 
+                if(crawlingStopped){ //if stopped from calling class
+                    return;
+                }
             }
 
-            c.add(Calendar.DATE, 1);  // number of months to add
+            setChanged();
+            notifyObservers(sdf.format(c.getTime()));
 
+            c.add(Calendar.DATE, 1);
         }
     }
 }

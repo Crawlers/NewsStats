@@ -63,6 +63,10 @@ public class HiruNewsCrawlController extends BasicCrawlController {
              * will reach the line after this only when crawling is finished.
              */
                 controller.start(_c, 1);
+
+                if(crawlingStopped){ //if stopped from calling class
+                    return;
+                }
 //                System.out.println("sleeping for 60 s");
 //                Thread.sleep(60000);
 

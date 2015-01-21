@@ -59,10 +59,15 @@ public class CeylonTodayCrawlController extends BasicCrawlController {
              * will reach the line after this only when crawling is finished.
              */
             controller.start(_c, 1);
-            c.add(Calendar.DATE, 1);  // number of days to add
+
+            if(crawlingStopped){ //if stopped from calling class
+                return;
+            }
 
             setChanged();
-            notifyObservers(current_date);
+            notifyObservers(sdf.format(c.getTime()));
+
+            c.add(Calendar.DATE, 1);  // number of days to add
         }
     }
 }
