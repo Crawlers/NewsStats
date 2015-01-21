@@ -64,13 +64,17 @@ public class HiruNewsCrawlController extends BasicCrawlController {
              */
                 controller.start(_c, 1);
 
-                if(crawlingStopped){ //if stopped from calling class
+                if (crawlingStopped) { //if stopped from calling class
                     return;
                 }
 //                System.out.println("sleeping for 60 s");
 //                Thread.sleep(60000);
 
             }
+
+            //TODO: have to set following by date wise
+//            setChanged();
+//            notifyObservers(sdf.format(c.getTime()));
 
             c.add(Calendar.MONTH, 1);  // number of months to add
 
