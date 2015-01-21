@@ -23,6 +23,7 @@ public class CeylonTodayClassifyTask extends ClassifyTask {
             int progress = 0;
             //Initialize progress property.
             setProgress(0);
+
             while (progress < 100) {
                 //Sleep for up to one second.
                 try {

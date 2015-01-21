@@ -20,7 +20,6 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
     protected StanfordCoreNLP pipeline;
 
     public StanfordCoreNLPLemmatizer() {
-        System.out.println("Initialize StandfordLemmatizer---------------------------------------------");
         Properties props;
         props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -76,5 +75,10 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
         result.add("-S");
         result.add("Stanford Core NLP");
         return (String[]) result.toArray(new String[result.size()]);
+    }
+
+    public static void main(String[] args) {
+        StanfordCoreNLPLemmatizer stanfordCoreNLPLemmatizer=new StanfordCoreNLPLemmatizer();
+        System.out.println(stanfordCoreNLPLemmatizer.stem("talking"));
     }
 }
