@@ -92,6 +92,16 @@ public class NewsStatsGUI {
     private int newsFirstClassifyProgress;
     private int theIslandClassifyProgress;
 
+    private CeylonTodayCrawlTask ceylonTodayCrawlTask;
+    private DailyMirrorCrawlTask dailyMirrorCrawlTask;
+    private NewsFirstCrawlTask newsFirstCrawlTask;
+    private TheIslandCrawlTask theIslandCrawlTask;
+
+    private CeylonTodayClassifyTask ceylonTodayClassifyTask;
+    private DailyMirrorClassifyTask dailyMirrorClassifyTask;
+    private NewsFirstClassifyTask newsFirstClassifyTask;
+    private TheIslandClassifyTask theIslandClassifyTask;
+
     public NewsStatsGUI() {
 
         initComponentLists(); // initialize list containing UI components
@@ -106,7 +116,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewCrawlerUI();
 
                 if (ceylonTodayCrawlerCheckBox.isSelected()) {
-                    CeylonTodayCrawlTask ceylonTodayCrawlTask = new CeylonTodayCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    ceylonTodayCrawlTask = new CeylonTodayCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -125,7 +135,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorCrawlerCheckBox.isSelected()) {
-                    DailyMirrorCrawlTask dailyMirrorCrawlTask = new DailyMirrorCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    dailyMirrorCrawlTask = new DailyMirrorCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -144,7 +154,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstCrawlerCheckBox.isSelected()) {
-                    NewsFirstCrawlTask newsFirstCrawlTask = new NewsFirstCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    newsFirstCrawlTask = new NewsFirstCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -163,7 +173,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandCrawlerCheckBox.isSelected()) {
-                    final TheIslandCrawlTask theIslandCrawlTask = new TheIslandCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    theIslandCrawlTask = new TheIslandCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
                     theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -186,7 +196,24 @@ public class NewsStatsGUI {
         stopCrawlingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO stop swing worker tasks
+
+                if (ceylonTodayCrawlTask != null) {
+                    ceylonTodayCrawlTask.stopCrawling();
+                    ceylonTodayCrawlTask.cancel(true);
+                }
+                if (dailyMirrorCrawlTask != null) {
+                    dailyMirrorCrawlTask.stopCrawling();
+                    dailyMirrorCrawlTask.cancel(true);
+                }
+                if (newsFirstCrawlTask != null) {
+                    newsFirstCrawlTask.stopCrawling();
+                    newsFirstCrawlTask.cancel(true);
+                }
+                if (theIslandCrawlTask != null) {
+                    theIslandCrawlTask.stopCrawling();
+                    theIslandCrawlTask.cancel(true);
+                }
+
                 statusLabel.setText("Ready");
                 enableCrawlerUI();
                 resetCrawlProgressBars();
@@ -201,7 +228,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
-                    CeylonTodayClassifyTask ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                     ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -220,7 +247,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorClassifierCheckBox.isSelected()) {
-                    DailyMirrorClassifyTask dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                     dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -239,7 +266,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstClassifierCheckBox.isSelected()) {
-                    NewsFirstClassifyTask newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                     newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -258,7 +285,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandClassifierCheckBox.isSelected()) {
-                    TheIslandClassifyTask theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
                     theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -280,7 +307,20 @@ public class NewsStatsGUI {
         stopClassifyingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO stop swing worker tasks
+
+                if (ceylonTodayClassifyTask != null) {
+                    ceylonTodayClassifyTask.cancel(true);
+                }
+                if (dailyMirrorClassifyTask != null) {
+                    dailyMirrorClassifyTask.cancel(true);
+                }
+                if (newsFirstClassifyTask != null) {
+                    newsFirstClassifyTask.cancel(true);
+                }
+                if (theIslandClassifyTask != null) {
+                    theIslandClassifyTask.cancel(true);
+                }
+
                 statusLabel.setText("Ready");
                 enableClassifierUI();
                 resetClassifyProgressBars();
