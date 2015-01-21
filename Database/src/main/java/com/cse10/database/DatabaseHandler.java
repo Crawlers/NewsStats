@@ -33,6 +33,7 @@ public class DatabaseHandler {
 
         session.save(article);
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -49,6 +50,7 @@ public class DatabaseHandler {
             session.save(article);
         }
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -65,6 +67,7 @@ public class DatabaseHandler {
 
         articles = (ArrayList<Article>) session.createCriteria(articleClass).list();
         session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -87,6 +90,7 @@ public class DatabaseHandler {
                 .add(Restrictions.in("id", idList))
                 .list();
         session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -109,6 +113,7 @@ public class DatabaseHandler {
                 .add(Restrictions.le("id", endId))
                 .list();
         session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -152,6 +157,7 @@ public class DatabaseHandler {
 
         session.save(crimeEntityGroup);
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -168,6 +174,7 @@ public class DatabaseHandler {
             session.save(crimeEntityGroup);
         }
         session.getTransaction().commit();
+        session.close();
     }
 
 
@@ -184,6 +191,7 @@ public class DatabaseHandler {
 
         entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class).list();
         session.getTransaction().commit();
+        session.close();
 
         return entityGroups;
     }
@@ -207,6 +215,7 @@ public class DatabaseHandler {
                 .add(Restrictions.le("id", endId))
                 .list();
         session.getTransaction().commit();
+        session.close();
 
         return crimeEntityGroups;
     }
@@ -312,5 +321,12 @@ public class DatabaseHandler {
         session.save(crimeEntityGroup);
         session.getTransaction().commit();
         session.close();
+    }
+
+    /**
+     * closes the hibernate session factory. (otherwise JVM won't stop)
+     */
+    public static void closeDatabase() {
+        HibernateUtil.shutdown();
     }
 }
