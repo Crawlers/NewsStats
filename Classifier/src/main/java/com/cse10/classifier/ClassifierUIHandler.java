@@ -131,7 +131,7 @@ public class ClassifierUIHandler extends Observable {
         setChanged();
         notifyObservers(progress);
 
-        System.out.println("Classifier UI Handler -> End of Building Classifier");
+        System.out.println("Classifier UI Handler ->  End of Building Classifier");
         System.out.println("---------------------------------------------------------------------------");
     }
 
