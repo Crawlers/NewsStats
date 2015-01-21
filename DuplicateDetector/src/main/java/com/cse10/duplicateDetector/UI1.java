@@ -4,14 +4,12 @@ package com.cse10.duplicateDetector;
  * Created by chamath on 1/19/2015.
  */
 
+
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.LocationDistrictMapper;
 import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.io.Files;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -216,8 +214,5 @@ public class UI1 {
         }*/
 
         ui.findDuplicates();
-
     }
-
-
 }
