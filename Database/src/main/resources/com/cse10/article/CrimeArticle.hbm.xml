@@ -23,7 +23,7 @@
             <column name="newspaper" length="30" not-null="false"/>
         </property>
         <property name="newspaperId" type="int">
-            <column name="id" precision="20" scale="0" not-null="false"/>
+            <column name="newspaper_id" precision="20" scale="0" not-null="false"/>
         </property>
         <property name="label" type="string">
             <column name="label" length="10" not-null="false"/>
