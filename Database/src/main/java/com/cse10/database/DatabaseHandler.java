@@ -119,6 +119,27 @@ public class DatabaseHandler {
     }
 
     /**
+     * fetch articles of given class (given table) which has null value for label column
+     *
+     * @param articleClass ex:- CeylonTodayArticle.class
+     * @return
+     */
+    public static List<Article> fetchArticlesWithNullLabels(Class articleClass) {
+        ArrayList<Article> articles;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        articles = (ArrayList<Article>) session.createCriteria(articleClass)
+                .add(Restrictions.isNull("label"))
+                .list();
+        session.getTransaction().commit();
+        session.close();
+
+        return articles;
+    }
+
+    /**
      * execute a query without using hibernate and return ResultSet
      *
      * @param query
