@@ -120,7 +120,7 @@ public class DatabaseHandler {
     }
 
     /**
-     * fetch articles of given class (given table) which has null value for label column
+     * fetch articles of given class (given table) which have null values for label column
      *
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
@@ -346,7 +346,7 @@ public class DatabaseHandler {
     }
 
     /**
-     * get the row count of a table containing articles
+     * get the row count of a table containing articles of given type
      *
      * @param articleClass
      * @return
@@ -355,6 +355,27 @@ public class DatabaseHandler {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the max id value of the table containing articles of given type
+     *
+     * @param articleClass ex:- CeylonTodayArticle.class
+     * @return
+     */
+    public static int getMaxIdOf(Class articleClass) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.max("id")).uniqueResult();
+
+        session.getTransaction().commit();
+        session.close();
+
         return count.intValue();
     }
 
