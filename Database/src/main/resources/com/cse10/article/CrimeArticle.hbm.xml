@@ -4,7 +4,7 @@
 <hibernate-mapping>
     <class name="com.cse10.article.CrimeArticle" table="article_crime">
         <id name="id" type="int">
-            <column name="id" precision="20" scale="0" />
+            <column name="id" precision="20" scale="0"/>
             <generator class="increment"/>
         </id>
         <property name="title" type="string">
@@ -21,6 +21,9 @@
         </property>
         <property name="newspaper" type="string">
             <column name="newspaper" length="30" not-null="false"/>
+        </property>
+        <property name="newspaperId" type="int">
+            <column name="id" precision="20" scale="0" not-null="false"/>
         </property>
         <property name="label" type="string">
             <column name="label" length="10" not-null="false"/>

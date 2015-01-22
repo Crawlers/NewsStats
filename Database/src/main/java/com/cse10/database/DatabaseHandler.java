@@ -10,6 +10,7 @@ import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.sql.DriverManager;
@@ -33,6 +34,7 @@ public class DatabaseHandler {
 
         session.save(article);
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -49,6 +51,7 @@ public class DatabaseHandler {
             session.save(article);
         }
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -65,6 +68,7 @@ public class DatabaseHandler {
 
         articles = (ArrayList<Article>) session.createCriteria(articleClass).list();
         session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -87,6 +91,7 @@ public class DatabaseHandler {
                 .add(Restrictions.in("id", idList))
                 .list();
         session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -109,6 +114,28 @@ public class DatabaseHandler {
                 .add(Restrictions.le("id", endId))
                 .list();
         session.getTransaction().commit();
+        session.close();
+
+        return articles;
+    }
+
+    /**
+     * fetch articles of given class (given table) which have null values for label column
+     *
+     * @param articleClass ex:- CeylonTodayArticle.class
+     * @return
+     */
+    public static List<Article> fetchArticlesWithNullLabels(Class articleClass) {
+        ArrayList<Article> articles;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        articles = (ArrayList<Article>) session.createCriteria(articleClass)
+                .add(Restrictions.isNull("label"))
+                .list();
+        session.getTransaction().commit();
+        session.close();
 
         return articles;
     }
@@ -152,6 +179,7 @@ public class DatabaseHandler {
 
         session.save(crimeEntityGroup);
         session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -168,6 +196,7 @@ public class DatabaseHandler {
             session.save(crimeEntityGroup);
         }
         session.getTransaction().commit();
+        session.close();
     }
 
 
@@ -184,6 +213,7 @@ public class DatabaseHandler {
 
         entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class).list();
         session.getTransaction().commit();
+        session.close();
 
         return entityGroups;
     }
@@ -207,6 +237,7 @@ public class DatabaseHandler {
                 .add(Restrictions.le("id", endId))
                 .list();
         session.getTransaction().commit();
+        session.close();
 
         return crimeEntityGroups;
     }
@@ -312,5 +343,46 @@ public class DatabaseHandler {
         session.save(crimeEntityGroup);
         session.getTransaction().commit();
         session.close();
+    }
+
+    /**
+     * get the row count of a table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static int getRowCount(Class articleClass) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the max id value of the table containing articles of given type
+     *
+     * @param articleClass ex:- CeylonTodayArticle.class
+     * @return
+     */
+    public static int getMaxIdOf(Class articleClass) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.max("id")).uniqueResult();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return count.intValue();
+    }
+
+    /**
+     * closes the hibernate session factory. (otherwise JVM won't stop)
+     */
+    public static void closeDatabase() {
+        HibernateUtil.shutdown();
     }
 }

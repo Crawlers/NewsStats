@@ -1,5 +1,6 @@
 package com.cse10.gui;
 
+import com.cse10.database.DatabaseHandler;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -440,6 +441,8 @@ public class NewsStatsGUI {
         newsFirstCrawlProgressBar.setValue(0);
         theIslandCrawlProgressBar.setValue(0);
         overallCrawlProgressBar.setValue(0);
+
+        DatabaseHandler.closeDatabase(); //to close hibernate and let jvm stop
     }
 
     /* CLASSIFIER TAB */
