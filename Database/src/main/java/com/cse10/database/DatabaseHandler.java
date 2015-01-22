@@ -10,6 +10,7 @@ import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.sql.DriverManager;
@@ -351,10 +352,10 @@ public class DatabaseHandler {
      * @return
      */
     public static int getRowCount(Class articleClass) {
-        String tableName = new DatabaseConstants().classToTableName.get(articleClass);
+
         Session session = HibernateUtil.getSessionFactory().openSession();
-        int count = (int) session.createQuery("select count(id) from " + tableName).uniqueResult();
-        return count;
+        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.rowCount()).uniqueResult();
+        return count.intValue();
     }
 
     /**
