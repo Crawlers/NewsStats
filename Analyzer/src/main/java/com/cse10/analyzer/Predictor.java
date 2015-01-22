@@ -13,16 +13,19 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeSet;
+//import java.sql.*;
+import java.util.*;
 
 public class Predictor {
     public void  predict(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.createSQLQuery("truncate table predictions").executeUpdate();
+        tx.commit();
+        session.close();
         List results = getInput();
         HashMap<String,Integer> series = getSeriesHolder();
         HashMap pre = (HashMap) results.get(0);
@@ -30,7 +33,8 @@ public class Predictor {
         for (int i=0; i<results.size(); i++){
             HashMap ele = (HashMap) results.get(i);
             if (!ele.get("crime_type").equals(pre.get("crime_type")) || !ele.get("crime_district").equals(pre.get("crime_district"))){
-                insertToDB(predictValue(series));
+                int predicted = predictValue(series);
+                insertToDB(ele,"2014 - 1",predicted);
                 series = getSeriesHolder();
                 pre = ele;
                 continue;
@@ -66,12 +70,22 @@ public class Predictor {
         return results;
     }
 
-    public HashMap predictValue(HashMap series){
-        return null;
+    public int predictValue(HashMap<String,Integer> series){
+        return predictUsingLR(series);
     }
 
-    public void insertToDB(HashMap ele){
-
+    public void insertToDB(HashMap ele, String key, int count){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.createSQLQuery(
+                "INSERT INTO predictions (crime_type, crime_district, crime_yearquarter, crime_count) " +
+                        " VALUES ('"+
+                        ele.get("crime_type")+ "', '"+
+                        ele.get("crime_district")+"', '"+
+                        key+ "', '"+
+                        count + "')").executeUpdate();
+        tx.commit();
+        session.close();
     }
 
     public HashMap<String,Integer> getSeriesHolder(){
@@ -83,5 +97,55 @@ public class Predictor {
             series.put("2013 - "+i,0);
         }
         return series;
+    }
+
+    public int predictUsingLR(HashMap<String,Integer> series) {
+
+        List keys = new ArrayList(series.keySet());
+        Collections.sort(keys);
+
+        SimpleRegression simpleRegression = new SimpleRegression();
+        simpleRegression.clear();
+        int i;
+        for (i=0; i<keys.size(); i++){
+            simpleRegression.addData(i, series.get(keys.get(i)));
+        }
+        double intercept = simpleRegression.getIntercept();
+        double slope = simpleRegression.getSlope();
+
+        System.out.println(intercept);
+        System.out.println(slope);
+        double prediction = simpleRegression.predict(i);
+        return (int) prediction;
+
+
+    }
+
+    public double predictUsingENL() {
+
+        ElasticNetLearner elasticNetLearner = new ElasticNetLearner();
+        double prediction = 0.0;
+        try {
+            Instances instances = InstancesReader.read("C:\\Users\\hp\\Desktop\\PredictorIm\\dataFile.txt", 1, " ");
+            System.out.println("ddd");
+            for (Instance i : instances) {
+                System.out.print(i.getValue(0) + " ");
+                System.out.println(i.getTarget());
+            }
+            //build regressor
+            GLM glm = elasticNetLearner.buildRegressor(instances, 100, 0.0, 0.0);
+
+            //create new instance for prediction
+            int[] indices = {0, 1};
+            double[] values = {100, 0};
+            Instance i = new Instance(indices, values);
+
+            //perform prediction
+            prediction = glm.regress(i);
+
+        } catch (IOException e) {
+        }
+        return prediction;
+
     }
 }
