@@ -3,6 +3,7 @@ package com.cse10.classifier;
 import com.cse10.article.*;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.util.ArticleConverter;
+import weka.core.Instance;
 import weka.core.Instances;
 
 import java.util.*;
@@ -145,11 +146,18 @@ public class ClassifierUIHandler extends Observable {
 
         System.out.println("\n-------------------------------------------------------------------------");
         System.out.println("Classifier UI Handler -> Start Classifying Articles");
-
         System.out.println(" Classifier UI Handler -> Start Loading Test Data");
-        Instances testData = dataHandler.loadTestData(tableName, "WHERE 1", true); //`created_date`<'2013-06-01'
-        System.out.println(" Classifier UI Handler -> Finish Loading Test Data");
 
+        //get the last id of that news paper's classified articles
+        //int maxId= get max id
+        //add that id to below condition. then get only the unclassified data
+
+        //get only unclassified data using weka loading
+        Instances testData = dataHandler.loadTestData(tableName, "WHERE `label` IS NULL", true); //`created_date`<'2013-06-01'
+        //get same test data using hybernate
+
+
+        System.out.println(" Classifier UI Handler -> Finish Loading Test Data");
         System.out.println(" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
         HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
@@ -163,12 +171,9 @@ public class ClassifierUIHandler extends Observable {
             }
         }
 
-        System.out.println(" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
-        ListIterator iter = crimeArticleIdList.listIterator();
-        while (iter.hasNext()) {
-            Integer id = (Integer) iter.next();
-        }
 
+        System.out.println(" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
+        ListIterator iter;
         List<Article> articles = DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
 
         System.out.println(" Classifier UI Handler -> size of article list= " + articles.size());
@@ -200,15 +205,9 @@ public class ClassifierUIHandler extends Observable {
         int progress = 100;
         setChanged();
         notifyObservers(progress);
+
+        //to finish hybernate session and close database. other wise JVM will run continuously
         System.out.println("---------------------------------------------------------------------------------");
-    }
-
-
-    /**
-     * @return
-     */
-    public FeatureVectorTransformer getFeatureVectorTransformer() {
-        return featureVectorTransformer;
     }
 
 
@@ -229,6 +228,7 @@ public class ClassifierUIHandler extends Observable {
         ClassifierUIHandler classifierUIHandler = new ClassifierUIHandler();
         classifierUIHandler.buildClassifier();
         classifierUIHandler.classifyNewsArticles(DailyMirrorArticle.class);
+
 
     }
 

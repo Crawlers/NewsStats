@@ -1,12 +1,16 @@
 package com.cse10.gui.task.classify;
 
+import com.cse10.article.TheIslandArticle;
+import com.cse10.classifier.ClassifierUIHandler;
 import java.util.Date;
-import java.util.Random;
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class TheIslandClassifyTask extends ClassifyTask {
+public class TheIslandClassifyTask extends ClassifyTask implements Observer {
 
     public TheIslandClassifyTask(Date startDate, Date endDate) {
         super(startDate, endDate);
@@ -18,21 +22,15 @@ public class TheIslandClassifyTask extends ClassifyTask {
     @Override
     public Void doInBackground() {
         if (!done) {
-            System.out.println("in background");
-            Random random = new Random();
-            int progress = 0;
+            System.out.println("The Island Classifer -> In Background");
+
             //Initialize progress property.
             setProgress(0);
-            while (progress < 100) {
-                //Sleep for up to one second.
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ignore) {
-                }
-                //Make random progress.
-                progress += random.nextInt(10);
-                setProgress(Math.min(progress, 100));
-            }
+            ClassifierUIHandler classifierUIHandler=new ClassifierUIHandler();
+            classifierUIHandler.addObserver(this);
+            classifierUIHandler.buildClassifier();
+            classifierUIHandler.classifyNewsArticles(TheIslandArticle.class);
+            System.out.println("The Island Classifer -> In Background");
         }
         return null;
     }
@@ -42,7 +40,13 @@ public class TheIslandClassifyTask extends ClassifyTask {
      */
     @Override
     public void done() {
-        System.out.println("done");
+        System.out.println("The Island Classifer -> Done");
         done = true;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        int value=(Integer)arg;
+        setProgress(value);
     }
 }
