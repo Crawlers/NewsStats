@@ -1,5 +1,9 @@
 package com.cse10.gui;
 
+import com.cse10.article.CeylonTodayArticle;
+import com.cse10.article.DailyMirrorArticle;
+import com.cse10.article.NewsFirstArticle;
+import com.cse10.article.TheIslandArticle;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
@@ -102,6 +106,11 @@ public class NewsStatsGUI {
     private DailyMirrorClassifyTask dailyMirrorClassifyTask;
     private NewsFirstClassifyTask newsFirstClassifyTask;
     private TheIslandClassifyTask theIslandClassifyTask;
+
+    private int numberOfCeylonTodayArticles;
+    private int numberOfDailyMirrorArticles;
+    private int numberOfNewsFirstArticles;
+    private int numberOfTheIslandArticles;
 
     public NewsStatsGUI() {
 
@@ -405,9 +414,26 @@ public class NewsStatsGUI {
 
             enableCrawlerUI();
             resetCrawlProgressBars();
-            chartPanelCrawler.setVisible(true);
+            drawCrawlerChart();
 
         }
+    }
+
+    private void drawCrawlerChart() {
+
+        numberOfCeylonTodayArticles = DatabaseHandler.getRowCount(CeylonTodayArticle.class);
+        numberOfDailyMirrorArticles = DatabaseHandler.getRowCount(DailyMirrorArticle.class);
+        numberOfNewsFirstArticles = DatabaseHandler.getRowCount(NewsFirstArticle.class);
+        numberOfTheIslandArticles = DatabaseHandler.getRowCount(TheIslandArticle.class);
+
+        DefaultPieDataset pieDatasetCrawler = new DefaultPieDataset();
+        pieDatasetCrawler.setValue("Ceylon Today", numberOfCeylonTodayArticles);
+        pieDatasetCrawler.setValue("Daily Mirror", numberOfDailyMirrorArticles);
+        pieDatasetCrawler.setValue("News First", numberOfNewsFirstArticles);
+        pieDatasetCrawler.setValue("The Island", numberOfTheIslandArticles);
+        JFreeChart chartCrawler = ChartFactory.createPieChart3D("Crawled Articles", pieDatasetCrawler, true, true, true);
+        chartPanelCrawler = new ChartPanel(chartCrawler);
+        chartPanelCrawler.setVisible(true);
     }
 
     private void disableCrawlerUI() {
@@ -498,5 +524,7 @@ public class NewsStatsGUI {
         newsFirstClassifyProgressBar.setValue(0);
         theIslandClassifyProgressBar.setValue(0);
         overallClassifyProgressBar.setValue(0);
+
+        DatabaseHandler.closeDatabase(); //to close hibernate and let jvm stop
     }
 }
