@@ -324,6 +324,19 @@ public class DatabaseHandler {
     }
 
     /**
+     * get the row count of a table containing articles
+     *
+     * @param articleClass
+     * @return
+     */
+    public static int getRowCount(Class articleClass) {
+        String tableName = new DatabaseConstants().classToTableName.get(articleClass);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        int count = (int) session.createQuery("select count(id) from " + tableName).uniqueResult();
+        return count;
+    }
+
+    /**
      * closes the hibernate session factory. (otherwise JVM won't stop)
      */
     public static void closeDatabase() {
