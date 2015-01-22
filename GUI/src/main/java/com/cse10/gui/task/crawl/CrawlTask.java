@@ -26,7 +26,7 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
         this.startDate = startDate;
         this.endDate = endDate;
 
-        numberOfDates = getDateDiff(startDate, endDate);
+        numberOfDates = getDateDiff(startDate, endDate) + 1;
     }
 
     private int getDateDiff(Date date1, Date date2) {
