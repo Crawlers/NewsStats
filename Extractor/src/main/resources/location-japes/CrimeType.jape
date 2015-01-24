@@ -376,6 +376,8 @@ Priority:50
 {Token.string == "the"}
 {Token.string == "death"})
 |
+{Token.string == "death"}
+|
 {Token.string == "beheaded"}
 |
 {Token.string == "execution"}

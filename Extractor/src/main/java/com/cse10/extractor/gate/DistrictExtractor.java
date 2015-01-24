@@ -44,7 +44,7 @@ public class DistrictExtractor {
 				}
 
 				// if the response is sufficiently informative carry on
-				if (countryPosition > 2){
+				if (countryPosition >= 2){
 					districtPosition = countryPosition-2;
 
 					JSONObject countryComp = addressCompsArray.getJSONObject(countryPosition);
