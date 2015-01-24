@@ -22,6 +22,7 @@ public class DocumentContentFilter {
     public DocumentContentFilter() {
         try {
             //set gate home
+            if(Gate.getGateHome()==null)
             Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));
             //initialize gate
             Gate.init();

@@ -1,4 +1,4 @@
 Lemmatizer is not working with GUI - add stanford core nlp jars into GUI also
 Stemmer is working with GUI - ok
 Lemmatizer can not be serializable
-Gate generates an error when working in GUI -  add gate jars from isuru's lib folder
+

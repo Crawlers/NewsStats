@@ -25,7 +25,7 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
             //Initialize progress property.
             setProgress(0);
             //build classifier & classify data
-            ClassifierUIHandler classifierUIHandler=new ClassifierUIHandler();
+            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
             classifierUIHandler.buildClassifier();
             classifierUIHandler.classifyNewsArticles(DailyMirrorArticle.class);
