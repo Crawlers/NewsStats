@@ -26,7 +26,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
 
             //Initialize progress property.
             setProgress(0);
-            ClassifierUIHandler classifierUIHandler=new ClassifierUIHandler();
+            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
             classifierUIHandler.buildClassifier();
             classifierUIHandler.classifyNewsArticles(TheIslandArticle.class);
