@@ -44,10 +44,10 @@ public class ClassifierUIHandler extends Observable {
      */
     private void loadTrainingData() {
         try {
-            System.out.println("\nClassifier UI Handler -> Start Data Loading");
+            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Loading");
             trainingData = dataHandler.loadTrainingData(featureVectorTransformer);
-            System.out.println("\n Classifier UI Handler -> Training Data Details");
-            System.out.println("  Number of Articles= " + trainingData.numInstances());
+            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Training Data Details");
+            System.out.println(Thread.currentThread().getName()+"  Number of Articles= " + trainingData.numInstances());
             int crimeCount = 0;
             int otherCount = 0;
             for (int i = 0; i < trainingData.numInstances(); i++) {
@@ -56,9 +56,9 @@ public class ClassifierUIHandler extends Observable {
                 else
                     otherCount++;
             }
-            System.out.println("  Number of Crime Articles= " + crimeCount);
-            System.out.println("  Number of Other Articles= " + otherCount);
-            System.out.println("\nClassifier UI Handler -> End of Data Loading");
+            System.out.println(Thread.currentThread().getName()+"  Number of Crime Articles= " + crimeCount);
+            System.out.println(Thread.currentThread().getName()+"  Number of Other Articles= " + otherCount);
+            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Loading");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,20 +70,20 @@ public class ClassifierUIHandler extends Observable {
      * filter data.
      */
     private void filterData() {
-        System.out.println("\nClassifier UI Handler -> Start Data Filtering");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Filtering");
         featureVectorTransformer.configure(1, 1, false);
         featureVectorTransformer.setInputFormat(trainingData);
         filteredTrainingData = featureVectorTransformer.getTransformedArticles(trainingData, dataHandler.getFileName());
-        System.out.println("\nClassifier UI Handler -> End of Data Filtering");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Filtering");
     }
 
     /**
      * perform grid search to find best cost and gamma values
      */
     private void performGridSearch() {
-        System.out.println("\nClassifier UI Handler -> Start Grid Search");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Grid Search");
         gridSearch.gridSearch(svmClassifierHandler.getSvm(), filteredTrainingData);
-        System.out.println("\nClassifier UI Handler -> End of Grid Search");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Grid Search");
     }
 
     /**
@@ -92,11 +92,11 @@ public class ClassifierUIHandler extends Observable {
      */
     private void crossValidateModel() {
 
-        System.out.println("\nClassifier UI Handler -> Start cross validation");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start cross validation");
         // using parameters found during the grid search
         svmClassifierHandler.configure(8.0, 0.001953125, "10 1", true);
         svmClassifierHandler.crossValidateClassifier(filteredTrainingData, 10);
-        System.out.println("\nClassifier UI Handler -> End of cross validation");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of cross validation");
 
     }
 
@@ -104,10 +104,9 @@ public class ClassifierUIHandler extends Observable {
      * buildClassifier the model using training data and save model
      */
     private void buildModel() {
-        System.out.println("\nClassifier UI Handler -> Start building model");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start building model");
         svmClassifierHandler.buildSVM(filteredTrainingData, true);
-        isModelBuild=true;
-        System.out.println("\nClassifier UI Handler -> End of building model");
+        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of building model");
     }
 
 
@@ -119,7 +118,7 @@ public class ClassifierUIHandler extends Observable {
         System.out.println("\n--------------------------------------------------------------");
         int progress = 0;
         if (!isModelBuild) {
-            System.out.println("Classifier UI Handler -> Building Classifier");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Building Classifier");
 
             loadTrainingData();
             progress = 20;
@@ -144,10 +143,10 @@ public class ClassifierUIHandler extends Observable {
             progress = 80;
             setChanged();
             notifyObservers(progress);
-
-            System.out.println("Classifier UI Handler ->  End of Building Classifier");
+            isModelBuild=true;
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->  End of Building Classifier");
         }else{
-            System.out.println("Classifier UI Handler ->  Classifier is Already Existing");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->  Classifier is Already Existing");
         }
         System.out.println("---------------------------------------------------------------------------");
     }
@@ -161,21 +160,21 @@ public class ClassifierUIHandler extends Observable {
     public void classifyNewsArticles1(Class tableName) {
 
         System.out.println("\n-------------------------------------------------------------------------");
-        System.out.println("Classifier UI Handler -> Start Classifying Articles");
-        System.out.println(" Classifier UI Handler -> Start Loading Test Data");
+        System.out.println(Thread.currentThread().getName()+ " Classifier UI Handler -> Start Classifying Articles");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
 
         //get the last id of that news paper's classified articles
         DatabaseConstants databaseConstants = new DatabaseConstants();
         String articleName = (String) databaseConstants.classToTableName.get(tableName);
         int maxId = DatabaseHandler.getMaxIdOf(CrimeArticle.class, articleName);
-        System.out.println("  Classifier UI Handler -> MaxId =" + maxId);
+        System.out.println(Thread.currentThread().getName()+"  Classifier UI Handler -> MaxId =" + maxId);
         //add that id to below condition. then get only the unclassified data
 
         //get only unclassified data using weka loading
         Instances testData = dataHandler.loadTestData(tableName, "WHERE id > " + Integer.toString(maxId), true); //`created_date`<'2013-06-01'
 
-        System.out.println(" Classifier UI Handler -> Finish Loading Test Data");
-        System.out.println(" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
         if (testData.numInstances() != 0) {
             HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
@@ -190,12 +189,12 @@ public class ClassifierUIHandler extends Observable {
             }
 
 
-            System.out.println(" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
             ListIterator iter;
             List<Article> articles = DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
 
-            System.out.println(" Classifier UI Handler -> size of article list= " + articles.size());
-            System.out.println(" Classifier UI Handler -> Article Titles");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of article list= " + articles.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Article Titles");
             System.out.println("  {");
             iter = articles.listIterator();
             while (iter.hasNext()) {
@@ -208,8 +207,8 @@ public class ClassifierUIHandler extends Observable {
             List<CrimeArticle> crimeArticles = ArticleConverter.convertToCrimeArticle(articles, tableName);
 
             iter = crimeArticles.listIterator();
-            System.out.println(" Classifier UI Handler -> size of crime article list= " + crimeArticles.size());
-            System.out.println(" Classifier UI Handler -> Crime Article Titles");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of crime article list= " + crimeArticles.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Crime Article Titles");
             System.out.println("  {");
             while (iter.hasNext()) {
                 Article a = (Article) iter.next();
@@ -220,10 +219,10 @@ public class ClassifierUIHandler extends Observable {
             DatabaseHandler.insertArticles(crimeArticles);
 
         } else {
-            System.out.println("No New Articles to Classify");
+            System.out.println(Thread.currentThread().getName()+" No New Articles to Classify");
         }
 
-        System.out.println("Classifier UI Handler -> End of Classifying Articles");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Classifying Articles");
         int progress = 100;
         setChanged();
         notifyObservers(progress);
@@ -241,16 +240,16 @@ public class ClassifierUIHandler extends Observable {
      */
     public void classifyNewsArticles(Class tableName) {
 
-        System.out.println("\n-------------------------------------------------------------------------");
-        System.out.println("Classifier UI Handler -> Start Classifying Articles");
-        System.out.println(" Classifier UI Handler -> Start Loading Test Data");
+        System.out.println(Thread.currentThread().getName()+"\n-------------------------------------------------------------------------");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
 
 
         //get only unclassified data using weka loading
         Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL", true); //`created_date`<'2013-06-01'
 
-        System.out.println(" Classifier UI Handler -> Finish Loading Test Data");
-        System.out.println(" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
         if (testData.numInstances() != 0) {
             List<Article> testDataArticles = DatabaseHandler.fetchArticlesWithNullLabels(tableName);
@@ -265,21 +264,21 @@ public class ClassifierUIHandler extends Observable {
                 }
             }
 
-            for (Article article : testDataArticles) {
+           /* for (Article article : testDataArticles) {
                 if (crimeArticleIdList.contains(article.getId())) {
                     article.setLabel("crime");
                 } else {
                     article.setLabel("other");
                 }
                 DatabaseHandler.updateArticle(article);
-            }
+            }*/
 
-            System.out.println(" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
             ListIterator iter;
             List<Article> articles = DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
 
-            System.out.println(" Classifier UI Handler -> size of article list= " + articles.size());
-            System.out.println(" Classifier UI Handler -> Article Titles");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of article list= " + articles.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Article Titles");
             System.out.println("  {");
             iter = articles.listIterator();
             while (iter.hasNext()) {
@@ -292,8 +291,8 @@ public class ClassifierUIHandler extends Observable {
             List<CrimeArticle> crimeArticles = ArticleConverter.convertToCrimeArticle(articles, tableName);
 
             iter = crimeArticles.listIterator();
-            System.out.println(" Classifier UI Handler -> size of crime article list= " + crimeArticles.size());
-            System.out.println(" Classifier UI Handler -> Crime Article Titles");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of crime article list= " + crimeArticles.size());
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Crime Article Titles");
             System.out.println("  {");
             while (iter.hasNext()) {
                 Article a = (Article) iter.next();
@@ -302,32 +301,48 @@ public class ClassifierUIHandler extends Observable {
             System.out.println("  }");
 
             //below line should be replace by a transaction
-            DatabaseHandler.insertArticles(crimeArticles);
+            //DatabaseHandler.insertArticles(crimeArticles);
 
             //transaction
-            for(CrimeArticle crimeArticle:crimeArticles){
-
+            System.out.println(Thread.currentThread().getName()+"   Classifier UI Handler -> Transaction");
+        /*    for(CrimeArticle crimeArticle:crimeArticles){
                 for(Article article:testDataArticles){
-                    if(article.getId()<crimeArticle.getId() && article.getLabel()==null){
+                    if(article.getId()<crimeArticle.getNewspaperId() && article.getLabel()==null){
                         article.setLabel("other");
                         DatabaseHandler.updateArticle(article);
-                    }else if(article.getId()==crimeArticle.getId() && article.getLabel()==null){
+                    }else if(article.getId()==crimeArticle.getNewspaperId() && article.getLabel()==null){
                         article.setLabel("crime");
                         //transaction
-                        DatabaseHandler.insertArticle(crimeArticle);
-                        DatabaseHandler.updateArticle(article);
+                        *//*DatabaseHandler.insertArticle(crimeArticle);
+                        DatabaseHandler.updateArticle(article);*//*
+                        DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
                         //end of transaction
                         break;
                     }
                 }
+            }*/
+
+             for (Article article : testDataArticles) {
+                if (crimeArticleIdList.contains(article.getId())) {
+                    article.setLabel("crime");
+                    for(CrimeArticle crimeArticle:crimeArticles){
+                        if(article.getId()==crimeArticle.getNewspaperId()){
+                            DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
+                        }
+                    }
+                } else {
+                    article.setLabel("other");
+                    DatabaseHandler.updateArticle(article);
+                }
+
             }
 
 
         } else {
-            System.out.println("No New Articles to Classify");
+            System.out.println(Thread.currentThread().getName()+"  Classifier UI Handler -> No New Articles to Classify");
         }
 
-        System.out.println("Classifier UI Handler -> End of Classifying Articles");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Classifying Articles");
         int progress = 100;
         setChanged();
         notifyObservers(progress);
@@ -335,7 +350,7 @@ public class ClassifierUIHandler extends Observable {
         //to finish hybernate session and close database. other wise JVM will run continuously
         DatabaseHandler.closeDatabase();
 
-        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println(Thread.currentThread().getName()+"---------------------------------------------------------------------------------");
     }
 
     /**
