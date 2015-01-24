@@ -240,7 +240,7 @@ public class ClassifierUIHandler extends Observable {
      */
     public void classifyNewsArticles(Class tableName) {
 
-        System.out.println(Thread.currentThread().getName()+"\n-------------------------------------------------------------------------");
+        System.out.println(Thread.currentThread().getName()+"\n------------------------------------------------------------------------");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
 
