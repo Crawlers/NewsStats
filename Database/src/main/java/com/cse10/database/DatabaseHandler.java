@@ -38,6 +38,21 @@ public class DatabaseHandler {
     }
 
     /**
+     * update an article (table will be selected according to the type of object)
+     * TODO combine inserArticle and updateArticle methods using session.saveOrUpdate method
+     * @param article
+     */
+    public static void updateArticle(Article article) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        session.update(article);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
      * insert multiple articles (table will be selected according to the type of object)
      *
      * @param articles
@@ -365,13 +380,13 @@ public class DatabaseHandler {
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
      */
-    public static int getMaxIdOf(Class articleClass) {
+    public static int getMaxIdOf(Class articleClass,String newsPaper) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
 
-        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.max("id")).uniqueResult();
+        Integer count = (Integer) session.createCriteria(articleClass).add(Restrictions.eq("newspaper", newsPaper)).setProjection(Projections.max("newspaperId")).uniqueResult();
 
         session.getTransaction().commit();
         session.close();
