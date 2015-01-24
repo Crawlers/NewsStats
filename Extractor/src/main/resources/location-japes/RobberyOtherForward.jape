@@ -482,7 +482,7 @@ Priority:50
       // check that the new annotation is not a categorical place
 	  try {
 		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
-		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal")  || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals(",") || content.equals("Military")  || content.equals("Remand") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals("District"))) // content.equals("Devala")
+		  if (!(content.equals("Court") || content.equals("Police") || content.equals("Customs") || content.equals("Custom") || content.equals("Temple") || content.equals("Bank") || content.equals("Institute") || content.equals("Resort") || content.equals("International") || content.equals("Airport") || content.equals("University") || content.equals("Prison") || content.equals("Federal")  || content.equals("City") || content.equals("Sri") || content.equals("Ceylon") || content.equals("Ealam") || content.equals(",") || content.equals("Military")  || content.equals("Remand") || content.equals("Junction") || content.equals("Navy") || content.equals("General") || content.equals("District")))
 		  {
 			FeatureMap features = Factory.newFeatureMap();
 			features.put("location", "Robbery-Other-Forward");
