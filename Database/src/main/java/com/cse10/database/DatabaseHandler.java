@@ -156,11 +156,6 @@ public class DatabaseHandler {
     public static List<Article> fetchArticlesByIdRange(Class articleClass, int startId, int endId) {
 
         ArrayList<Article> articles;
-
-        if (startId > endId) {
-            return new ArrayList<Article>();
-        }
-
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
