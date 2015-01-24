@@ -17,19 +17,22 @@ import java.util.Date;
 
 public class DailyMirrorCrawlController extends BasicCrawlController {
 
-    final String FROM_DATE = "2014-01-01";
-    final String TO_DATE = "2014-07-01";
     public static String current_date;
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
+        if (startDate == null || endDate == null) {
+            System.out.println("Error: You should set start and end dates");
+            return;
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date startingDate = sdf.parse(FROM_DATE);
+        Date startingDate = sdf.parse(startDate);
         startingDate = DateHandler.getFromDateToResume(startingDate, "article_daily_mirror");  // Start date
         Calendar c = Calendar.getInstance();
         c.setTime(startingDate);
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
+        while (c.getTime().compareTo(sdf.parse(endDate)) <= 0) {
             /*
          * Instantiate the controller for this crawl.
          */
@@ -56,7 +59,16 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
              * will reach the line after this only when crawling is finished.
              */
             controller.start(_c, 1);
+
+            if(crawlingStopped){ //if stopped from calling class
+                return;
+            }
+
+            setChanged();
+            notifyObservers(sdf.format(c.getTime()));
+
             c.add(Calendar.DATE, 1);  // number of days to add
+
         }
     }
 }

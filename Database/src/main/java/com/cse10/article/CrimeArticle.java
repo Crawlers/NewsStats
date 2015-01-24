@@ -8,14 +8,16 @@ import java.util.Date;
 public class CrimeArticle extends Article {
 
     private String newspaper;
+    private int newspaperId;
 
     public CrimeArticle() {
     }
 
     public CrimeArticle(int id, String title, String content, String author,
-                        Date createdDate, String newspaper) {
+                        Date createdDate, String newspaper, int newspaperId) {
         super(id, title, content, author, createdDate);
         this.newspaper = newspaper;
+        this.newspaperId = newspaperId;
     }
 
     public String getNewspaper() {
@@ -26,4 +28,11 @@ public class CrimeArticle extends Article {
         this.newspaper = newspaper;
     }
 
+    public int getNewspaperId() {
+        return newspaperId;
+    }
+
+    public void setNewspaperId(int newspaperId) {
+        this.newspaperId = newspaperId;
+    }
 }

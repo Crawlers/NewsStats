@@ -1,0 +1,4 @@
+Lemmatizer is not working with GUI - add stanford core nlp jars into GUI also
+Stemmer is working with GUI - ok
+Lemmatizer can not be serializable
+

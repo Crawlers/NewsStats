@@ -17,18 +17,21 @@ import java.util.Date;
 public class NewsFirstCrawlController extends BasicCrawlController {
 
     public static String current_path;
-    final String FROM_DATE = "2014-11-01";
-    final String TO_DATE = "2014-12-31";
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
+        if (startDate == null || endDate == null) {
+            System.out.println("Error: You should set start and end dates");
+            return;
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date startingDate = sdf.parse(FROM_DATE);
+        Date startingDate = sdf.parse(startDate);
         startingDate = DateHandler.getFromDateToResume(startingDate, "article_news_first");  // Start date
         Calendar c = Calendar.getInstance();
         c.setTime(startingDate);
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
+        while (c.getTime().compareTo(sdf.parse(endDate)) <= 0) {
 
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
@@ -43,7 +46,7 @@ public class NewsFirstCrawlController extends BasicCrawlController {
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
-                CrawlController controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
+                controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
 
                 String url = "http://newsfirst.lk/english/" + year + "/" + (month < 10 ? ("0" + month) : (month)) + "/" + date; // make the month always 2 digits
                 current_path = "/english/" + year + "/" + (month < 10 ? ("0" + month) : (month));
@@ -65,10 +68,15 @@ public class NewsFirstCrawlController extends BasicCrawlController {
              */
                 controller.start(_c, 1);
 
+                if(crawlingStopped){ //if stopped from calling class
+                    return;
+                }
             }
 
-            c.add(Calendar.DATE, 1);  // number of months to add
+            setChanged();
+            notifyObservers(sdf.format(c.getTime()));
 
+            c.add(Calendar.DATE, 1);
         }
     }
 }

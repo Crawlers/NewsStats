@@ -61,6 +61,7 @@ public class ArticleConverter {
             crimeArticle.setAuthor(article.getAuthor());
             crimeArticle.setCreatedDate(article.getCreatedDate());
             crimeArticle.setNewspaper(tableName);
+            crimeArticle.setNewspaperId(article.getId());
             crimeArticle.setLabel("crime");
 
             crimeArticles.add(crimeArticle);

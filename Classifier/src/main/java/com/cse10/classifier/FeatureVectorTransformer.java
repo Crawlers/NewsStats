@@ -28,6 +28,8 @@ public class FeatureVectorTransformer implements Serializable {
      * @param useStemmer
      */
     public void configure(int minNGramSize,int maxNGramSize,boolean useStemmer){
+
+        System.out.println("\n Feature Vector Transformer -> Configuration Started");
         //set tokenizer - we can specify n-grams for classification
         NGramTokenizer tokenizer = new NGramTokenizer();
         tokenizer.setNGramMinSize(minNGramSize);
@@ -50,6 +52,7 @@ public class FeatureVectorTransformer implements Serializable {
         filter.setIDFTransform(true);
         filter.setStopwords(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\StopWordsR4.txt"));
         filter.setTokenizer(tokenizer);
+        System.out.println("\n Feature Vector Transformer -> Configuration Completed");
 
     }
 
@@ -72,6 +75,7 @@ public class FeatureVectorTransformer implements Serializable {
      */
     public Instances getTransformedArticles(Instances instances,String fileName)  {
 
+        System.out.println("\n Feature Vector Transformer -> Start Getting Transformed Articles");
         Instances dataFiltered;
         // apply the StringToWordVector filter
         try {
@@ -91,6 +95,7 @@ public class FeatureVectorTransformer implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("\n Feature Vector Transformer -> Finish Getting Transformed Articles");
         return dataFiltered;
 
     }
@@ -102,6 +107,7 @@ public class FeatureVectorTransformer implements Serializable {
      * @return
      */
     public Instances getTransformedArticles(Instances instances){
+        System.out.println("\n Feature Vector Transformer -> Start Getting Transformed Articles");
         Instances dataFiltered;
         try {
             dataFiltered = weka.filters.Filter.useFilter(instances, filter);
@@ -109,6 +115,7 @@ public class FeatureVectorTransformer implements Serializable {
             dataFiltered=instances;
             e.printStackTrace();
         }
+        System.out.println("\n Feature Vector Transformer -> Finish Getting Transformed Articles");
         return dataFiltered;
     }
 

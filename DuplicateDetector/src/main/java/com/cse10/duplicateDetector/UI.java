@@ -142,7 +142,7 @@ public class UI {
                 int dist = simHashCalculator.hammingDistance(docHash, documentSimHashes.get(i));
                 // System.out.println(dist);
                 //check the hamming distance difference
-                if (dist <= 3) {
+                if (dist <= 0) {
                     similarDocs.add(i);
                     docDistances.put(i, dist);
                 }

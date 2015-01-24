@@ -7,7 +7,7 @@ import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
 import weka.core.tokenizers.NGramTokenizer;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,7 +29,12 @@ public class DocumentKeyWordFinder {
 
     public DocumentKeyWordFinder() {
         try {
-            Gate.init(); //prepare the library
+            //set gate home
+            if(Gate.getGateHome()==null)
+            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));
+            //initialize data
+            Gate.init();
+
         } catch (GateException ex) {
             Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
         }

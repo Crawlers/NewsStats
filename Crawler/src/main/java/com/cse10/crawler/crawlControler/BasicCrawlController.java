@@ -5,16 +5,57 @@ package com.cse10.crawler.crawlControler;
  */
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
+import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 
-abstract public class BasicCrawlController {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Observable;
+
+abstract public class BasicCrawlController extends Observable {
 
     private CrawlConfig config;
 
     //global configurations
     final String CRAWL_STORAGE_DIR_ROOT = "E:/CrawlData";
-    final String PROXY_ADDRESS = ""; //"cache.mrt.ac.lk" //"";
-    final int PROXY_PORT = 0; //3128 //0;
+    final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
+    final int PROXY_PORT = 3128; //3128 //0;
+
+    // start and end dates used by sub classes
+    protected String startDate;
+    protected String endDate;
+
+    protected CrawlController controller; //to be used in subclasses
+    protected boolean crawlingStopped = false;
+
+    /**
+     * @param startDate format: yyyy-MM-dd
+     */
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.startDate = sdf.format(c.getTime());
+    }
+
+    /**
+     * @param endDate format: yyyy-MM-dd
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(endDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.endDate = sdf.format(c.getTime());
+    }
 
     public BasicCrawlController() {
 
@@ -92,4 +133,11 @@ abstract public class BasicCrawlController {
     }
 
     abstract public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception;
+
+    public void stopCrawl() {
+        crawlingStopped = true;
+        if (controller != null) {
+            controller.shutdown();
+        }
+    }
 }

@@ -427,12 +427,12 @@
                                           <text value="End:"/>
                                         </properties>
                                       </component>
-                                      <component id="62f8e" class="com.toedter.calendar.JDateChooser" binding="startClassifyJDateChooser">
+                                      <component id="62f8e" class="com.toedter.calendar.JDateChooser" binding="startClassifyDateChooser">
                                         <constraints>
                                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                         </constraints>
                                       </component>
-                                      <component id="b2275" class="com.toedter.calendar.JDateChooser" binding="endClassifyJDateChooser">
+                                      <component id="b2275" class="com.toedter.calendar.JDateChooser" binding="endClassifyDateChooser">
                                         <constraints>
                                           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                         </constraints>

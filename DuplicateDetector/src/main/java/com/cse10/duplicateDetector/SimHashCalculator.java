@@ -117,8 +117,8 @@ public class SimHashCalculator {
 
     public static void main(String[] args) {
         SimHashCalculator simHashCalculator=new SimHashCalculator(new FullWordSegmenter());
-        long hash1=simHashCalculator.simhash64("apple orange");
-        long hash2=simHashCalculator.simhash64("orange apple pine apple");
+        long hash1=simHashCalculator.simhash64("child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
+        long hash2=simHashCalculator.simhash64("illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
         System.out.println(Long.toBinaryString(hash1));
         System.out.println(Long.toBinaryString(hash2));
         System.out.println(simHashCalculator.hammingDistance(hash1,hash2));

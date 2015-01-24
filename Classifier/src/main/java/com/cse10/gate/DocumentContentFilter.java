@@ -5,6 +5,7 @@ import gate.annotation.AnnotationImpl;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
+import java.io.File;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,11 @@ public class DocumentContentFilter {
 
     public DocumentContentFilter() {
         try {
-            Gate.init(); //prepare the library
+            //set gate home
+            if(Gate.getGateHome()==null)
+            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));
+            //initialize gate
+            Gate.init();
         } catch (GateException ex) {
             Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
         }

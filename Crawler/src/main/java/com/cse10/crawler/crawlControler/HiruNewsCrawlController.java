@@ -16,19 +16,22 @@ import java.util.Date;
  */
 public class HiruNewsCrawlController extends BasicCrawlController {
 
-    final String FROM_DATE = "2014-01-01";
-    final String TO_DATE = "2014-10-31";
     public static Calendar cal;
 
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
+        if (startDate == null || endDate == null) {
+            System.out.println("Error: You should set start and end dates");
+            return;
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date startingDate = sdf.parse(FROM_DATE);
+        Date startingDate = sdf.parse(startDate);
         startingDate = DateHandler.getFromDateToResume(startingDate, "article_hiru_news");  // Start date
         Calendar c = Calendar.getInstance();
         c.setTime(startingDate);
 
-        while (c.getTime().compareTo(sdf.parse(TO_DATE)) <= 0) {
+        while (c.getTime().compareTo(sdf.parse(endDate)) <= 0) {
 
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
@@ -60,10 +63,18 @@ public class HiruNewsCrawlController extends BasicCrawlController {
              * will reach the line after this only when crawling is finished.
              */
                 controller.start(_c, 1);
+
+                if (crawlingStopped) { //if stopped from calling class
+                    return;
+                }
 //                System.out.println("sleeping for 60 s");
 //                Thread.sleep(60000);
 
             }
+
+            //TODO: have to set following by date wise
+//            setChanged();
+//            notifyObservers(sdf.format(c.getTime()));
 
             c.add(Calendar.MONTH, 1);  // number of months to add
 
