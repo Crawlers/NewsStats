@@ -32,6 +32,10 @@ public class ClassifierUIHandler extends Observable {
         isModelBuild=false;
     }
 
+    /**
+     * get singleton instance of class
+     * @return
+     */
     public synchronized static ClassifierUIHandler getInstance(){
         if(singleInstance==null){
             singleInstance=new ClassifierUIHandler();
@@ -151,94 +155,12 @@ public class ClassifierUIHandler extends Observable {
         System.out.println("---------------------------------------------------------------------------");
     }
 
-
     /**
      * classify news articles
      *
      * @param tableName
      */
-    public void classifyNewsArticles1(Class tableName) {
-
-        System.out.println("\n-------------------------------------------------------------------------");
-        System.out.println(Thread.currentThread().getName()+ " Classifier UI Handler -> Start Classifying Articles");
-        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
-
-        //get the last id of that news paper's classified articles
-        DatabaseConstants databaseConstants = new DatabaseConstants();
-        String articleName = (String) databaseConstants.classToTableName.get(tableName);
-        int maxId = DatabaseHandler.getMaxIdOf(CrimeArticle.class, articleName);
-        System.out.println(Thread.currentThread().getName()+"  Classifier UI Handler -> MaxId =" + maxId);
-        //add that id to below condition. then get only the unclassified data
-
-        //get only unclassified data using weka loading
-        Instances testData = dataHandler.loadTestData(tableName, "WHERE id > " + Integer.toString(maxId), true); //`created_date`<'2013-06-01'
-
-        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
-        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
-
-        if (testData.numInstances() != 0) {
-            HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
-            Instances filteredTestData = featureVectorTransformer.getTransformedArticles(testData);
-            List<Integer> crimeArticleIdList = new ArrayList<Integer>();
-
-            for (int instNumber = 0; instNumber < filteredTestData.numInstances(); instNumber++) {
-                double category = svmClassifierHandler.classifyInstance(filteredTestData.instance(instNumber));
-                if (category == 0) { // if crime
-                    crimeArticleIdList.add(articleIds.get(instNumber));
-                }
-            }
-
-
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
-            ListIterator iter;
-            List<Article> articles = DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
-
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of article list= " + articles.size());
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Article Titles");
-            System.out.println("  {");
-            iter = articles.listIterator();
-            while (iter.hasNext()) {
-                Article a = (Article) iter.next();
-                System.out.println("    " + a.getTitle());
-            }
-            System.out.println("  }");
-
-            // to prepare them as crime articles
-            List<CrimeArticle> crimeArticles = ArticleConverter.convertToCrimeArticle(articles, tableName);
-
-            iter = crimeArticles.listIterator();
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of crime article list= " + crimeArticles.size());
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Crime Article Titles");
-            System.out.println("  {");
-            while (iter.hasNext()) {
-                Article a = (Article) iter.next();
-                System.out.println("     " + a.getTitle());
-            }
-            System.out.println("  }");
-
-            DatabaseHandler.insertArticles(crimeArticles);
-
-        } else {
-            System.out.println(Thread.currentThread().getName()+" No New Articles to Classify");
-        }
-
-        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Classifying Articles");
-        int progress = 100;
-        setChanged();
-        notifyObservers(progress);
-
-        //to finish hybernate session and close database. other wise JVM will run continuously
-        //DatabaseHandler.closeDatabase();
-
-        System.out.println("---------------------------------------------------------------------------------");
-    }
-
-    /**
-     * classify news articles
-     *
-     * @param tableName
-     */
-    public void classifyNewsArticles(Class tableName) {
+    public synchronized void classifyNewsArticles(Class tableName) {
 
         System.out.println(Thread.currentThread().getName()+"\n------------------------------------------------------------------------");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
@@ -263,15 +185,6 @@ public class ClassifierUIHandler extends Observable {
                     crimeArticleIdList.add(articleIds.get(instNumber));
                 }
             }
-
-           /* for (Article article : testDataArticles) {
-                if (crimeArticleIdList.contains(article.getId())) {
-                    article.setLabel("crime");
-                } else {
-                    article.setLabel("other");
-                }
-                DatabaseHandler.updateArticle(article);
-            }*/
 
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
             ListIterator iter;
@@ -364,9 +277,6 @@ public class ClassifierUIHandler extends Observable {
         System.out.println(testData.numInstances());
     }
 
-    public void print(int number){
-
-    }
 
     public static void main(String[] args) {
 
