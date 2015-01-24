@@ -2,7 +2,3 @@ Lemmatizer is not working with GUI - add stanford core nlp jars into GUI also
 Stemmer is working with GUI - ok
 Lemmatizer can not be serializable
 
-
-
-//if we classify two articles without closing the GUI use the same model and filter
-// test system within this one
