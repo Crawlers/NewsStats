@@ -129,6 +129,11 @@ public class DatabaseHandler {
     public static List<Article> fetchArticlesByIdList(Class articleClass, List<Integer> idList) {
 
         ArrayList<Article> articles;
+
+        if (idList.isEmpty()) {
+            return new ArrayList<Article>();
+        }
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -151,6 +156,11 @@ public class DatabaseHandler {
     public static List<Article> fetchArticlesByIdRange(Class articleClass, int startId, int endId) {
 
         ArrayList<Article> articles;
+
+        if (startId > endId) {
+            return new ArrayList<Article>();
+        }
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
