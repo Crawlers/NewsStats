@@ -64,6 +64,8 @@ Priority:50
 |
 ({Token.string == "Chennai"})
 |
-({Token.string == "Sathosa"})):incLocation
+({Token.string == "Sathosa"})
+|
+({Token.string == "District"})):incLocation
 --> 
-:incLocation.IncorrectLocation = {rule= "incLoc" } 
+:incLocation.IncorrectLocation = {rule= "incLoc"} 
