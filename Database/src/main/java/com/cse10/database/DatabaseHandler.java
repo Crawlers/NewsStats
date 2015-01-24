@@ -5,6 +5,7 @@ package com.cse10.database;
  */
 
 import com.cse10.article.Article;
+import com.cse10.article.CrimeArticle;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
@@ -39,7 +40,7 @@ public class DatabaseHandler {
 
     /**
      * update an article (table will be selected according to the type of object)
-     * TODO combine inserArticle and updateArticle methods using session.saveOrUpdate method
+     *
      * @param article
      */
     public static void updateArticle(Article article) {
@@ -50,6 +51,36 @@ public class DatabaseHandler {
         session.update(article);
         session.getTransaction().commit();
         session.close();
+    }
+
+    /**
+     * save a crime article and update ppr article in a single transaction
+     *
+     * @param crimeArticle
+     * @param article
+     */
+    public static void insertCrimeArticleAndUpdatePprArticle(CrimeArticle crimeArticle, Article article) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+
+            session.save(crimeArticle);
+            session.update(article);
+
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            try {
+                session.getTransaction().rollback();
+                System.out.println("Error: Transaction rolled back " + e);
+            } catch (RuntimeException rbe) {
+                System.out.println("Error: Could not roll back transaction " + rbe);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     /**
@@ -380,7 +411,7 @@ public class DatabaseHandler {
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
      */
-    public static int getMaxIdOf(Class articleClass,String newsPaper) {
+    public static int getMaxIdOf(Class articleClass, String newsPaper) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
