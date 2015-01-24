@@ -22,6 +22,7 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
     public Void doInBackground() {
         if (!done) {
             System.out.println("DailyMirror Classifer -> In Background");
+            Thread.currentThread().setName("Daily Mirror Classifier Thread");
             //Initialize progress property.
             setProgress(0);
             //build classifier & classify data

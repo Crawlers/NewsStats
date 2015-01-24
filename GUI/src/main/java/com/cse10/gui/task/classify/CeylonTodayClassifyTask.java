@@ -21,7 +21,7 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
     public Void doInBackground() {
         if (!done) {
             System.out.println("Ceylon Today Classifer -> In Background");
-
+            Thread.currentThread().setName("Ceylon Today Classifier Thread");
             //Initialize progress property.
             setProgress(0);
 

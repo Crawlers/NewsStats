@@ -23,7 +23,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
     public Void doInBackground() {
         if (!done) {
             System.out.println("The Island Classifer -> In Background");
-
+            Thread.currentThread().setName("The Island Classifier Thread");
             //Initialize progress property.
             setProgress(0);
             ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
