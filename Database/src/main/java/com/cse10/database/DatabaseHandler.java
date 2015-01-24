@@ -129,6 +129,11 @@ public class DatabaseHandler {
     public static List<Article> fetchArticlesByIdList(Class articleClass, List<Integer> idList) {
 
         ArrayList<Article> articles;
+
+        if (idList.isEmpty()) {
+            return new ArrayList<Article>();
+        }
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();

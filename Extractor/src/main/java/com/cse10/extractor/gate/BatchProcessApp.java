@@ -84,8 +84,8 @@ public class BatchProcessApp {
         application.setCorpus(corpus);
 
         // fetches news articles from database
-        List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        // List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class, 1, 1000);
+        // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,105,106);
 
 
         // process the files one by one
@@ -279,15 +279,7 @@ public class BatchProcessApp {
 
         System.out.println("All done");
 
-        /********************Check Details of People Ok************/
-       /* ArrayList<CrimeEntityGroup> entityGroupList = DatabaseHandler.fetchCrimeEntityGroups();
-
-        for(CrimeEntityGroup entity : entityGroupList){
-            if(entity.getCrimePersonSet() != null && !entity.getCrimePersonSet().isEmpty()){
-                System.out.println("Crime People : "+entity.getCrimePersonSet());
-            }
-        }*/
-
+        System.exit(0);
     }
 
     // method to fetch district for the location using google map api, unless it is in the location - district
