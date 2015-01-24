@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by root on 1/16/15.
+ * Created by Sampath on 1/16/15.
  */
 public class StatGenerator {
     public void generateStats(){
