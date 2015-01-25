@@ -50,7 +50,7 @@ public class FeatureVectorTransformer implements Serializable {
         filter.setOutputWordCounts(true);
         filter.setTFTransform(true);
         filter.setIDFTransform(true);
-        filter.setStopwords(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\StopWordsR4.txt"));
+        filter.setStopwords(new File("Classifier\\src\\main\\resources\\StopWordsR4.txt"));
         filter.setTokenizer(tokenizer);
         System.out.println("\n Feature Vector Transformer -> Configuration Completed");
 
@@ -89,7 +89,7 @@ public class FeatureVectorTransformer implements Serializable {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(dataFiltered);
         try {
-            String path="C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\".concat(fileName);
+            String path="Classifier\\src\\main\\resources\\arffData".concat(fileName);
             saver.setFile(new File(path));
             saver.writeBatch();
         } catch (IOException e) {
