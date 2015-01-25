@@ -26,7 +26,7 @@ public class DocumentContentFilter {
     public DocumentContentFilter() {
         try {
 
-            //set gate home
+            //set gate home configuration
             String homePath = "\\home";
             File gateHome;
             if (Gate.getGateHome() == null) {
