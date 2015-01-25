@@ -1,9 +1,6 @@
 package com.cse10.gui;
 
-import com.cse10.article.CeylonTodayArticle;
-import com.cse10.article.DailyMirrorArticle;
-import com.cse10.article.NewsFirstArticle;
-import com.cse10.article.TheIslandArticle;
+import com.cse10.article.*;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
@@ -18,6 +15,8 @@ import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
@@ -373,14 +372,18 @@ public class NewsStatsGUI {
         chartPanelCrawler.setVisible(false);
 
         /* classifier chart */
-        DefaultPieDataset pieDatasetClassifer = new DefaultPieDataset();
-        pieDatasetClassifer.setValue("Ceylon Today", new Integer(10));
-        pieDatasetClassifer.setValue("Daily Mirror", new Integer(20));
-        pieDatasetClassifer.setValue("News First", new Integer(30));
-        pieDatasetClassifer.setValue("The Island", new Integer(10));
-        JFreeChart chartClassifier = ChartFactory.createPieChart3D("Classified Articles", pieDatasetClassifer, true, true, true);
-        chartPanelClassifier = new ChartPanel(chartClassifier);
-        chartPanelClassifier.setVisible(false);
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Classified Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelClassifier = new ChartPanel(chart);
+        chartPanelClassifier.setVisible(true);
     }
 
     /**
@@ -450,6 +453,7 @@ public class NewsStatsGUI {
     }
 
     private void enableCrawlerUI() {
+
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -462,6 +466,7 @@ public class NewsStatsGUI {
     }
 
     private void resetCrawlProgressBars() {
+
         ceylonTodayCrawlProgressBar.setValue(0);
         dailyMirrorCrawlProgressBar.setValue(0);
         newsFirstCrawlProgressBar.setValue(0);
@@ -489,12 +494,59 @@ public class NewsStatsGUI {
 
             enableClassifierUI();
             resetClassifyProgressBars();
-            chartPanelClassifier.setVisible(true);
+            drawClassifierChart();
 
         }
     }
 
+    private void drawClassifierChart() {
+
+        int ctArticlesCrime = DatabaseHandler.getRowCount(CeylonTodayArticle.class, "label", "crime");
+        int ctArticlesNonCrime = DatabaseHandler.getRowCount(CeylonTodayArticle.class, "label", "other");
+
+        int dmArticlesCrime = DatabaseHandler.getRowCount(DailyMirrorArticle.class, "label", "crime");
+        int dmArticlesNonCrime = DatabaseHandler.getRowCount(DailyMirrorArticle.class, "label", "other");
+
+        int nfArticlesCrime = DatabaseHandler.getRowCount(NewsFirstArticle.class, "label", "crime");
+        int nfArticlesNonCrime = DatabaseHandler.getRowCount(NewsFirstArticle.class, "label", "other");
+
+        int tiArticlesCrime = DatabaseHandler.getRowCount(TheIslandArticle.class, "label", "crime");
+        int tiArticlesNonCrime = DatabaseHandler.getRowCount(TheIslandArticle.class, "label", "other");
+
+        int crime = ctArticlesCrime + dmArticlesCrime + nfArticlesCrime + tiArticlesCrime;
+        int nonCrime = ctArticlesNonCrime + dmArticlesNonCrime + nfArticlesNonCrime + tiArticlesNonCrime;
+
+        // row keys...
+        final String series1 = "Crime";
+        final String series2 = "Non Crime";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(crime, series1, category1);
+        dataset.addValue(nonCrime, series2, category1);
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Classified Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelClassifier.setChart(chart);
+        chartPanelClassifier.setVisible(true);
+    }
+
+
     private void disableClassifierUI() {
+
         ceylonTodayClassifierCheckBox.setEnabled(false);
         dailyMirrorClassifierCheckBox.setEnabled(false);
         newsFirstClassifierCheckBox.setEnabled(false);
@@ -507,6 +559,7 @@ public class NewsStatsGUI {
     }
 
     private void enableClassifierUI() {
+
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
@@ -519,6 +572,7 @@ public class NewsStatsGUI {
     }
 
     private void resetClassifyProgressBars() {
+
         ceylonTodayClassifyProgressBar.setValue(0);
         dailyMirrorClassifyProgressBar.setValue(0);
         newsFirstClassifyProgressBar.setValue(0);
