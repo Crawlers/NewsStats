@@ -41,6 +41,7 @@ public class DocumentKeyWordFinder {
             if (Gate.getGateHome() == null) {
                 homePath = System.getenv("GATE_HOME");
                 if (homePath == null) {
+                    //if environment variable is not set then prompt user to enter the path
                     System.out.print("Enter GATE Home path : ");
                     BufferedReader br =
                             new BufferedReader(new InputStreamReader(System.in));
@@ -50,16 +51,18 @@ public class DocumentKeyWordFinder {
                         e.printStackTrace();
                     }
                 }
-            }
 
-            File pathCheck = new File(homePath + "\\gate.xml");
-            if (pathCheck.exists()) {
-                gateHome = new File(homePath);
-                Gate.setGateHome(gateHome);
-                System.out.println("GATE Home Configured : " + Gate.getGateHome());
-            } else {
-                System.out.println("GATE Home Path Incorrect");
-                System.exit(0);
+                System.out.println("Home Path= " + homePath);
+                //check whether the provided gate path is correct
+                File pathCheck = new File(homePath + "\\gate.xml");
+                if (pathCheck.exists()) {
+                    gateHome = new File(homePath);
+                    Gate.setGateHome(gateHome);
+                    System.out.println("GATE Home Configured : " + Gate.getGateHome());
+                } else {
+                    System.out.println("GATE Home Path Incorrect");
+                    System.exit(0);
+                }
             }
 
             //set gate home
