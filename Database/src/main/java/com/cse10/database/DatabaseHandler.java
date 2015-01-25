@@ -219,6 +219,30 @@ public class DatabaseHandler {
     }
 
     /**
+     * execute an update query without using hibernate and return ResultSet
+     *
+     * @param query
+     */
+    public static void executeUpdate(String query) {
+
+        java.sql.Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(DatabaseConstants.DB_URL, DatabaseConstants.DB_USERNAME, DatabaseConstants.DB_PASSWORD);
+
+            // create the java statement
+            Statement st = conn.createStatement();
+
+            // execute the update
+            st.executeUpdate(query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * insert an object containing crime entities
      *
      * @param crimeEntityGroup
