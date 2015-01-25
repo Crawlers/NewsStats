@@ -89,7 +89,7 @@ public class FeatureVectorTransformer implements Serializable {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(dataFiltered);
         try {
-            String path="Classifier\\src\\main\\resources\\arffData".concat(fileName);
+            String path="Classifier\\src\\main\\resources\\arffData\\".concat(fileName);
             saver.setFile(new File(path));
             saver.writeBatch();
         } catch (IOException e) {

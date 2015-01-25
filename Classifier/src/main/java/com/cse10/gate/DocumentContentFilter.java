@@ -5,7 +5,11 @@ import gate.annotation.AnnotationImpl;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +25,42 @@ public class DocumentContentFilter {
 
     public DocumentContentFilter() {
         try {
+
             //set gate home
+            String homePath = "\\home";
+            File gateHome;
+            if (Gate.getGateHome() == null) {
+                homePath = System.getenv("GATE_HOME");
+                if (homePath == null) {
+                    //if environment variable is not set then prompt user to enter the path
+                    System.out.print("Enter GATE Home path : ");
+                    BufferedReader br =
+                            new BufferedReader(new InputStreamReader(System.in));
+                    try {
+                        homePath = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                System.out.println("Home Path= " + homePath);
+                //check whether the provided gate path is correct
+                File pathCheck = new File(homePath + "\\gate.xml");
+                if (pathCheck.exists()) {
+                    gateHome = new File(homePath);
+                    Gate.setGateHome(gateHome);
+                    System.out.println("GATE Home Configured : " + Gate.getGateHome());
+                } else {
+                    System.out.println("GATE Home Path Incorrect");
+                    System.exit(0);
+                }
+            }
+
+
+         /*   //set gate home
             if(Gate.getGateHome()==null)
-            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));
+            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));*/
+
             //initialize gate
             Gate.init();
         } catch (GateException ex) {
@@ -124,8 +161,8 @@ public class DocumentContentFilter {
     }
 
     public static void main(String[] args) {
-        DocumentContentFilter documentContentFilter=new DocumentContentFilter();
-        String s="Brothers killed in Gandara. Two brothers have been killed after being assaulted with an axe in the Nawadunna area in \n" +
+        DocumentContentFilter documentContentFilter = new DocumentContentFilter();
+        String s = "Brothers killed in Gandara. Two brothers have been killed after being assaulted with an axe in the Nawadunna area in \n" +
                 "Gandara. Police said an unidentified group has carried out the alleged murder at around 8.30 on Friday night.\n" +
                 "The individuals succumbed to their injuries after being admitted to the Matara Hospital.The deceased are aged \n" +
                 "36 and 38 years The suspects are said to have fled the area. Police investigations have been launched to arrest the \n" +
