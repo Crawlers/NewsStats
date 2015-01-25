@@ -429,7 +429,26 @@ public class DatabaseHandler {
     public static int getRowCount(Class articleClass) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.rowCount()).uniqueResult();
+        Long count = (Long) session.createCriteria(articleClass)
+                .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the count of rows having given value for given column of a table containing articles of given type
+     *
+     * @param articleClass
+     * @param column
+     * @param value
+     * @return
+     */
+    public static int getRowCount(Class articleClass, String column, String value) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .add(Restrictions.eq(column, value))
+                .setProjection(Projections.rowCount()).uniqueResult();
         session.close();
         return count.intValue();
     }
