@@ -2,6 +2,7 @@ package com.cse10.gui.task.classify;
 
 import com.cse10.article.TheIslandArticle;
 import com.cse10.classifier.ClassifierUIHandler;
+
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -11,6 +12,9 @@ import java.util.Observer;
  * Created by TharinduWijewardane on 2015-01-10.
  */
 public class TheIslandClassifyTask extends ClassifyTask implements Observer {
+
+    public TheIslandClassifyTask() {
+    }
 
     public TheIslandClassifyTask(Date startDate, Date endDate) {
         super(startDate, endDate);
@@ -26,7 +30,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
             Thread.currentThread().setName("The Island Classifier Thread");
             //Initialize progress property.
             setProgress(0);
-            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
+            ClassifierUIHandler classifierUIHandler = ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
             classifierUIHandler.buildClassifier();
             classifierUIHandler.classifyNewsArticles(TheIslandArticle.class);
@@ -46,7 +50,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        int value=(Integer)arg;
+        int value = (Integer) arg;
         setProgress(value);
     }
 }

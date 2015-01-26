@@ -13,6 +13,9 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> {
     protected Date startDate;
     protected Date endDate;
 
+    public ClassifyTask() {
+    }
+
     public ClassifyTask(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
