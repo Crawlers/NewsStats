@@ -12,7 +12,7 @@ import java.io.*;
  * Created by chamath on 12/16/2014.
  */
 
-public class FeatureVectorTransformer implements Serializable {
+public class FeatureVectorTransformer{
 
     protected StringToWordVector filter;
 

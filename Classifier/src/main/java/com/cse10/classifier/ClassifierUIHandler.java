@@ -1,12 +1,13 @@
 package com.cse10.classifier;
 
 import com.cse10.article.*;
-import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.util.ArticleConverter;
-import weka.core.Instance;
 import weka.core.Instances;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 /**
@@ -118,7 +119,7 @@ public class ClassifierUIHandler extends Observable {
      * load training data, filter data and perform grid search, cross validate model,buildClassifier and save
      * model, this function is used by GUI
      */
-    public synchronized void buildClassifier() {
+    private synchronized void buildClassifier() {
         System.out.println("\n--------------------------------------------------------------");
         int progress = 0;
         if (!isModelBuild) {
@@ -160,12 +161,12 @@ public class ClassifierUIHandler extends Observable {
      *
      * @param tableName
      */
-    public synchronized void classifyNewsArticles(Class tableName) {
+    private synchronized void classifyNewsArticles(Class tableName) {
+
 
         System.out.println(Thread.currentThread().getName()+"\n------------------------------------------------------------------------");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
-
 
         //get only unclassified data using weka loading
         Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL", true); //`created_date`<'2013-06-01'
@@ -248,8 +249,8 @@ public class ClassifierUIHandler extends Observable {
                     DatabaseHandler.updateArticle(article);
                 }
 
-            }
 
+            }
 
         } else {
             System.out.println(Thread.currentThread().getName()+"  Classifier UI Handler -> No New Articles to Classify");
@@ -262,34 +263,53 @@ public class ClassifierUIHandler extends Observable {
 
         //to finish hybernate session and close database. other wise JVM will run continuously
         DatabaseHandler.closeDatabase();
-
         System.out.println(Thread.currentThread().getName()+"---------------------------------------------------------------------------------");
     }
 
     /**
+     * start classification process
+     */
+    public void startClassification(Class tableName){
+        buildClassifier();
+        classifyNewsArticles(tableName);
+    }
+
+    /**
+     * stop classification process
+     */
+    public void stopClassification(){
+        System.out.println(Thread.currentThread().getName()+ "Classifier UI Handler -> Stop classification");
+
+    }
+
+
+    /**
      * use to test hybernate and weka db connection
      */
-    private void testHybernate() {
+    private void testFunction() {
         //to test weka db connection
-        loadTrainingData();
+        //loadTrainingData();
         //to test hybernate connection
-        Instances testData = dataHandler.loadTestData(DailyMirrorArticle.class, "WHERE  `created_date` <  '2012-01-06'", false);
-        System.out.println(testData.numInstances());
+        //Instances testData = dataHandler.loadTestData(DailyMirrorArticle.class, "WHERE  `created_date` <  '2012-01-06'", false);
+       // System.out.println(testData.numInstances());
+
+        try {
+            BufferedReader br=new BufferedReader(new FileReader(new File("Classifier\\src\\main\\resources\\StopWordsR4.txt")));//Extractor/src/main/resources/Complete_v1.gapp
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
     public static void main(String[] args) {
 
         ClassifierUIHandler classifierUIHandler = ClassifierUIHandler.getInstance();
-        classifierUIHandler.buildClassifier();
-        classifierUIHandler.classifyNewsArticles(DailyMirrorArticle.class);
-        classifierUIHandler.buildClassifier();
-        classifierUIHandler.classifyNewsArticles(CeylonTodayArticle.class);
-        classifierUIHandler.buildClassifier();
-        classifierUIHandler.classifyNewsArticles(TheIslandArticle.class);
-        classifierUIHandler.buildClassifier();
-        classifierUIHandler.classifyNewsArticles(DailyMirrorArticle.class);
-
+        classifierUIHandler.startClassification(DailyMirrorArticle.class);
+        classifierUIHandler.startClassification(CeylonTodayArticle.class);
+        classifierUIHandler.startClassification(TheIslandArticle.class);
+        classifierUIHandler.startClassification(DailyMirrorArticle.class);
 
 
     }
