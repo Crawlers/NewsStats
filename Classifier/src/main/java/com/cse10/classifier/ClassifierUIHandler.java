@@ -1,10 +1,8 @@
 package com.cse10.classifier;
 
 import com.cse10.article.*;
-import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.util.ArticleConverter;
-import weka.core.Instance;
 import weka.core.Instances;
 
 import java.util.*;
@@ -75,7 +73,7 @@ public class ClassifierUIHandler extends Observable {
      */
     private void filterData() {
         System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Filtering");
-        featureVectorTransformer.configure(1, 1, false);
+        featureVectorTransformer.configure(1, 1, true);
         featureVectorTransformer.setInputFormat(trainingData);
         filteredTrainingData = featureVectorTransformer.getTransformedArticles(trainingData, dataHandler.getFileName());
         System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Filtering");
