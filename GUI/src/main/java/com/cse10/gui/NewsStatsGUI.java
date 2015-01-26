@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Date;
 
 /**
  * Created by TharinduWijewardane on 2015-01-08.
@@ -41,15 +42,12 @@ public class NewsStatsGUI {
     private JScrollPane scrollPaneCrawler;
     private JPanel panelCrawler;
     private JPanel panelCrawlPapers;
-    private JPanel panelCrawlTimePeriod;
     private JPanel panelCrawlControl;
     private JPanel panelCrawlProgress;
     private JCheckBox ceylonTodayCrawlerCheckBox;
     private JCheckBox dailyMirrorCrawlerCheckBox;
     private JCheckBox newsFirstCrawlerCheckBox;
     private JCheckBox theIslandCrawlerCheckBox;
-    private JDateChooser startCrawlDateChooser;
-    private JDateChooser endCrawlDateChooser;
     private JButton startCrawlingButton;
     private JProgressBar ceylonTodayCrawlProgressBar;
     private JProgressBar dailyMirrorCrawlProgressBar;
@@ -64,7 +62,6 @@ public class NewsStatsGUI {
     private JPanel panelClassifierProgress;
     private JPanel panelClassifierControl;
     private JPanel panelClassifierPapers;
-    private JPanel panelClassifierTimePeriod;
     private JPanel panelCrawlResults;
     private ChartPanel chartPanelCrawler;
     private JPanel panelClassifierModel;
@@ -72,9 +69,6 @@ public class NewsStatsGUI {
     private JCheckBox dailyMirrorClassifierCheckBox;
     private JCheckBox newsFirstClassifierCheckBox;
     private JCheckBox theIslandClassifierCheckBox;
-    private JDateChooser startClassifyDateChooser;
-    private JDateChooser endClassifyDateChooser;
-    private JButton button1;
     private JButton startClassifyingButton;
     private JButton stopClassifyingButton;
     private JPanel panelClassifierResults;
@@ -84,6 +78,18 @@ public class NewsStatsGUI {
     private JProgressBar theIslandClassifyProgressBar;
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
+    private JLabel ceylonTodayCralwerStartDateLabel;
+    private JLabel dailyMirrorCralwerStartDateLabel;
+    private JLabel newsFirstCralwerStartDateLabel;
+    private JLabel theIslandCralwerStartDateLabel;
+    private JDateChooser ceylonTodayCralwerEndDateChooser;
+    private JDateChooser dailyMirrorCralwerEndDateChooser;
+    private JDateChooser newsFirstCralwerEndDateChooser;
+    private JDateChooser theIslandCralwerEndDateChooser;
+    private JDateChooser ceylonTodayClassifierEndDateChooser;
+    private JDateChooser dailyMirrorClassifierEndDateChooser;
+    private JDateChooser newsFirstClassifierEndDateChooser;
+    private JDateChooser theIslandClassifierEndDateChooser;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -236,7 +242,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
-                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask();
                     ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -255,7 +261,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorClassifierCheckBox.isSelected()) {
-                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask();
                     dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -274,7 +280,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstClassifierCheckBox.isSelected()) {
-                    newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    newsFirstClassifyTask = new NewsFirstClassifyTask();
                     newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -293,7 +299,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandClassifierCheckBox.isSelected()) {
-                    theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    theIslandClassifyTask = new TheIslandClassifyTask();
                     theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -472,8 +478,6 @@ public class NewsStatsGUI {
         dailyMirrorCrawlerCheckBox.setEnabled(false);
         newsFirstCrawlerCheckBox.setEnabled(false);
         theIslandCrawlerCheckBox.setEnabled(false);
-        startCrawlDateChooser.setEnabled(false);
-        endCrawlDateChooser.setEnabled(false);
         startCrawlingButton.setEnabled(false);
 
         stopCrawlingButton.setEnabled(true);
@@ -485,9 +489,17 @@ public class NewsStatsGUI {
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
         theIslandCrawlerCheckBox.setEnabled(true);
-        startCrawlDateChooser.setEnabled(true);
-        endCrawlDateChooser.setEnabled(true);
         startCrawlingButton.setEnabled(true);
+
+        ceylonTodayCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(CeylonTodayArticle.class));
+        dailyMirrorCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(DailyMirrorArticle.class));
+        newsFirstCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(NewsFirstArticle.class));
+        theIslandCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(TheIslandArticle.class));
+
+        ceylonTodayCralwerEndDateChooser.setDate(new Date());
+        dailyMirrorCralwerEndDateChooser.setDate(new Date());
+        newsFirstCralwerEndDateChooser.setDate(new Date());
+        theIslandCralwerEndDateChooser.setDate(new Date());
 
         stopCrawlingButton.setEnabled(false);
     }
@@ -578,8 +590,6 @@ public class NewsStatsGUI {
         dailyMirrorClassifierCheckBox.setEnabled(false);
         newsFirstClassifierCheckBox.setEnabled(false);
         theIslandClassifierCheckBox.setEnabled(false);
-        startClassifyDateChooser.setEnabled(false);
-        endClassifyDateChooser.setEnabled(false);
         startClassifyingButton.setEnabled(false);
 
         stopClassifyingButton.setEnabled(true);
@@ -591,8 +601,6 @@ public class NewsStatsGUI {
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
         theIslandClassifierCheckBox.setEnabled(true);
-        startClassifyDateChooser.setEnabled(true);
-        endClassifyDateChooser.setEnabled(true);
         startClassifyingButton.setEnabled(true);
 
         stopClassifyingButton.setEnabled(false);
