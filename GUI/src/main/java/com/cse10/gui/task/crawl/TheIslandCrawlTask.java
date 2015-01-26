@@ -1,5 +1,6 @@
 package com.cse10.gui.task.crawl;
 
+import com.cse10.article.TheIslandArticle;
 import com.cse10.crawler.crawlControler.TheIslandCrawlController;
 import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 
@@ -12,6 +13,14 @@ public class TheIslandCrawlTask extends CrawlTask {
 
     public TheIslandCrawlTask(Date startDate, Date endDate) {
         super(startDate, endDate);
+    }
+
+    public TheIslandCrawlTask() {
+    }
+
+    @Override
+    protected Class getArticleClassType() {
+        return TheIslandArticle.class;
     }
 
     /*
