@@ -65,7 +65,7 @@ public class GenericDataHandler extends DataHandler {
         queries.add("SELECT content, label FROM article_daily_mirror_2012 where `label` IS NOT NULL");
         queries.add("SELECT content, label FROM article_daily_mirror_2013 where `label` IS NOT NULL");
         queries.add("SELECT content, label FROM article_the_island_2012 where `label` IS NOT NULL");*/
-        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL");
+        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL AND id < 150");
 
         ListIterator queryIterator = queries.listIterator();
         ArrayList<Instances> instances = new ArrayList<Instances>();
