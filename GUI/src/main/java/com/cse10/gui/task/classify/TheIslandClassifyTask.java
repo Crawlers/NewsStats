@@ -26,10 +26,9 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
             Thread.currentThread().setName("The Island Classifier Thread");
             //Initialize progress property.
             setProgress(0);
-            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
+            classifierUIHandler=ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
-            classifierUIHandler.buildClassifier();
-            classifierUIHandler.classifyNewsArticles(TheIslandArticle.class);
+            classifierUIHandler.startClassification(TheIslandArticle.class);
             System.out.println("The Island Classifer -> In Background");
         }
         return null;

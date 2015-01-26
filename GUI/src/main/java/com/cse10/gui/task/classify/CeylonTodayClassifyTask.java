@@ -26,10 +26,9 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
             setProgress(0);
 
             //classification process
-            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
+            classifierUIHandler=ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
-            classifierUIHandler.buildClassifier();
-            classifierUIHandler.classifyNewsArticles(CeylonTodayArticle.class);
+            classifierUIHandler.startClassification(CeylonTodayArticle.class);
 
             System.out.println("Ceylon Today Classifer -> Finished Task");
         }
