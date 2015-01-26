@@ -1,4 +1,4 @@
-package com.cse10.predictor;
+package com.cse10.analyzer;
 
 import mltk.core.*;
 import mltk.core.io.InstancesReader;
@@ -21,12 +21,13 @@ import java.util.TreeSet;
 //variable, the process is called multiple linear regression*/
 //Nonlinear Regression = ln(X)=ln(Y)+bZ
 //Linear regression tend to over fit. to improve that we need to regularise parameters. for that we can use methods like lasso, ridge or elastic net ( combination of lasso or ridge)
+
 /**
  * perform regression analysis for predicting crimes
  *
  * @author chamath
  */
-public class Predictor {
+public class PredictorSample {
 
     /**
      * perform linear regression,use SimpleRegression in apache commons
@@ -203,17 +204,5 @@ public class Predictor {
         } else {
             instances.setTargetAttribute(new NumericalAttribute("target"));
         }
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws SQLException {
-        Predictor p = new Predictor();
-        System.out.println(p.predictUsingLR(100.0));
-        System.out.println(p.predictUsingENL());
-        System.out.println(p.predictUsingENLDataFromDB());
-
-
     }
 }

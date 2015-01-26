@@ -14,7 +14,7 @@
             <column name="crime_type" length="50" not-null="false"/>
         </property>
         <property name="crimeDate" type="date">
-            <column name="crime_date" length="7" not-null="false"/>
+            <column name="crime_date" not-null="false"/>
         </property>
         <property name="district" type="string">
             <column name="district" length="20" not-null="false"/>
