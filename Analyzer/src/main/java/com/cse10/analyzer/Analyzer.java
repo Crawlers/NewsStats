@@ -9,6 +9,7 @@ public class Analyzer {
      * @param args the command line arguments
      */
     public static void main(String[] args){
+
         //generating statistics
         StatGenerator statGen = new StatGenerator();
         statGen.generateStats();
@@ -58,5 +59,10 @@ public class Analyzer {
         predictor.predict(quarters,"2015 - 4");
         predictor_type.predict(quarters, "2015 - 4");
         predictor_district.predict(quarters,"2015 - 4");
+
+        //uploading
+        WebGUIUpdater webGUIUpdater = new WebGUIUpdater("user", "pass", "fyp","ds049219.mongolab.com",49219);
+        webGUIUpdater.update("news_statistics","crimes");
+        webGUIUpdater.update("predictions","predictions");
     }
 }
