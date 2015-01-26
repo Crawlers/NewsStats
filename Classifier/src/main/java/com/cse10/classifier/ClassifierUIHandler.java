@@ -76,7 +76,7 @@ public class ClassifierUIHandler extends Observable {
      */
     private void filterData() {
         System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Filtering");
-        featureVectorTransformer.configure(1, 1, false);
+        featureVectorTransformer.configure(1, 1, true);
         featureVectorTransformer.setInputFormat(trainingData);
         filteredTrainingData = featureVectorTransformer.getTransformedArticles(trainingData, dataHandler.getFileName());
         System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Filtering");

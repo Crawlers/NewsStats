@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.cse10.results.Prediction" table="predictions">
+        <id name="id" type="int">
+            <column name="id" precision="11" scale="0"/>
+            <generator class="identity"/>
+        </id>
+        <property name="crimeType" type="string">
+            <column name="crime_type" length="50" not-null="false"/>
+        </property>
+        <property name="crimeDistrict" type="string">
+            <column name="crime_district" length="20" not-null="false"/>
+        </property>
+        <property name="crimeYearQuarter" type="string">
+            <column name="crime_yearquarter" length="20" not-null="false"/>
+        </property>
+        <property name="crimeCount" type="int">
+            <column name="crime_count" length="10" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

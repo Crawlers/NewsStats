@@ -10,6 +10,9 @@ import java.util.Observer;
  */
 public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
 
+    public CeylonTodayClassifyTask() {
+    }
+
     public CeylonTodayClassifyTask(Date startDate, Date endDate) {
         super(startDate, endDate);
     }

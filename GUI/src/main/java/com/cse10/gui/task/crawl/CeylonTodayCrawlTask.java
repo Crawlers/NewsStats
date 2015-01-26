@@ -1,5 +1,6 @@
 package com.cse10.gui.task.crawl;
 
+import com.cse10.article.CeylonTodayArticle;
 import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
 import com.cse10.crawler.paperCrawler.CeylonTodayCrawler;
 
@@ -14,6 +15,14 @@ public class CeylonTodayCrawlTask extends CrawlTask {
         super(startDate, endDate);
     }
 
+    public CeylonTodayCrawlTask() {
+    }
+
+    @Override
+    protected Class getArticleClassType() {
+        return CeylonTodayArticle.class;
+    }
+
     /*
      * Main task. Executed in background thread.
      */
@@ -26,8 +35,8 @@ public class CeylonTodayCrawlTask extends CrawlTask {
             setProgress(1);
 
             crawlController = new CeylonTodayCrawlController();
-            crawlController.setStartDate("2014-06-30");
-            crawlController.setEndDate("2014-12-31");
+            crawlController.setStartDate(startDate);
+            crawlController.setEndDate(endDate);
             crawlController.addObserver(this);
             try {
                 crawlController.crawl(CeylonTodayCrawler.class);
