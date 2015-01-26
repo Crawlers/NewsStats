@@ -21,7 +21,7 @@ public class GateTest {
 
     public static void main(String[] args) throws Exception {
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        /*DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         ArrayList<CrimeEntityGroup> entityGroupList = (ArrayList<CrimeEntityGroup>) DatabaseHandler.fetchCrimeEntityGroupsByIdRange(1,10);
         int i = 0;
 
@@ -78,7 +78,19 @@ public class GateTest {
             System.out.println();
         }
 
-        System.out.println("- Test Finishes Here -");
+        System.out.println("- Test Finishes Here -");*/
+
+        EntityExtractorThread r = new EntityExtractorThread();
+        Thread t = new Thread(r);
+
+        t.start();
+
+        Thread.currentThread().sleep(3000);
+
+        System.out.println("Check");
+        t.interrupt();
+
+        t.join();
 
         System.exit(0);
     }
