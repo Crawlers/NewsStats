@@ -39,12 +39,12 @@
         </property>
 
         <many-to-one name="locationDistrict" class="com.cse10.entities.LocationDistrictMapper"
-                     column="location" not-null="true"
+                     column="location" not-null="false"
                      cascade="all" />
         <set name="crimePersonSet" table="crime_person"
              inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="entity_group_id" not-null="true" />
+                <column name="entity_group_id" not-null="false" />
             </key>
             <one-to-many class="com.cse10.entities.CrimePerson" />
         </set>
