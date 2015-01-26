@@ -474,6 +474,26 @@ public class DatabaseHandler {
     }
 
     /**
+     * get latest date of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static java.util.Date getLatestDate(Class articleClass) {
+
+        if (getRowCount(articleClass) == 0) { // if there are no articles
+            return null;
+        }
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
+                .setProjection(Projections.max("createdDate")).uniqueResult();
+        session.close();
+
+        return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
+    }
+
+    /**
      * closes the hibernate session factory. (otherwise JVM won't stop)
      */
     public static void closeDatabase() {
