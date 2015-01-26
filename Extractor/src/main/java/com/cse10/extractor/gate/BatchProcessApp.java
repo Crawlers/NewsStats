@@ -85,7 +85,7 @@ public class BatchProcessApp {
 
         // fetches news articles from database
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,105,106);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,611,612);
 
 
         // process the files one by one
@@ -255,7 +255,7 @@ public class BatchProcessApp {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 // check all crime details are properly entered
