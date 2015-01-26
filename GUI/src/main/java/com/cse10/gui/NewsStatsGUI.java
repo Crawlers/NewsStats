@@ -318,15 +318,19 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (ceylonTodayClassifyTask != null) {
+                    ceylonTodayClassifyTask.stopClassification();
                     ceylonTodayClassifyTask.cancel(true);
                 }
                 if (dailyMirrorClassifyTask != null) {
+                    dailyMirrorClassifyTask.stopClassification();
                     dailyMirrorClassifyTask.cancel(true);
                 }
                 if (newsFirstClassifyTask != null) {
+                    newsFirstClassifyTask.stopClassification();
                     newsFirstClassifyTask.cancel(true);
                 }
                 if (theIslandClassifyTask != null) {
+                    theIslandClassifyTask.stopClassification();
                     theIslandClassifyTask.cancel(true);
                 }
 
