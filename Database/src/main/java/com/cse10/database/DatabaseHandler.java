@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -491,6 +492,24 @@ public class DatabaseHandler {
         session.close();
 
         return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
+    }
+
+    /**
+     * get latest date string of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static String getLatestDateString(Class articleClass) {
+
+        java.util.Date date = getLatestDate(articleClass);
+
+        if (date == null) {
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
     }
 
     /**
