@@ -172,6 +172,27 @@ public class DatabaseHandler {
     }
 
     /**
+     * @param articleClass
+     * @param startId
+     * @return
+     */
+    public static List<Article> fetchArticlesByIdStarting(Class articleClass, int startId) {
+
+        ArrayList<Article> articles;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        articles = (ArrayList<Article>) session.createCriteria(articleClass)
+                .add(Restrictions.ge("id", startId))
+                .list();
+        session.getTransaction().commit();
+        session.close();
+
+        return articles;
+    }
+
+    /**
      * fetch articles of given class (given table) which have null values for label column
      *
      * @param articleClass ex:- CeylonTodayArticle.class

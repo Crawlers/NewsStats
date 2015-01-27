@@ -3,41 +3,36 @@ package com.cse10.extractor.gate;
 /**
  * Created with IntelliJ IDEA.
  * User: Isuru Jayaweera
- * Date: 10/24/14
+ * Date: 01/26/15
  * Extract entities from crime news articles and add those entities to a separate table.
  */
 
 import com.cse10.article.Article;
-import com.cse10.article.CeylonTodayArticle;
 import com.cse10.article.CrimeArticle;
-import com.cse10.article.NewsFirstArticle;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
-import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
 import gate.*;
-import gate.Gate;
 import gate.annotation.AnnotationImpl;
 import gate.util.GateException;
 import gate.util.persistence.PersistenceManager;
+import org.hibernate.ObjectNotFoundException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.io.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.hibernate.ObjectNotFoundException;
-import org.jdom.JDOMException;
+public class EntityExtractor {
 
-public class BatchProcessApp {
-
-    // Path to the saved application file.
+    // path to the saved application file.
     private static File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
 
-    // List of annotation types to write out.  If null, write everything as GateXML.
+    // path to the configuration file containing ID of the last extracted entity.
+    private static File configFile = new File("Extractor/src/main/resources/Configuration.txt");
+
+    // list of annotation types to write out.  If null, write everything as GateXML.
     private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
 
     // fetch district name from google map api response
@@ -46,7 +41,16 @@ public class BatchProcessApp {
     // stores entities temporary till they are inserted to the table
     private static ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
+    // ID of the last entity extracted article
+    private static int endID;
+
+    public static synchronized void startExtraction() throws InterruptedException, IOException, GateException, ParseException {
+
+        //get ID of the article to start entity extraction.
+        int startID = getLastID();
+
+        //set ID of the last entity extracted article to starting article.
+        endID = startID;
 
         // setting gate.home variable
         String homePath = "\\home";
@@ -85,7 +89,7 @@ public class BatchProcessApp {
 
         // fetches news articles from database
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,611,612);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdStarting(CrimeArticle.class,startID+1);
 
 
         // process the files one by one
@@ -178,7 +182,7 @@ public class BatchProcessApp {
                     // extract all the annotations of each requested type and add them to
                     // the temporary set
                     AnnotationImpl CurrentAnnot = (AnnotationImpl) annotIt.next();
-                    String antText = gate.Utils.stringFor(doc, CurrentAnnot);
+                    String antText = Utils.stringFor(doc, CurrentAnnot);
 
                     // check for crime location annotation
                     if (CurrentAnnot.getType().equalsIgnoreCase("CrimeLocation")) {
@@ -258,6 +262,8 @@ public class BatchProcessApp {
                     //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
+                endID = articleID;
+
                 // check all crime details are properly entered
                 System.out.println("CrimeType : " + crimeType);
                 System.out.println("Crime Date : " + format.format(crimeDate));
@@ -274,6 +280,10 @@ public class BatchProcessApp {
 
                 System.out.println("Article : " + i + " -Ends Here-");
                 System.out.println();
+
+                if(Thread.interrupted()) {
+                    throw new InterruptedException("Thread interruption forced.");
+                }
             }
         }// for each article
 
@@ -284,7 +294,7 @@ public class BatchProcessApp {
 
     // method to fetch district for the location using google map api, unless it is in the location - district
     // mapping table
-    public static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
+    private static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
         LocationDistrictMapper locationDistrict;
         String district = "NULL";
 
@@ -310,6 +320,55 @@ public class BatchProcessApp {
                 entityGroupOfArticle.setLocationDistrict(locationDistrict);
             }
         }
+    }
+
+    private static  int getLastID(){
+        int theID = 0;
+
+        BufferedReader br = null;
+
+        try {
+
+            String sCurrentLine;
+
+            br = new BufferedReader(new FileReader(configFile));
+
+            if ((sCurrentLine = br.readLine()) != null) {
+                theID = Integer.parseInt(sCurrentLine);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return  theID;
+    }
+
+    private static  void writeLastID(){
+        FileWriter fooWriter = null; // true to append
+        try {
+            fooWriter = new FileWriter(configFile, false);
+            // false to overwrite.
+            fooWriter.write(String.valueOf(endID));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fooWriter.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static synchronized void stopExtraction(){
+        writeLastID();
     }
 }
 
