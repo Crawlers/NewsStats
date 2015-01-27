@@ -1,8 +1,7 @@
 package com.cse10.gui.task.classify;
 
-import com.cse10.article.TheIslandArticle;
-import com.cse10.classifier.ClassifierUIHandler;
 
+import com.cse10.classifier.TheIslandClassifierUIHandler;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -30,9 +29,13 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
             Thread.currentThread().setName("The Island Classifier Thread");
             //Initialize progress property.
             setProgress(0);
-            ClassifierUIHandler classifierUIHandler = ClassifierUIHandler.getInstance();
-            classifierUIHandler.addObserver(this);
-            classifierUIHandler.startClassification(TheIslandArticle.class);
+
+            //start classification process
+            classifierUIHandler=new TheIslandClassifierUIHandler();
+            classifierUIHandler.getClassifierConfigurator().addObserver(this);
+            classifierUIHandler.setName("The Island Classifier Thread");
+            classifierUIHandler.run();
+
             System.out.println("The Island Classifer -> In Background");
         }
         return null;
@@ -49,7 +52,9 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        int value = (Integer) arg;
-        setProgress(value);
+        String message = (String) arg;
+        String[] m = message.split(" ");
+        if (m[0].equals("article_the_island"))
+            setProgress(Integer.parseInt(m[1]));
     }
 }
