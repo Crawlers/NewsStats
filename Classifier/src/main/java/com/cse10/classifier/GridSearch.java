@@ -1,6 +1,6 @@
 package com.cse10.classifier;
 
-import weka.classifiers.functions.LibSVM;
+import weka.classifiers.Classifier;
 import weka.core.Instances;
 import weka.core.SelectedTag;
 import weka.filters.AllFilter;
@@ -16,12 +16,12 @@ public class GridSearch {
 
     /**
      * Perform grid search to find the best values for cost and gamma
-     * @param svm
+     * @param classifier
      * @param dataFiltered
      */
-    public void gridSearch(LibSVM svm, Instances dataFiltered){
+    public void gridSearch(Classifier classifier, Instances dataFiltered){
         weka.classifiers.meta.GridSearch gs = new weka.classifiers.meta.GridSearch();
-        gs.setClassifier(svm);
+        gs.setClassifier(classifier);
         gs.setFilter(new AllFilter());
 
         gs.setXProperty("classifier.cost");
