@@ -14,7 +14,7 @@
             <column name="crime_type" length="50" not-null="false"/>
         </property>
         <property name="crimeDate" type="date">
-            <column name="crime_date" length="7" not-null="false"/>
+            <column name="crime_date" not-null="false"/>
         </property>
         <property name="district" type="string">
             <column name="district" length="20" not-null="false"/>
@@ -39,12 +39,12 @@
         </property>
 
         <many-to-one name="locationDistrict" class="com.cse10.entities.LocationDistrictMapper"
-                     column="location" not-null="true"
+                     column="location" not-null="false"
                      cascade="all" />
         <set name="crimePersonSet" table="crime_person"
              inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="entity_group_id" not-null="true" />
+                <column name="entity_group_id" not-null="false" />
             </key>
             <one-to-many class="com.cse10.entities.CrimePerson" />
         </set>

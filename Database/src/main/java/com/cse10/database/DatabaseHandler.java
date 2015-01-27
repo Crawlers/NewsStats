@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -129,6 +130,11 @@ public class DatabaseHandler {
     public static List<Article> fetchArticlesByIdList(Class articleClass, List<Integer> idList) {
 
         ArrayList<Article> articles;
+
+        if (idList.isEmpty()) {
+            return new ArrayList<Article>();
+        }
+
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -210,6 +216,30 @@ public class DatabaseHandler {
             e.printStackTrace();
         } finally {
             return rs;
+        }
+    }
+
+    /**
+     * execute an update query without using hibernate and return ResultSet
+     *
+     * @param query
+     */
+    public static void executeUpdate(String query) {
+
+        java.sql.Connection conn = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(DatabaseConstants.DB_URL, DatabaseConstants.DB_USERNAME, DatabaseConstants.DB_PASSWORD);
+
+            // create the java statement
+            Statement st = conn.createStatement();
+
+            // execute the update
+            st.executeUpdate(query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -400,7 +430,26 @@ public class DatabaseHandler {
     public static int getRowCount(Class articleClass) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass).setProjection(Projections.rowCount()).uniqueResult();
+        Long count = (Long) session.createCriteria(articleClass)
+                .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the count of rows having given value for given column of a table containing articles of given type
+     *
+     * @param articleClass
+     * @param column
+     * @param value
+     * @return
+     */
+    public static int getRowCount(Class articleClass, String column, String value) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .add(Restrictions.eq(column, value))
+                .setProjection(Projections.rowCount()).uniqueResult();
         session.close();
         return count.intValue();
     }
@@ -423,6 +472,44 @@ public class DatabaseHandler {
         session.close();
 
         return count.intValue();
+    }
+
+    /**
+     * get latest date of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static java.util.Date getLatestDate(Class articleClass) {
+
+        if (getRowCount(articleClass) == 0) { // if there are no articles
+            return null;
+        }
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
+                .setProjection(Projections.max("createdDate")).uniqueResult();
+        session.close();
+
+        return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
+    }
+
+    /**
+     * get latest date string of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static String getLatestDateString(Class articleClass) {
+
+        java.util.Date date = getLatestDate(articleClass);
+
+        if (date == null) {
+            return "";
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
     }
 
     /**

@@ -10,6 +10,9 @@ import java.util.Observer;
  */
 public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
 
+    public CeylonTodayClassifyTask() {
+    }
+
     public CeylonTodayClassifyTask(Date startDate, Date endDate) {
         super(startDate, endDate);
     }
@@ -21,15 +24,14 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
     public Void doInBackground() {
         if (!done) {
             System.out.println("Ceylon Today Classifer -> In Background");
-
+            Thread.currentThread().setName("Ceylon Today Classifier Thread");
             //Initialize progress property.
             setProgress(0);
 
             //classification process
-            ClassifierUIHandler classifierUIHandler=ClassifierUIHandler.getInstance();
+            classifierUIHandler=ClassifierUIHandler.getInstance();
             classifierUIHandler.addObserver(this);
-            classifierUIHandler.buildClassifier();
-            classifierUIHandler.classifyNewsArticles(CeylonTodayArticle.class);
+            classifierUIHandler.startClassification(CeylonTodayArticle.class);
 
             System.out.println("Ceylon Today Classifer -> Finished Task");
         }

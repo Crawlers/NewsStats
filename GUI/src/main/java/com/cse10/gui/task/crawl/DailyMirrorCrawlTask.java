@@ -1,5 +1,6 @@
 package com.cse10.gui.task.crawl;
 
+import com.cse10.article.DailyMirrorArticle;
 import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
 import com.cse10.crawler.paperCrawler.DailyMirrorCrawler;
 
@@ -14,6 +15,14 @@ public class DailyMirrorCrawlTask extends CrawlTask {
         super(startDate, endDate);
     }
 
+    public DailyMirrorCrawlTask() {
+    }
+
+    @Override
+    protected Class getArticleClassType() {
+        return DailyMirrorArticle.class;
+    }
+
     /*
      * Main task. Executed in background thread.
      */
@@ -26,8 +35,8 @@ public class DailyMirrorCrawlTask extends CrawlTask {
             setProgress(1);
 
             crawlController = new DailyMirrorCrawlController();
-            crawlController.setStartDate("2014-12-01");
-            crawlController.setEndDate("2014-12-10");
+            crawlController.setStartDate(startDate);
+            crawlController.setEndDate(endDate);
             crawlController.addObserver(this);
             try {
                 crawlController.crawl(DailyMirrorCrawler.class);

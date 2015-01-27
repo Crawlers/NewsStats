@@ -12,7 +12,7 @@ import java.util.Random;
  * wrapper class for bagging
  * Created by chamath on 12/20/2014.
  */
-public class BaggingClassifierHandler {
+public class BaggingClassifierHandler extends ClassifierHandler {
     private Bagging bagging;
 
     public BaggingClassifierHandler(Bagging bagging) {

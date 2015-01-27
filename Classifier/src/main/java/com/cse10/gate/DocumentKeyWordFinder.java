@@ -7,7 +7,11 @@ import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
 import weka.core.tokenizers.NGramTokenizer;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,9 +33,43 @@ public class DocumentKeyWordFinder {
 
     public DocumentKeyWordFinder() {
         try {
+
             //set gate home
-            if(Gate.getGateHome()==null)
-            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));
+            String homePath = "\\home";
+            File gateHome;
+
+            if (Gate.getGateHome() == null) {
+                homePath = System.getenv("GATE_HOME");
+                if (homePath == null) {
+                    //if environment variable is not set then prompt user to enter the path
+                    System.out.print("Enter GATE Home path : ");
+                    BufferedReader br =
+                            new BufferedReader(new InputStreamReader(System.in));
+                    try {
+                        homePath = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                System.out.println("Home Path= " + homePath);
+                //check whether the provided gate path is correct
+                File pathCheck = new File(homePath + "\\gate.xml");
+                if (pathCheck.exists()) {
+                    gateHome = new File(homePath);
+                    Gate.setGateHome(gateHome);
+                    System.out.println("GATE Home Configured : " + Gate.getGateHome());
+                } else {
+                    System.out.println("GATE Home Path Incorrect");
+                    System.exit(0);
+                }
+            }
+
+            //set gate home
+            /*if(Gate.getGateHome()==null)
+            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));*/
+
+
             //initialize data
             Gate.init();
 

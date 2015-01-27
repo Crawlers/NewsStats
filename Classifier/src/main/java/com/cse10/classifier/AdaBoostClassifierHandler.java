@@ -11,7 +11,7 @@ import java.util.Random;
  * Wrapper class for AdoBoost method
  * Created by chamath on 12/20/2014.
  */
-public class AdaBoostClassifierHandler {
+public class AdaBoostClassifierHandler extends ClassifierHandler {
 
     private AdaBoostM1 adaBoost;
 

@@ -68,9 +68,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
 
     public void setDistrict(String district) { this.district = district; }
 
-    public LocationDistrictMapper getLocationDistrict() {
-        return locationDistrict;
-    }
+   public LocationDistrictMapper getLocationDistrict() {return locationDistrict;}
 
     public void setLocationDistrict(LocationDistrictMapper locationDistrict) {this.locationDistrict = locationDistrict;}
 

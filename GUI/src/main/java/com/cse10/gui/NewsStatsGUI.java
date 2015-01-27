@@ -18,7 +18,8 @@ import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Date;
 
 /**
  * Created by TharinduWijewardane on 2015-01-08.
@@ -40,15 +42,12 @@ public class NewsStatsGUI {
     private JScrollPane scrollPaneCrawler;
     private JPanel panelCrawler;
     private JPanel panelCrawlPapers;
-    private JPanel panelCrawlTimePeriod;
     private JPanel panelCrawlControl;
     private JPanel panelCrawlProgress;
     private JCheckBox ceylonTodayCrawlerCheckBox;
     private JCheckBox dailyMirrorCrawlerCheckBox;
     private JCheckBox newsFirstCrawlerCheckBox;
     private JCheckBox theIslandCrawlerCheckBox;
-    private JDateChooser startCrawlDateChooser;
-    private JDateChooser endCrawlDateChooser;
     private JButton startCrawlingButton;
     private JProgressBar ceylonTodayCrawlProgressBar;
     private JProgressBar dailyMirrorCrawlProgressBar;
@@ -63,17 +62,13 @@ public class NewsStatsGUI {
     private JPanel panelClassifierProgress;
     private JPanel panelClassifierControl;
     private JPanel panelClassifierPapers;
-    private JPanel panelClassifierTimePeriod;
     private JPanel panelCrawlResults;
     private ChartPanel chartPanelCrawler;
-    private JPanel panelClassifierMOdel;
+    private JPanel panelClassifierModel;
     private JCheckBox ceylonTodayClassifierCheckBox;
     private JCheckBox dailyMirrorClassifierCheckBox;
     private JCheckBox newsFirstClassifierCheckBox;
     private JCheckBox theIslandClassifierCheckBox;
-    private JDateChooser startClassifyDateChooser;
-    private JDateChooser endClassifyDateChooser;
-    private JButton button1;
     private JButton startClassifyingButton;
     private JButton stopClassifyingButton;
     private JPanel panelClassifierResults;
@@ -83,6 +78,18 @@ public class NewsStatsGUI {
     private JProgressBar theIslandClassifyProgressBar;
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
+    private JLabel ceylonTodayCralwerStartDateLabel;
+    private JLabel dailyMirrorCralwerStartDateLabel;
+    private JLabel newsFirstCralwerStartDateLabel;
+    private JLabel theIslandCralwerStartDateLabel;
+    private JDateChooser ceylonTodayCralwerEndDateChooser;
+    private JDateChooser dailyMirrorCralwerEndDateChooser;
+    private JDateChooser newsFirstCralwerEndDateChooser;
+    private JDateChooser theIslandCralwerEndDateChooser;
+    private JDateChooser ceylonTodayClassifierEndDateChooser;
+    private JDateChooser dailyMirrorClassifierEndDateChooser;
+    private JDateChooser newsFirstClassifierEndDateChooser;
+    private JDateChooser theIslandClassifierEndDateChooser;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -107,14 +114,11 @@ public class NewsStatsGUI {
     private NewsFirstClassifyTask newsFirstClassifyTask;
     private TheIslandClassifyTask theIslandClassifyTask;
 
-    private int numberOfCeylonTodayArticles;
-    private int numberOfDailyMirrorArticles;
-    private int numberOfNewsFirstArticles;
-    private int numberOfTheIslandArticles;
-
     public NewsStatsGUI() {
 
         initComponentLists(); // initialize list containing UI components
+        enableCrawlerUI();
+        enableClassifierUI();
 
         startCrawlingButton.addActionListener(new ActionListener() { //when crawler button is clicked
             @Override
@@ -126,7 +130,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewCrawlerUI();
 
                 if (ceylonTodayCrawlerCheckBox.isSelected()) {
-                    ceylonTodayCrawlTask = new CeylonTodayCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    ceylonTodayCrawlTask = new CeylonTodayCrawlTask();
                     ceylonTodayCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -145,7 +149,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorCrawlerCheckBox.isSelected()) {
-                    dailyMirrorCrawlTask = new DailyMirrorCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    dailyMirrorCrawlTask = new DailyMirrorCrawlTask();
                     dailyMirrorCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -164,7 +168,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstCrawlerCheckBox.isSelected()) {
-                    newsFirstCrawlTask = new NewsFirstCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    newsFirstCrawlTask = new NewsFirstCrawlTask();
                     newsFirstCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -183,7 +187,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandCrawlerCheckBox.isSelected()) {
-                    theIslandCrawlTask = new TheIslandCrawlTask(startCrawlDateChooser.getDate(), endCrawlDateChooser.getDate());
+                    theIslandCrawlTask = new TheIslandCrawlTask();
                     theIslandCrawlTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -238,7 +242,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
-                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask();
                     ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -257,7 +261,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorClassifierCheckBox.isSelected()) {
-                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask();
                     dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -276,7 +280,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstClassifierCheckBox.isSelected()) {
-                    newsFirstClassifyTask = new NewsFirstClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    newsFirstClassifyTask = new NewsFirstClassifyTask();
                     newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -295,7 +299,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandClassifierCheckBox.isSelected()) {
-                    theIslandClassifyTask = new TheIslandClassifyTask(startClassifyDateChooser.getDate(), endClassifyDateChooser.getDate());
+                    theIslandClassifyTask = new TheIslandClassifyTask();
                     theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -319,15 +323,19 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
 
                 if (ceylonTodayClassifyTask != null) {
+                    ceylonTodayClassifyTask.stopClassification();
                     ceylonTodayClassifyTask.cancel(true);
                 }
                 if (dailyMirrorClassifyTask != null) {
+                    dailyMirrorClassifyTask.stopClassification();
                     dailyMirrorClassifyTask.cancel(true);
                 }
                 if (newsFirstClassifyTask != null) {
+                    newsFirstClassifyTask.stopClassification();
                     newsFirstClassifyTask.cancel(true);
                 }
                 if (theIslandClassifyTask != null) {
+                    theIslandClassifyTask.stopClassification();
                     theIslandClassifyTask.cancel(true);
                 }
 
@@ -356,31 +364,41 @@ public class NewsStatsGUI {
         frame.setBounds(0, 0, screenSize.width * 2 / 3, screenSize.height * 2 / 3);
 
         frame.setVisible(true);
-
     }
 
     private void createUIComponents() {
         // place custom component creation code here
 
+        panelClassifierModel = new JPanel();
+
         /* crawler chart */
-        DefaultPieDataset pieDatasetCrawler = new DefaultPieDataset();
-        pieDatasetCrawler.setValue("Ceylon Today", new Integer(10));
-        pieDatasetCrawler.setValue("Daily Mirror", new Integer(20));
-        pieDatasetCrawler.setValue("News First", new Integer(30));
-        pieDatasetCrawler.setValue("The Island", new Integer(10));
-        JFreeChart chartCrawler = ChartFactory.createPieChart3D("Crawled Articles", pieDatasetCrawler, true, true, true);
+        final JFreeChart chartCrawler = ChartFactory.createBarChart(
+                "Crawled Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
         chartPanelCrawler = new ChartPanel(chartCrawler);
-        chartPanelCrawler.setVisible(false);
+        chartPanelCrawler.setVisible(true);
 
         /* classifier chart */
-        DefaultPieDataset pieDatasetClassifer = new DefaultPieDataset();
-        pieDatasetClassifer.setValue("Ceylon Today", new Integer(10));
-        pieDatasetClassifer.setValue("Daily Mirror", new Integer(20));
-        pieDatasetClassifer.setValue("News First", new Integer(30));
-        pieDatasetClassifer.setValue("The Island", new Integer(10));
-        JFreeChart chartClassifier = ChartFactory.createPieChart3D("Classified Articles", pieDatasetClassifer, true, true, true);
+        final JFreeChart chartClassifier = ChartFactory.createBarChart(
+                "Classified Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
         chartPanelClassifier = new ChartPanel(chartClassifier);
-        chartPanelClassifier.setVisible(false);
+        chartPanelClassifier.setVisible(true);
+
     }
 
     /**
@@ -421,18 +439,40 @@ public class NewsStatsGUI {
 
     private void drawCrawlerChart() {
 
-        numberOfCeylonTodayArticles = DatabaseHandler.getRowCount(CeylonTodayArticle.class);
-        numberOfDailyMirrorArticles = DatabaseHandler.getRowCount(DailyMirrorArticle.class);
-        numberOfNewsFirstArticles = DatabaseHandler.getRowCount(NewsFirstArticle.class);
-        numberOfTheIslandArticles = DatabaseHandler.getRowCount(TheIslandArticle.class);
+        int ctArticles = DatabaseHandler.getRowCount(CeylonTodayArticle.class);
+        int dmArticles = DatabaseHandler.getRowCount(DailyMirrorArticle.class);
+        int nfArticles = DatabaseHandler.getRowCount(NewsFirstArticle.class);
+        int tiArticles = DatabaseHandler.getRowCount(TheIslandArticle.class);
 
-        DefaultPieDataset pieDatasetCrawler = new DefaultPieDataset();
-        pieDatasetCrawler.setValue("Ceylon Today", numberOfCeylonTodayArticles);
-        pieDatasetCrawler.setValue("Daily Mirror", numberOfDailyMirrorArticles);
-        pieDatasetCrawler.setValue("News First", numberOfNewsFirstArticles);
-        pieDatasetCrawler.setValue("The Island", numberOfTheIslandArticles);
-        JFreeChart chartCrawler = ChartFactory.createPieChart3D("Crawled Articles", pieDatasetCrawler, true, true, true);
-        chartPanelCrawler = new ChartPanel(chartCrawler);
+        // row keys...
+        final String series1 = "Ceylon Today";
+        final String series2 = "Daily Mirror";
+        final String series3 = "News First";
+        final String series4 = "The Island";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(ctArticles, series1, category1);
+        dataset.addValue(dmArticles, series2, category1);
+        dataset.addValue(nfArticles, series3, category1);
+        dataset.addValue(tiArticles, series4, category1);
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Crawled Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelCrawler.setChart(chart);
         chartPanelCrawler.setVisible(true);
     }
 
@@ -442,26 +482,34 @@ public class NewsStatsGUI {
         dailyMirrorCrawlerCheckBox.setEnabled(false);
         newsFirstCrawlerCheckBox.setEnabled(false);
         theIslandCrawlerCheckBox.setEnabled(false);
-        startCrawlDateChooser.setEnabled(false);
-        endCrawlDateChooser.setEnabled(false);
         startCrawlingButton.setEnabled(false);
 
         stopCrawlingButton.setEnabled(true);
     }
 
     private void enableCrawlerUI() {
+
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
         theIslandCrawlerCheckBox.setEnabled(true);
-        startCrawlDateChooser.setEnabled(true);
-        endCrawlDateChooser.setEnabled(true);
         startCrawlingButton.setEnabled(true);
+
+        ceylonTodayCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(CeylonTodayArticle.class));
+        dailyMirrorCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(DailyMirrorArticle.class));
+        newsFirstCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(NewsFirstArticle.class));
+        theIslandCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(TheIslandArticle.class));
+
+        ceylonTodayCralwerEndDateChooser.setDate(new Date());
+        dailyMirrorCralwerEndDateChooser.setDate(new Date());
+        newsFirstCralwerEndDateChooser.setDate(new Date());
+        theIslandCralwerEndDateChooser.setDate(new Date());
 
         stopCrawlingButton.setEnabled(false);
     }
 
     private void resetCrawlProgressBars() {
+
         ceylonTodayCrawlProgressBar.setValue(0);
         dailyMirrorCrawlProgressBar.setValue(0);
         newsFirstCrawlProgressBar.setValue(0);
@@ -489,36 +537,81 @@ public class NewsStatsGUI {
 
             enableClassifierUI();
             resetClassifyProgressBars();
-            chartPanelClassifier.setVisible(true);
+            drawClassifierChart();
 
         }
     }
 
+    private void drawClassifierChart() {
+
+        int ctArticlesCrime = DatabaseHandler.getRowCount(CeylonTodayArticle.class, "label", "crime");
+        int ctArticlesNonCrime = DatabaseHandler.getRowCount(CeylonTodayArticle.class, "label", "other");
+
+        int dmArticlesCrime = DatabaseHandler.getRowCount(DailyMirrorArticle.class, "label", "crime");
+        int dmArticlesNonCrime = DatabaseHandler.getRowCount(DailyMirrorArticle.class, "label", "other");
+
+        int nfArticlesCrime = DatabaseHandler.getRowCount(NewsFirstArticle.class, "label", "crime");
+        int nfArticlesNonCrime = DatabaseHandler.getRowCount(NewsFirstArticle.class, "label", "other");
+
+        int tiArticlesCrime = DatabaseHandler.getRowCount(TheIslandArticle.class, "label", "crime");
+        int tiArticlesNonCrime = DatabaseHandler.getRowCount(TheIslandArticle.class, "label", "other");
+
+        int crime = ctArticlesCrime + dmArticlesCrime + nfArticlesCrime + tiArticlesCrime;
+        int nonCrime = ctArticlesNonCrime + dmArticlesNonCrime + nfArticlesNonCrime + tiArticlesNonCrime;
+
+        // row keys...
+        final String series1 = "Crime";
+        final String series2 = "Non Crime";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(crime, series1, category1);
+        dataset.addValue(nonCrime, series2, category1);
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Classified Articles",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelClassifier.setChart(chart);
+        chartPanelClassifier.setVisible(true);
+    }
+
+
     private void disableClassifierUI() {
+
         ceylonTodayClassifierCheckBox.setEnabled(false);
         dailyMirrorClassifierCheckBox.setEnabled(false);
         newsFirstClassifierCheckBox.setEnabled(false);
         theIslandClassifierCheckBox.setEnabled(false);
-        startClassifyDateChooser.setEnabled(false);
-        endClassifyDateChooser.setEnabled(false);
         startClassifyingButton.setEnabled(false);
 
         stopClassifyingButton.setEnabled(true);
     }
 
     private void enableClassifierUI() {
+
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
         theIslandClassifierCheckBox.setEnabled(true);
-        startClassifyDateChooser.setEnabled(true);
-        endClassifyDateChooser.setEnabled(true);
         startClassifyingButton.setEnabled(true);
 
         stopClassifyingButton.setEnabled(false);
     }
 
     private void resetClassifyProgressBars() {
+
         ceylonTodayClassifyProgressBar.setValue(0);
         dailyMirrorClassifyProgressBar.setValue(0);
         newsFirstClassifyProgressBar.setValue(0);

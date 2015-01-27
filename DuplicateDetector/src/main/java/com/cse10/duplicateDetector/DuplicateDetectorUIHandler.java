@@ -1,6 +1,7 @@
 package com.cse10.duplicateDetector;
 
 /**
+ * this class combine all the functionality of this module
  * Created by chamath on 1/19/2015.
  */
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class UI1 {
+public class DuplicateDetectorUIHandler {
 
     /**
      * read articles from file
@@ -35,7 +36,7 @@ public class UI1 {
         return documents;
     }
 
-    public HashMap<Integer, String> readArticlesFromDB() {
+    private HashMap<Integer, String> readArticlesFromDB() {
 
         HashMap<Integer, String> articleContents = new HashMap<>();
         ArrayList<CrimeEntityGroup> crimeEntityGroups = DatabaseHandler.fetchCrimeEntityGroups();
@@ -90,6 +91,7 @@ public class UI1 {
                 //  System.out.println("Location " + location);
                 if (location != null)
                     content = content.concat(location).concat(" ");
+
                 String district = locationDistrictMapper.getDistrict();
                 //   System.out.println("District " + district);
                 if (district != null)
@@ -104,7 +106,7 @@ public class UI1 {
         return articleContents;
     }
 
-    public void findDuplicates() {
+    private void findDuplicates() {
 
         SimHashCalculator simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
 
@@ -201,18 +203,23 @@ public class UI1 {
         }
     }
 
+    /**
+     * start the process
+     */
+    public void startDuplicateDetection(){
+        findDuplicates();
+    }
+
+    /**
+     * finish the process
+     */
+    public void stopDuplicateDetection(){
+         //TODO implement this method
+    }
+
     public static void main(String[] args) {
-        UI1 ui = new UI1();
-        /*HashMap<Integer, String> articleContent = ui.readArticlesFromDB();
-
-        Iterator iterator = articleContent.keySet().iterator();
-        while (iterator.hasNext()) {
-            int id = (Integer) iterator.next();
-            String content = (String) articleContent.get(new Integer(id));
-
-            System.out.println("id=" + id + "content=" + content);
-        }*/
-
-        ui.findDuplicates();
+        //TODO do not delete duplicate articles. maintain a list of duplicate ids
+        DuplicateDetectorUIHandler ui = new DuplicateDetectorUIHandler();
+        ui.startDuplicateDetection();
     }
 }

@@ -8,6 +8,9 @@ import java.util.Random;
  */
 public class NewsFirstClassifyTask extends ClassifyTask {
 
+    public NewsFirstClassifyTask() {
+    }
+
     public NewsFirstClassifyTask(Date startDate, Date endDate) {
         super(startDate, endDate);
     }

@@ -13,7 +13,7 @@ import java.util.Random;
  * Created by chamath on 12/20/2014
  */
 
-public class SVMClassifierHandler {
+public class SVMClassifierHandler extends ClassifierHandler {
 
     protected LibSVMExtended svm;
 
@@ -52,7 +52,7 @@ public class SVMClassifierHandler {
             svm.buildClassifier(filteredTrainingData);
             //save classifier
             if (isSaving) {
-                SerializationHelper.write("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\svm.model", svm);
+                SerializationHelper.write("Classifier\\src\\main\\resources\\models\\svm.model", svm);
             }
         } catch (Exception e) {
             e.printStackTrace();
