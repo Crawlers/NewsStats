@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -96,7 +97,7 @@ public class NewsStatsGUI {
     private JLabel theIslandClassifierStartDateLabel;
     private JScrollPane scrollPaneExtractor;
     private JPanel panelExtractor;
-    private JButton startExtracor;
+    private JButton startExtracorButton;
     private JProgressBar extractorProgressBar;
     private ChartPanel chartPanelExtractor;
 
@@ -113,6 +114,11 @@ public class NewsStatsGUI {
     private int newsFirstClassifyProgress;
     private int theIslandClassifyProgress;
 
+    private Date ctStartDate;
+    private Date dmStartDate;
+    private Date nfStartDate;
+    private Date tiStartDate;
+
     private CeylonTodayCrawlTask ceylonTodayCrawlTask;
     private DailyMirrorCrawlTask dailyMirrorCrawlTask;
     private NewsFirstCrawlTask newsFirstCrawlTask;
@@ -122,6 +128,8 @@ public class NewsStatsGUI {
     private DailyMirrorClassifyTask dailyMirrorClassifyTask;
     private NewsFirstClassifyTask newsFirstClassifyTask;
     private TheIslandClassifyTask theIslandClassifyTask;
+
+    private boolean extractorStarted;
 
     public NewsStatsGUI() {
 
@@ -251,7 +259,7 @@ public class NewsStatsGUI {
                 uiComponentsActive.setNewClassifierUI();
 
                 if (ceylonTodayClassifierCheckBox.isSelected()) {
-                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask();
+                    ceylonTodayClassifyTask = new CeylonTodayClassifyTask(ctStartDate, ceylonTodayClassifierEndDateChooser.getDate());
                     ceylonTodayClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -270,7 +278,7 @@ public class NewsStatsGUI {
                 }
 
                 if (dailyMirrorClassifierCheckBox.isSelected()) {
-                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask();
+                    dailyMirrorClassifyTask = new DailyMirrorClassifyTask(dmStartDate, dailyMirrorClassifierEndDateChooser.getDate());
                     dailyMirrorClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -289,7 +297,7 @@ public class NewsStatsGUI {
                 }
 
                 if (newsFirstClassifierCheckBox.isSelected()) {
-                    newsFirstClassifyTask = new NewsFirstClassifyTask();
+                    newsFirstClassifyTask = new NewsFirstClassifyTask(nfStartDate, newsFirstClassifierEndDateChooser.getDate());
                     newsFirstClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -308,7 +316,7 @@ public class NewsStatsGUI {
                 }
 
                 if (theIslandClassifierCheckBox.isSelected()) {
-                    theIslandClassifyTask = new TheIslandClassifyTask();
+                    theIslandClassifyTask = new TheIslandClassifyTask(tiStartDate, theIslandClassifierEndDateChooser.getDate());
                     theIslandClassifyTask.addPropertyChangeListener(new PropertyChangeListener() {
                         @Override
                         public void propertyChange(PropertyChangeEvent evt) {
@@ -353,10 +361,14 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
-        startExtracor.addActionListener(new ActionListener() {
+        startExtracorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (extractorStarted) {
+                    enableExtractorUI();
+                } else {
+                    disableCrawlerUI();
+                }
             }
         });
     }
@@ -645,29 +657,35 @@ public class NewsStatsGUI {
         theIslandClassifierCheckBox.setEnabled(true);
         startClassifyingButton.setEnabled(true);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
-            ceylonTodayClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(CeylonTodayArticle.class));
+            ctStartDate = DatabaseHandler.getEarliestDateWithNullLabel(CeylonTodayArticle.class);
+            ceylonTodayClassifierStartDateLabel.setText(sdf.format(ctStartDate));
             ceylonTodayClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(CeylonTodayArticle.class));
         } catch (NullPointerException e) {
             ceylonTodayClassifierCheckBox.setSelected(false);
             ceylonTodayClassifierCheckBox.setEnabled(false);
         }
         try {
-            dailyMirrorClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(DailyMirrorArticle.class));
+            dmStartDate = DatabaseHandler.getEarliestDateWithNullLabel(DailyMirrorArticle.class);
+            dailyMirrorClassifierStartDateLabel.setText(sdf.format(dmStartDate));
             dailyMirrorClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(DailyMirrorArticle.class));
         } catch (NullPointerException e) {
             dailyMirrorClassifierCheckBox.setSelected(false);
             dailyMirrorClassifierCheckBox.setEnabled(false);
         }
         try {
-            newsFirstClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(NewsFirstArticle.class));
+            nfStartDate = DatabaseHandler.getEarliestDateWithNullLabel(NewsFirstArticle.class);
+            newsFirstClassifierStartDateLabel.setText(sdf.format(nfStartDate));
             newsFirstClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(NewsFirstArticle.class));
         } catch (NullPointerException e) {
             newsFirstClassifierCheckBox.setSelected(false);
             newsFirstClassifierCheckBox.setEnabled(false);
         }
         try {
-            theIslandClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(TheIslandArticle.class));
+            tiStartDate = DatabaseHandler.getEarliestDateWithNullLabel(TheIslandArticle.class);
+            theIslandClassifierStartDateLabel.setText(sdf.format(tiStartDate));
             theIslandClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(TheIslandArticle.class));
         } catch (NullPointerException e) {
             theIslandClassifierCheckBox.setSelected(false);
@@ -687,5 +705,19 @@ public class NewsStatsGUI {
         overallClassifyProgressBar.setValue(0);
 
         DatabaseHandler.closeDatabase(); //to close hibernate and let jvm stop
+    }
+
+    /* EXTRACTOR TAB */
+
+    private void disableExtractorUI() {
+
+        extractorStarted = true;
+        startExtracorButton.setText("Cancel");
+    }
+
+    private void enableExtractorUI() {
+
+        extractorStarted = false;
+        startExtracorButton.setText("Extract");
     }
 }
