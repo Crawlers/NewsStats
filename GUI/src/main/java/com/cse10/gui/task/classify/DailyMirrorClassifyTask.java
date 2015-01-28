@@ -1,8 +1,6 @@
 package com.cse10.gui.task.classify;
 
-import com.cse10.article.DailyMirrorArticle;
-import com.cse10.classifier.ClassifierUIHandler;
-
+import com.cse10.classifier.DailyMirrorClassifierUIHandler;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -29,10 +27,13 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
             Thread.currentThread().setName("Daily Mirror Classifier Thread");
             //Initialize progress property.
             setProgress(0);
-            //build classifier & classify data
-            ClassifierUIHandler classifierUIHandler = ClassifierUIHandler.getInstance();
-            classifierUIHandler.addObserver(this);
-            classifierUIHandler.startClassification(DailyMirrorArticle.class);
+
+            //start classification process
+            classifierUIHandler = new DailyMirrorClassifierUIHandler();
+            classifierUIHandler.getClassifierConfigurator().addObserver(this);
+            classifierUIHandler.setName("Daily Mirror Classifier Thread");
+            classifierUIHandler.run();
+
             System.out.println("DailyMirror Classifer -> Finished Task");
 
         }
@@ -44,13 +45,15 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
      */
     @Override
     public void done() {
-        System.out.println("DailyMirror Classifer -> Done");
+        System.out.println("DailyMirror Classifer -> Done " +classifierUIHandler.isAlive());
         done = true;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        int value = (Integer) arg;
-        setProgress(value);
+        String message = (String) arg;
+        String[] m = message.split(" ");
+        if (m[0].equals("article_daily_mirror"))
+            setProgress(Integer.parseInt(m[1]));
     }
 }

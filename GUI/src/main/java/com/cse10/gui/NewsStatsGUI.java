@@ -5,6 +5,7 @@ import com.cse10.article.DailyMirrorArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.article.TheIslandArticle;
 import com.cse10.database.DatabaseHandler;
+import com.cse10.extractor.gate.EntityExtractorThread;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -90,6 +91,15 @@ public class NewsStatsGUI {
     private JDateChooser dailyMirrorClassifierEndDateChooser;
     private JDateChooser newsFirstClassifierEndDateChooser;
     private JDateChooser theIslandClassifierEndDateChooser;
+    private JLabel ceylonTodayClassifierStartDateLabel;
+    private JLabel dailyMirrorClassifierStartDateLabel;
+    private JLabel newsFirstClassifierStartDateLabel;
+    private JLabel theIslandClassifierStartDateLabel;
+    private JScrollPane scrollPaneExtractor;
+    private JPanel panelExtractor;
+    private JProgressBar progressBarExtractor;
+    private JButton extractButton;
+    private ChartPanel chartPanelExtractor;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -344,6 +354,13 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
+        extractButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Runnable thread = new EntityExtractorThread();
+//                thread.
+            }
+        });
     }
 
     public void init() {
@@ -489,6 +506,11 @@ public class NewsStatsGUI {
 
     private void enableCrawlerUI() {
 
+        ceylonTodayCrawlProgress = 0;
+        dailyMirrorCrawlProgress = 0;
+        newsFirstCrawlProgress = 0;
+        theIslandCrawlProgress = 0;
+
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -601,11 +623,46 @@ public class NewsStatsGUI {
 
     private void enableClassifierUI() {
 
+        ceylonTodayClassifyProgress = 0;
+        dailyMirrorClassifyProgress = 0;
+        newsFirstClassifyProgress = 0;
+        theIslandClassifyProgress = 0;
+
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
         theIslandClassifierCheckBox.setEnabled(true);
         startClassifyingButton.setEnabled(true);
+
+        try {
+            ceylonTodayClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(CeylonTodayArticle.class));
+            ceylonTodayClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(CeylonTodayArticle.class));
+        } catch (NullPointerException e) {
+            ceylonTodayClassifierCheckBox.setSelected(false);
+            ceylonTodayClassifierCheckBox.setEnabled(false);
+        }
+        try {
+            dailyMirrorClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(DailyMirrorArticle.class));
+            dailyMirrorClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(DailyMirrorArticle.class));
+        } catch (NullPointerException e) {
+            dailyMirrorClassifierCheckBox.setSelected(false);
+            dailyMirrorClassifierCheckBox.setEnabled(false);
+        }
+        try {
+            newsFirstClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(NewsFirstArticle.class));
+            newsFirstClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(NewsFirstArticle.class));
+        } catch (NullPointerException e) {
+            newsFirstClassifierCheckBox.setSelected(false);
+            newsFirstClassifierCheckBox.setEnabled(false);
+        }
+        try {
+            theIslandClassifierStartDateLabel.setText(DatabaseHandler.getEarliestDateStringWithNullLabel(TheIslandArticle.class));
+            theIslandClassifierEndDateChooser.setDate(DatabaseHandler.getLatestDateWithNullLabel(TheIslandArticle.class));
+        } catch (NullPointerException e) {
+            theIslandClassifierCheckBox.setSelected(false);
+            theIslandClassifierCheckBox.setEnabled(false);
+        }
+
 
         stopClassifyingButton.setEnabled(false);
     }

@@ -24,7 +24,8 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void>  {
 
     //to stop classification process
     public void stopClassification() {
-        classifierUIHandler.stopClassification();
+        classifierUIHandler.getClassifierConfigurator().stopClassification();
+        classifierUIHandler.interrupt();
     }
 
 }

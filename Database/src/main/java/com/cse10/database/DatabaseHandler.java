@@ -487,7 +487,9 @@ public class DatabaseHandler {
 
         session.beginTransaction();
 
-        Integer count = (Integer) session.createCriteria(articleClass).add(Restrictions.eq("newspaper", newsPaper)).setProjection(Projections.max("newspaperId")).uniqueResult();
+        Integer count = (Integer) session.createCriteria(articleClass)
+                .add(Restrictions.eq("newspaper", newsPaper))
+                .setProjection(Projections.max("newspaperId")).uniqueResult();
 
         session.getTransaction().commit();
         session.close();
@@ -531,6 +533,42 @@ public class DatabaseHandler {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
+    }
+
+    /**
+     * get earliest date with null label of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static String getEarliestDateStringWithNullLabel(Class articleClass) throws NullPointerException {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
+                .add(Restrictions.isNull("label"))
+                .setProjection(Projections.min("createdDate")).uniqueResult();
+        session.close();
+
+        java.util.Date date = new java.util.Date(latestDate.getTime()); //convert from sql date to util date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
+
+    /**
+     * get latest date with null label of the table containing articles of given type
+     *
+     * @param articleClass
+     * @return
+     */
+    public static java.util.Date getLatestDateWithNullLabel(Class articleClass) throws NullPointerException {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
+                .add(Restrictions.isNull("label"))
+                .setProjection(Projections.max("createdDate")).uniqueResult();
+        session.close();
+
+        return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
     }
 
     /**

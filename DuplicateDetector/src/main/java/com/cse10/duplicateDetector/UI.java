@@ -16,6 +16,7 @@ import java.util.*;
 
 
 /**
+ * TODO remove this class after testing the functionality of the duplicate detector UI Handler
  * Created by chamath on 1/3/2015.
  */
 public class UI {
