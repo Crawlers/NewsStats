@@ -5,7 +5,6 @@ import com.cse10.article.DailyMirrorArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.article.TheIslandArticle;
 import com.cse10.database.DatabaseHandler;
-import com.cse10.extractor.gate.EntityExtractorThread;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -79,14 +78,14 @@ public class NewsStatsGUI {
     private JProgressBar theIslandClassifyProgressBar;
     private JProgressBar overallClassifyProgressBar;
     private ChartPanel chartPanelClassifier;
-    private JLabel ceylonTodayCralwerStartDateLabel;
-    private JLabel dailyMirrorCralwerStartDateLabel;
-    private JLabel newsFirstCralwerStartDateLabel;
-    private JLabel theIslandCralwerStartDateLabel;
-    private JDateChooser ceylonTodayCralwerEndDateChooser;
-    private JDateChooser dailyMirrorCralwerEndDateChooser;
-    private JDateChooser newsFirstCralwerEndDateChooser;
-    private JDateChooser theIslandCralwerEndDateChooser;
+    private JLabel ceylonTodayCrawlerStartDateLabel;
+    private JLabel dailyMirrorCrawlerStartDateLabel;
+    private JLabel newsFirstCrawlerStartDateLabel;
+    private JLabel theIslandCrawlerStartDateLabel;
+    private JDateChooser ceylonTodayCrawlerEndDateChooser;
+    private JDateChooser dailyMirrorCrawlerEndDateChooser;
+    private JDateChooser newsFirstCrawlerEndDateChooser;
+    private JDateChooser theIslandCrawlerEndDateChooser;
     private JDateChooser ceylonTodayClassifierEndDateChooser;
     private JDateChooser dailyMirrorClassifierEndDateChooser;
     private JDateChooser newsFirstClassifierEndDateChooser;
@@ -95,11 +94,6 @@ public class NewsStatsGUI {
     private JLabel dailyMirrorClassifierStartDateLabel;
     private JLabel newsFirstClassifierStartDateLabel;
     private JLabel theIslandClassifierStartDateLabel;
-    private JScrollPane scrollPaneExtractor;
-    private JPanel panelExtractor;
-    private JProgressBar progressBarExtractor;
-    private JButton extractButton;
-    private ChartPanel chartPanelExtractor;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -354,13 +348,6 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
-        extractButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Runnable thread = new EntityExtractorThread();
-//                thread.
-            }
-        });
     }
 
     public void init() {
@@ -517,15 +504,15 @@ public class NewsStatsGUI {
         theIslandCrawlerCheckBox.setEnabled(true);
         startCrawlingButton.setEnabled(true);
 
-        ceylonTodayCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(CeylonTodayArticle.class));
-        dailyMirrorCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(DailyMirrorArticle.class));
-        newsFirstCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(NewsFirstArticle.class));
-        theIslandCralwerStartDateLabel.setText(DatabaseHandler.getLatestDateString(TheIslandArticle.class));
+        ceylonTodayCrawlerStartDateLabel.setText(DatabaseHandler.getLatestDateString(CeylonTodayArticle.class));
+        dailyMirrorCrawlerStartDateLabel.setText(DatabaseHandler.getLatestDateString(DailyMirrorArticle.class));
+        newsFirstCrawlerStartDateLabel.setText(DatabaseHandler.getLatestDateString(NewsFirstArticle.class));
+        theIslandCrawlerStartDateLabel.setText(DatabaseHandler.getLatestDateString(TheIslandArticle.class));
 
-        ceylonTodayCralwerEndDateChooser.setDate(new Date());
-        dailyMirrorCralwerEndDateChooser.setDate(new Date());
-        newsFirstCralwerEndDateChooser.setDate(new Date());
-        theIslandCralwerEndDateChooser.setDate(new Date());
+        ceylonTodayCrawlerEndDateChooser.setDate(new Date());
+        dailyMirrorCrawlerEndDateChooser.setDate(new Date());
+        newsFirstCrawlerEndDateChooser.setDate(new Date());
+        theIslandCrawlerEndDateChooser.setDate(new Date());
 
         stopCrawlingButton.setEnabled(false);
     }
