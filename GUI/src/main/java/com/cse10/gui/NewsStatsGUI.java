@@ -94,6 +94,11 @@ public class NewsStatsGUI {
     private JLabel dailyMirrorClassifierStartDateLabel;
     private JLabel newsFirstClassifierStartDateLabel;
     private JLabel theIslandClassifierStartDateLabel;
+    private JScrollPane scrollPaneExtractor;
+    private JPanel panelExtractor;
+    private JButton startExtracor;
+    private JProgressBar extractorProgressBar;
+    private ChartPanel chartPanelExtractor;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -348,12 +353,17 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
+        startExtracor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void init() {
 
         try {
-//            UIManager.setLookAndFeel(new SyntheticaBlueIceLookAndFeel());
             UIManager.setLookAndFeel(new SyntheticaBlackStarLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
@@ -402,6 +412,20 @@ public class NewsStatsGUI {
         );
         chartPanelClassifier = new ChartPanel(chartClassifier);
         chartPanelClassifier.setVisible(true);
+
+        /* extractor chart */
+        final JFreeChart chartExtractor = ChartFactory.createBarChart(
+                "Extracted Entities",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelExtractor = new ChartPanel(chartExtractor);
+        chartPanelExtractor.setVisible(true);
 
     }
 
