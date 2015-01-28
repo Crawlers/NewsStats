@@ -541,11 +541,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static String getEarliestDateWithNullLabel(Class articleClass) {
-
-        if (getRowCount(articleClass) == 0) { // if there are no articles
-            return "";
-        }
+    public static String getEarliestDateStringWithNullLabel(Class articleClass) throws NullPointerException {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
@@ -564,11 +560,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static String getLatestDateWithNullLabel(Class articleClass) {
-
-        if (getRowCount(articleClass) == 0) { // if there are no articles
-            return "";
-        }
+    public static java.util.Date getLatestDateWithNullLabel(Class articleClass) throws NullPointerException {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
@@ -576,9 +568,7 @@ public class DatabaseHandler {
                 .setProjection(Projections.max("createdDate")).uniqueResult();
         session.close();
 
-        java.util.Date date = new java.util.Date(latestDate.getTime()); //convert from sql date to util date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
+        return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
     }
 
     /**
