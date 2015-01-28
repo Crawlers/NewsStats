@@ -89,7 +89,7 @@ public class EntityExtractor {
 
         // fetches news articles from database
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,startID+1,612);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdStarting(CrimeArticle.class,startID+1);
 
 
         // process the files one by one

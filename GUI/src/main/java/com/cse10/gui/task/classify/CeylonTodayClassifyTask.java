@@ -1,7 +1,6 @@
 package com.cse10.gui.task.classify;
 
-import com.cse10.article.CeylonTodayArticle;
-import com.cse10.classifier.ClassifierUIHandler;
+import com.cse10.classifier.CeylonTodayClassifierUIHandler;
 import java.util.Date;
 import java.util.Observer;
 
@@ -28,10 +27,11 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
             //Initialize progress property.
             setProgress(0);
 
-            //classification process
-            classifierUIHandler=ClassifierUIHandler.getInstance();
-            classifierUIHandler.addObserver(this);
-            classifierUIHandler.startClassification(CeylonTodayArticle.class);
+            //start classification process
+            classifierUIHandler=new CeylonTodayClassifierUIHandler();
+            classifierUIHandler.getClassifierConfigurator().addObserver(this);
+            classifierUIHandler.setName("Ceylon Today Classifier Thread");
+            classifierUIHandler.run();
 
             System.out.println("Ceylon Today Classifer -> Finished Task");
         }
@@ -49,7 +49,9 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
 
     @Override
     public void update(java.util.Observable o, Object arg) {
-        int value=(Integer)arg;
-        setProgress(value);
+        String message = (String) arg;
+        String[] m = message.split(" ");
+        if (m[0].equals("article_ceylon_today"))
+            setProgress(Integer.parseInt(m[1]));
     }
 }
