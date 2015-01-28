@@ -541,7 +541,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static String getEarliestDateStringWithNullLabel(Class articleClass) throws NullPointerException {
+    public static java.util.Date getEarliestDateWithNullLabel(Class articleClass) throws NullPointerException {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
@@ -549,9 +549,7 @@ public class DatabaseHandler {
                 .setProjection(Projections.min("createdDate")).uniqueResult();
         session.close();
 
-        java.util.Date date = new java.util.Date(latestDate.getTime()); //convert from sql date to util date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
+        return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
     }
 
     /**
