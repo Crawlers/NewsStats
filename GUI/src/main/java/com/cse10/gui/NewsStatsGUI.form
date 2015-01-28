@@ -75,7 +75,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <grid id="6947b" binding="panelCrawlPapers" layout-manager="GridLayoutManager" row-count="4" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="6947b" binding="panelCrawlPapers" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="10" left="10" bottom="10" right="10"/>
                                 <constraints>
                                   <splitpane position="left"/>
@@ -85,7 +85,7 @@
                                 <children>
                                   <component id="3de02" class="javax.swing.JCheckBox" binding="ceylonTodayCrawlerCheckBox">
                                     <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Ceylon Today"/>
@@ -93,7 +93,7 @@
                                   </component>
                                   <component id="75815" class="javax.swing.JCheckBox" binding="dailyMirrorCrawlerCheckBox">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Daily Mirror"/>
@@ -101,7 +101,7 @@
                                   </component>
                                   <component id="380bc" class="javax.swing.JCheckBox" binding="newsFirstCrawlerCheckBox">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="News First"/>
@@ -117,7 +117,7 @@
                                   </component>
                                   <component id="5a7f1" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -125,7 +125,7 @@
                                   </component>
                                   <component id="3de85" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -133,7 +133,7 @@
                                   </component>
                                   <component id="2d36c" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -141,7 +141,7 @@
                                   </component>
                                   <component id="5fd81" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -149,7 +149,7 @@
                                   </component>
                                   <component id="fce72" class="javax.swing.JLabel" binding="ceylonTodayCralwerStartDateLabel">
                                     <constraints>
-                                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
@@ -157,7 +157,7 @@
                                   </component>
                                   <component id="c8d17" class="javax.swing.JLabel" binding="dailyMirrorCralwerStartDateLabel">
                                     <constraints>
-                                      <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
@@ -165,7 +165,7 @@
                                   </component>
                                   <component id="e9942" class="javax.swing.JLabel" binding="newsFirstCralwerStartDateLabel">
                                     <constraints>
-                                      <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
@@ -173,7 +173,7 @@
                                   </component>
                                   <component id="92218" class="javax.swing.JLabel" binding="theIslandCralwerStartDateLabel">
                                     <constraints>
-                                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
@@ -181,28 +181,28 @@
                                   </component>
                                   <component id="70a61" class="com.toedter.calendar.JDateChooser" binding="ceylonTodayCralwerEndDateChooser">
                                     <constraints>
-                                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="a5f9d" class="com.toedter.calendar.JDateChooser" binding="dailyMirrorCralwerEndDateChooser">
                                     <constraints>
-                                      <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="a3e00" class="com.toedter.calendar.JDateChooser" binding="newsFirstCralwerEndDateChooser">
                                     <constraints>
-                                      <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="88d9f" class="com.toedter.calendar.JDateChooser" binding="theIslandCralwerEndDateChooser">
                                     <constraints>
-                                      <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                 </children>
                               </grid>
                               <grid id="56a15" binding="panelCrawlControl" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                <margin top="10" left="10" bottom="10" right="0"/>
+                                <margin top="10" left="30" bottom="10" right="30"/>
                                 <constraints>
                                   <splitpane position="right"/>
                                 </constraints>
@@ -211,7 +211,7 @@
                                 <children>
                                   <component id="a20ac" class="javax.swing.JButton" binding="startCrawlingButton" default-binding="true">
                                     <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Start Crawling"/>
@@ -219,7 +219,7 @@
                                   </component>
                                   <component id="dce3b" class="javax.swing.JButton" binding="stopCrawlingButton" default-binding="true">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Stop Crawling"/>
@@ -380,7 +380,7 @@
                             <border type="none"/>
                             <children>
                               <grid id="44df" binding="panelClassifierControl" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                                <margin top="10" left="10" bottom="10" right="0"/>
+                                <margin top="10" left="30" bottom="10" right="30"/>
                                 <constraints>
                                   <splitpane position="right"/>
                                 </constraints>
@@ -392,7 +392,7 @@
                                 <children>
                                   <component id="38024" class="javax.swing.JButton" binding="startClassifyingButton" default-binding="true">
                                     <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Start Classifying"/>
@@ -400,7 +400,7 @@
                                   </component>
                                   <component id="47b65" class="javax.swing.JButton" binding="stopClassifyingButton" default-binding="true">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Stop Classifying"/>
@@ -408,7 +408,7 @@
                                   </component>
                                 </children>
                               </grid>
-                              <grid id="73656" binding="panelClassifierPapers" layout-manager="GridLayoutManager" row-count="4" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="73656" binding="panelClassifierPapers" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="10" left="10" bottom="10" right="10"/>
                                 <constraints>
                                   <splitpane position="left"/>
@@ -426,7 +426,7 @@
                                   </component>
                                   <component id="91ffa" class="javax.swing.JCheckBox" binding="dailyMirrorClassifierCheckBox">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="Daily Mirror"/>
@@ -434,7 +434,7 @@
                                   </component>
                                   <component id="7e56b" class="javax.swing.JCheckBox" binding="newsFirstClassifierCheckBox">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="News First"/>
@@ -442,7 +442,7 @@
                                   </component>
                                   <component id="621aa" class="javax.swing.JCheckBox" binding="theIslandClassifierCheckBox">
                                     <constraints>
-                                      <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="The Island"/>
@@ -450,7 +450,7 @@
                                   </component>
                                   <component id="5703b" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -458,7 +458,7 @@
                                   </component>
                                   <component id="680ed" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -466,7 +466,7 @@
                                   </component>
                                   <component id="1f8b4" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
@@ -474,39 +474,39 @@
                                   </component>
                                   <component id="3c7f5" class="javax.swing.JLabel">
                                     <constraints>
-                                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="-"/>
                                     </properties>
                                   </component>
-                                  <component id="7f3d9" class="javax.swing.JLabel">
+                                  <component id="7f3d9" class="javax.swing.JLabel" binding="theIslandClassifierStartDateLabel">
                                     <constraints>
-                                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
                                     </properties>
                                   </component>
-                                  <component id="9e4ab" class="javax.swing.JLabel">
+                                  <component id="9e4ab" class="javax.swing.JLabel" binding="newsFirstClassifierStartDateLabel">
                                     <constraints>
-                                      <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
                                     </properties>
                                   </component>
-                                  <component id="1e443" class="javax.swing.JLabel">
+                                  <component id="1e443" class="javax.swing.JLabel" binding="dailyMirrorClassifierStartDateLabel">
                                     <constraints>
-                                      <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
                                     </properties>
                                   </component>
-                                  <component id="bc4ed" class="javax.swing.JLabel">
+                                  <component id="bc4ed" class="javax.swing.JLabel" binding="ceylonTodayClassifierStartDateLabel">
                                     <constraints>
-                                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <text value="--"/>
@@ -514,22 +514,22 @@
                                   </component>
                                   <component id="93616" class="com.toedter.calendar.JDateChooser" binding="ceylonTodayClassifierEndDateChooser">
                                     <constraints>
-                                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="d4297" class="com.toedter.calendar.JDateChooser" binding="dailyMirrorClassifierEndDateChooser">
                                     <constraints>
-                                      <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="d00ea" class="com.toedter.calendar.JDateChooser" binding="newsFirstClassifierEndDateChooser">
                                     <constraints>
-                                      <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                   <component id="8a160" class="com.toedter.calendar.JDateChooser" binding="theIslandClassifierEndDateChooser">
                                     <constraints>
-                                      <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                     </constraints>
                                   </component>
                                 </children>
@@ -644,6 +644,77 @@
                               </grid>
                             </children>
                           </splitpane>
+                        </children>
+                      </splitpane>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+              <scrollpane id="23661" binding="scrollPaneExtractor">
+                <constraints>
+                  <tabbedpane title="Extractor"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="68e73" binding="panelExtractor" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <splitpane id="2589f">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <orientation value="0"/>
+                          <resizeWeight value="0.5"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <grid id="b9d29" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="ff202" class="javax.swing.JProgressBar" binding="progressBarExtractor">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="58b71" class="javax.swing.JButton" binding="extractButton" default-binding="true">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Extract"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="5f747" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="db776" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractor" custom-create="true">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                            </children>
+                          </grid>
                         </children>
                       </splitpane>
                     </children>
