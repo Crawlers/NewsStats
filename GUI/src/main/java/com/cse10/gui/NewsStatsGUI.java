@@ -506,6 +506,11 @@ public class NewsStatsGUI {
 
     private void enableCrawlerUI() {
 
+        ceylonTodayCrawlProgress = 0;
+        dailyMirrorCrawlProgress = 0;
+        newsFirstCrawlProgress = 0;
+        theIslandCrawlProgress = 0;
+
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -617,6 +622,11 @@ public class NewsStatsGUI {
     }
 
     private void enableClassifierUI() {
+
+        ceylonTodayClassifyProgress = 0;
+        dailyMirrorClassifyProgress = 0;
+        newsFirstClassifyProgress = 0;
+        theIslandClassifyProgress = 0;
 
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
