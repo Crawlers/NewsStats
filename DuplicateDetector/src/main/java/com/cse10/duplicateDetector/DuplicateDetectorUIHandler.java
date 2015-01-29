@@ -96,7 +96,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
                 if (location != null)
                     content = content.concat(location).concat(" ");
 
-                String district="";//locationDistrictMapper.getDistrict();
+                String district=crimeEntityGroup.getDistrict();
                 //   System.out.println("District " + district);
                 if (district != null)
                     content = content.concat(district).concat(" ");
