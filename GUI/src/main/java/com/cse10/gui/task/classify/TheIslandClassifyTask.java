@@ -33,6 +33,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
             //start classification process
             classifierUIHandler=new TheIslandClassifierUIHandler();
             classifierUIHandler.getClassifierConfigurator().addObserver(this);
+            classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName("The Island Classifier Thread");
             classifierUIHandler.run();
 
