@@ -29,7 +29,7 @@ public class Predictor {
         session.close();
     }
 
-    public void  predict(String[] quarters, String targetQuarter){
+    public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
         this.quarters = quarters;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -47,7 +47,7 @@ public class Predictor {
                 }
             }
             if (flag){
-                int predicted = predictValue(series);
+                int predicted = predictValue(series,indexToPredict);
                 insertToDB(ele,targetQuarter,predicted);
                 series = getSeriesHolder();
                 pre = ele;
@@ -78,8 +78,8 @@ public class Predictor {
         return results;
     }
 
-    protected int predictValue(HashMap<String,Integer> series){
-        return predictUsingENL(series);
+    protected int predictValue(HashMap<String,Integer> series, int indexToPredict){
+        return predictUsingENL(series, indexToPredict);
     }
 
     protected void insertToDB(HashMap ele, String key, int count){
@@ -92,12 +92,13 @@ public class Predictor {
             fieldNames+=", "+fields[i];
             values+="', '"+(String) ele.get(fields[i]);
         }
-        fieldNames+=", crime_yearquarter, crime_count";
+        fieldNames+=", crime_year, crime_yearquarter, crime_count";
 
         session.createSQLQuery(
                 "INSERT INTO "+table+" ("+fieldNames+") " +
                         " VALUES ('"+
                         values+"', '"+
+                        key.substring(0,4)+"', '"+
                         key+ "', '"+
                         count + "')").executeUpdate();
         tx.commit();
@@ -112,7 +113,7 @@ public class Predictor {
         return series;
     }
 
-    protected int predictUsingLR(HashMap<String,Integer> series) {
+    protected int predictUsingLR(HashMap<String,Integer> series, int indexToPredict) {
 
         List keys = new ArrayList(series.keySet());
         Collections.sort(keys);
@@ -128,7 +129,7 @@ public class Predictor {
 
         System.out.println(intercept);
         System.out.println(slope);
-        double prediction = simpleRegression.predict(i);
+        double prediction = simpleRegression.predict(indexToPredict);
 
         int output = (int) Math.round(prediction);
         return (output>0)?output:0;
@@ -136,7 +137,7 @@ public class Predictor {
 
     }
 
-    protected int predictUsingENL(HashMap<String,Integer> series) {
+    protected int predictUsingENL(HashMap<String,Integer> series, int indexToPredict) {
 
         List keys = new ArrayList(series.keySet());
         Collections.sort(keys);
@@ -173,7 +174,7 @@ public class Predictor {
 
             //create new instance for prediction
             int[] indices = {0};
-            double[] values = {count};
+            double[] values = {indexToPredict};
             Instance ins = new Instance(indices, values);
 
             //predict the value

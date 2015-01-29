@@ -12,17 +12,15 @@ public class Prediction implements java.io.Serializable{
     private String crimeDistrict;
     private String crimeYear;
     private String crimeYearQuarter;
-    private Date crimeDate;
     private int crimeCount;
 
     public Prediction() {
     }
 
 
-    public Prediction(int id, String type, String district, Date date, String year, String quarter, int count) {
+    public Prediction(int id, String type, String district, String year, String quarter, int count) {
         this.id = id;
         this.crimeType = type;
-        this.crimeDate = date;
         this.crimeDistrict = district;
         this.crimeYear = year;
         this.crimeYearQuarter = quarter;
@@ -36,10 +34,6 @@ public class Prediction implements java.io.Serializable{
     public String getCrimeType() { return crimeType;}
 
     public void setCrimeType(String crimeType) { this.crimeType = crimeType;}
-
-    public Date getCrimeDate() { return crimeDate;}
-
-    public void setCrimeDate(Date crimeDate) { this.crimeDate = crimeDate;}
 
     public String getCrimeDistrict() { return this.crimeDistrict;}
 
