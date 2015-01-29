@@ -13,13 +13,13 @@ public class HashCalculator {
     /**
      * calculate 32 bit hash value for given word
      *
-     * @param word
+     * @param document
      * @return
      */
-    public int hash32(String word) {
+    public int getHash32Value(String document) {
         //Each character is encoded as a 8 bit unit. Each byte of the buffer represents a character.
         //buffer length is equal to the length of the word
-        byte[] buffer = word.getBytes(Charset.forName("utf-8"));
+        byte[] buffer = document.getBytes(Charset.forName("utf-8"));
         System.out.println(buffer.length);
         return hash32(buffer, buffer.length, 0);
     }
@@ -27,13 +27,13 @@ public class HashCalculator {
     /**
      * calculate 64 bit hash value for given word
      *
-     * @param doc
+     * @param document
      * @return
      */
-    public static long hash64(String doc) {
+    public long getHash64Value(String document) {
         //Each character is encoded as a 8 bit unit. Each byte of the buffer represents a character.
         //buffer length is equal to the length of the word
-        byte[] buffer = doc.getBytes(Charset.forName("utf-8"));
+        byte[] buffer = document.getBytes(Charset.forName("utf-8"));
         return hash64(buffer, buffer.length, 0);
     }
 
@@ -48,7 +48,7 @@ public class HashCalculator {
      * @param seed
      * @return
      */
-    public int hash32(byte[] data, int length, int seed) {
+    private int hash32(byte[] data, int length, int seed) {
         // 'm' and 'r' are mixing constants generated offline.
         // They're not really 'magic', they just happen to work well.
         final int m = 0x5bd1e995;
@@ -97,7 +97,7 @@ public class HashCalculator {
      * @param seed
      * @return
      */
-    public static long hash64(final byte[] data, int length, int seed) {
+    private long hash64(final byte[] data, int length, int seed) {
         final long m = 0xc6a4a7935bd1e995L;
         final int r = 47;
 
@@ -155,10 +155,10 @@ public class HashCalculator {
         System.out.println(answer);
 
         HashCalculator hashCalculator = new HashCalculator();
-        System.out.println(Integer.toBinaryString(hashCalculator.hash32("apple")));
-        System.out.println(Integer.toBinaryString(hashCalculator.hash32("applee")));
-        System.out.println(Long.toBinaryString(hashCalculator.hash64("apple")));
-        System.out.println(Long.toBinaryString(hashCalculator.hash64("applee")));
+        System.out.println(Integer.toBinaryString(hashCalculator.getHash32Value("apple")));
+        System.out.println(Integer.toBinaryString(hashCalculator.getHash32Value("applee")));
+        System.out.println(Long.toBinaryString(hashCalculator.getHash64Value("apple")));
+        System.out.println(Long.toBinaryString(hashCalculator.getHash64Value("applee")));
     }
 
 

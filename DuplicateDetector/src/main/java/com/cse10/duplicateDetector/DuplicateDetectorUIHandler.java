@@ -19,6 +19,11 @@ import java.util.*;
 
 public class DuplicateDetectorUIHandler implements Runnable{
 
+    SimHashCalculator simHashCalculator;
+
+    public DuplicateDetectorUIHandler(){
+        simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
+    }
     /**
      * read articles from file
      *
@@ -115,7 +120,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
 
     private void findDuplicates() throws InterruptedException {
 
-        SimHashCalculator simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
+
 
         //this will contain all the calculated sim hash value (LONG) with related crime entity group id (Integer)
         HashMap<Integer, Long> documentSimHashes = new HashMap<>();

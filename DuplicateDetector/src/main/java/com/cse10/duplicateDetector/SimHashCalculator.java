@@ -65,7 +65,7 @@ public class SimHashCalculator {
 
             //calculate 64 bit hash value for each token
             word = word.toLowerCase();
-            long hashValue = hashCalculator.hash64(word);
+            long hashValue = hashCalculator.getHash64Value(word);
             for (int i = bitLen; i >= 1; --i) {
                 if (((hashValue >> (bitLen - i)) & 1) == 1) {
                     ++bits[i - 1];
@@ -95,7 +95,7 @@ public class SimHashCalculator {
         int[] bits = new int[bitLen];
         List<String> tokens = wordSeg.getWords(doc);
         for (String t : tokens) {
-            int v = hashCalculator.hash32(t);
+            int v = hashCalculator.getHash32Value(t);
             for (int i = bitLen; i >= 1; --i) {
                 if (((v >> (bitLen - i)) & 1) == 1) {
                     ++bits[i - 1];
