@@ -11,6 +11,6 @@ public class TheIslandClassifierUIHandler extends ClassifierUIHandler {
     public void run() {
         setName("TheIsland");
         super.run();
-        classifierConfigurator.startClassification(TheIslandArticle.class);
+        classifierConfigurator.startClassification(TheIslandArticle.class,endDate );
     }
 }

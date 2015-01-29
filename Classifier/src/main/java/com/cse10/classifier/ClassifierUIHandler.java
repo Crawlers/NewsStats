@@ -1,6 +1,6 @@
 package com.cse10.classifier;
 
-import java.util.Observer;
+import java.util.Date;
 
 /**
  * Created by chamath on 1/27/2015.
@@ -8,6 +8,7 @@ import java.util.Observer;
 public abstract class ClassifierUIHandler extends Thread {
 
     protected ClassifierConfigurator classifierConfigurator;
+    protected Date endDate;
 
     public ClassifierUIHandler(){
         classifierConfigurator=ClassifierConfigurator.getInstance();
@@ -15,6 +16,10 @@ public abstract class ClassifierUIHandler extends Thread {
 
     public ClassifierConfigurator getClassifierConfigurator(){
         return classifierConfigurator;
+    }
+
+    public void setEndDate(Date endDate){
+        this.endDate=endDate;
     }
 
     @Override

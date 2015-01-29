@@ -183,21 +183,27 @@ public class ClassifierConfigurator extends Observable{
      *
      * @param tableName
      */
-    private synchronized void classifyNewsArticles(Class tableName) {
+    private synchronized void classifyNewsArticles(Class tableName,Date endDate) {
 
 
         System.out.println(Thread.currentThread().getName()+"------------------------------------------------------------------------");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Loading Test Data");
 
+        //convert util.Date to sql.Date
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->"+endDate);
+        java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
+
+
         //get only unclassified data using weka loading
-        Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL", true); //`created_date`<'2013-06-01'
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->"+sqlEndDate);
+        Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL and `created_date` < '"+sqlEndDate+"'", true); //`created_date`<'2013-06-01'
 
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
         if (testData.numInstances() != 0) {
-            List<Article> testDataArticles = DatabaseHandler.fetchArticlesWithNullLabels(tableName);
+            List<Article> testDataArticles = DatabaseHandler.fetchArticlesWithNullLabels(tableName,endDate);
             HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
             Instances filteredTestData = featureVectorTransformer.getTransformedArticles(testData);
             List<Integer> crimeArticleIdList = new ArrayList<Integer>();
@@ -317,14 +323,14 @@ public class ClassifierConfigurator extends Observable{
     /**
      * start classification process
      */
-    public void startClassification(Class tableName){
+    public void startClassification(Class tableName, Date endDate){
         System.out.println(Thread.currentThread().getName()+ "Classifier UI Handler -> Start Classification");
         buildClassifier(tableName);
         if(Thread.currentThread().isInterrupted()){
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
             return;
         }
-        classifyNewsArticles(tableName);
+        classifyNewsArticles(tableName,endDate);
     }
 
     /**
@@ -359,10 +365,11 @@ public class ClassifierConfigurator extends Observable{
     public static void main(String[] args) {
 
         ClassifierConfigurator classifierConfigurator = new ClassifierConfigurator();
-        classifierConfigurator.startClassification(DailyMirrorArticle.class);
-        classifierConfigurator.startClassification(CeylonTodayArticle.class);
-        classifierConfigurator.startClassification(TheIslandArticle.class);
-        classifierConfigurator.startClassification(DailyMirrorArticle.class);
+        Date d=new Date();
+        classifierConfigurator.startClassification(DailyMirrorArticle.class,d );
+        classifierConfigurator.startClassification(CeylonTodayArticle.class,d );
+        classifierConfigurator.startClassification(TheIslandArticle.class,d );
+        classifierConfigurator.startClassification(DailyMirrorArticle.class, d);
 
     }
 

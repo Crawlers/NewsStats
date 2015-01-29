@@ -11,6 +11,6 @@ public class DailyMirrorClassifierUIHandler extends ClassifierUIHandler{
     public void run() {
         setName("DailyMirror");
         super.run();
-        classifierConfigurator.startClassification(DailyMirrorArticle.class);
+        classifierConfigurator.startClassification(DailyMirrorArticle.class,endDate );
     }
 }
