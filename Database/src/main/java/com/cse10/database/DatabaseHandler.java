@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -198,7 +199,7 @@ public class DatabaseHandler {
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
      */
-    public static List<Article> fetchArticlesWithNullLabels(Class articleClass) {
+    public static List<Article> fetchArticlesWithNullLabels(Class articleClass,Date endDate) {
         ArrayList<Article> articles;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -206,7 +207,9 @@ public class DatabaseHandler {
 
         articles = (ArrayList<Article>) session.createCriteria(articleClass)
                 .add(Restrictions.isNull("label"))
+                .add(Restrictions.le("createdDate", endDate))
                 .list();
+
         session.getTransaction().commit();
         session.close();
 
