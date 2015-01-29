@@ -19,9 +19,10 @@ public class Analyzer {
         String[] fields1= {"crime_type", "crime_district"};
         String[] fields2= {"crime_type"};
         String[] fields3= {"crime_district"};
-        Predictor predictor = new Predictor("predictions",fields1);
-        Predictor predictor_type = new Predictor("predictions_type",fields2);
-        Predictor predictor_district = new Predictor("predictions_district",fields3);
+        PredictorAlgorithm enlAlgo = new ENLPredictorAlgorithm();
+        Predictor predictor = new Predictor(enlAlgo,"predictions",fields1);
+        Predictor predictor_type = new Predictor(enlAlgo,"predictions_type",fields2);
+        Predictor predictor_district = new Predictor(enlAlgo,"predictions_district",fields3);
 
         String[] quarters1 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4"};
         predictor.predict(quarters1,"2014 - 1",8);
