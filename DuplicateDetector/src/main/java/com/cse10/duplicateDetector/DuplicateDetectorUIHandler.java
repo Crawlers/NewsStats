@@ -128,7 +128,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
         // Read the documents from database, Integer is id in crime_entity_group and String is corresponding content
         HashMap<Integer, String> documents = readArticlesFromDB();
 
-        File articleHashValues = new File("C:\\Users\\hp\\Desktop\\DuplicateDetetcionImplementation\\Implementations\\sim hash\\simhash-java-master\\simhash-java-master\\src\\test_out_idea_s");
+        File articleHashValues = new File("DuplicateDetector\\src\\main\\resources\\hashValues.txt");
         //clear the file before writing
         PrintWriter writer = null;
         try {
@@ -165,7 +165,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
                 throw new InterruptedException();
         }
 
-        File articleHammingDistances = new File("C:\\Users\\hp\\Desktop\\DuplicateDetetcionImplementation\\Implementations\\sim hash\\simhash-java-master\\simhash-java-master\\src\\test_out_idea_h");
+        File articleHammingDistances = new File("DuplicateDetector\\src\\main\\resources\\hammingDistances.txt");
 
         try {
             writer = new PrintWriter(articleHammingDistances);
@@ -268,7 +268,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
             e.printStackTrace();
         }
         System.out.println(Thread.currentThread().getName()+"-> Finish");
-        t.interrupt();
+       // t.interrupt();
     }
 
 
