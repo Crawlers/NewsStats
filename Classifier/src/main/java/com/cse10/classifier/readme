@@ -1,4 +1,4 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~Configurations for Classifier~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~Configurations for Classifier~~~~~~~~~~~~~~
 All the dependencies are given in pom.xml except,
 
 gate.jar, gate-asm-3.1.jar, gate-compiler-jdt should be added from isuru's libs folder
