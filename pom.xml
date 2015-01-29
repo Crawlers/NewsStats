@@ -6,13 +6,13 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>Analyzer</module>
         <module>Crawler</module>
         <module>Database</module>
         <module>Filter</module>
         <module>Extractor</module>
         <module>Classifier</module>
         <module>GUI</module>
-        <module>Predictor</module>
         <module>DuplicateDetector</module>
     </modules>
     <name>NewsStats</name>
