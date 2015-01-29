@@ -31,6 +31,13 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- classifier dependency for testing GATE -->
+        <dependency>
+            <groupId>newsstats</groupId>
+            <artifactId>Classifier</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
