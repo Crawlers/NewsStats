@@ -1,2 +1,9 @@
-usage of hybernate in multi threaded environment
+error scenario 1 -->
+classify one news paper
+then classify other one
 
+error scenario 2 -->
+stop classification message appears for several times
+
+
+duplicateDetector-> location to district mapper error
