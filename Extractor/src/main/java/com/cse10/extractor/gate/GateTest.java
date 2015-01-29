@@ -7,16 +7,6 @@ package com.cse10.extractor.gate;
  * Test whether all the required entities are extracted and properly stored in the tables.
  */
 
-import com.cse10.database.DatabaseHandler;
-import com.cse10.entities.CrimeEntityGroup;
-import com.cse10.entities.CrimePerson;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Set;
-
 public class GateTest {
 
     public static void main(String[] args) throws Exception {
@@ -80,7 +70,9 @@ public class GateTest {
 
         System.out.println("- Test Finishes Here -");*/
 
-        EntityExtractorThread r = new EntityExtractorThread();
+        // Test running in separate thread
+
+        EntityExtractorTask r = new EntityExtractorTask();
         Thread t = new Thread(r);
 
         t.start();
