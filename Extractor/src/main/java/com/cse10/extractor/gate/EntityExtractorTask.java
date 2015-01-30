@@ -7,7 +7,7 @@ public class EntityExtractorTask implements Runnable {
     // entity extractor which runs extraction pipeline to extract entities
     private EntityExtractor eExtrator;
 
-    EntityExtractorTask(){
+    public EntityExtractorTask(){
         eExtrator = new EntityExtractor();
     }
 
