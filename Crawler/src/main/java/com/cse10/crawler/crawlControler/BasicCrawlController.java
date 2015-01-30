@@ -4,6 +4,7 @@ package com.cse10.crawler.crawlControler;
  * Created by Sampath Liyanage on 13.07.2014.
  */
 
+import com.cse10.util.GlobalConstants;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -19,8 +20,8 @@ abstract public class BasicCrawlController extends Observable {
 
     //global configurations
     final String CRAWL_STORAGE_DIR_ROOT = "E:/CrawlData";
-    final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
-    final int PROXY_PORT = 3128; //3128 //0;
+    final String PROXY_ADDRESS = GlobalConstants.PROXY_ADDRESS;
+    final int PROXY_PORT = GlobalConstants.PROXY_PORT;
 
     // start and end dates used by sub classes
     protected String startDate;
