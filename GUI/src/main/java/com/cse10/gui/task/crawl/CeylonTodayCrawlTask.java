@@ -1,6 +1,7 @@
 package com.cse10.gui.task.crawl;
 
 import com.cse10.article.CeylonTodayArticle;
+import com.cse10.crawler.crawlControler.BasicCrawlController;
 import com.cse10.crawler.crawlControler.CeylonTodayCrawlController;
 import com.cse10.crawler.paperCrawler.CeylonTodayCrawler;
 
@@ -23,36 +24,14 @@ public class CeylonTodayCrawlTask extends CrawlTask {
         return CeylonTodayArticle.class;
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("in background");
-
-            //Initialize progress property.
-            setProgress(1);
-
-            crawlController = new CeylonTodayCrawlController();
-            crawlController.setStartDate(startDate);
-            crawlController.setEndDate(endDate);
-            crawlController.addObserver(this);
-            try {
-                crawlController.crawl(CeylonTodayCrawler.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    protected Class getCrawlerClassType() {
+        return CeylonTodayCrawler.class;
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("done");
-        done = true;
+    protected BasicCrawlController getCrawlController() {
+        return new CeylonTodayCrawlController();
     }
+
 }

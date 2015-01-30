@@ -65,6 +65,44 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
         }
     }
 
+    protected abstract Class getCrawlerClassType(); // tobe implemented in subclasses accordingly
+
+    protected abstract BasicCrawlController getCrawlController(); // tobe implemented in subclasses accordingly
+
+    /*
+     * Main task. Executed in background thread.
+     */
+    @Override
+    public Void doInBackground() {
+        if (!done) {
+            System.out.println("in background");
+
+            //Initialize progress property.
+            setProgress(1);
+
+            crawlController = getCrawlController();
+            crawlController.setStartDate(startDate);
+            crawlController.setEndDate(endDate);
+            crawlController.addObserver(this);
+            try {
+                crawlController.crawl(getCrawlerClassType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            crawlController.deleteObserver(this);
+        }
+        return null;
+    }
+
+    /*
+     * Executed in event dispatching thread
+     */
+    @Override
+    public void done() {
+        System.out.println("done");
+        done = true;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         int progress = 100 * ++dateCount / numberOfDates;

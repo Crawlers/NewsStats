@@ -13,6 +13,7 @@ import com.cse10.gui.task.crawl.CeylonTodayCrawlTask;
 import com.cse10.gui.task.crawl.DailyMirrorCrawlTask;
 import com.cse10.gui.task.crawl.NewsFirstCrawlTask;
 import com.cse10.gui.task.crawl.TheIslandCrawlTask;
+import com.cse10.gui.task.extract.ExtractorTask;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
@@ -97,9 +98,14 @@ public class NewsStatsGUI {
     private JLabel theIslandClassifierStartDateLabel;
     private JScrollPane scrollPaneExtractor;
     private JPanel panelExtractor;
-    private JButton startExtracorButton;
+    private JButton startExtractorButton;
     private JProgressBar extractorProgressBar;
     private ChartPanel chartPanelExtractor;
+    private JScrollPane scrollPaneDuplicateDetector;
+    private JPanel panelDuplicateDetector;
+    private JButton button1;
+    private JProgressBar progressBar1;
+    private ChartPanel chartPanelDuplicateDetector;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -129,7 +135,9 @@ public class NewsStatsGUI {
     private NewsFirstClassifyTask newsFirstClassifyTask;
     private TheIslandClassifyTask theIslandClassifyTask;
 
-    private boolean extractorStarted;
+    private ExtractorTask extractorTask;
+
+    private boolean extract = true;
 
     public NewsStatsGUI() {
 
@@ -361,13 +369,25 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
-        startExtracorButton.addActionListener(new ActionListener() {
+        startExtractorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (extractorStarted) {
-                    enableExtractorUI();
+                if (extract) {
+                    extract = false;
+                    disableExtractorUI();
+
+                    extractorTask = new ExtractorTask();
+                    extractorTask.execute();
+
                 } else {
-                    disableCrawlerUI();
+                    extract = true;
+                    enableExtractorUI();
+
+                    if (extractorTask != null) {
+                        extractorTask.stopExtract();
+                        extractorTask.cancel(true);
+                    }
+
                 }
             }
         });
@@ -438,6 +458,20 @@ public class NewsStatsGUI {
         );
         chartPanelExtractor = new ChartPanel(chartExtractor);
         chartPanelExtractor.setVisible(true);
+
+        /* duplicate detector chart */
+        final JFreeChart chartDupDetector = ChartFactory.createBarChart(
+                "Detected Duplicates",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelDuplicateDetector = new ChartPanel(chartDupDetector);
+        chartPanelDuplicateDetector.setVisible(true);
 
     }
 
@@ -711,13 +745,11 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        extractorStarted = true;
-        startExtracorButton.setText("Cancel");
+        startExtractorButton.setText("Cancel Extracting");
     }
 
     private void enableExtractorUI() {
 
-        extractorStarted = false;
-        startExtracorButton.setText("Extract");
+        startExtractorButton.setText("Start Extracting");
     }
 }

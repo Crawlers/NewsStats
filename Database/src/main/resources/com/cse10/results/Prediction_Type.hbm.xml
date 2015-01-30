@@ -10,6 +10,9 @@
         <property name="crimeType" type="string">
             <column name="crime_type" length="50" not-null="false"/>
         </property>
+        <property name="crimeYear" type="string">
+            <column name="crime_year" length="10" not-null="false"/>
+        </property>
         <property name="crimeYearQuarter" type="string">
             <column name="crime_yearquarter" length="20" not-null="false"/>
         </property>

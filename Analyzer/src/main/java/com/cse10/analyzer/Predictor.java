@@ -18,8 +18,10 @@ public class Predictor {
     private String table;
     private String[] fields;
     private String[] quarters;
+    private PredictorAlgorithm predictorAlgo;
 
-    public Predictor(String table, String[] fields){
+    public Predictor(PredictorAlgorithm predictorAlgo, String table, String[] fields){
+        this.predictorAlgo = predictorAlgo;
         this.table = table;
         this.fields = fields;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -29,7 +31,7 @@ public class Predictor {
         session.close();
     }
 
-    public void  predict(String[] quarters, String targetQuarter){
+    public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
         this.quarters = quarters;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -47,7 +49,7 @@ public class Predictor {
                 }
             }
             if (flag){
-                int predicted = predictValue(series);
+                int predicted = predictorAlgo.predict(series,indexToPredict);
                 insertToDB(ele,targetQuarter,predicted);
                 series = getSeriesHolder();
                 pre = ele;
@@ -78,8 +80,8 @@ public class Predictor {
         return results;
     }
 
-    protected int predictValue(HashMap<String,Integer> series){
-        return predictUsingENL(series);
+    public void setPredictorAlgorithm (PredictorAlgorithm predictorAlgo){
+        this.predictorAlgo = predictorAlgo;
     }
 
     protected void insertToDB(HashMap ele, String key, int count){
@@ -92,12 +94,13 @@ public class Predictor {
             fieldNames+=", "+fields[i];
             values+="', '"+(String) ele.get(fields[i]);
         }
-        fieldNames+=", crime_yearquarter, crime_count";
+        fieldNames+=", crime_year, crime_yearquarter, crime_count";
 
         session.createSQLQuery(
                 "INSERT INTO "+table+" ("+fieldNames+") " +
                         " VALUES ('"+
                         values+"', '"+
+                        key.substring(0,4)+"', '"+
                         key+ "', '"+
                         count + "')").executeUpdate();
         tx.commit();
@@ -112,32 +115,15 @@ public class Predictor {
         return series;
     }
 
-    protected int predictUsingLR(HashMap<String,Integer> series) {
 
-        List keys = new ArrayList(series.keySet());
-        Collections.sort(keys);
+}
 
-        SimpleRegression simpleRegression = new SimpleRegression();
-        simpleRegression.clear();
-        int i;
-        for (i=0; i<keys.size(); i++){
-            simpleRegression.addData(i, series.get(keys.get(i)));
-        }
-        double intercept = simpleRegression.getIntercept();
-        double slope = simpleRegression.getSlope();
+interface PredictorAlgorithm{
+    public int predict(HashMap<String,Integer> series, int indexToPredict);
+}
 
-        System.out.println(intercept);
-        System.out.println(slope);
-        double prediction = simpleRegression.predict(i);
-
-        int output = (int) Math.round(prediction);
-        return (output>0)?output:0;
-
-
-    }
-
-    protected int predictUsingENL(HashMap<String,Integer> series) {
-
+class ENLPredictorAlgorithm implements PredictorAlgorithm{
+    public int predict(HashMap<String,Integer> series, int indexToPredict){
         List keys = new ArrayList(series.keySet());
         Collections.sort(keys);
 
@@ -147,41 +133,40 @@ public class Predictor {
         ElasticNetLearner elasticNetLearner = new ElasticNetLearner();
         double prediction = 0.0;
 
-            int count;
-            for ( count=0; count<keys.size(); count++){
-                double x = (double) count;
-                double y = (double) series.get(keys.get(count));
-                String[] data = {Double.toString(x), Double.toString(y)};
-                Instance instance = parseDenseInstance(data, classIndex);
-                instances.add(instance);
-            }
+        int count;
+        for ( count=0; count<keys.size(); count++){
+            double x = (double) count;
+            double y = (double) series.get(keys.get(count));
+            String[] data = {Double.toString(x), Double.toString(y)};
+            Instance instance = parseDenseInstance(data, classIndex);
+            instances.add(instance);
+        }
 
-            int numAttributes = instances.get(0).getValues().length;
-            for (int i = 0; i < numAttributes; i++) {
-                Attribute att = new NumericalAttribute("f" + i);
-                att.setIndex(i);
-                attributes.add(att);
-            }
+        int numAttributes = instances.get(0).getValues().length;
+        for (int i = 0; i < numAttributes; i++) {
+            Attribute att = new NumericalAttribute("f" + i);
+            att.setIndex(i);
+            attributes.add(att);
+        }
 
-            if (classIndex >= 0) {
-                assignTargetAttribute(instances);
-            }
+        if (classIndex >= 0) {
+            assignTargetAttribute(instances);
+        }
 
-            //end of instance creation
-            //build regressor
-            GLM glm = elasticNetLearner.buildRegressor(instances, 100, 0.0, 0.0);
+        //end of instance creation
+        //build regressor
+        GLM glm = elasticNetLearner.buildRegressor(instances, 100, 0.0, 0.0);
 
-            //create new instance for prediction
-            int[] indices = {0};
-            double[] values = {count};
-            Instance ins = new Instance(indices, values);
+        //create new instance for prediction
+        int[] indices = {0};
+        double[] values = {indexToPredict};
+        Instance ins = new Instance(indices, values);
 
-            //predict the value
-            prediction = glm.regress(ins);
+        //predict the value
+        prediction = glm.regress(ins);
 
-            int output = (int) Math.round(prediction);
-            return (output>0)?output:0;
-
+        int output = (int) Math.round(prediction);
+        return (output>0)?output:0;
     }
 
     protected Instance parseDenseInstance(String[] data, int classIndex) {
@@ -232,5 +217,29 @@ public class Predictor {
         } else {
             instances.setTargetAttribute(new NumericalAttribute("target"));
         }
+    }
+}
+
+class LRPredictorAlgorithm implements PredictorAlgorithm{
+    public int predict(HashMap<String,Integer> series, int indexToPredict) {
+
+        List keys = new ArrayList(series.keySet());
+        Collections.sort(keys);
+
+        SimpleRegression simpleRegression = new SimpleRegression();
+        simpleRegression.clear();
+        int i;
+        for (i=0; i<keys.size(); i++){
+            simpleRegression.addData(i, series.get(keys.get(i)));
+        }
+        double intercept = simpleRegression.getIntercept();
+        double slope = simpleRegression.getSlope();
+
+        System.out.println(intercept);
+        System.out.println(slope);
+        double prediction = simpleRegression.predict(indexToPredict);
+
+        int output = (int) Math.round(prediction);
+        return (output>0)?output:0;
     }
 }
