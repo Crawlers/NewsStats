@@ -3,7 +3,7 @@ package com.cse10.extractor.gate;
 /**
  * Created by Isuru on 1/26/2015.
  */
-public class EntityExtractorThread implements Runnable {
+public class EntityExtractorTask implements Runnable {
     @Override
     public void run() {
         try {

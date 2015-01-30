@@ -9,6 +9,7 @@ import java.util.Date;
 public class Prediction_District implements java.io.Serializable{
     private int id;
     private String crimeDistrict;
+    private String crimeYear;
     private String crimeYearQuarter;
     private int crimeCount;
 
@@ -16,9 +17,10 @@ public class Prediction_District implements java.io.Serializable{
     }
 
 
-    public Prediction_District(int id, String type, String district, Date date, String year, String quarter, int count) {
+    public Prediction_District(int id, String type, String district, String year, String quarter, int count) {
         this.id = id;
         this.crimeDistrict = district;
+        this.crimeYear = year;
         this.crimeYearQuarter = quarter;
         this.crimeCount = count;
     }
@@ -30,6 +32,10 @@ public class Prediction_District implements java.io.Serializable{
     public String getCrimeDistrict() { return this.crimeDistrict;}
 
     public void setCrimeDistrict(String district) {  this.crimeDistrict=district;}
+
+    public String getCrimeYear() {return this.crimeYear;}
+
+    public void setCrimeYear(String year) {this.crimeYear = year;}
 
     public String getCrimeYearQuarter(){return this.crimeYearQuarter;}
 

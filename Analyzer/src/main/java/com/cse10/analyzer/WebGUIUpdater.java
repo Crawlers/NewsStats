@@ -32,6 +32,7 @@ public class WebGUIUpdater {
         try {
             ServerAddress address = new ServerAddress(host,port);
             mongoClient = new MongoClient(address, Arrays.asList(credential));
+            //mongoClient = new MongoClient(address);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -63,32 +64,4 @@ public class WebGUIUpdater {
         BulkWriteResult result = builder.execute();
         System.out.println("updating "+sqlTable+" to the collection "+ mongoCollection +" completed");
     }
-
-/*
-    protected String getJSONFromResultSet(ResultSet rs) {
-        //Map json = new HashMap();
-        List list = new ArrayList();
-        if(rs!=null)
-        {
-            try {
-                ResultSetMetaData metaData = rs.getMetaData();
-                while(rs.next())
-                {
-                    Map<String,Object> columnMap = new HashMap<String, Object>();
-                    for(int columnIndex=1;columnIndex<=metaData.getColumnCount();columnIndex++)
-                    {
-                        if(rs.getString(metaData.getColumnName(columnIndex))!=null)
-                            columnMap.put(metaData.getColumnLabel(columnIndex),     rs.getString(metaData.getColumnName(columnIndex)));
-                        else
-                            columnMap.put(metaData.getColumnLabel(columnIndex), "");
-                    }
-                    list.add(columnMap);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            //json.put(keyName, list);
-        }
-        return JSONValue.toJSONString(list);
-    }*/
 }

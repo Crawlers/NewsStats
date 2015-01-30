@@ -68,13 +68,13 @@ public class EntityExtractor {
         }
 
         File pathCheck = new File(homePath + "\\gate.xml");
-        if (pathCheck.exists()) {
+        if (pathCheck.isFile()) {
             gateHome = new File(homePath);
             Gate.setGateHome(gateHome);
             System.out.println("GATE Home Configured : " + Gate.getGateHome());
         } else {
             System.out.println("GATE Home Path Incorrect");
-            System.exit(0);
+            throw new InterruptedException("Thread interruption forced.");
         }
 
         // initialise GATE
@@ -282,14 +282,14 @@ public class EntityExtractor {
                 System.out.println();
 
                 if(Thread.interrupted()) {
+                    DatabaseHandler.closeDatabase();
                     throw new InterruptedException("Thread interruption forced.");
                 }
             }
         }// for each article
 
+        DatabaseHandler.closeDatabase();
         System.out.println("All done");
-
-        System.exit(0);
     }
 
     // method to fetch district for the location using google map api, unless it is in the location - district
