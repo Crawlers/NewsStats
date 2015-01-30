@@ -7,7 +7,9 @@ package com.cse10.extractor.gate;
  * Making request to google map api for detailed description on location and parsing the response.
  */
 
+import com.cse10.util.GlobalConstants;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -38,7 +40,8 @@ public class JSONParser {
 
             // make request to google map api and get response
             HttpPost httppost = new HttpPost("http://maps.google.com/maps/api/geocode/json?address=" + address + "&sensor=false");
-            HttpClient client = HttpClientBuilder.create().build();
+            HttpHost proxy = new HttpHost(GlobalConstants.PROXY_ADDRESS, GlobalConstants.PROXY_PORT, "http");
+            HttpClient client = HttpClientBuilder.create().setProxy(proxy).build();
             HttpResponse response;
             stringBuilder = new StringBuilder();
 
