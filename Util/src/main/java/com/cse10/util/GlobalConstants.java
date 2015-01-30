@@ -5,7 +5,7 @@ package com.cse10.util;
  */
 public class GlobalConstants {
 
-    final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
-    final int PROXY_PORT = 3128; //3128 //0;
+    public final String PROXY_ADDRESS = "cache.mrt.ac.lk"; //"cache.mrt.ac.lk" //"";
+    public final int PROXY_PORT = 3128; //3128 //0;
 
 }
