@@ -60,6 +60,7 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
+                          <oneTouchExpandable value="false"/>
                           <resizeWeight value="0.5"/>
                         </properties>
                         <border type="none"/>
@@ -69,6 +70,7 @@
                               <splitpane position="left"/>
                             </constraints>
                             <properties>
+                              <oneTouchExpandable value="false"/>
                               <orientation value="0"/>
                               <requestFocusEnabled value="true"/>
                               <resizeWeight value="0.4"/>
@@ -234,6 +236,7 @@
                               <splitpane position="right"/>
                             </constraints>
                             <properties>
+                              <oneTouchExpandable value="false"/>
                               <orientation value="0"/>
                               <resizeWeight value="0.2"/>
                             </properties>
@@ -364,6 +367,7 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
+                          <oneTouchExpandable value="false"/>
                           <resizeWeight value="0.5"/>
                         </properties>
                         <border type="none"/>
@@ -373,6 +377,7 @@
                               <splitpane position="left"/>
                             </constraints>
                             <properties>
+                              <oneTouchExpandable value="false"/>
                               <orientation value="0"/>
                               <requestFocusEnabled value="false"/>
                               <resizeWeight value="0.4"/>
@@ -541,6 +546,7 @@
                               <splitpane position="right"/>
                             </constraints>
                             <properties>
+                              <oneTouchExpandable value="false"/>
                               <orientation value="0"/>
                               <resizeWeight value="0.2"/>
                             </properties>
@@ -684,7 +690,7 @@
                             <properties/>
                             <border type="etched" title="Controller"/>
                             <children>
-                              <component id="f718f" class="javax.swing.JButton" binding="startExtracorButton">
+                              <component id="f718f" class="javax.swing.JButton" binding="startExtractorButton">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
@@ -709,6 +715,78 @@
                             <border type="etched" title="Results"/>
                             <children>
                               <component id="d550f" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractor" custom-create="true">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                            </children>
+                          </grid>
+                        </children>
+                      </splitpane>
+                    </children>
+                  </grid>
+                </children>
+              </scrollpane>
+              <scrollpane id="4f0b1" binding="scrollPaneDuplicateDetector">
+                <constraints>
+                  <tabbedpane title="Duplicate Detector"/>
+                </constraints>
+                <properties/>
+                <border type="empty"/>
+                <children>
+                  <grid id="c094d" binding="panelDuplicateDetector" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <splitpane id="723c4">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <oneTouchExpandable value="false"/>
+                          <orientation value="0"/>
+                          <resizeWeight value="0.4"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <grid id="a08b" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="Controller"/>
+                            <children>
+                              <component id="1043" class="javax.swing.JButton" binding="button1" default-binding="true">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Button"/>
+                                </properties>
+                              </component>
+                              <component id="23e7e" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="d818b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="Results"/>
+                            <children>
+                              <component id="3d524" class="org.jfree.chart.ChartPanel" binding="chartPanelDuplicateDetector" custom-create="true">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>

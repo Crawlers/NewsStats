@@ -101,6 +101,11 @@ public class NewsStatsGUI {
     private JButton startExtractorButton;
     private JProgressBar extractorProgressBar;
     private ChartPanel chartPanelExtractor;
+    private JScrollPane scrollPaneDuplicateDetector;
+    private JPanel panelDuplicateDetector;
+    private JButton button1;
+    private JProgressBar progressBar1;
+    private ChartPanel chartPanelDuplicateDetector;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -453,6 +458,20 @@ public class NewsStatsGUI {
         );
         chartPanelExtractor = new ChartPanel(chartExtractor);
         chartPanelExtractor.setVisible(true);
+
+        /* duplicate detector chart */
+        final JFreeChart chartDupDetector = ChartFactory.createBarChart(
+                "Detected Duplicates",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                null,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        chartPanelDuplicateDetector = new ChartPanel(chartDupDetector);
+        chartPanelDuplicateDetector.setVisible(true);
 
     }
 
