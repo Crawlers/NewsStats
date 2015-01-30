@@ -14,6 +14,7 @@
         <module>Classifier</module>
         <module>GUI</module>
         <module>DuplicateDetector</module>
+        <module>Util</module>
     </modules>
     <name>NewsStats</name>
     <url>http://maven.apache.org</url>
