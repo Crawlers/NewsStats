@@ -1,6 +1,6 @@
 package com.cse10.gui.task.extract;
 
-import com.cse10.extractor.gate.EntityExtractorThread;
+import com.cse10.extractor.gate.EntityExtractorTask;
 
 import javax.swing.*;
 
@@ -19,7 +19,7 @@ public class ExtractorTask extends SwingWorker {
     protected Object doInBackground() {
         if (!done) {
             System.out.println("in background");
-            EntityExtractorThread entityExtractorThread = new EntityExtractorThread();
+            EntityExtractorTask entityExtractorThread = new EntityExtractorTask();
             extractorThread = new Thread(entityExtractorThread);
             extractorThread.start();
         }
