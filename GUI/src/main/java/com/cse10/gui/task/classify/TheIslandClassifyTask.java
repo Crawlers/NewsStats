@@ -36,6 +36,7 @@ public class TheIslandClassifyTask extends ClassifyTask implements Observer {
             classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName("The Island Classifier Thread");
             classifierUIHandler.run();
+            classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
 
             System.out.println("The Island Classifer -> In Background");
         }

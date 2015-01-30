@@ -33,6 +33,7 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
             classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName("Ceylon Today Classifier Thread");
             classifierUIHandler.run();
+            classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
 
             System.out.println("Ceylon Today Classifer -> Finished Task");
         }

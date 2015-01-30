@@ -34,6 +34,7 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
             classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName("Daily Mirror Classifier Thread");
             classifierUIHandler.run();
+            classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
 
             System.out.println("DailyMirror Classifer -> Finished Task");
 
