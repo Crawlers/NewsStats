@@ -1,6 +1,7 @@
 package com.cse10.gui.task.crawl;
 
 import com.cse10.article.NewsFirstArticle;
+import com.cse10.crawler.crawlControler.BasicCrawlController;
 import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
 import com.cse10.crawler.paperCrawler.NewsFirstCrawler;
 
@@ -23,36 +24,14 @@ public class NewsFirstCrawlTask extends CrawlTask {
         return NewsFirstArticle.class;
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("in background");
-
-            //Initialize progress property.
-            setProgress(1);
-
-            crawlController = new NewsFirstCrawlController();
-            crawlController.setStartDate(startDate);
-            crawlController.setEndDate(endDate);
-            crawlController.addObserver(this);
-            try {
-                crawlController.crawl(NewsFirstCrawler.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    protected Class getCrawlerClassType() {
+        return NewsFirstCrawler.class;
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("done");
-        done = true;
+    protected BasicCrawlController getCrawlController() {
+        return new NewsFirstCrawlController();
     }
+
 }
