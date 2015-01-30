@@ -49,14 +49,7 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
         }
 
         endDate = new Date(); // set today
-        //todo remove following
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            endDate = sdf.parse("2012-01-11");
-        } catch (ParseException e) {
-            endDate = new Date(); // set today if fails
-            e.printStackTrace();
-        }
+
     }
 
     protected abstract Class getArticleClassType(); // tobe implemented in subclasses accordingly
