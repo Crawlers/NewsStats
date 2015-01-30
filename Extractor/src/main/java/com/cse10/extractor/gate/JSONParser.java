@@ -23,11 +23,9 @@ import java.io.InputStream;
 
 public class JSONParser {
 
-    static InputStream is = null;
-    static String json = "";
-
     // constructor
     public JSONParser() {
+
     }
 
     // get JSONObject from JSON response from google map api in order to get detailed location identification
