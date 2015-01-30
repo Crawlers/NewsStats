@@ -27,22 +27,31 @@ import java.util.*;
 public class EntityExtractor extends Observable {
 
     // path to the saved application file.
-    private File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
+    private File gappFile;
 
     // path to the configuration file containing ID of the last extracted entity.
-    private File configFile = new File("Extractor/src/main/resources/Configuration.txt");
+    private File configFile;
 
     // list of annotation types to write out.  If null, write everything as GateXML.
-    private List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
+    private List annotTypesToWrite;
 
     // fetch district name from google map api response
-    private DistrictExtractor de = new DistrictExtractor();
+    private DistrictExtractor de;
 
     // stores entities temporary till they are inserted to the table
-    private ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
+    private ArrayList<CrimeEntityGroup> entityGroupsList;
 
     // ID of the last entity extracted article
     private int endID;
+
+    // constructor
+    EntityExtractor(){
+        gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
+        configFile = new File("Extractor/src/main/resources/Configuration.txt");
+        annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
+        de = new DistrictExtractor();
+        entityGroupsList = new ArrayList<>();
+    }
 
     public synchronized void startExtraction() throws InterruptedException, IOException, GateException, ParseException {
 
