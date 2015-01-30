@@ -4,9 +4,19 @@ package com.cse10.extractor.gate;
  * Created by Isuru on 1/26/2015.
  */
 public class EntityExtractorTask implements Runnable {
+    // entity extractor which runs extraction pipeline to extract entities
+    private EntityExtractor eExtrator;
+
+    EntityExtractorTask(){
+        eExtrator = new EntityExtractor();
+    }
+
+    public EntityExtractor getEntityExtrator() {
+        return eExtrator;
+    }
+
     @Override
     public void run() {
-        EntityExtractor eExtrator = new EntityExtractor();
         try {
             eExtrator.startExtraction();
         }catch (InterruptedException e){
