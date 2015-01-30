@@ -24,27 +24,27 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class EntityExtractor {
+public class EntityExtractor extends Observable {
 
     // path to the saved application file.
-    private static File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
+    private File gappFile = new File("Extractor/src/main/resources/Complete_v1.gapp");
 
     // path to the configuration file containing ID of the last extracted entity.
-    private static File configFile = new File("Extractor/src/main/resources/Configuration.txt");
+    private File configFile = new File("Extractor/src/main/resources/Configuration.txt");
 
     // list of annotation types to write out.  If null, write everything as GateXML.
-    private static List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
+    private List annotTypesToWrite = new ArrayList<>(Arrays.asList("CrimeLocation", "ArticleType", "Police", "Court", "CrimeDate", "CrimePerson"));
 
     // fetch district name from google map api response
-    private static DistrictExtractor de = new DistrictExtractor();
+    private DistrictExtractor de = new DistrictExtractor();
 
     // stores entities temporary till they are inserted to the table
-    private static ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
+    private ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
 
     // ID of the last entity extracted article
-    private static int endID;
+    private int endID;
 
-    public static synchronized void startExtraction() throws InterruptedException, IOException, GateException, ParseException {
+    public synchronized void startExtraction() throws InterruptedException, IOException, GateException, ParseException {
 
         //get ID of the article to start entity extraction.
         int startID = getLastID();
@@ -91,6 +91,11 @@ public class EntityExtractor {
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
         List<Article> articles = DatabaseHandler.fetchArticlesByIdStarting(CrimeArticle.class,startID+1);
 
+        // number of articles has to be entity extracted to progress the progress bar by 1 step.
+        int uiStepSize = articles.size()/100;
+
+        // progress of the entity extraction process
+        int currentProgress = 0;
 
         // process the files one by one
         for (int i = 0; i < articles.size(); i++) {
@@ -281,11 +286,20 @@ public class EntityExtractor {
                 System.out.println("Article : " + i + " -Ends Here-");
                 System.out.println();
 
+                // check whether this thread is interrupted from out side
                 if(Thread.interrupted()) {
                     DatabaseHandler.closeDatabase();
                     throw new InterruptedException("Thread interruption forced.");
                 }
             }
+
+            // updating the progress of the entity extraction process
+            if(i % uiStepSize == 0){
+                currentProgress = i/uiStepSize;
+                setChanged();
+                notifyObservers(currentProgress);
+            }
+
         }// for each article
 
         DatabaseHandler.closeDatabase();
@@ -294,7 +308,7 @@ public class EntityExtractor {
 
     // method to fetch district for the location using google map api, unless it is in the location - district
     // mapping table
-    private static void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
+    private void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
         LocationDistrictMapper locationDistrict;
         String district = "NULL";
 
@@ -322,7 +336,7 @@ public class EntityExtractor {
         }
     }
 
-    private static  int getLastID(){
+    private int getLastID(){
         int theID = 0;
 
         BufferedReader br = null;
@@ -350,7 +364,7 @@ public class EntityExtractor {
         return  theID;
     }
 
-    private static  void writeLastID(){
+    private void writeLastID(){
         FileWriter fooWriter = null; // true to append
         try {
             fooWriter = new FileWriter(configFile, false);
@@ -367,7 +381,7 @@ public class EntityExtractor {
         }
     }
 
-    public static synchronized void stopExtraction(){
+    public synchronized void stopExtraction(){
         writeLastID();
     }
 }
