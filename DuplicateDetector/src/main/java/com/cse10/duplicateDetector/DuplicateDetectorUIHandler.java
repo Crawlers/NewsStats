@@ -119,9 +119,6 @@ public class DuplicateDetectorUIHandler implements Runnable{
     }
 
     private void findDuplicates() throws InterruptedException {
-
-
-
         //this will contain all the calculated sim hash value (LONG) with related crime entity group id (Integer)
         HashMap<Integer, Long> documentSimHashes = new HashMap<>();
 
