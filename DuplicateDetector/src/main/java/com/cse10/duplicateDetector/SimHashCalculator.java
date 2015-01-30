@@ -6,12 +6,12 @@ import java.util.List;
  * Created by chamath on 1/2/2015.
  */
 public class SimHashCalculator {
-    private WordSegmenter wordSeg;
+    private WordSegmenter wordSegmenter;
     private HashCalculator hashCalculator;
 
 
-    public SimHashCalculator(WordSegmenter wordSeg) {
-        this.wordSeg = wordSeg;
+    public SimHashCalculator(WordSegmenter wordSegmenter) {
+        this.wordSegmenter = wordSegmenter;
         hashCalculator=new HashCalculator();
     }
 
@@ -58,7 +58,7 @@ public class SimHashCalculator {
     public long simhash64(String document)  {
         int bitLen = 64;
         int[] bits = new int[bitLen];
-        List<String> tokens = wordSeg.getWords(document);
+        List<String> tokens = wordSegmenter.getWords(document);
 
         //for each token in string
         for (String word : tokens) {
@@ -93,7 +93,7 @@ public class SimHashCalculator {
     public long simhash32(String doc) {
         int bitLen = 32;
         int[] bits = new int[bitLen];
-        List<String> tokens = wordSeg.getWords(doc);
+        List<String> tokens = wordSegmenter.getWords(doc);
         for (String t : tokens) {
             int v = hashCalculator.getHash32Value(t);
             for (int i = bitLen; i >= 1; --i) {
