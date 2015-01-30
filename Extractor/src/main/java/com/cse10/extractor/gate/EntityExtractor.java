@@ -264,7 +264,7 @@ public class EntityExtractor extends Observable {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 endID = articleID;
@@ -288,16 +288,20 @@ public class EntityExtractor extends Observable {
 
                 // check whether this thread is interrupted from out side
                 if(Thread.interrupted()) {
+                    System.out.println("Interruption Identified.");
                     DatabaseHandler.closeDatabase();
                     throw new InterruptedException("Thread interruption forced.");
                 }
             }
 
             // updating the progress of the entity extraction process
-            if(i % uiStepSize == 0){
-                currentProgress = i/uiStepSize;
-                setChanged();
-                notifyObservers(currentProgress);
+            if(uiStepSize != 0) {
+                if (i % uiStepSize == 0) {
+                    System.out.println("Progress updating.");
+                    currentProgress = i / uiStepSize;
+                    setChanged();
+                    notifyObservers(currentProgress);
+                }
             }
 
         }// for each article
