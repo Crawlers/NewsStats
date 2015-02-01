@@ -1,11 +1,8 @@
 package com.cse10.crawler.contentHandler;
 
 import com.cse10.article.Article;
-import com.cse10.article.DailyMirrorArticle;
 import com.cse10.article.TheIslandArticle;
-import com.cse10.crawler.crawlControler.DailyMirrorCrawlController;
 import com.cse10.crawler.crawlControler.TheIslandCrawlController;
-import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
@@ -23,7 +20,7 @@ import java.util.regex.Pattern;
 /**
  * Created by TharinduWijewardane on 10.07.2014.
  */
-public class TheIslandContentHandler extends PaperContentHandler {
+public class TheIslandContentHandler extends BasicContentHandler {
 
 
     @Override

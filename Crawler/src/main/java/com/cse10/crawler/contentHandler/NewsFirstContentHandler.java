@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by TharinduWijewardane on 17.07.2014.
  */
-public class NewsFirstContentHandler extends PaperContentHandler {
+public class NewsFirstContentHandler extends BasicContentHandler {
     @Override
     public List extractArticles(Page page) {
 

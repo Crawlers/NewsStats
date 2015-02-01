@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Sampath Liyanage on 17.07.2014.
  */
-public class CeylonTodayContentHandler extends PaperContentHandler {
+public class CeylonTodayContentHandler extends BasicContentHandler {
 
 
     @Override

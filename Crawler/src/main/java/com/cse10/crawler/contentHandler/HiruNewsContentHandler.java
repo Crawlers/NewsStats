@@ -8,7 +8,6 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Created by Tharindu on 2014-11-13.
  */
-public class HiruNewsContentHandler extends PaperContentHandler {
+public class HiruNewsContentHandler extends BasicContentHandler {
 
     @Override
     public List extractArticles(Page page) {
