@@ -21,12 +21,12 @@ import org.hibernate.Session;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class WebGUIUpdater {
+public class Uploader {
     MongoClient mongoClient;
     String dbName;
 
 
-    public WebGUIUpdater(String user, String password, String dbName, String host, int port){
+    public Uploader(String user, String password, String dbName, String host, int port){
         this.dbName = dbName;
         MongoCredential credential = MongoCredential.createMongoCRCredential(user, dbName, password.toCharArray());
         try {
