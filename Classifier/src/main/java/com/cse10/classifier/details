@@ -14,10 +14,6 @@ I have changed the weka version. Old version has a bug in SMOTE
 I have changed the mysql version
 ------------------------------------------------------------------------
 
-// library details
-Stanford core nlp and gate is added as external jars. not as a maven dependency
-when add stanford core nlp, two jar files -> core nlp jar and models.jar, models.jar should be added as
-a classes
 DB name should be change in hybernate file, weka file and constants in database module
 
 fetch+merge=pull
