@@ -111,7 +111,7 @@ public class DocumentKeyWordFinder {
                 Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
             cp = new CorpusPipeLine();
-            cp.configure(true);
+            cp.configure(false);
             isCorpusPipeLineConfigured=true;
         }
     }

@@ -41,11 +41,15 @@ public class CorpusPipeLine {
             //create each processing resource and add to application
             ProcessingResource annotationDeletePR = (ProcessingResource) Factory.createResource("gate.creole.annotdelete.AnnotationDeletePR", params);
             ProcessingResource defaultTokeniser = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser", params);
-            try {
-                //TODO path problem
-                params.put("listsURL",new File("C:\\Users\\hp\\IdeaProjects\\NewsStats6\\Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+
+            //if POS is required, then use default gazetter lists.
+            if(!isPOSRequired) {
+                try {
+                    //TODO path problem
+                    params.put("listsURL", new File("C:\\Users\\hp\\IdeaProjects\\NewsStats6\\Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
 
             ProcessingResource defaultGazetteer = (ProcessingResource) Factory.createResource("gate.creole.gazetteer.DefaultGazetteer", params);
