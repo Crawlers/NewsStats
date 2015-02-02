@@ -51,7 +51,7 @@ public class TheIslandCrawlController extends BasicCrawlController {
             RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
             RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
-            CrawlController controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
+            controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
             /*
              * For each crawl, you need to add some seed urls. These are the first
              * URLs that are fetched and then the crawler starts following links

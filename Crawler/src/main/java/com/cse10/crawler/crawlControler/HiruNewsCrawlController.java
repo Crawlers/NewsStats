@@ -47,7 +47,7 @@ public class HiruNewsCrawlController extends BasicCrawlController {
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
-                CrawlController controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
+                controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
 
                 String url = "http://www.hirunews.lk/news-archives.php?m=" + (month < 10 ? ("0" + month) : (month)) + "&pageID=" + pageNum + "&y=" + year; // make the month always 2 digits
 

@@ -2,7 +2,7 @@ package com.cse10.crawler.paperCrawler;
 
 import com.cse10.article.Article;
 import com.cse10.crawler.contentHandler.NewsFirstContentHandler;
-import com.cse10.crawler.contentHandler.PaperContentHandler;
+import com.cse10.crawler.contentHandler.BasicContentHandler;
 import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
 import com.cse10.database.DatabaseHandler;
 import edu.uci.ics.crawler4j.crawler.Page;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class NewsFirstCrawler extends BasicCrawler {
 
-    private PaperContentHandler paperContentHandler;
+    private BasicContentHandler basicContentHandler;
 
     /**
      * You should implement this function to specify whether the given url
@@ -36,8 +36,8 @@ public class NewsFirstCrawler extends BasicCrawler {
         super.visit(page);
         System.out.println("=============");
         System.out.println("********* inside if news first ***********");
-        paperContentHandler = new NewsFirstContentHandler();
-        List<Article> articles = paperContentHandler.extractArticles(page);
+        basicContentHandler = new NewsFirstContentHandler();
+        List<Article> articles = basicContentHandler.extractArticles(page);
 
         for (Article article : articles) {
             System.out.println("***********************************start");
