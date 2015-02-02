@@ -1,13 +1,15 @@
 package com.cse10.gui.task.classify;
 
 import com.cse10.classifier.CeylonTodayClassifierUIHandler;
+import com.cse10.classifier.ClassifierUIHandler;
+
 import java.util.Date;
 import java.util.Observer;
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
+public class CeylonTodayClassifyTask extends ClassifyTask implements Observer {
 
     public CeylonTodayClassifyTask() {
     }
@@ -16,37 +18,14 @@ public class CeylonTodayClassifyTask extends ClassifyTask implements Observer{
         super(startDate, endDate);
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("Ceylon Today Classifer -> In Background");
-            Thread.currentThread().setName("Ceylon Today Classifier Thread");
-            //Initialize progress property.
-            setProgress(0);
-
-            //start classification process
-            classifierUIHandler=new CeylonTodayClassifierUIHandler();
-            classifierUIHandler.getClassifierConfigurator().addObserver(this);
-            classifierUIHandler.setEndDate(endDate);
-            classifierUIHandler.setName("Ceylon Today Classifier Thread");
-            classifierUIHandler.run();
-            classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
-
-            System.out.println("Ceylon Today Classifer -> Finished Task");
-        }
-        return null;
+    protected ClassifierUIHandler getClassifierUIHandler() {
+        return new CeylonTodayClassifierUIHandler();
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("Ceylon Today Classifer -> Done");
-        done = true;
+    protected String getPaperName() {
+        return "Ceylon Today";
     }
 
     @Override
