@@ -11,6 +11,7 @@ public class TempSetNull {
         DatabaseHandler.executeUpdate("UPDATE `article_the_island` SET label = NULL");
         DatabaseHandler.executeUpdate("UPDATE `article_ceylon_today` SET label = NULL");
         DatabaseHandler.executeUpdate("UPDATE `article_daily_mirror` SET label = NULL");
+        DatabaseHandler.executeUpdate("UPDATE `article_news_first` SET label = NULL");
     }
 
 }
