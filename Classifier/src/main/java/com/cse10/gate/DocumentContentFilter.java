@@ -22,11 +22,19 @@ public class DocumentContentFilter {
     private Corpus corpus;
     private CorpusPipeLine cp;
     private List annotationsRequired;
+    private boolean isGateHomeConfigured;
+    private boolean isCorpusPipeLineConfigured;
 
     public DocumentContentFilter() {
-        try {
+        isGateHomeConfigured=false;
+        isCorpusPipeLineConfigured=false;
+    }
 
-            //set gate home configuration
+    /**
+     * configure gate home
+     */
+    private void configureGateHome(){
+        if(!isGateHomeConfigured) {
             String homePath = "\\home";
             File gateHome;
             if (Gate.getGateHome() == null) {
@@ -55,36 +63,41 @@ public class DocumentContentFilter {
                     System.exit(0);
                 }
             }
-
-
-         /*   //set gate home
-            if(Gate.getGateHome()==null)
-            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));*/
-
-            //initialize gate
-            Gate.init();
-        } catch (GateException ex) {
-            Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            isGateHomeConfigured=true;
         }
-        annotationsRequired = new ArrayList();
-        ArrayList<String> annotationType = new ArrayList();
-        annotationType.add("Token");
-
-        ListIterator iter = annotationType.listIterator();
-        while (iter.hasNext()) {
-            String annotation = (String) iter.next();
-            annotationsRequired.add(annotation);
-        }
-        try {
-            // create corpus
-            corpus = Factory.newCorpus("StandAloneAnnie corpus");
-        } catch (ResourceInstantiationException ex) {
-            Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cp = new CorpusPipeLine();
-        cp.configure(true);
     }
 
+    /**
+     * configure corpus pipe line
+     */
+    private void configureCorpusPipeLine(){
+        if(!isCorpusPipeLineConfigured) {
+            try {
+                configureGateHome();
+                Gate.init();
+            } catch (GateException ex) {
+                Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            annotationsRequired = new ArrayList();
+            ArrayList<String> annotationType = new ArrayList();
+            annotationType.add("Token");
+
+            ListIterator iter = annotationType.listIterator();
+            while (iter.hasNext()) {
+                String annotation = (String) iter.next();
+                annotationsRequired.add(annotation);
+            }
+            try {
+                // create corpus
+                corpus = Factory.newCorpus("StandAloneAnnie corpus");
+            } catch (ResourceInstantiationException ex) {
+                Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cp = new CorpusPipeLine();
+            cp.configure(true);
+            isCorpusPipeLineConfigured=true;
+        }
+    }
     /**
      * get filtered content of the given document content
      *
@@ -94,6 +107,7 @@ public class DocumentContentFilter {
     public String getFilterdContent(String content) {
         Document doc;
         String filteredContent = "";
+        configureCorpusPipeLine();
         try {
             doc = Factory.newDocument(content); // create new gate document
             corpus.add(doc);

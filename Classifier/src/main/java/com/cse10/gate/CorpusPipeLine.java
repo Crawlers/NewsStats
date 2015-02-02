@@ -42,10 +42,12 @@ public class CorpusPipeLine {
             ProcessingResource annotationDeletePR = (ProcessingResource) Factory.createResource("gate.creole.annotdelete.AnnotationDeletePR", params);
             ProcessingResource defaultTokeniser = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser", params);
             try {
-                params.put("listsURL",new File("Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
+                //TODO path problem
+                params.put("listsURL",new File("C:\\Users\\hp\\IdeaProjects\\NewsStats6\\Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+
             ProcessingResource defaultGazetteer = (ProcessingResource) Factory.createResource("gate.creole.gazetteer.DefaultGazetteer", params);
             params.clear();
             ProcessingResource sentenceSplitter = (ProcessingResource) Factory.createResource("gate.creole.splitter.SentenceSplitter", params);
