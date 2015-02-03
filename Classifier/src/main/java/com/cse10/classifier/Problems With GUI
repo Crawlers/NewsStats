@@ -1,9 +1,10 @@
-error scenario 1 -->
+error scenario 1 --> corrected
 classify one news paper
 then classify other one
 
-error scenario 2 -->
+
+error scenario 2 --> corrected
 stop classification message appears for several times
 
 
-duplicateDetector-> location to district mapper error
+duplicateDetector-> location to district mapper error -> corrected

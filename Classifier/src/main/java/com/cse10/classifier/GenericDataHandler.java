@@ -61,11 +61,11 @@ public class GenericDataHandler extends DataHandler {
         databaseLoader.setUrl(DatabaseConstants.DB_URL);
 
         ArrayList<String> queries = new ArrayList<String>();
-        /*queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");
+        queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");
         queries.add("SELECT content, label FROM article_daily_mirror_2012 where `label` IS NOT NULL");
         queries.add("SELECT content, label FROM article_daily_mirror_2013 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_the_island_2012 where `label` IS NOT NULL");*/
-        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL AND id < 150");
+        queries.add("SELECT content, label FROM article_the_island_2012 where `label` IS NOT NULL");
+        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL");
 
         ListIterator queryIterator = queries.listIterator();
         ArrayList<Instances> instances = new ArrayList<Instances>();

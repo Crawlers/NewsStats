@@ -1,7 +1,8 @@
 package com.cse10.gui.task.crawl;
 
 import com.cse10.article.TheIslandArticle;
-import com.cse10.crawler.crawlControler.TheIslandCrawlController;
+import com.cse10.crawler.crawlControler.BasicCrawlController;
+import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
 import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 
 import java.util.Date;
@@ -23,36 +24,14 @@ public class TheIslandCrawlTask extends CrawlTask {
         return TheIslandArticle.class;
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("in background");
-
-            //Initialize progress property.
-            setProgress(1);
-
-            crawlController = new TheIslandCrawlController();
-            crawlController.setStartDate(startDate);
-            crawlController.setEndDate(endDate);
-            crawlController.addObserver(this);
-            try {
-                crawlController.crawl(TheIslandCrawler.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+    protected Class getCrawlerClassType() {
+        return TheIslandCrawler.class;
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("done");
-        done = true;
+    protected BasicCrawlController getCrawlController() {
+        return new NewsFirstCrawlController();
     }
+
 }

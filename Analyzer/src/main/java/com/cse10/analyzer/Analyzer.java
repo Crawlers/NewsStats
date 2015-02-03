@@ -1,69 +1,34 @@
 package com.cse10.analyzer;
 
+import com.cse10.database.HibernateUtil;
+import com.cse10.results.NewsStatistic;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sampath on 1/16/15.
  */
 public class Analyzer {
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args){
-
-        //generating statistics
-        StatGenerator statGen = new StatGenerator();
-        statGen.generateStats();
-
-        //predicting
-        String table = "predictions_type";
-        String[] fields1= {"crime_type", "crime_district"};
-        String[] fields2= {"crime_type"};
-        String[] fields3= {"crime_district"};
-        PredictorAlgorithm enlAlgo = new ENLPredictorAlgorithm();
-        Predictor predictor = new Predictor(enlAlgo,"predictions",fields1);
-        Predictor predictor_type = new Predictor(enlAlgo,"predictions_type",fields2);
-        Predictor predictor_district = new Predictor(enlAlgo,"predictions_district",fields3);
-
-        String[] quarters1 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4"};
-        predictor.predict(quarters1,"2014 - 1",8);
-        predictor_type.predict(quarters1, "2014 - 1",8);
-        predictor_district.predict(quarters1,"2014 - 1",8);
-
-        String[] quarters2 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1"};
-        predictor.predict(quarters2,"2014 - 2",9);
-        predictor_type.predict(quarters2, "2014 - 2",9);
-        predictor_district.predict(quarters2,"2014 - 2",9);
-
-        String[] quarters3 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2"};
-        predictor.predict(quarters3,"2014 - 3",10);
-        predictor_type.predict(quarters3, "2014 - 3",10);
-        predictor_district.predict(quarters3,"2014 - 3",10);
-
-        String[] quarters4 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2", "2014 - 3"};
-        predictor.predict(quarters4,"2014 - 4",11);
-        predictor_type.predict(quarters4, "2014 - 4",11);
-        predictor_district.predict(quarters4,"2014 - 4",11);
-
-        String[] quarters = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2", "2014 - 3", "2014 - 4"};
-        predictor.predict(quarters,"2015 - 1",12);
-        predictor_type.predict(quarters, "2015 - 1",12);
-        predictor_district.predict(quarters,"2015 - 1",12);
-
-        predictor.predict(quarters,"2015 - 2",13);
-        predictor_type.predict(quarters, "2015 - 2",13);
-        predictor_district.predict(quarters,"2015 - 2",13);
-
-        predictor.predict(quarters,"2015 - 3",14);
-        predictor_type.predict(quarters, "2015 - 3",14);
-        predictor_district.predict(quarters,"2015 - 3",14);
-
-        predictor.predict(quarters,"2015 - 4",15);
-        predictor_type.predict(quarters, "2015 - 4",15);
-        predictor_district.predict(quarters,"2015 - 4",15);
-
-        //uploading
-        WebGUIUpdater webGUIUpdater = new WebGUIUpdater("user", "pass", "fyp","ds049219.mongolab.com",49219);
-        webGUIUpdater.update("news_statistics","crimes");
-        webGUIUpdater.update("predictions","predictions");
+    public void generateStats(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.createSQLQuery("truncate table news_statistics").executeUpdate();
+        session.createSQLQuery(
+                "INSERT INTO news_statistics (crime_type, crime_district, crime_date, crime_year, crime_yearquarter, crime_count) " +
+                        "SELECT crime_type,(SELECT district FROM location_district_mapper ldm WHERE ceg.location = ldm.location) , crime_date, YEAR (crime_date), CONCAT(YEAR (crime_date), ' - ', QUARTER(crime_date)), count(id) " +
+                        "FROM crime_entity_group ceg " +
+                        "WHERE crime_date >= '2012-01-01' AND crime_date <= '2014-12-31' " +
+                        "GROUP BY crime_type, district, crime_date " +
+                        "ORDER BY YEAR (crime_date)").executeUpdate();
+        session.createSQLQuery("UPDATE news_statistics SET crime_type = 'Other' WHERE crime_type IS NULL OR crime_type = ''").executeUpdate();
+        tx.commit();
+        session.close();
     }
 }

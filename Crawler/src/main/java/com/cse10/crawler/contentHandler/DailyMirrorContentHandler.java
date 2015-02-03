@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by TharinduWijewardane on 10.07.2014.
  */
-public class DailyMirrorContentHandler extends PaperContentHandler {
+public class DailyMirrorContentHandler extends BasicContentHandler {
 
 
     @Override

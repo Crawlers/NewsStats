@@ -30,16 +30,31 @@ public class DocumentKeyWordFinder {
     private Corpus corpus;
     private CorpusPipeLine cp;
     private List annotationsRequired;
+    private String gateHomeEnvVariableName;
+    private boolean isGateHomeConfigured;
+    private boolean isCorpusPipeLineConfigured;
 
-    public DocumentKeyWordFinder() {
-        try {
+    public DocumentKeyWordFinder(){
+        isGateHomeConfigured=false;
+        isCorpusPipeLineConfigured=false;
+        gateHomeEnvVariableName="GATE_HOME";
+    }
 
+    public void setGateHomeEnvVariableName(String gateHomeEnvVariableName){
+        this.gateHomeEnvVariableName=gateHomeEnvVariableName;
+    }
+
+    /**
+     * configure home path of  gate
+     */
+    private void configureGateHome(){
+        if(!isGateHomeConfigured) {
             //set gate home
             String homePath = "\\home";
             File gateHome;
 
             if (Gate.getGateHome() == null) {
-                homePath = System.getenv("GATE_HOME");
+                homePath = System.getenv(gateHomeEnvVariableName);
                 if (homePath == null) {
                     //if environment variable is not set then prompt user to enter the path
                     System.out.print("Enter GATE Home path : ");
@@ -64,34 +79,41 @@ public class DocumentKeyWordFinder {
                     System.exit(0);
                 }
             }
-
-            //set gate home
-            /*if(Gate.getGateHome()==null)
-            Gate.setGateHome(new File("D:\\software\\FYP\\gate-8.0-build4825-ALL"));*/
-
-
-            //initialize data
-            Gate.init();
-
-        } catch (GateException ex) {
-            Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            isGateHomeConfigured=true;
         }
-        annotationsRequired = new ArrayList();
-        ArrayList<String> annotationType = new ArrayList();
-        annotationType.add("Lookup");
+    }
 
-        ListIterator iter = annotationType.listIterator();
-        while (iter.hasNext()) {
-            String annotation = (String) iter.next();
-            annotationsRequired.add(annotation);
+    /**
+     * configure Gate corpus pipe line
+     */
+    private void configureCorpusPipeLine(){
+        if(!isCorpusPipeLineConfigured) {
+            try {
+                configureGateHome();
+                //initialize data
+                Gate.init();
+
+            } catch (GateException ex) {
+                Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            annotationsRequired = new ArrayList();
+            ArrayList<String> annotationType = new ArrayList();
+            annotationType.add("Lookup");
+
+            ListIterator iter = annotationType.listIterator();
+            while (iter.hasNext()) {
+                String annotation = (String) iter.next();
+                annotationsRequired.add(annotation);
+            }
+            try {
+                corpus = Factory.newCorpus("StandAloneAnnie corpus"); // create corpus
+            } catch (ResourceInstantiationException ex) {
+                Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cp = new CorpusPipeLine();
+            cp.configure(false);
+            isCorpusPipeLineConfigured=true;
         }
-        try {
-            corpus = Factory.newCorpus("StandAloneAnnie corpus"); // create corpus
-        } catch (ResourceInstantiationException ex) {
-            Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        cp = new CorpusPipeLine();
-        cp.configure(true);
     }
 
     /**
@@ -101,6 +123,7 @@ public class DocumentKeyWordFinder {
      * @return
      */
     public boolean isKeyWordExist(String content) {
+        configureCorpusPipeLine();
         Document doc;
         boolean exist = false;
         if (content.length()>0) {
@@ -163,7 +186,11 @@ public class DocumentKeyWordFinder {
         return exist;
     }
 
-    public static void main(String[] args) {
+    /**
+     * test the functionality of the class within class
+     * @return
+     */
+    public boolean testFunctionality(){
         DocumentKeyWordFinder documentKeyWordFinder=new DocumentKeyWordFinder();
         NGramTokenizer tokenizer=new NGramTokenizer();
         tokenizer.setNGramMinSize(1);
@@ -180,7 +207,11 @@ public class DocumentKeyWordFinder {
             words = words.concat(" ");
         }
         System.out.println("Words="+words);
-        boolean keyWordExist= documentKeyWordFinder.isKeyWordExist(words);//"'A Colombo bound bus from Andana in Kahawatta ran off the road at Koskelle in Kahawatta and went down a precipice this morning, causing injuries to 30 passengers and the driver of the bus. Police said six of the injured in critical condition were transferred to the Ratnapura General Hospital. The driver of the bus M. Seneviratne said he lost control of the bus due to a technical defect. He said the residents of the area who rushed to the scene rescued the injured including him from a precipice more than 300 feet deep. “When the bus that ran off the road and was rolling down the precipice, I had no alternative but to hold the steering wheel fast. All of the passengers excluding one were injured. The bus that had developed a similar technical defect in Avissawella the previous day and it was repaired,” he said. The Traffic Division of the Kahawatta Police are conducting further inquiries.");//A Colombo bound bus from Andana in Kahawatta ran off the road at Koskelle in Kahawatta and went down a precipice this morning, causing injuries to 30 passengers and the driver of the bus. Police said six of the injured in critical condition were transferred to the Ratnapura General Hospital. The driver of the bus M. Seneviratne said he lost control of the bus due to a technical defect. He said the residents of the area who rushed to the scene rescued the injured including him from a precipice more than 300 feet deep. “When the bus that ran off the road and was rolling down the precipice, I had no alternative but to hold the steering wheel fast. All of the passengers excluding one were injured. The bus that had developed a similar technical defect in Avissawella the previous day and it was repaired,” he said. The Traffic Division of the Kahawatta Police are conducting further inquiries.");
-        System.out.println(keyWordExist);
+        boolean isKeyWordExist= documentKeyWordFinder.isKeyWordExist(words);
+        return isKeyWordExist;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new DocumentKeyWordFinder().testFunctionality());
     }
 }

@@ -1,14 +1,15 @@
 package com.cse10.gui.task.classify;
 
+import com.cse10.classifier.ClassifierUIHandler;
 import com.cse10.classifier.DailyMirrorClassifierUIHandler;
+
 import java.util.Date;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
  */
-public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
+public class DailyMirrorClassifyTask extends ClassifyTask {
 
     public DailyMirrorClassifyTask() {
     }
@@ -17,37 +18,14 @@ public class DailyMirrorClassifyTask extends ClassifyTask implements Observer {
         super(startDate, endDate);
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("DailyMirror Classifer -> In Background");
-            Thread.currentThread().setName("Daily Mirror Classifier Thread");
-            //Initialize progress property.
-            setProgress(0);
-
-            //start classification process
-            classifierUIHandler = new DailyMirrorClassifierUIHandler();
-            classifierUIHandler.getClassifierConfigurator().addObserver(this);
-            classifierUIHandler.setEndDate(endDate);
-            classifierUIHandler.setName("Daily Mirror Classifier Thread");
-            classifierUIHandler.run();
-
-            System.out.println("DailyMirror Classifer -> Finished Task");
-
-        }
-        return null;
+    protected ClassifierUIHandler getClassifierUIHandler() {
+        return new DailyMirrorClassifierUIHandler();
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("DailyMirror Classifer -> Done " +classifierUIHandler.isAlive());
-        done = true;
+    protected String getPaperName() {
+        return "Daily Mirror";
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.cse10.gui.task.classify;
 
+import com.cse10.classifier.ClassifierUIHandler;
+import com.cse10.classifier.NewsFirstClassifierUIHandler;
+
 import java.util.Date;
-import java.util.Random;
+import java.util.Observable;
 
 /**
  * Created by TharinduWijewardane on 2015-01-10.
@@ -15,37 +18,21 @@ public class NewsFirstClassifyTask extends ClassifyTask {
         super(startDate, endDate);
     }
 
-    /*
-     * Main task. Executed in background thread.
-     */
     @Override
-    public Void doInBackground() {
-        if (!done) {
-            System.out.println("in background");
-            Random random = new Random();
-            int progress = 0;
-            //Initialize progress property.
-            setProgress(0);
-            while (progress < 100) {
-                //Sleep for up to one second.
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ignore) {
-                }
-                //Make random progress.
-                progress += random.nextInt(10);
-                setProgress(Math.min(progress, 100));
-            }
-        }
-        return null;
+    protected ClassifierUIHandler getClassifierUIHandler() {
+        return new NewsFirstClassifierUIHandler();
     }
 
-    /*
-     * Executed in event dispatching thread
-     */
     @Override
-    public void done() {
-        System.out.println("done");
-        done = true;
+    protected String getPaperName() {
+        return "News First";
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String message = (String) arg;
+        String[] m = message.split(" ");
+        if (m[0].equals("article_news_first"))
+            setProgress(Integer.parseInt(m[1]));
     }
 }
