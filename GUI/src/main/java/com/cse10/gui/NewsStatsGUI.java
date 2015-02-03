@@ -517,14 +517,14 @@ public class NewsStatsGUI {
         overallCrawlProgressBar.setStringPainted(true);
 
         if (overallProgress == 100) {
-            statusLabel.setText("Ready");
-            InfoDialog infoDialog = new InfoDialog();
-            infoDialog.init(frame, "Crawling Completed Successfully!");
 
             enableCrawlerUI();
             resetCrawlProgressBars();
             drawCrawlerChart();
 
+            statusLabel.setText("Ready");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Crawling Completed Successfully!");
         }
     }
 
@@ -627,14 +627,14 @@ public class NewsStatsGUI {
         overallClassifyProgressBar.setStringPainted(true);
 
         if (overallProgress == 100) {
-            statusLabel.setText("Ready");
-            InfoDialog infoDialog = new InfoDialog();
-            infoDialog.init(frame, "Classifying Completed Successfully!");
 
             enableClassifierUI();
             resetClassifyProgressBars();
             drawClassifierChart();
 
+            statusLabel.setText("Ready");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Classifying Completed Successfully!");
         }
     }
 
