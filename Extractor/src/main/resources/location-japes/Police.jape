@@ -102,6 +102,8 @@ if(inputAS.get("CrimeLocation").isEmpty()){
 	  // check that the new annotation is not a categorical place
 	  try {
 		String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
+		if (!(content.equals("Officer-in-charge")))
+		{
 			FeatureMap features = Factory.newFeatureMap();
 			features.put("location", "Police");
 			
@@ -125,6 +127,7 @@ if(inputAS.get("CrimeLocation").isEmpty()){
 			i = j-1;
 			
 			outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+		}
 	  }
 	  catch (InvalidOffsetException e) {
         e.printStackTrace();
@@ -234,32 +237,35 @@ Priority:50
 		// check that the new annotation is not a categorical place
 		try {
 			String content = doc.getContent().getContent(anAnn.getStartNode().getOffset(), anAnn.getEndNode().getOffset()).toString();
-			FeatureMap features = Factory.newFeatureMap();
-			features.put("location", "Police");
+			if (!(content.equals("Officer-in-charge")))
+			{
+				FeatureMap features = Factory.newFeatureMap();
+				features.put("location", "Police");
 
-			Node annEnd = anAnn.getEndNode();
-			int j;
+				Node annEnd = anAnn.getEndNode();
+				int j;
 
-			for(j= i+1; j < annList.size(); j++){
-				Annotation anAnnNext = (Annotation)annList.get(j);
-				if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
-					String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
-					if (!(longContent.charAt(0) == ',')){
-						annEnd = anAnnNext.getEndNode();
-					}else{
+				for(j= i+1; j < annList.size(); j++){
+					Annotation anAnnNext = (Annotation)annList.get(j);
+					if(anAnnNext.getStartNode().getOffset() == annEnd.getOffset()+1 || anAnnNext.getStartNode().getOffset() == annEnd.getOffset()){
+						String longContent = doc.getContent().getContent(anAnnNext.getStartNode().getOffset(), anAnnNext.getEndNode().getOffset()).toString();
+						if (!(longContent.charAt(0) == ',')){
+							annEnd = anAnnNext.getEndNode();
+						}else{
+							break;
+						}
+					}else{	
 						break;
 					}
-				}else{	
-					break;
 				}
-			}
 
-			i = j-1;
+				i = j-1;
 
-			if(crimeLocationSet.isEmpty()){
-				outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+				if(crimeLocationSet.isEmpty()){
+					outputAS.add(anAnn.getStartNode(), annEnd, "CrimeLocation", features);
+				}
+				outputAS.add(anAnn.getStartNode(), annEnd, "Police", features);
 			}
-			outputAS.add(anAnn.getStartNode(), annEnd, "Police", features);
 		}
 		catch (InvalidOffsetException e) {
 			e.printStackTrace();
