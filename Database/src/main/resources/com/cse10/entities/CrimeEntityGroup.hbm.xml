@@ -37,6 +37,9 @@
         <property name="possession" type="string">
             <column name="possession" length="50" not-null="false"/>
         </property>
+        <property name="isDuplicate" type="boolean">
+            <column name="is_duplicate" not-null="true" default="true"/>
+        </property>
 
         <many-to-one name="locationDistrict" class="com.cse10.entities.LocationDistrictMapper"
                      column="location" not-null="false"
