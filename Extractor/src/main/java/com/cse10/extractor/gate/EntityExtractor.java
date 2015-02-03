@@ -17,6 +17,7 @@ import gate.annotation.AnnotationImpl;
 import gate.util.GateException;
 import gate.util.persistence.PersistenceManager;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.exception.DataException;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -273,7 +274,7 @@ public class EntityExtractor extends Observable {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 endID = articleID;
@@ -341,10 +342,15 @@ public class EntityExtractor extends Observable {
             district = de.getDistrict(location);
             if (!district.equalsIgnoreCase("NULL")) {
                 locationDistrict = new LocationDistrictMapper(location, district);
-                DatabaseHandler.insertLocationDistrict(locationDistrict);
-                entityGroupOfArticle.setCrimeArticleId(articleID);
-                entityGroupOfArticle.setLocation(location);
-                entityGroupOfArticle.setLocationDistrict(locationDistrict);
+                try {
+                    DatabaseHandler.insertLocationDistrict(locationDistrict);
+                    entityGroupOfArticle.setCrimeArticleId(articleID);
+                    entityGroupOfArticle.setLocation(location);
+                    entityGroupOfArticle.setLocationDistrict(locationDistrict);
+                }catch (DataException dataE){
+                    System.out.println("Long district name : "+district+" for location : "+location);
+                    district = null;
+                }
             }
         }
     }
