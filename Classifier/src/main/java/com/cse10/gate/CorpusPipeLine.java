@@ -46,7 +46,7 @@ public class CorpusPipeLine {
             if(!isPOSRequired) {
                 try {
                     //TODO path problem
-                    params.put("listsURL", new File("C:\\Users\\hp\\IdeaProjects\\NewsStats6\\Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
+                    params.put("listsURL", new File("Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
