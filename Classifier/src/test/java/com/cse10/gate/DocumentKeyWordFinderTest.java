@@ -1,16 +1,19 @@
 package com.cse10.gate;
 
-import com.cse10.classifier.StanfordCoreNLPLemmatizer;
-import gate.Gate;
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.cse10.classifier.StanfordCoreNLPLemmatizer;
 import weka.core.tokenizers.NGramTokenizer;
 
-public class DocumentKeyWordFinderTest extends TestCase {
+public class DocumentKeyWordFinderTest {
 
     private String testContent;
 
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         NGramTokenizer tokenizer=new NGramTokenizer();
         tokenizer.setNGramMinSize(1);
         tokenizer.setNGramMaxSize(1);
@@ -26,28 +29,27 @@ public class DocumentKeyWordFinderTest extends TestCase {
             words = words.concat(" ");
         }
         testContent=words;
-
     }
 
+    @After
     public void tearDown() throws Exception {
 
     }
 
-
-    public void testIsKeyWordExist() throws Exception {
-            DocumentKeyWordFinder documentKeyWordFinder=new DocumentKeyWordFinder();
-            assertEquals(true, documentKeyWordFinder.isKeyWordExist(testContent));
-    }
-
-
+    @Test
     public void testSetGateHomeEnvVariableName() throws Exception {
 
     }
 
-
-    public void testTestFunctionality() throws Exception {
+    @Test
+    public void testIsKeyWordExist() throws Exception {
         DocumentKeyWordFinder documentKeyWordFinder=new DocumentKeyWordFinder();
-        assertEquals(true, documentKeyWordFinder.testFunctionality());
+        TestCase.assertEquals(true, documentKeyWordFinder.isKeyWordExist(testContent));
     }
 
+    @Test
+    public void testTestFunctionality() throws Exception {
+        DocumentKeyWordFinder documentKeyWordFinder=new DocumentKeyWordFinder();
+        TestCase.assertEquals(true, documentKeyWordFinder.testFunctionality());
+    }
 }
