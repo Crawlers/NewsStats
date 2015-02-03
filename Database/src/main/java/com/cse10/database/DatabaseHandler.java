@@ -588,6 +588,37 @@ public class DatabaseHandler {
         return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
     }
 
+
+    /**
+     *
+     * fetch crime entity of given id
+     * @param id
+     * @return
+     */
+    public static CrimeEntityGroup fetchCrimeEntityGroup(int id) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) session.load(CrimeEntityGroup.class, id);
+        session.getTransaction().commit();
+
+        session.close();
+
+        return crimeEntityGroup;
+    }
+
+
+    public static void updateCrimeEntityGroup(CrimeEntityGroup crimeEntityGroup) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+        session.update(crimeEntityGroup);
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
     /**
      * closes the hibernate session factory. (otherwise JVM won't stop)
      */
