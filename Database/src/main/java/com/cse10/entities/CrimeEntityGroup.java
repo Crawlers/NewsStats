@@ -21,6 +21,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
     private String victim;
     private int victimCount;
     private String possession;
+    private boolean isDuplicate;
     private LocationDistrictMapper locationDistrict;
     private Set<CrimePerson> crimePersonSet =  new HashSet<CrimePerson>(0);
 
@@ -118,6 +119,14 @@ public class CrimeEntityGroup implements java.io.Serializable {
     }
 
     public void setPossession(String possession) { this.possession = possession;}
+
+    public boolean getIsDuplicate() {
+        return isDuplicate;
+    }
+
+    public void setIsDuplicate(boolean isDuplicate) {
+        this.isDuplicate = isDuplicate;
+    }
 
     public Set<CrimePerson> getCrimePersonSet() { return crimePersonSet;}
 
