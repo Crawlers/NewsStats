@@ -536,7 +536,11 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelCrawler = new ChartPanel(chart);
+        if (chartPanelCrawler == null) {
+            chartPanelCrawler = new ChartPanel(chart);
+        } else {
+            chartPanelCrawler.setChart(chart);
+        }
         chartPanelCrawler.setVisible(true);
     }
 
@@ -652,7 +656,11 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelClassifier = new ChartPanel(chart);
+        if (chartPanelClassifier == null) {
+            chartPanelClassifier = new ChartPanel(chart);
+        } else {
+            chartPanelClassifier.setChart(chart);
+        }
         chartPanelClassifier.setVisible(true);
     }
 
@@ -766,7 +774,11 @@ public class NewsStatsGUI {
                 true,                   // tool tips
                 false                   // generate URLs
         );
-        chartPanelExtractor = new ChartPanel(chart);
-        chartPanelClassifier.setVisible(true);
+        if (chartPanelExtractor == null) {
+            chartPanelExtractor = new ChartPanel(chart);
+        } else {
+            chartPanelExtractor.setChart(chart);
+        }
+        chartPanelExtractor.setVisible(true);
     }
 }
