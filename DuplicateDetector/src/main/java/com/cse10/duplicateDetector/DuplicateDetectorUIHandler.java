@@ -11,19 +11,21 @@ import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.LocationDistrictMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class DuplicateDetectorUIHandler implements Runnable{
+public class DuplicateDetectorUIHandler extends Observable implements Runnable {
 
     SimHashCalculator simHashCalculator;
 
-    public DuplicateDetectorUIHandler(){
+    public DuplicateDetectorUIHandler() {
         simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
     }
+
     /**
      * read articles from file
      *
@@ -41,7 +43,13 @@ public class DuplicateDetectorUIHandler implements Runnable{
         return documents;
     }
 
-    private HashMap<Integer, String> readArticlesFromDB() throws InterruptedException{
+    /**
+     * read articles(article entities) from data base
+     *
+     * @return
+     * @throws InterruptedException
+     */
+    private HashMap<Integer, String> readArticlesFromDB() throws InterruptedException {
 
         HashMap<Integer, String> articleContents = new HashMap<>();
         ArrayList<CrimeEntityGroup> crimeEntityGroups = DatabaseHandler.fetchCrimeEntityGroups();
@@ -49,10 +57,13 @@ public class DuplicateDetectorUIHandler implements Runnable{
         System.out.println(crimeEntityGroups.size());
         String content;
         int id;
+
+        System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
+        //create article content from entities
         while (iterator.hasNext()) {
             CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) iterator.next();
             content = "";
-            System.out.println(Thread.currentThread().getName()+" -> Crime Entity Details --------------------------------");
+            System.out.println(Thread.currentThread().getName() + " -> Crime Entity Details --------------------------------");
             //System.out.println("ID " + crimeEntityGroup.getCrimeArticleId());
             id = crimeEntityGroup.getId();
 
@@ -71,8 +82,8 @@ public class DuplicateDetectorUIHandler implements Runnable{
             Date crimeDate = crimeEntityGroup.getCrimeDate();
             // System.out.println("Crime Date " + crimeDate);
             if (crimeDate != null) {
-                String[] crimeDateElements=crimeDate.toString().split("-");
-                String crimeDateString="";
+                String[] crimeDateElements = crimeDate.toString().split("-");
+                String crimeDateString = "";
                 for (int i = 0; i < crimeDateElements.length; i++) {
                     crimeDateString = crimeDateString.concat(crimeDateElements[i]).concat(" ");
                 }
@@ -96,29 +107,31 @@ public class DuplicateDetectorUIHandler implements Runnable{
                 if (location != null)
                     content = content.concat(location).concat(" ");
 
-                String district=crimeEntityGroup.getDistrict();
+                String district = crimeEntityGroup.getDistrict();
                 //   System.out.println("District " + district);
                 if (district != null)
                     content = content.concat(district).concat(" ");
             }
-            System.out.println(Thread.currentThread().getName()+"-> Content---" + content);
+            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
             articleContents.put(id, content);
-            System.out.println(Thread.currentThread().getName()+"-> -----------------------------------------------------");
 
             //if user stop the thread
-            if(Thread.currentThread().isInterrupted()){
+            if (Thread.currentThread().isInterrupted()) {
                 throw new InterruptedException();
             }
 
         }
         //close data base
         DatabaseHandler.closeDatabase();
+        System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Finish Loading Data from Database");
 
         System.out.println("End");
         return articleContents;
     }
 
     private void findDuplicates() throws InterruptedException {
+
+        int progress = 0;
         //this will contain all the calculated sim hash value (LONG) with related crime entity group id (Integer)
         HashMap<Integer, Long> documentSimHashes = new HashMap<>();
 
@@ -136,14 +149,16 @@ public class DuplicateDetectorUIHandler implements Runnable{
         writer.print("");
         writer.close();
 
-        //for each document calculate sim hash value
         Iterator iterator = documents.keySet().iterator();
+        int increment = documents.keySet().size() / 40;
+        int value = 0;
+        //for each document calculate sim hash value
         while (iterator.hasNext()) {
             // Calculate the sim hash value of document.
             int id = (Integer) iterator.next();
             String document = documents.get(id);
             long docHash = simHashCalculator.simhash64(document);
-            System.out.println(Thread.currentThread().getName()+"->Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits");
+            System.out.println(Thread.currentThread().getName() + "Duplicate Detector UI Handler->Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits");
             try {
                 Files.append("Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits \n", articleHashValues, Charsets.UTF_8);
             } catch (IOException e) {
@@ -151,15 +166,24 @@ public class DuplicateDetectorUIHandler implements Runnable{
             }
             documentSimHashes.put(id, docHash);
 
+            //send updates to GUI
+            value++;
+            if (value == increment) {
+                progress += 1;
+                setChanged();
+                notifyObservers(progress);
+                value = 0;
+            }
+
             //if user stop the thread
-            if(Thread.currentThread().isInterrupted()){
+            if (Thread.currentThread().isInterrupted()) {
                 throw new InterruptedException();
             }
         }
 
         //if user stop the thread
-        if(Thread.currentThread().isInterrupted()){
-                throw new InterruptedException();
+        if (Thread.currentThread().isInterrupted()) {
+            throw new InterruptedException();
         }
 
         File articleHammingDistances = new File("DuplicateDetector\\src\\main\\resources\\hammingDistances.txt");
@@ -172,11 +196,17 @@ public class DuplicateDetectorUIHandler implements Runnable{
         writer.print("");
         writer.close();
 
-        //calculate duplicates for each document
-        //add duplicate doc ids to a list
+
         int currentDocumentId = 0;
         iterator = documents.keySet().iterator();
+        increment = documents.keySet().size() / 60;
+        value = 0;
+        //calculate duplicates for each document
+        //add duplicate doc ids to a list
+        //for each article
         while (iterator.hasNext()) {
+
+            //calculate current doc's simHash
             currentDocumentId = (Integer) iterator.next();
             String document = documents.get(currentDocumentId);
             long docHash = simHashCalculator.simhash64(document);
@@ -185,6 +215,12 @@ public class DuplicateDetectorUIHandler implements Runnable{
             Map<Integer, Integer> docDistances = new HashMap();
             Iterator iter = documentSimHashes.keySet().iterator();
 
+            //if user stop the thread
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
+            }
+
+            //calculate hamming distance to each article and add it to similarDocs ArrayList
             while (iter.hasNext()) {
                 int hashDocId = (Integer) iter.next();
                 Long hashValue = documentSimHashes.get(hashDocId);
@@ -196,10 +232,17 @@ public class DuplicateDetectorUIHandler implements Runnable{
                     docDistances.put(hashDocId, distance);
                 }
             }
+
+            //if user stop the thread
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
+            }
+
+            //update db to mark duplicate or write to file
             if (!similarDocs.isEmpty()) {
-                System.out.println((Thread.currentThread().getName()+" Documents similar as [" + document+ currentDocumentId + "]:\n"));
+                System.out.println((Thread.currentThread().getName() + " Documents similar as [" + document + currentDocumentId + "]:\n"));
                 try {
-                    Files.append("Documents similar as [" + document+" " + currentDocumentId+ "]:\n", articleHammingDistances, Charsets.UTF_8);
+                    Files.append("Documents similar as [" + document + " " + currentDocumentId + "]:\n", articleHammingDistances, Charsets.UTF_8);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -207,7 +250,7 @@ public class DuplicateDetectorUIHandler implements Runnable{
                     if (i == currentDocumentId) {
                         continue;
                     }
-                    System.out.println((Thread.currentThread().getName()+"-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
+                    System.out.println((Thread.currentThread().getName() + "-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
                     try {
                         Files.append("[" + i + "]\tDistance=[" + docDistances.get(i) + "]\n", articleHammingDistances, Charsets.UTF_8);
                     } catch (IOException e) {
@@ -221,24 +264,38 @@ public class DuplicateDetectorUIHandler implements Runnable{
                 }
 
             }
+
+            //send updates to GUI
+            value++;
+            if (value == increment) {
+                progress += 1;
+                setChanged();
+                notifyObservers(progress);
+                value = 0;
+            }
+
             //if user stop the thread
-            if(Thread.currentThread().isInterrupted()){
+            if (Thread.currentThread().isInterrupted()) {
                 throw new InterruptedException();
             }
 
         }
+
+        //set progress to 100, sometimes it may not be exactly equal to 100
+        setChanged();
+        notifyObservers(100);
 
     }
 
     /**
      * start the process
      */
-    public void startDuplicateDetection(){
+    public void startDuplicateDetection() {
         try {
             findDuplicates();
         } catch (InterruptedException e) {
             //user has stopped the process
-            System.out.println(Thread.currentThread().getName()+"-> STOPPED");
+            System.out.println(Thread.currentThread().getName() + "-> STOPPED");
             DatabaseHandler.closeDatabase();
             e.printStackTrace();
         }
@@ -255,17 +312,17 @@ public class DuplicateDetectorUIHandler implements Runnable{
         //TODO do not delete duplicate articles. maintain a list of duplicate ids
 
         DuplicateDetectorUIHandler ui = new DuplicateDetectorUIHandler();
-        Thread t=new Thread(ui);
+        Thread t = new Thread(ui);
         t.setName("Duplicate Detector");
-        System.out.println(Thread.currentThread().getName()+"-> Start");
+        System.out.println(Thread.currentThread().getName() + "-> Start");
         t.start();
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(Thread.currentThread().getName()+"-> Finish");
-       // t.interrupt();
+        System.out.println(Thread.currentThread().getName() + "-> Finish");
+        // t.interrupt();
     }
 
 
