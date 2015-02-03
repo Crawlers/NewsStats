@@ -199,7 +199,7 @@ public class DatabaseHandler {
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
      */
-    public static List<Article> fetchArticlesWithNullLabels(Class articleClass,Date endDate) {
+    public static List<Article> fetchArticlesWithNullLabels(Class articleClass, Date endDate) {
         ArrayList<Article> articles;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -461,19 +461,35 @@ public class DatabaseHandler {
     }
 
     /**
-     * get the count of rows having given value for given column of a table containing articles of given type
+     * get the count of rows having given value for given property of a table containing articles of given type
      *
      * @param articleClass
-     * @param column
+     * @param property
      * @param value
      * @return
      */
-    public static int getRowCount(Class articleClass, String column, String value) {
+    public static int getRowCount(Class articleClass, String property, String value) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Long count = (Long) session.createCriteria(articleClass)
-                .add(Restrictions.eq(column, value))
+                .add(Restrictions.eq(property, value))
                 .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the count of distinct values of a certain property of the table of the given type
+     *
+     * @param articleClass
+     * @param property
+     * @return
+     */
+    public static int getDistinctValueCount(Class articleClass, String property) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .setProjection(Projections.countDistinct(property)).uniqueResult();
         session.close();
         return count.intValue();
     }
