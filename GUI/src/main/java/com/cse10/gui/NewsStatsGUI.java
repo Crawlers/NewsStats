@@ -5,6 +5,9 @@ import com.cse10.article.DailyMirrorArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.article.TheIslandArticle;
 import com.cse10.database.DatabaseHandler;
+import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
+import com.cse10.entities.LocationDistrictMapper;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -743,18 +746,25 @@ public class NewsStatsGUI {
 
     private void drawExtractorChart() {
 
+        int locationCount = DatabaseHandler.getDistinctValueCount(LocationDistrictMapper.class, "location");
+        int crimeTypesCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "crimeType");
+        int policeCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "police");
+        int courtCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "court");
+        int criminalCount = DatabaseHandler.getDistinctValueCount(CrimePerson.class, "name");
+
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("One", new Double(43.2));
-        dataset.setValue("Two", new Double(10.0));
-        dataset.setValue("Three", new Double(27.5));
-        dataset.setValue("Four", new Double(17.5));
+        dataset.setValue("Locations", locationCount);
+        dataset.setValue("Crime Types", crimeTypesCount);
+        dataset.setValue("Police Stations", policeCount);
+        dataset.setValue("Courts", courtCount);
+        dataset.setValue("Criminals/Suspects", criminalCount);
 
         final JFreeChart chart = ChartFactory.createPieChart(
-                "Extracted Entities",  // chart title
-                dataset,             // data
-                true,               // include legend
-                true,
-                false
+                "Extracted Entities",   // chart title
+                dataset,                // data
+                true,                   // include legend
+                true,                   // tool tips
+                false                   // generate URLs
         );
         chartPanelExtractor = new ChartPanel(chart);
         chartPanelClassifier.setVisible(true);
