@@ -16,6 +16,7 @@ import com.cse10.gui.task.crawl.CeylonTodayCrawlTask;
 import com.cse10.gui.task.crawl.DailyMirrorCrawlTask;
 import com.cse10.gui.task.crawl.NewsFirstCrawlTask;
 import com.cse10.gui.task.crawl.TheIslandCrawlTask;
+import com.cse10.gui.task.duplicateDetect.DuplicateDetectorTask;
 import com.cse10.gui.task.extract.ExtractorTask;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
@@ -108,7 +109,7 @@ public class NewsStatsGUI {
     private JScrollPane scrollPaneDuplicateDetector;
     private JPanel panelDuplicateDetector;
     private JButton duplicateDetectionButton;
-    private JProgressBar progressBar1;
+    private JProgressBar duplicateDetectorProgressBar;
     private ChartPanel chartPanelDuplicateDetector;
 
     private UIComponents uiComponentsAll;
@@ -141,7 +142,10 @@ public class NewsStatsGUI {
 
     private ExtractorTask extractorTask;
 
+    private DuplicateDetectorTask duplicateDetectorTask;
+
     private boolean extract = true;
+    private boolean duplicateDetect = true;
 
     public NewsStatsGUI() {
 
@@ -409,6 +413,47 @@ public class NewsStatsGUI {
                     if (extractorTask != null) {
                         extractorTask.stopExtract();
                         extractorTask.cancel(true);
+                    }
+
+                }
+            }
+        });
+        duplicateDetectionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (duplicateDetect) {
+                    duplicateDetect = false;
+                    disableDuplicateDetectorUI();
+
+                    duplicateDetectorTask = new DuplicateDetectorTask();
+                    duplicateDetectorTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                duplicateDetectorProgressBar.setValue(progress);
+                                duplicateDetectorProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Duplicate Detection Completed Successfully!");
+
+                                    enableDuplicateDetectorUI();
+                                    drawDuplicateDetectorChart();
+
+                                }
+                            }
+                        }
+                    });
+                    duplicateDetectorTask.execute();
+
+                } else {
+                    duplicateDetect = true;
+                    enableDuplicateDetectorUI();
+
+                    if (duplicateDetectorTask != null) {
+                        duplicateDetectorTask.stop();
+                        duplicateDetectorTask.cancel(true);
                     }
 
                 }
@@ -780,5 +825,22 @@ public class NewsStatsGUI {
             chartPanelExtractor.setChart(chart);
         }
         chartPanelExtractor.setVisible(true);
+    }
+
+    /* DUPLICATE DETECTOR TAB */
+
+    private void disableDuplicateDetectorUI() {
+
+        duplicateDetectionButton.setText("Cancel Extracting");
+    }
+
+    private void enableDuplicateDetectorUI() {
+
+        duplicateDetectionButton.setText("Start Extracting");
+        duplicateDetectorProgressBar.setValue(0);
+    }
+
+    private void drawDuplicateDetectorChart() {
+
     }
 }
