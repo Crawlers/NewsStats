@@ -3,11 +3,13 @@ package com.cse10.gui.task.extract;
 import com.cse10.extractor.gate.EntityExtractorTask;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by TharinduWijewardane on 2015-01-29.
  */
-public class ExtractorTask extends SwingWorker {
+public class ExtractorTask extends SwingWorker implements Observer {
 
     protected boolean done = false;
     private Thread extractorThread;
@@ -19,8 +21,10 @@ public class ExtractorTask extends SwingWorker {
     protected Object doInBackground() {
         if (!done) {
             System.out.println("in background");
-            EntityExtractorTask entityExtractorThread = new EntityExtractorTask();
-            extractorThread = new Thread(entityExtractorThread);
+
+            EntityExtractorTask entityExtractorTask = new EntityExtractorTask();
+            entityExtractorTask.getEntityExtrator().addObserver(this);
+            extractorThread = new Thread(entityExtractorTask);
             extractorThread.start();
         }
 
@@ -38,5 +42,11 @@ public class ExtractorTask extends SwingWorker {
     public void done() {
         System.out.println("done");
         done = true;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        int progress = ((Integer) arg).intValue();
+        setProgress(progress);
     }
 }
