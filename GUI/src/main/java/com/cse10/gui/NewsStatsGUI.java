@@ -5,6 +5,9 @@ import com.cse10.article.DailyMirrorArticle;
 import com.cse10.article.NewsFirstArticle;
 import com.cse10.article.TheIslandArticle;
 import com.cse10.database.DatabaseHandler;
+import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
+import com.cse10.entities.LocationDistrictMapper;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -21,6 +24,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,12 +102,12 @@ public class NewsStatsGUI {
     private JLabel theIslandClassifierStartDateLabel;
     private JScrollPane scrollPaneExtractor;
     private JPanel panelExtractor;
-    private JButton startExtractorButton;
+    private JButton extractorButton;
     private JProgressBar extractorProgressBar;
     private ChartPanel chartPanelExtractor;
     private JScrollPane scrollPaneDuplicateDetector;
     private JPanel panelDuplicateDetector;
-    private JButton button1;
+    private JButton duplicateDetectionButton;
     private JProgressBar progressBar1;
     private ChartPanel chartPanelDuplicateDetector;
 
@@ -369,7 +373,7 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
-        startExtractorButton.addActionListener(new ActionListener() {
+        extractorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (extract) {
@@ -377,6 +381,25 @@ public class NewsStatsGUI {
                     disableExtractorUI();
 
                     extractorTask = new ExtractorTask();
+                    extractorTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                extractorProgressBar.setValue(progress);
+                                extractorProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Entity Extraction Completed Successfully!");
+
+                                    enableExtractorUI();
+                                    drawExtractorChart();
+
+                                }
+                            }
+                        }
+                    });
                     extractorTask.execute();
 
                 } else {
@@ -418,46 +441,13 @@ public class NewsStatsGUI {
         panelClassifierModel = new JPanel();
 
         /* crawler chart */
-        final JFreeChart chartCrawler = ChartFactory.createBarChart(
-                "Crawled Articles",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelCrawler = new ChartPanel(chartCrawler);
-        chartPanelCrawler.setVisible(true);
+        drawCrawlerChart();
 
         /* classifier chart */
-        final JFreeChart chartClassifier = ChartFactory.createBarChart(
-                "Classified Articles",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelClassifier = new ChartPanel(chartClassifier);
-        chartPanelClassifier.setVisible(true);
+        drawClassifierChart();
 
         /* extractor chart */
-        final JFreeChart chartExtractor = ChartFactory.createBarChart(
-                "Extracted Entities",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelExtractor = new ChartPanel(chartExtractor);
-        chartPanelExtractor.setVisible(true);
+        drawExtractorChart();
 
         /* duplicate detector chart */
         final JFreeChart chartDupDetector = ChartFactory.createBarChart(
@@ -500,14 +490,14 @@ public class NewsStatsGUI {
         overallCrawlProgressBar.setStringPainted(true);
 
         if (overallProgress == 100) {
-            statusLabel.setText("Ready");
-            InfoDialog infoDialog = new InfoDialog();
-            infoDialog.init(frame, "Crawling Completed Successfully!");
 
             enableCrawlerUI();
             resetCrawlProgressBars();
             drawCrawlerChart();
 
+            statusLabel.setText("Ready");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Crawling Completed Successfully!");
         }
     }
 
@@ -546,7 +536,7 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelCrawler.setChart(chart);
+        chartPanelCrawler = new ChartPanel(chart);
         chartPanelCrawler.setVisible(true);
     }
 
@@ -610,14 +600,14 @@ public class NewsStatsGUI {
         overallClassifyProgressBar.setStringPainted(true);
 
         if (overallProgress == 100) {
-            statusLabel.setText("Ready");
-            InfoDialog infoDialog = new InfoDialog();
-            infoDialog.init(frame, "Classifying Completed Successfully!");
 
             enableClassifierUI();
             resetClassifyProgressBars();
             drawClassifierChart();
 
+            statusLabel.setText("Ready");
+            InfoDialog infoDialog = new InfoDialog();
+            infoDialog.init(frame, "Classifying Completed Successfully!");
         }
     }
 
@@ -662,7 +652,7 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelClassifier.setChart(chart);
+        chartPanelClassifier = new ChartPanel(chart);
         chartPanelClassifier.setVisible(true);
     }
 
@@ -745,11 +735,38 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        startExtractorButton.setText("Cancel Extracting");
+        extractorButton.setText("Cancel Extracting");
     }
 
     private void enableExtractorUI() {
 
-        startExtractorButton.setText("Start Extracting");
+        extractorButton.setText("Start Extracting");
+        extractorProgressBar.setValue(0);
+    }
+
+    private void drawExtractorChart() {
+
+        int locationCount = DatabaseHandler.getDistinctValueCount(LocationDistrictMapper.class, "location");
+        int crimeTypesCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "crimeType");
+        int policeCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "police");
+        int courtCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "court");
+        int criminalCount = DatabaseHandler.getDistinctValueCount(CrimePerson.class, "name");
+
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        dataset.setValue("Locations", locationCount);
+        dataset.setValue("Crime Types", crimeTypesCount);
+        dataset.setValue("Police Stations", policeCount);
+        dataset.setValue("Courts", courtCount);
+        dataset.setValue("Criminals/Suspects", criminalCount);
+
+        final JFreeChart chart = ChartFactory.createPieChart(
+                "Extracted Entities",   // chart title
+                dataset,                // data
+                true,                   // include legend
+                true,                   // tool tips
+                false                   // generate URLs
+        );
+        chartPanelExtractor = new ChartPanel(chart);
+        chartPanelClassifier.setVisible(true);
     }
 }

@@ -328,7 +328,7 @@
                                   <splitpane position="right"/>
                                 </constraints>
                                 <properties/>
-                                <border type="etched" title="Results"/>
+                                <border type="etched" title="DB state"/>
                                 <children>
                                   <component id="469b" class="org.jfree.chart.ChartPanel" binding="chartPanelCrawler" custom-create="true">
                                     <constraints>
@@ -638,7 +638,7 @@
                                   <splitpane position="right"/>
                                 </constraints>
                                 <properties/>
-                                <border type="etched" title="Results"/>
+                                <border type="etched" title="DB state"/>
                                 <children>
                                   <component id="af14" class="org.jfree.chart.ChartPanel" binding="chartPanelClassifier" custom-create="true">
                                     <constraints>
@@ -690,12 +690,12 @@
                             <properties/>
                             <border type="etched" title="Controller"/>
                             <children>
-                              <component id="f718f" class="javax.swing.JButton" binding="startExtractorButton">
+                              <component id="f718f" class="javax.swing.JButton" binding="extractorButton">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
-                                  <text value="Extract"/>
+                                  <text value="Start"/>
                                 </properties>
                               </component>
                               <component id="b1c63" class="javax.swing.JProgressBar" binding="extractorProgressBar">
@@ -712,7 +712,7 @@
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="etched" title="Results"/>
+                            <border type="etched" title="DB state"/>
                             <children>
                               <component id="d550f" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractor" custom-create="true">
                                 <constraints>
@@ -762,12 +762,12 @@
                             <properties/>
                             <border type="etched" title="Controller"/>
                             <children>
-                              <component id="1043" class="javax.swing.JButton" binding="button1" default-binding="true">
+                              <component id="1043" class="javax.swing.JButton" binding="duplicateDetectionButton">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
-                                  <text value="Button"/>
+                                  <text value="Start"/>
                                 </properties>
                               </component>
                               <component id="23e7e" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
@@ -779,12 +779,12 @@
                             </children>
                           </grid>
                           <grid id="d818b" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="etched" title="Results"/>
+                            <border type="etched" title="DB state"/>
                             <children>
                               <component id="3d524" class="org.jfree.chart.ChartPanel" binding="chartPanelDuplicateDetector" custom-create="true">
                                 <constraints>
