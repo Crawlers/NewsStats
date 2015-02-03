@@ -590,8 +590,8 @@ public class DatabaseHandler {
 
 
     /**
-     *
      * fetch crime entity of given id
+     *
      * @param id
      * @return
      */
@@ -601,8 +601,8 @@ public class DatabaseHandler {
         session.beginTransaction();
 
         CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) session.load(CrimeEntityGroup.class, id);
+        Hibernate.initialize(crimeEntityGroup);
         session.getTransaction().commit();
-
         session.close();
 
         return crimeEntityGroup;
