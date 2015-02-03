@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.exception.DataException;
 import org.jdom.JDOMException;
 
 public class BatchProcessApp {
@@ -85,7 +86,7 @@ public class BatchProcessApp {
 
         // fetches news articles from database
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
-        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class,611,612);
+        List<Article> articles = DatabaseHandler.fetchArticlesByIdRange(CrimeArticle.class, 12290, 12291);
 
 
         // process the files one by one
@@ -255,7 +256,7 @@ public class BatchProcessApp {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 // check all crime details are properly entered
@@ -304,10 +305,15 @@ public class BatchProcessApp {
             district = de.getDistrict(location);
             if (!district.equalsIgnoreCase("NULL")) {
                 locationDistrict = new LocationDistrictMapper(location, district);
-                DatabaseHandler.insertLocationDistrict(locationDistrict);
-                entityGroupOfArticle.setCrimeArticleId(articleID);
-                entityGroupOfArticle.setLocation(location);
-                entityGroupOfArticle.setLocationDistrict(locationDistrict);
+                try {
+                    DatabaseHandler.insertLocationDistrict(locationDistrict);
+                    entityGroupOfArticle.setCrimeArticleId(articleID);
+                    entityGroupOfArticle.setLocation(location);
+                    entityGroupOfArticle.setLocationDistrict(locationDistrict);
+                }catch (DataException dataE){
+                    System.out.println("Long district name : "+district+" for location : "+location);
+                    district = null;
+                }
             }
         }
     }
