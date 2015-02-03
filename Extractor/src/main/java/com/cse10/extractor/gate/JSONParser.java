@@ -38,8 +38,15 @@ public class JSONParser {
 
             // make request to google map api and get response
             HttpPost httppost = new HttpPost("http://maps.google.com/maps/api/geocode/json?address=" + address + "&sensor=false");
-            HttpHost proxy = new HttpHost(GlobalConstants.PROXY_ADDRESS, GlobalConstants.PROXY_PORT, "http");
-            HttpClient client = HttpClientBuilder.create().setProxy(proxy).build();
+
+            HttpClient client;
+
+            if(GlobalConstants.PROXY_PORT != 0){
+                HttpHost proxy = new HttpHost(GlobalConstants.PROXY_ADDRESS, GlobalConstants.PROXY_PORT, "http");
+                client = HttpClientBuilder.create().setProxy(proxy).build();
+            }else{
+                client = HttpClientBuilder.create().build();
+            }
             HttpResponse response;
             stringBuilder = new StringBuilder();
 
@@ -61,7 +68,7 @@ public class JSONParser {
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
+            System.out.println("Wrong JSON : "+stringBuilder.toString());
             e.printStackTrace();
         }
 
