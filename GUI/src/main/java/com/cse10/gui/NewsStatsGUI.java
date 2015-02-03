@@ -21,6 +21,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,12 +99,12 @@ public class NewsStatsGUI {
     private JLabel theIslandClassifierStartDateLabel;
     private JScrollPane scrollPaneExtractor;
     private JPanel panelExtractor;
-    private JButton startExtractorButton;
+    private JButton extractorButton;
     private JProgressBar extractorProgressBar;
     private ChartPanel chartPanelExtractor;
     private JScrollPane scrollPaneDuplicateDetector;
     private JPanel panelDuplicateDetector;
-    private JButton button1;
+    private JButton duplicateDetectionButton;
     private JProgressBar progressBar1;
     private ChartPanel chartPanelDuplicateDetector;
 
@@ -369,7 +370,7 @@ public class NewsStatsGUI {
                 resetClassifyProgressBars();
             }
         });
-        startExtractorButton.addActionListener(new ActionListener() {
+        extractorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (extract) {
@@ -377,6 +378,25 @@ public class NewsStatsGUI {
                     disableExtractorUI();
 
                     extractorTask = new ExtractorTask();
+                    extractorTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                extractorProgressBar.setValue(progress);
+                                extractorProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Entity Extraction Completed Successfully!");
+
+                                    enableExtractorUI();
+                                    drawExtractorChart();
+
+                                }
+                            }
+                        }
+                    });
                     extractorTask.execute();
 
                 } else {
@@ -446,15 +466,12 @@ public class NewsStatsGUI {
         chartPanelClassifier.setVisible(true);
 
         /* extractor chart */
-        final JFreeChart chartExtractor = ChartFactory.createBarChart(
-                "Extracted Entities",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
+        final JFreeChart chartExtractor = ChartFactory.createPieChart(
+                "Extracted Entities",  // chart title
+                null,             // data
+                true,               // include legend
+                true,
+                false
         );
         chartPanelExtractor = new ChartPanel(chartExtractor);
         chartPanelExtractor.setVisible(true);
@@ -745,11 +762,31 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        startExtractorButton.setText("Cancel Extracting");
+        extractorButton.setText("Cancel Extracting");
     }
 
     private void enableExtractorUI() {
 
-        startExtractorButton.setText("Start Extracting");
+        extractorButton.setText("Start Extracting");
+        extractorProgressBar.setValue(0);
+    }
+
+    private void drawExtractorChart() {
+
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        dataset.setValue("One", new Double(43.2));
+        dataset.setValue("Two", new Double(10.0));
+        dataset.setValue("Three", new Double(27.5));
+        dataset.setValue("Four", new Double(17.5));
+
+        final JFreeChart chartExtractor = ChartFactory.createPieChart(
+                "Extracted Entities",  // chart title
+                dataset,             // data
+                true,               // include legend
+                true,
+                false
+        );
+        chartPanelExtractor.setChart(chartExtractor);
+
     }
 }
