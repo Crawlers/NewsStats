@@ -438,43 +438,13 @@ public class NewsStatsGUI {
         panelClassifierModel = new JPanel();
 
         /* crawler chart */
-        final JFreeChart chartCrawler = ChartFactory.createBarChart(
-                "Crawled Articles",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelCrawler = new ChartPanel(chartCrawler);
-        chartPanelCrawler.setVisible(true);
+        drawCrawlerChart();
 
         /* classifier chart */
-        final JFreeChart chartClassifier = ChartFactory.createBarChart(
-                "Classified Articles",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelClassifier = new ChartPanel(chartClassifier);
-        chartPanelClassifier.setVisible(true);
+        drawClassifierChart();
 
         /* extractor chart */
-        final JFreeChart chartExtractor = ChartFactory.createPieChart(
-                "Extracted Entities",  // chart title
-                null,             // data
-                true,               // include legend
-                true,
-                false
-        );
-        chartPanelExtractor = new ChartPanel(chartExtractor);
-        chartPanelExtractor.setVisible(true);
+        drawExtractorChart();
 
         /* duplicate detector chart */
         final JFreeChart chartDupDetector = ChartFactory.createBarChart(
@@ -563,7 +533,7 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelCrawler.setChart(chart);
+        chartPanelCrawler = new ChartPanel(chart);
         chartPanelCrawler.setVisible(true);
     }
 
@@ -679,7 +649,7 @@ public class NewsStatsGUI {
                 true,                     // tooltips?
                 false                     // URLs?
         );
-        chartPanelClassifier.setChart(chart);
+        chartPanelClassifier = new ChartPanel(chart);
         chartPanelClassifier.setVisible(true);
     }
 
@@ -779,14 +749,14 @@ public class NewsStatsGUI {
         dataset.setValue("Three", new Double(27.5));
         dataset.setValue("Four", new Double(17.5));
 
-        final JFreeChart chartExtractor = ChartFactory.createPieChart(
+        final JFreeChart chart = ChartFactory.createPieChart(
                 "Extracted Entities",  // chart title
                 dataset,             // data
                 true,               // include legend
                 true,
                 false
         );
-        chartPanelExtractor.setChart(chartExtractor);
-
+        chartPanelExtractor = new ChartPanel(chart);
+        chartPanelClassifier.setVisible(true);
     }
 }

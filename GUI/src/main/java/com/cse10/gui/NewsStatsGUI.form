@@ -328,7 +328,7 @@
                                   <splitpane position="right"/>
                                 </constraints>
                                 <properties/>
-                                <border type="etched" title="Results"/>
+                                <border type="etched" title="DB state"/>
                                 <children>
                                   <component id="469b" class="org.jfree.chart.ChartPanel" binding="chartPanelCrawler" custom-create="true">
                                     <constraints>
@@ -638,7 +638,7 @@
                                   <splitpane position="right"/>
                                 </constraints>
                                 <properties/>
-                                <border type="etched" title="Results"/>
+                                <border type="etched" title="DB state"/>
                                 <children>
                                   <component id="af14" class="org.jfree.chart.ChartPanel" binding="chartPanelClassifier" custom-create="true">
                                     <constraints>
@@ -712,7 +712,7 @@
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="etched" title="Results"/>
+                            <border type="etched" title="DB state"/>
                             <children>
                               <component id="d550f" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractor" custom-create="true">
                                 <constraints>
@@ -784,7 +784,7 @@
                               <splitpane position="right"/>
                             </constraints>
                             <properties/>
-                            <border type="etched" title="Results"/>
+                            <border type="etched" title="DB state"/>
                             <children>
                               <component id="3d524" class="org.jfree.chart.ChartPanel" binding="chartPanelDuplicateDetector" custom-create="true">
                                 <constraints>
