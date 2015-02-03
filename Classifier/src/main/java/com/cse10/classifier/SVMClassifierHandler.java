@@ -70,8 +70,9 @@ public class SVMClassifierHandler extends ClassifierHandler {
     /**
      * @param filteredTrainingData
      * @param numOfFolds
+     * @return
      */
-    public void crossValidateClassifier(Instances filteredTrainingData, int numOfFolds) {
+    public Evaluation crossValidateClassifier(Instances filteredTrainingData, int numOfFolds) {
 
         //perform cross validation
         Evaluation evaluation = null;
@@ -93,7 +94,7 @@ public class SVMClassifierHandler extends ClassifierHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return evaluation;
     }
 
 
@@ -113,10 +114,4 @@ public class SVMClassifierHandler extends ClassifierHandler {
         return result;
     }
 
-    //setters
-
-
-    public void setSvm(LibSVMExtended svm) {
-        this.svm = svm;
-    }
 }

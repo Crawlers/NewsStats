@@ -18,13 +18,21 @@ import java.util.*;
 public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serializable {
 
     protected StanfordCoreNLP pipeline;
+    protected String currentVersion;
+    protected String[] options;
 
     public StanfordCoreNLPLemmatizer() {
+
         Properties props;
         props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma");
         this.pipeline = new StanfordCoreNLP(props);
 
+        currentVersion="1.0";
+
+        options=new String[2];
+        options[0]="-S";
+        options[1]="Stanford Core NLP";
     }
 
     /**
@@ -55,30 +63,31 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
 
     @Override
     public String getRevision() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return currentVersion;
     }
 
     @Override
     public Enumeration listOptions() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Vector v=new Vector();
+        for(String s:options){
+            v.add(s);
+        }
+        return v.elements();
     }
 
     @Override
     public void setOptions(String[] options) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            this.options=options;
     }
 
     @Override
     public String[] getOptions() {
-        ArrayList result;
+        /*ArrayList result;
         result = new ArrayList();
         result.add("-S");
         result.add("Stanford Core NLP");
-        return (String[]) result.toArray(new String[result.size()]);
+        return (String[]) result.toArray(new String[result.size()]);*/
+        return options;
     }
 
-    public static void main(String[] args) {
-        StanfordCoreNLPLemmatizer stanfordCoreNLPLemmatizer=new StanfordCoreNLPLemmatizer();
-        System.out.println(stanfordCoreNLPLemmatizer.stem("talking"));
-    }
 }
