@@ -77,10 +77,10 @@ public class GateTest {
 
         t.start();
 
-        Thread.currentThread().sleep(3000);
+        Thread.currentThread().sleep(9000);
 
         System.out.println("Check");
-        t.interrupt();
+        //t.interrupt();
 
         t.join();
 
