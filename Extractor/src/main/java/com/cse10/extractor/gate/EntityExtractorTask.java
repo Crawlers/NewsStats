@@ -9,6 +9,7 @@ public class EntityExtractorTask implements Runnable {
 
     public EntityExtractorTask(){
         eExtrator = new EntityExtractor();
+        System.out.println("EntityExtractorTask Instantiated");
     }
 
     public EntityExtractor getEntityExtrator() {
