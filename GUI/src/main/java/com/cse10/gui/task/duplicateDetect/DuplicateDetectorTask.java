@@ -33,7 +33,7 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
             try {
                 duplicateDetectorUIHandlerThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+
             }
             System.out.println("Duplicate Detector ->  Finished Task");
         }
