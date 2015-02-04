@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 /**
  * this class is used to create 32bits and 64bits hash values for given string
  * this is murmur hash function. it non-cryptographic hash function
- * Created by chamath on 1/2/2015.
+ * Created by Chamath on 1/2/2015.
  */
 public class HashCalculator {
 

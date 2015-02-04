@@ -3,7 +3,7 @@ package com.cse10.duplicateDetector;
 import java.util.List;
 
 /**
- * Created by chamath on 1/2/2015.
+ * Created by Chamath on 1/2/2015.
  */
 public class SimHashCalculator {
     private WordSegmenter wordSegmenter;
@@ -15,47 +15,13 @@ public class SimHashCalculator {
         hashCalculator=new HashCalculator();
     }
 
-    /**
-     * calculate hamming distance for two integers
-     * Hamming distance between two strings of equal length is the number of positions at which the corresponding
-     * symbols are different
-     * @param hash1
-     * @param hash2
-     * @return
-     */
-    public int hammingDistance(int hash1, int hash2) {
-        int i = hash1 ^ hash2;
-        i = i - ((i >>> 1) & 0x55555555);
-        i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
-        i = (i + (i >>> 4)) & 0x0f0f0f0f;
-        i = i + (i >>> 8);
-        i = i + (i >>> 16);
-        return i & 0x3f;
-    }
-
-    /**
-     * calculate hamming distance for two long values
-     * @param hash1
-     * @param hash2
-     * @return
-     */
-    public int hammingDistance(long hash1, long hash2) {
-        long i = hash1 ^ hash2;
-        i = i - ((i >>> 1) & 0x5555555555555555L);
-        i = (i & 0x3333333333333333L) + ((i >>> 2) & 0x3333333333333333L);
-        i = (i + (i >>> 4)) & 0x0f0f0f0f0f0f0f0fL;
-        i = i + (i >>> 8);
-        i = i + (i >>> 16);
-        i = i + (i >>> 32);
-        return (int) i & 0x7f;
-    }
 
     /**
      * calculate signature/finger print value (64 bit) for the given document
      * @param document
      * @return
      */
-    public long simhash64(String document)  {
+    public long getSimhash64Value(String document)  {
         int bitLen = 64;
         int[] bits = new int[bitLen];
         List<String> tokens = wordSegmenter.getWords(document);
@@ -90,7 +56,7 @@ public class SimHashCalculator {
      * @param doc
      * @return
      */
-    public long simhash32(String doc) {
+    public long getSimhash32Value(String doc) {
         int bitLen = 32;
         int[] bits = new int[bitLen];
         List<String> tokens = wordSegmenter.getWords(doc);
@@ -117,11 +83,10 @@ public class SimHashCalculator {
 
     public static void main(String[] args) {
         SimHashCalculator simHashCalculator=new SimHashCalculator(new FullWordSegmenter());
-        long hash1=simHashCalculator.simhash64("child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
-        long hash2=simHashCalculator.simhash64("illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
+        long hash1=simHashCalculator.getSimhash64Value("child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
+        long hash2=simHashCalculator.getSimhash64Value("illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
         System.out.println(Long.toBinaryString(hash1));
         System.out.println(Long.toBinaryString(hash2));
-        System.out.println(simHashCalculator.hammingDistance(hash1,hash2));
     }
 
 }
