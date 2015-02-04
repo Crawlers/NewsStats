@@ -8,6 +8,9 @@ import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
+import com.cse10.gui.task.analyze.AnalyzeTask;
+import com.cse10.gui.task.analyze.PredictTask;
+import com.cse10.gui.task.analyze.UploadDataTask;
 import com.cse10.gui.task.classify.CeylonTodayClassifyTask;
 import com.cse10.gui.task.classify.DailyMirrorClassifyTask;
 import com.cse10.gui.task.classify.NewsFirstClassifyTask;
@@ -111,6 +114,14 @@ public class NewsStatsGUI {
     private JButton duplicateDetectionButton;
     private JProgressBar duplicateDetectorProgressBar;
     private ChartPanel chartPanelDuplicateDetector;
+    private JScrollPane scrollPaneAnalyzer;
+    private JPanel panelAnalyzer;
+    private JButton analyzeButton;
+    private JProgressBar analyzerProgressBar;
+    private JButton predictButton;
+    private JButton uploadDataButton;
+    private JProgressBar predictorProgressBar;
+    private JProgressBar uploaderProgressBar;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -146,11 +157,17 @@ public class NewsStatsGUI {
     private TheIslandClassifyTask theIslandClassifyTask;
 
     private ExtractorTask extractorTask;
-
     private DuplicateDetectorTask duplicateDetectorTask;
 
     private boolean extract = true;
     private boolean duplicateDetect = true;
+    private boolean analyze = true;
+    private boolean predict = true;
+    private boolean uploadData = true;
+
+    private AnalyzeTask analyzeTask;
+    private PredictTask predictTask;
+    private UploadDataTask uploadDataTask;
 
     public NewsStatsGUI() {
 
@@ -459,6 +476,129 @@ public class NewsStatsGUI {
                     if (duplicateDetectorTask != null) {
                         duplicateDetectorTask.stop();
                         duplicateDetectorTask.cancel(true);
+                    }
+
+                }
+            }
+        });
+        analyzeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (analyze) {
+                    analyze = false;
+//                    disableAnalyzerUI();
+                    analyzeButton.setText("cancel");
+
+                    analyzeTask = new AnalyzeTask();
+                    analyzeTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                analyzerProgressBar.setValue(progress);
+                                analyzerProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Analyze Completed Successfully!");
+
+//                                    enableAnalyzerUI();
+                                    analyzeButton.setText("Analyze");
+                                }
+                            }
+                        }
+                    });
+                    analyzeTask.execute();
+
+                } else {
+                    analyze = true;
+//                    enableAnalyzerUI();
+                    analyzeButton.setText("Analyze");
+                    if (analyzeTask != null) {
+                        analyzeTask.stop();
+                        analyzeTask.cancel(true);
+                    }
+
+                }
+            }
+        });
+        predictButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (predict) {
+                    predict = false;
+//                    disableAnalyzerUI();
+                    predictButton.setText("cancel");
+
+                    predictTask = new PredictTask();
+                    predictTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                predictorProgressBar.setValue(progress);
+                                predictorProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Prediction Completed Successfully!");
+
+//                                    enableAnalyzerUI();
+                                    predictButton.setText("Predict");
+                                }
+                            }
+                        }
+                    });
+                    predictTask.execute();
+
+                } else {
+                    predict = true;
+//                    enableAnalyzerUI();
+                    predictButton.setText("Predict");
+                    if (predictTask != null) {
+                        predictTask.stop();
+                        predictTask.cancel(true);
+                    }
+
+                }
+            }
+        });
+        uploadDataButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (uploadData) {
+                    uploadData = false;
+//                    disableAnalyzerUI();
+                    uploadDataButton.setText("cancel");
+
+                    uploadDataTask = new UploadDataTask();
+                    uploadDataTask.addPropertyChangeListener(new PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(PropertyChangeEvent evt) {
+                            if ("progress" == evt.getPropertyName()) {
+                                int progress = (Integer) evt.getNewValue();
+                                uploaderProgressBar.setValue(progress);
+                                uploaderProgressBar.setStringPainted(true);
+                                if (progress == 100) {
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Upload Completed Successfully!");
+
+//                                    enableAnalyzerUI();
+                                    uploadDataButton.setText("Upload Data");
+                                }
+                            }
+                        }
+                    });
+                    uploadDataTask.execute();
+
+                } else {
+                    uploadData = true;
+//                    enableAnalyzerUI();
+                    uploadDataButton.setText("Upload Data");
+                    if (uploadDataTask != null) {
+                        uploadDataTask.stop();
+                        uploadDataTask.cancel(true);
                     }
 
                 }
