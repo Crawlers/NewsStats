@@ -24,8 +24,6 @@ public class NewsFirstContentHandler extends BasicContentHandler {
         if (page.getParseData() instanceof HtmlParseData) {
 
             String postId = "post-" + page.getWebURL().getPath().replaceAll(".*/", "");
-            System.out.println(page.getWebURL().getPath());
-            System.out.println(postId);
 
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String html = htmlParseData.getHtml();

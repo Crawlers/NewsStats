@@ -10,6 +10,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,7 +34,7 @@ public class TheIslandCrawlController extends BasicCrawlController {
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
         if (startDate == null || endDate == null) {
-            System.out.println("Error: You should set start and end dates");
+            logger.info("Error: You should set start and end dates");
             return;
         }
 
@@ -64,14 +65,14 @@ public class TheIslandCrawlController extends BasicCrawlController {
             String url = localhostProxyUrl + "?newsfordate=" + date + "/" + month + "/" + year;
 
             controller.addSeed(url);
-            System.out.println("crawling " + url);
+            logger.info("crawling " + url);
             /*
              * Start the crawl. This is a blocking operation, meaning that your code
              * will reach the line after this only when crawling is finished.
              */
             controller.start(_c, 1);
 
-            if(crawlingStopped){ //if stopped from calling class
+            if (crawlingStopped) { //if stopped from calling class
                 return;
             }
 

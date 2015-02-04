@@ -4,6 +4,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -16,6 +17,8 @@ import java.util.regex.Pattern;
  * To change this template use File | Settings | File Templates.
  */
 public class BasicCrawler extends WebCrawler {
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|bmp|gif|jpe?g" + "|png|tiff?|mid|mp2|mp3|mp4"
             + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
@@ -44,13 +47,13 @@ public class BasicCrawler extends WebCrawler {
         String parentUrl = page.getWebURL().getParentUrl();
         String anchor = page.getWebURL().getAnchor();
 
-        System.out.println("Docid: " + docid);
-        System.out.println("URL: " + url);
-        System.out.println("Domain: '" + domain + "'");
-        System.out.println("Sub-domain: '" + subDomain + "'");
-        System.out.println("Path: '" + path + "'");
-        System.out.println("Parent page: " + parentUrl);
-        System.out.println("Anchor text: " + anchor);
+        logger.info("Docid: " + docid);
+        logger.info("URL: " + url);
+        logger.info("Domain: '" + domain + "'");
+        logger.info("Sub-domain: '" + subDomain + "'");
+        logger.info("Path: '" + path + "'");
+        logger.info("Parent page: " + parentUrl);
+        logger.info("Anchor text: " + anchor);
 
         if (page.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -59,9 +62,9 @@ public class BasicCrawler extends WebCrawler {
 
             List<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            System.out.println("Text length: " + text.length());
-            System.out.println("Html length: " + html.length());
-            System.out.println("Number of outgoing links: " + links.size());
+            logger.info("Text length: " + text.length());
+            logger.info("Html length: " + html.length());
+            logger.info("Number of outgoing links: " + links.size());
         }
 
         //        Header[] responseHeaders = page.getFetchResponseHeaders();
