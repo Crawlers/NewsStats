@@ -1,5 +1,7 @@
 package com.cse10.classifier;
 
+import com.cse10.article.Article;
+import com.cse10.article.CrimeArticle;
 import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import weka.core.Attribute;
@@ -9,7 +11,9 @@ import weka.core.Instances;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * handle data base transactions
@@ -29,6 +33,7 @@ public abstract class DataHandler {
 
     /**
      * fetch training data from database
+     *
      * @param featureVectorTransformer
      */
     public abstract Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer);
@@ -44,8 +49,8 @@ public abstract class DataHandler {
     public Instances loadTestData(Class articleClass, String constrain, boolean isApplyingKeyWordFilter) {
 
         FastVector attributeList = new FastVector(2);
-        KeyWordClassifierHandler keyWordClassifierHandler=new KeyWordClassifierHandler();
-        keyWordClassifierHandler.configure(1,1,"\\W");
+        KeyWordClassifierHandler keyWordClassifierHandler = new KeyWordClassifierHandler();
+        keyWordClassifierHandler.configure(1, 1, "\\W");
         articleIds.clear();
         Attribute a1 = new Attribute("text", (FastVector) null);
 
@@ -79,8 +84,8 @@ public abstract class DataHandler {
                 inst.setClassMissing();
                 //if we apply key word filter, we remove obvious non-crime articles first
                 if (isApplyingKeyWordFilter) {
-                   double value=keyWordClassifierHandler.classifyInstance(inst);
-                    if(value==0.0){
+                    double value = keyWordClassifierHandler.classifyInstance(inst);
+                    if (value == 0.0) {
                         testData.add(inst);
                         articleIds.put(instNumber, id); //in order to keep track of ID
                         instNumber++;
@@ -105,6 +110,27 @@ public abstract class DataHandler {
 
     public String getFileName() {
         return fileName;
+    }
+
+    //wrapper methods for data base handler class
+    public List<Article> fetchArticlesWithNullLabels(Class tableName, Date endDate) {
+        return DatabaseHandler.fetchArticlesWithNullLabels(tableName, endDate);
+    }
+
+    public List<Article> fetchArticlesByIdList(Class tableName, List<Integer> crimeArticleIdList) {
+        return DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
+    }
+
+    public void insertCrimeArticleAndUpdatePprArticle(CrimeArticle crimeArticle,Article article){
+        DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
+    }
+
+    public void updateArticle(Article article){
+        DatabaseHandler.updateArticle(article);
+    }
+
+    public void closeDatabase(){
+        DatabaseHandler.closeDatabase();
     }
 
 }

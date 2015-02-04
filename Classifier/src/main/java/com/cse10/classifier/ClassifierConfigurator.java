@@ -2,7 +2,6 @@ package com.cse10.classifier;
 
 import com.cse10.article.*;
 import com.cse10.database.DatabaseConstants;
-import com.cse10.database.DatabaseHandler;
 import com.cse10.util.ArticleConverter;
 import weka.core.Instances;
 import java.io.BufferedReader;
@@ -198,13 +197,13 @@ public class ClassifierConfigurator extends Observable{
 
         //get only unclassified data using weka loading
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->"+sqlEndDate);
-        Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL and `created_date` < '"+sqlEndDate+"'", true); //`created_date`<'2013-06-01'
+        Instances testData = dataHandler.loadTestData(tableName, "WHERE  label IS NULL and `created_date` <= '"+sqlEndDate+"'", true); //`created_date`<'2013-06-01'
 
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
         if (testData.numInstances() != 0) {
-            List<Article> testDataArticles = DatabaseHandler.fetchArticlesWithNullLabels(tableName,endDate);
+            List<Article> testDataArticles = dataHandler.fetchArticlesWithNullLabels(tableName,endDate);
             HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
             Instances filteredTestData = featureVectorTransformer.getTransformedArticles(testData);
             List<Integer> crimeArticleIdList = new ArrayList<Integer>();
@@ -223,7 +222,7 @@ public class ClassifierConfigurator extends Observable{
 
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
             ListIterator iter;
-            List<Article> articles = DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
+            List<Article> articles = dataHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
 
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of article list= " + articles.size());
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Article Titles");
@@ -258,34 +257,16 @@ public class ClassifierConfigurator extends Observable{
                 System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
                 return;
             }
-            //below line should be replace by a transaction
-            //DatabaseHandler.insertArticles(crimeArticles);
 
-            //transaction
+             //transaction
             System.out.println(Thread.currentThread().getName()+"   Classifier UI Handler -> Transaction");
-        /*    for(CrimeArticle crimeArticle:crimeArticles){
-                for(Article article:testDataArticles){
-                    if(article.getId()<crimeArticle.getNewspaperId() && article.getLabel()==null){
-                        article.setLabel("other");
-                        DatabaseHandler.updateArticle(article);
-                    }else if(article.getId()==crimeArticle.getNewspaperId() && article.getLabel()==null){
-                        article.setLabel("crime");
-                        //transaction
-                        *//*DatabaseHandler.insertArticle(crimeArticle);
-                        DatabaseHandler.updateArticle(article);*//*
-                        DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
-                        //end of transaction
-                        break;
-                    }
-                }
-            }*/
 
              for (Article article : testDataArticles) {
                 if (crimeArticleIdList.contains(article.getId())) {
                     article.setLabel("crime");
                     for(CrimeArticle crimeArticle:crimeArticles){
                         if(article.getId()==crimeArticle.getNewspaperId()){
-                            DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
+                            dataHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
                         }
                     }
 
@@ -296,7 +277,7 @@ public class ClassifierConfigurator extends Observable{
 
                 } else {
                     article.setLabel("other");
-                    DatabaseHandler.updateArticle(article);
+                    dataHandler.updateArticle(article);
 
                     if(Thread.currentThread().isInterrupted()){
                         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
@@ -317,7 +298,7 @@ public class ClassifierConfigurator extends Observable{
         notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
 
         //to finish hybernate session and close database. other wise JVM will run continuously
-        DatabaseHandler.closeDatabase();
+        dataHandler.closeDatabase();
         System.out.println(Thread.currentThread().getName()+"---------------------------------------------------------------------------------");
     }
 
