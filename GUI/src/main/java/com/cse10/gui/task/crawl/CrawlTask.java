@@ -2,6 +2,7 @@ package com.cse10.gui.task.crawl;
 
 import com.cse10.crawler.crawlControler.BasicCrawlController;
 import com.cse10.database.DatabaseHandler;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.text.ParseException;
@@ -15,6 +16,8 @@ import java.util.concurrent.TimeUnit;
  * Created by TharinduWijewardane on 2015-01-18.
  */
 public abstract class CrawlTask extends SwingWorker<Void, Void> implements Observer {
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     protected boolean done = false;
 
@@ -49,7 +52,14 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
         }
 
         endDate = new Date(); // set today
-
+        //todo remove following
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            endDate = sdf.parse("2012-01-11");
+//        } catch (ParseException e) {
+//            endDate = new Date(); // set today if fails
+//            e.printStackTrace();
+//        }
     }
 
     protected abstract Class getArticleClassType(); // tobe implemented in subclasses accordingly
@@ -75,7 +85,7 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
     @Override
     public Void doInBackground() {
         if (!done) {
-            System.out.println("in background");
+            logger.info("in background");
 
             //Initialize progress property.
             setProgress(1);
@@ -99,7 +109,7 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
      */
     @Override
     public void done() {
-        System.out.println("done");
+        logger.info("done");
         done = true;
     }
 
@@ -107,7 +117,7 @@ public abstract class CrawlTask extends SwingWorker<Void, Void> implements Obser
     public void update(Observable o, Object arg) {
         int progress = 100 * ++dateCount / numberOfDates;
         setProgress(Math.min(progress, 100));
-        System.out.println("CRAWLING " + arg.toString() + " of " + o.getClass() + " COMPLETED");
+        logger.info("CRAWLING " + arg.toString() + " of " + o.getClass() + " COMPLETED");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cse10.gui.task.duplicateDetect;
 
 import com.cse10.duplicateDetector.DuplicateDetectorUIHandler;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.Observable;
@@ -11,13 +12,15 @@ import java.util.Observer;
  */
 public class DuplicateDetectorTask extends SwingWorker implements Observer {
 
+    protected Logger logger = Logger.getLogger(this.getClass());
+
     protected boolean done = false;
     protected Thread duplicateDetectorUIHandlerThread;
     protected DuplicateDetectorUIHandler duplicateDetectorUIHandler;
 
-    public DuplicateDetectorTask(){
-        this.duplicateDetectorUIHandler=new DuplicateDetectorUIHandler();
-        duplicateDetectorUIHandlerThread=new Thread(duplicateDetectorUIHandler);
+    public DuplicateDetectorTask() {
+        this.duplicateDetectorUIHandler = new DuplicateDetectorUIHandler();
+        duplicateDetectorUIHandlerThread = new Thread(duplicateDetectorUIHandler);
 
     }
 
@@ -27,7 +30,7 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
     @Override
     protected Object doInBackground() {
         if (!done) {
-            System.out.println("Duplicate Detector -> In Background");
+            logger.info("Duplicate Detector -> In Background");
             duplicateDetectorUIHandler.addObserver(this);
             duplicateDetectorUIHandlerThread.start();
             try {
@@ -35,7 +38,7 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Duplicate Detector ->  Finished Task");
+            logger.info("Duplicate Detector ->  Finished Task");
         }
 
         return null;
@@ -43,6 +46,7 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
 
     public void stop() {
         duplicateDetectorUIHandlerThread.interrupt();
+        logger.info("interrupted by user");
     }
 
     /*
@@ -50,13 +54,13 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
      */
     @Override
     public void done() {
-        System.out.println("Duplicate Detector -> Done");
+        logger.info("Duplicate Detector -> Done");
         done = true;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        int progress=(Integer)arg;
+        int progress = (Integer) arg;
         setProgress(progress);
     }
 }
