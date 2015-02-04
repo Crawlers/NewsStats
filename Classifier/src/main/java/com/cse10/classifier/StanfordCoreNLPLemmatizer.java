@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  * Wrapper class for StanfordCoreNLP
- * Created by chamath on 12/20/2014
+ * Created by Chamath on 12/20/2014
  */
 public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serializable {
 

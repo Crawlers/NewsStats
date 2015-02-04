@@ -12,7 +12,8 @@ import java.io.FileReader;
 import java.util.*;
 
 /**
- * Created by chamath on 12/20/2014
+ * Combine all of the functionality, used by ui handlers
+ * Created by Chamath on 12/20/2014
  */
 public class ClassifierConfigurator extends Observable{
 

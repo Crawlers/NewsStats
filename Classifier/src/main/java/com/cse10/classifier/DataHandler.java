@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 /**
  * handle data base transactions
- * Created by chamath on 12/16/2014.
+ * Created by Chamath on 12/16/2014.
  */
 public abstract class DataHandler {
 
