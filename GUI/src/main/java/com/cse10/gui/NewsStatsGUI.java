@@ -45,7 +45,6 @@ public class NewsStatsGUI {
 
     private JPanel panelMain;
     private JTabbedPane tabbedPane1;
-    private JPanel panelWizard;
     private JScrollPane scrollPaneCrawler;
     private JPanel panelCrawler;
     private JPanel panelCrawlPapers;
@@ -777,12 +776,12 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        extractorButton.setText("Cancel Extracting");
+        extractorButton.setText("Cancel Operation");
     }
 
     private void enableExtractorUI() {
 
-        extractorButton.setText("Start Extracting");
+        extractorButton.setText("Start");
         extractorProgressBar.setValue(0);
     }
 
@@ -820,12 +819,12 @@ public class NewsStatsGUI {
 
     private void disableDuplicateDetectorUI() {
 
-        duplicateDetectionButton.setText("Cancel Extracting");
+        duplicateDetectionButton.setText("Cancel Operation");
     }
 
     private void enableDuplicateDetectorUI() {
 
-        duplicateDetectionButton.setText("Start Extracting");
+        duplicateDetectionButton.setText("Start");
         duplicateDetectorProgressBar.setValue(0);
     }
 
