@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
- *
- * Created by chamath on 12/18/2014.
+ * load complete training data set
+ * Created by Chamath on 12/18/2014.
  */
 public class GenericDataHandler extends DataHandler {
 

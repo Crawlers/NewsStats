@@ -8,7 +8,7 @@ import weka.core.tokenizers.NGramTokenizer;
 /**
  * remove obvious non-crime articles
  * this is working with raw article data
- * Created by chamath on 12/21/2014.
+ * Created by Chamath on 12/21/2014.
  */
 public class KeyWordClassifierHandler extends ClassifierHandler{
 

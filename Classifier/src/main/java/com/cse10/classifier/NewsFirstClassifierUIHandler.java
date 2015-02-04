@@ -3,7 +3,7 @@ package com.cse10.classifier;
 import com.cse10.article.NewsFirstArticle;
 
 /**
- * Created by hp on 2/2/2015.
+ * Created by Chamath on 2/2/2015.
  */
 public class NewsFirstClassifierUIHandler extends ClassifierUIHandler  {
 

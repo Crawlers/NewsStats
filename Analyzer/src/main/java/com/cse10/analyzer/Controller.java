@@ -15,7 +15,6 @@ public class Controller {
         statGen.generateStats();
 
         //predicting
-        String table = "predictions_type";
         String[] fields1= {"crime_type", "crime_district"};
         String[] fields2= {"crime_type"};
         String[] fields3= {"crime_district"};
@@ -61,9 +60,13 @@ public class Controller {
         predictor_type.predict(quarters, "2015 - 4",15);
         predictor_district.predict(quarters,"2015 - 4",15);
 
+        //measuring accuracy
+        System.out.println("mean square error is: "+predictor.getMeanSqureError("predictions"));
+/*
         //uploading
-        Uploader uploader = new Uploader("user", "pass", "fyp","ds049219.mongolab.com",49219);
+        Uploader uploader = new Uploader("crawler", "csecrawler", "csefypgui","ds033607.mongolab.com",33607);
         uploader.update("news_statistics","crimes");
         uploader.update("predictions","predictions");
+        */
     }
 }

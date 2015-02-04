@@ -3,7 +3,7 @@ package com.cse10.duplicateDetector;
 import java.util.List;
 
 /**
- * Created by chamath on 1/2/2015.
+ * Created by Chamath on 1/2/2015.
  */
 public abstract class WordSegmenter {
 

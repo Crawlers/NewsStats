@@ -8,6 +8,7 @@ import com.cse10.util.GlobalConstants;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,6 +16,8 @@ import java.util.Date;
 import java.util.Observable;
 
 abstract public class BasicCrawlController extends Observable {
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     private CrawlConfig config;
 
@@ -121,7 +124,7 @@ abstract public class BasicCrawlController extends Observable {
 
         //*********setting customized configurations*************
         configure(config);
-        System.out.println(config.toString()); // print config
+        logger.info(config.toString()); // print config
     }
 
     public CrawlConfig getConfig() {

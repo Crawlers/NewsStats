@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by chamath on 1/2/2015.
+ * Created by Chamath on 1/2/2015.
  */
 public class FullWordSegmenter  extends WordSegmenter{
 

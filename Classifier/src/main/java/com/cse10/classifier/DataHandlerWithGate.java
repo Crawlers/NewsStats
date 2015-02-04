@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 /**
- * Created by chamath on 12/20/2014.
+ * load training data after filtering the content
+ * Created by Chamath on 12/20/2014.
  */
 public class DataHandlerWithGate extends DataHandler {
 

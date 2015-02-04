@@ -17,7 +17,6 @@ import org.hibernate.criterion.Restrictions;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -319,6 +318,26 @@ public class DatabaseHandler {
     }
 
     /**
+     * fetch ArrayList of objects containing crime entities with null labels
+     *
+     * @return ArrayList<CrimeEntityGroup> entityGroups
+     */
+    public static ArrayList<CrimeEntityGroup> fetchCrimeEntityGroupsWithNullLabels() {
+        ArrayList<CrimeEntityGroup> entityGroups;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
+                .add(Restrictions.isNull("label"))
+                .list();
+        session.getTransaction().commit();
+        session.close();
+
+        return entityGroups;
+    }
+
+    /**
      * fetch a list of CrimeEntityGroups within the given id range
      *
      * @param startId start id (inclusive)
@@ -479,6 +498,42 @@ public class DatabaseHandler {
     }
 
     /**
+     * get the count of rows having given value for given property of a table containing articles of given type
+     *
+     * @param articleClass
+     * @param property
+     * @param value
+     * @return
+     */
+    public static int getRowCount(Class articleClass, String property, boolean value) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .add(Restrictions.eq(property, value))
+                .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
+     * get the count of rows having given value for given property of a table containing articles of given type
+     *
+     * @param articleClass
+     * @param property
+     * @param value
+     * @return
+     */
+    public static int getRowCount(Class articleClass, String property, Date value) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .add(Restrictions.eq(property, value))
+                .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
      * get the count of distinct values of a certain property of the table of the given type
      *
      * @param articleClass
@@ -522,11 +577,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static java.util.Date getLatestDate(Class articleClass) {
-
-        if (getRowCount(articleClass) == 0) { // if there are no articles
-            return null;
-        }
+    public static java.util.Date getLatestDate(Class articleClass) throws NullPointerException {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
@@ -534,24 +585,6 @@ public class DatabaseHandler {
         session.close();
 
         return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
-    }
-
-    /**
-     * get latest date string of the table containing articles of given type
-     *
-     * @param articleClass
-     * @return
-     */
-    public static String getLatestDateString(Class articleClass) {
-
-        java.util.Date date = getLatestDate(articleClass);
-
-        if (date == null) {
-            return "";
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
     }
 
     /**
@@ -586,6 +619,37 @@ public class DatabaseHandler {
         session.close();
 
         return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
+    }
+
+
+    /**
+     * fetch crime entity of given id
+     *
+     * @param id
+     * @return
+     */
+    public static CrimeEntityGroup fetchCrimeEntityGroup(int id) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) session.load(CrimeEntityGroup.class, id);
+        Hibernate.initialize(crimeEntityGroup);
+        session.getTransaction().commit();
+        session.close();
+
+        return crimeEntityGroup;
+    }
+
+
+    public static void updateCrimeEntityGroup(CrimeEntityGroup crimeEntityGroup) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+        session.update(crimeEntityGroup);
+        session.getTransaction().commit();
+
+        session.close();
     }
 
     /**

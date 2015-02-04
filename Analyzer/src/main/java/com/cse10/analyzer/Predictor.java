@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class Predictor {
+public class Predictor{
 
     private String table;
     private String[] fields;
@@ -33,13 +33,12 @@ public class Predictor {
 
     public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
         this.quarters = quarters;
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         List results = getInput();
         HashMap<String,Integer> series = getSeriesHolder();
         HashMap pre = (HashMap) results.get(0);
         series.put((String) pre.get("crime_yearquarter"),((BigDecimal) pre.get("count")).intValue());
-        for (int i=0; i<results.size(); i++){
+        for (int i=1; i<results.size(); i++){
             HashMap ele = (HashMap) results.get(i);
             boolean flag = false;
             for (int j=0; j<fields.length; j++){
@@ -50,14 +49,77 @@ public class Predictor {
             }
             if (flag){
                 int predicted = predictorAlgo.predict(series,indexToPredict);
-                insertToDB(ele,targetQuarter,predicted);
+                insertToDB(pre,targetQuarter,predicted);
                 series = getSeriesHolder();
                 pre = ele;
-                continue;
             }
 
             series.put((String) ele.get("crime_yearquarter"),((BigDecimal) ele.get("count")).intValue());
         }
+    }
+
+    public double getMeanSqureError(String predictionTable){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+
+        String sql = "SELECT Sum(val) sum," +
+                " Count(val) count," +
+                " Sum(val) / Count(val) err" +
+                " FROM (SELECT";
+
+        for (int i=0; i<fields.length; i++){
+            sql+=" pd."+fields[i]+",";
+        }
+
+        sql+=" pd.crime_yearquarter, Pow(count1 - Ifnull(count2, 0), 2) val" +
+                " FROM (SELECT";
+
+        for (int i=0; i<fields.length; i++){
+            sql+=" "+fields[i]+",";
+        }
+
+        sql+=   " crime_yearquarter, Sum(`crime_count`) count1" +
+                " FROM   " + predictionTable +
+                " WHERE  crime_year < 2015" +
+                " AND crime_year > 2013" +
+                " GROUP  BY ";
+
+        for (int i=0; i<fields.length; i++){
+            sql+=" "+fields[i]+",";
+        }
+
+        sql+=" `crime_yearquarter`) pd" +
+                " LEFT JOIN (SELECT";
+
+        for (int i=0; i<fields.length; i++){
+            sql+=" "+fields[i]+",";
+        }
+
+        sql+=" crime_yearquarter, Sum(`crime_count`) count2" +
+                " FROM   `news_statistics`" +
+                " WHERE  crime_year < 2015" +
+                " AND crime_year > 2013" +
+                " GROUP  BY";
+
+        for (int i=0; i<fields.length; i++){
+            sql+=" "+fields[i]+",";
+        }
+
+        sql+=" crime_yearquarter) ns" +
+                " ON ";
+
+        sql+=" ns."+fields[0]+" = pd."+fields[0];
+        for (int i=1; i<fields.length; i++){
+            sql+=" AND ns."+fields[i]+" = pd."+fields[i];
+        }
+
+        sql+=" AND ns.`crime_yearquarter` = pd.`crime_yearquarter` ) tbl";
+
+        SQLQuery query = session.createSQLQuery(sql);
+        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+        List results = query.list();
+        session.close();
+        return (double) ((HashMap) results.get(0)).get("err");
     }
 
     protected List  getInput(){
@@ -69,8 +131,8 @@ public class Predictor {
         }
 
         String sql = "SELECT "+fieldNames+", crime_yearquarter, sum(crime_count) count" +
-                " from news_statistics " +
-                " where YEAR(crime_date) < 2014" +
+                " from news_statistics" +
+                " where crime_yearquarter >= '" + quarters[0] + "' AND crime_yearquarter <= '" + quarters[quarters.length-1] + "'"+
                 " group by "+fieldNames+", crime_yearquarter" +
                 " order by "+fieldNames+", crime_yearquarter";
         SQLQuery query = session.createSQLQuery(sql);

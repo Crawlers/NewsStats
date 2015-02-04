@@ -1,6 +1,7 @@
 package com.cse10.gui.task.classify;
 
 import com.cse10.classifier.ClassifierUIHandler;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.Date;
@@ -10,6 +11,8 @@ import java.util.Observer;
  * Created by TharinduWijewardane on 2015-01-19.
  */
 public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Observer {
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     protected boolean done = false;
     protected ClassifierUIHandler classifierUIHandler;
@@ -30,7 +33,7 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Ob
     @Override
     public Void doInBackground() {
         if (!done) {
-            System.out.println(getPaperName() + " -> In Background");
+            logger.info(getPaperName() + " -> In Background");
             Thread.currentThread().setName(getPaperName() + " Classifier Thread");
             //Initialize progress property.
             setProgress(0);
@@ -41,9 +44,14 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Ob
             classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName(getPaperName() + " Classifier Thread");
             classifierUIHandler.run();
+            try {
+                classifierUIHandler.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
 
-            System.out.println(getPaperName() + " Classifer -> Finished Task");
+            logger.info(getPaperName() + " Classifer -> Finished Task");
 
         }
         return null;
@@ -54,7 +62,7 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Ob
      */
     @Override
     public void done() {
-        System.out.println(getPaperName() + " Classifer -> Done");
+        logger.info(getPaperName() + " Classifer -> Done");
         done = true;
     }
 

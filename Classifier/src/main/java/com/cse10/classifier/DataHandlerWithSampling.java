@@ -18,7 +18,8 @@ import java.util.ListIterator;
 import java.util.Random;
 
 /**
- * Created by chamath on 12/20/2014.
+ * load training data using sampling technique
+ * Created by Chamath on 12/20/2014.
  */
 public class DataHandlerWithSampling extends DataHandler {
 

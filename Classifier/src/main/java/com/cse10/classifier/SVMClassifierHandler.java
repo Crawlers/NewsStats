@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  * Wrapper class for LibSVM
- * Created by chamath on 12/20/2014
+ * Created by Chamath on 12/20/2014
  */
 
 public class SVMClassifierHandler extends ClassifierHandler {

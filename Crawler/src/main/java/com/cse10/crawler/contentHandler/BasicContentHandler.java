@@ -3,6 +3,7 @@ package com.cse10.crawler.contentHandler;
 import com.cse10.article.Article;
 import com.cse10.filter.LengthFilter;
 import edu.uci.ics.crawler4j.crawler.Page;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
  * Created by TharinduWijewardane on 10.07.2014.
  */
 public abstract class BasicContentHandler {
+
+    protected Logger logger = Logger.getLogger(this.getClass());
 
     protected List<Article> articles;
 
@@ -31,7 +34,7 @@ public abstract class BasicContentHandler {
 
         // length filter
         if (!LengthFilter.filterContent(content)) {
-            System.out.println("****** Filtered out due to low length of content ****** Content: " + content);
+            logger.info("****** Filtered out due to low length of content ****** Content: " + content);
             return false;
         }
 
