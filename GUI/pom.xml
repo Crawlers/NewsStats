@@ -65,7 +65,19 @@
             <artifactId>Analyzer</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>local-synthetica</groupId>
+            <artifactId>synthetica</artifactId>
+            <version>0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>local-synthetica</groupId>
+            <artifactId>synthetica-BlackStar</artifactId>
+            <version>0</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
