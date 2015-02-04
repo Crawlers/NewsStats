@@ -319,6 +319,26 @@ public class DatabaseHandler {
     }
 
     /**
+     * fetch ArrayList of objects containing crime entities with null labels
+     *
+     * @return ArrayList<CrimeEntityGroup> entityGroups
+     */
+    public static ArrayList<CrimeEntityGroup> fetchCrimeEntityGroupsWithNullLabels() {
+        ArrayList<CrimeEntityGroup> entityGroups;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
+                .add(Restrictions.isNull("label"))
+                .list();
+        session.getTransaction().commit();
+        session.close();
+
+        return entityGroups;
+    }
+
+    /**
      * fetch a list of CrimeEntityGroups within the given id range
      *
      * @param startId start id (inclusive)
