@@ -201,6 +201,9 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         iterator = documents.keySet().iterator();
         increment = documents.keySet().size() / 60;
         value = 0;
+        //to store all the duplicate article ids, this is used to identify duplicates
+        //during iteration.
+        List<Integer> duplicateArticleIds = new ArrayList();
         //calculate duplicates for each document
         //add duplicate doc ids to a list
         //for each article
@@ -208,10 +211,18 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
 
             //calculate current doc's simHash
             currentDocumentId = (Integer) iterator.next();
+
+            //if current article is already detected as duplicate
+            if(duplicateArticleIds.contains(currentDocumentId)){
+                continue;
+            }
+
             String document = documents.get(currentDocumentId);
             long docHash = simHashCalculator.simhash64(document);
 
-            List<Integer> similarDocs = new ArrayList();
+            //to store duplicates of this news article, in this iteration articles with this
+            //ids will mark as duplicates
+            List<Integer> similarDocIds = new ArrayList();
             Map<Integer, Integer> docDistances = new HashMap();
             Iterator iter = documentSimHashes.keySet().iterator();
 
@@ -228,7 +239,8 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
                 // System.out.println(distance);
                 //check the hamming distance difference
                 if (distance <= 0) {
-                    similarDocs.add(hashDocId);
+                    similarDocIds.add(hashDocId);
+                    duplicateArticleIds.add(hashDocId);
                     docDistances.put(hashDocId, distance);
                 }
             }
@@ -239,18 +251,24 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             }
 
             //update db to mark duplicate or write to file
-            if (!similarDocs.isEmpty()) {
-                System.out.println((Thread.currentThread().getName() + " Documents similar as [" + document + currentDocumentId + "]:\n"));
+            if (!similarDocIds.isEmpty()) {
+                System.out.println((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> Documents similar as [" + document + currentDocumentId + "]:\n"));
                 try {
                     Files.append("Documents similar as [" + document + " " + currentDocumentId + "]:\n", articleHammingDistances, Charsets.UTF_8);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                for (int i : similarDocs) {
+                for (int i : similarDocIds) {
                     if (i == currentDocumentId) {
                         continue;
                     }
-                    System.out.println((Thread.currentThread().getName() + "-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
+                    System.out.println((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
+
+                    //mark duplicate CrimeEntityGroups in DB
+                    CrimeEntityGroup crimeEntityGroup=DatabaseHandler.fetchCrimeEntityGroup(i);
+                    crimeEntityGroup.setIsDuplicate(true);
+                    DatabaseHandler.updateCrimeEntityGroup(crimeEntityGroup);
+
                     try {
                         Files.append("[" + i + "]\tDistance=[" + docDistances.get(i) + "]\n", articleHammingDistances, Charsets.UTF_8);
                     } catch (IOException e) {
@@ -295,9 +313,8 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             findDuplicates();
         } catch (InterruptedException e) {
             //user has stopped the process
-            System.out.println(Thread.currentThread().getName() + "-> STOPPED");
+            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler-> STOPPED");
             DatabaseHandler.closeDatabase();
-            e.printStackTrace();
         }
     }
 
