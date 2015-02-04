@@ -1,3 +1,4 @@
+
 package com.cse10.duplicateDetector;
 
 import com.cse10.database.DatabaseHandler;
@@ -15,16 +16,20 @@ import java.io.PrintWriter;
 import java.util.*;
 
 
+
 /**
  * TODO remove this class after testing the functionality of the duplicate detector UI Handler
  * Created by chamath on 1/3/2015.
  */
+
 public class UI {
 
-    /**
-     * read articles from file
-     * @return
-     */
+
+/**
+ * read articles from file
+ * @return
+ *//*
+
     private List<String> readArticlesFromFile() {
 
         List<String> documents;
@@ -113,7 +118,7 @@ public class UI {
 
         for (String document : documents) {
             // Calculate the sim hash value of document.
-            long docHash = simHashCalculator.simhash64(document);
+            long docHash = simHashCalculator.getSimhash64Value(document);
             System.out.println("Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits");
             try {
                 Files.append("Document=[" + document + "] Hash=[" + docHash + " , " + Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + Long.toBinaryString(docHash).length() + "bits \n", articleHashValues, Charsets.UTF_8);
@@ -135,7 +140,7 @@ public class UI {
 
         int currentDocumentId = 0;
         for (String document : documents) {
-            long docHash = simHashCalculator.simhash64(document);
+            long docHash = simHashCalculator.getSimhash64Value(document);
             List<Integer> similarDocs = Lists.newLinkedList();
             Map<Integer, Integer> docDistances = Maps.newHashMap();
 
@@ -185,4 +190,6 @@ public class UI {
     }
 
 
+}
+*/
 }
