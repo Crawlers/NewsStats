@@ -2,7 +2,7 @@ package com.cse10.gui.task.crawl;
 
 import com.cse10.article.TheIslandArticle;
 import com.cse10.crawler.crawlControler.BasicCrawlController;
-import com.cse10.crawler.crawlControler.NewsFirstCrawlController;
+import com.cse10.crawler.crawlControler.TheIslandCrawlController;
 import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 
 import java.util.Date;
@@ -31,7 +31,7 @@ public class TheIslandCrawlTask extends CrawlTask {
 
     @Override
     protected BasicCrawlController getCrawlController() {
-        return new NewsFirstCrawlController();
+        return new TheIslandCrawlController();
     }
 
 }

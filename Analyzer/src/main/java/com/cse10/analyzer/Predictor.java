@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class Predictor {
+public class Predictor{
 
     private String table;
     private String[] fields;
@@ -33,7 +33,6 @@ public class Predictor {
 
     public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
         this.quarters = quarters;
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         List results = getInput();
         HashMap<String,Integer> series = getSeriesHolder();
@@ -133,7 +132,7 @@ public class Predictor {
 
         String sql = "SELECT "+fieldNames+", crime_yearquarter, sum(crime_count) count" +
                 " from news_statistics" +
-                " where YEAR(crime_date) < 2014" +
+                " where crime_yearquarter >= '" + quarters[0] + "' AND crime_yearquarter <= '" + quarters[quarters.length-1] + "'"+
                 " group by "+fieldNames+", crime_yearquarter" +
                 " order by "+fieldNames+", crime_yearquarter";
         SQLQuery query = session.createSQLQuery(sql);

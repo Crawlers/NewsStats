@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
+import com.cse10.analyzer.AnalyzerController;
 
 /**
  * Created by TharinduWijewardane on 2015-02-04.
@@ -22,9 +23,10 @@ public class AnalyzeTask extends SwingWorker<Void, Void> implements Observer {
     public Void doInBackground() {
         if (!done) {
             logger.info("In Background");
-
-            //todo
-
+            AnalyzerController analyzerController = AnalyzerController.getInstance();
+            analyzerController.addObserver(this);
+            analyzerController.analyze();
+            analyzerController.deleteObserver(this);
         }
         return null;
     }
@@ -43,6 +45,7 @@ public class AnalyzeTask extends SwingWorker<Void, Void> implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //todo. updates for progressbar. send an int value (between 1 and 100) via arg. 100 means completion
+        int progress = ((Integer) arg).intValue();
+        setProgress(progress);
     }
 }

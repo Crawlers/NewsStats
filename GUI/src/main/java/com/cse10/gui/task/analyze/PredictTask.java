@@ -1,5 +1,6 @@
 package com.cse10.gui.task.analyze;
 
+import com.cse10.analyzer.AnalyzerController;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -23,7 +24,10 @@ public class PredictTask extends SwingWorker<Void, Void> implements Observer {
         if (!done) {
             logger.info("In Background");
 
-            //todo
+            AnalyzerController analyzerController = AnalyzerController.getInstance();
+            analyzerController.addObserver(this);
+            analyzerController.predict();
+            analyzerController.deleteObserver(this);
 
         }
         return null;
@@ -43,6 +47,7 @@ public class PredictTask extends SwingWorker<Void, Void> implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //todo. updates for progressbar. send an int value (between 1 and 100) via arg. 100 means completion
+        int progress = ((Integer) arg).intValue();
+        setProgress(progress);
     }
 }

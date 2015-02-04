@@ -17,7 +17,6 @@ import org.hibernate.criterion.Restrictions;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -560,11 +559,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static java.util.Date getLatestDate(Class articleClass) {
-
-        if (getRowCount(articleClass) == 0) { // if there are no articles
-            return null;
-        }
+    public static java.util.Date getLatestDate(Class articleClass) throws NullPointerException{
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
@@ -572,24 +567,6 @@ public class DatabaseHandler {
         session.close();
 
         return new java.util.Date(latestDate.getTime()); //convert from sql date to util date
-    }
-
-    /**
-     * get latest date string of the table containing articles of given type
-     *
-     * @param articleClass
-     * @return
-     */
-    public static String getLatestDateString(Class articleClass) {
-
-        java.util.Date date = getLatestDate(articleClass);
-
-        if (date == null) {
-            return "";
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
     }
 
     /**
