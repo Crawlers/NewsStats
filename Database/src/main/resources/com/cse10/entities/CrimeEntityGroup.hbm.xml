@@ -37,8 +37,12 @@
         <property name="possession" type="string">
             <column name="possession" length="50" not-null="false"/>
         </property>
+        <property name="label" type="string">
+            <column name="label" length="20" not-null="false"/>
+        </property>
+
         <property name="isDuplicate" type="boolean">
-            <column name="is_duplicate" not-null="true" default="true"/>
+            <column name="is_duplicate" default="0" not-null="true"/>
         </property>
 
         <many-to-one name="locationDistrict" class="com.cse10.entities.LocationDistrictMapper"
