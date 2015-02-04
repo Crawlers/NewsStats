@@ -24,8 +24,8 @@ public class TheIslandCrawler extends BasicCrawler {
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        boolean x =  super.shouldVisit(url) && href.startsWith("http://www.island.lk/index.php")
-            && href.contains("code_title") && href.contains("page_cat=article-details") && href.contains("page=article-details");
+        boolean x = super.shouldVisit(url) && href.startsWith("http://www.island.lk/index.php")
+                && href.contains("code_title") && href.contains("page_cat=article-details") && href.contains("page=article-details");
         return x;
     }
 
@@ -36,17 +36,17 @@ public class TheIslandCrawler extends BasicCrawler {
     @Override
     public void visit(Page page) {
         super.visit(page);
-        System.out.println("=============");
-        System.out.println("********* sthe island ***********");
+        logger.info("=============");
+        logger.info("********* sthe island ***********");
         basicContentHandler = new TheIslandContentHandler();
         List<Article> articles = basicContentHandler.extractArticles(page);
 
         for (Article article : articles) {
-            System.out.println("***********************************start");
-            System.out.println(article.getContent());
+            logger.info("***********************************start");
+            logger.info(article.getContent());
             if (!article.getContent().equals(""))
                 DatabaseHandler.insertArticle(article);
-            System.out.println("***********************************end");
+            logger.info("***********************************end");
         }
     }
 }

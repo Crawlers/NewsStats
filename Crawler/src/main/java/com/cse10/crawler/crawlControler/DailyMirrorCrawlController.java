@@ -10,6 +10,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +23,7 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
     public <T extends WebCrawler> void crawl(final Class<T> _c) throws Exception {
 
         if (startDate == null || endDate == null) {
-            System.out.println("Error: You should set start and end dates");
+            logger.info("Error: You should set start and end dates");
             return;
         }
 
@@ -50,17 +51,17 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
             int date = c.get(Calendar.DATE);
             current_date = sdf.format(c.getTime());
-            String url = "http://old.dailymirror.lk/archive.html?year=" + year + "&month=" + month + "&day=" + date ;
+            String url = "http://old.dailymirror.lk/archive.html?year=" + year + "&month=" + month + "&day=" + date;
 
             controller.addSeed(url);
-            System.out.println("crawling " + url);
+            logger.info("crawling " + url);
             /*
              * Start the crawl. This is a blocking operation, meaning that your code
              * will reach the line after this only when crawling is finished.
              */
             controller.start(_c, 1);
 
-            if(crawlingStopped){ //if stopped from calling class
+            if (crawlingStopped) { //if stopped from calling class
                 return;
             }
 
@@ -72,4 +73,3 @@ public class DailyMirrorCrawlController extends BasicCrawlController {
         }
     }
 }
-

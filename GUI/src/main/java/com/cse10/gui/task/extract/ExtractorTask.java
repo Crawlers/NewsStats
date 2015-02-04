@@ -1,6 +1,7 @@
 package com.cse10.gui.task.extract;
 
 import com.cse10.extractor.gate.EntityExtractorTask;
+import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.util.Observable;
@@ -11,6 +12,8 @@ import java.util.Observer;
  */
 public class ExtractorTask extends SwingWorker implements Observer {
 
+    protected Logger logger = Logger.getLogger(this.getClass());
+
     protected boolean done = false;
     private Thread extractorThread;
 
@@ -20,7 +23,7 @@ public class ExtractorTask extends SwingWorker implements Observer {
     @Override
     protected Object doInBackground() {
         if (!done) {
-            System.out.println("in background");
+            logger.info("in background");
 
             EntityExtractorTask entityExtractorTask = new EntityExtractorTask();
             entityExtractorTask.getEntityExtrator().addObserver(this);
@@ -33,6 +36,7 @@ public class ExtractorTask extends SwingWorker implements Observer {
 
     public void stopExtract() {
         extractorThread.interrupt();
+        logger.info("interrupted by user");
     }
 
     /*
@@ -40,7 +44,7 @@ public class ExtractorTask extends SwingWorker implements Observer {
      */
     @Override
     public void done() {
-        System.out.println("done");
+        logger.info("done");
         done = true;
     }
 

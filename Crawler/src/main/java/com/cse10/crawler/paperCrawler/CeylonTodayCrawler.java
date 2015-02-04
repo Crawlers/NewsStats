@@ -35,17 +35,17 @@ public class CeylonTodayCrawler extends BasicCrawler {
     @Override
     public void visit(Page page) {
         super.visit(page);
-        System.out.println("=============");
-        System.out.println("********* inside if CeylonToday ***********");
+        logger.info("=============");
+        logger.info("********* inside if CeylonToday ***********");
         basicContentHandler = new CeylonTodayContentHandler();
         List<Article> articles = basicContentHandler.extractArticles(page);
 
         for (Article article : articles) {
-            System.out.println("***********************************start");
-            System.out.println(article.getContent());
+            logger.info("***********************************start");
+            logger.info(article.getContent());
             if (!article.getContent().equals(""))
                 DatabaseHandler.insertArticle(article);
-            System.out.println("***********************************end");
+            logger.info("***********************************end");
         }
     }
 }

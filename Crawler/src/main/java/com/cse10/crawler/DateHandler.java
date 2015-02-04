@@ -1,6 +1,7 @@
 package com.cse10.crawler;
 
 import com.cse10.database.HibernateUtil;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -16,6 +17,9 @@ import java.util.List;
  * This class gives resuming support for the crawler
  */
 public class DateHandler {
+
+    private static Logger logger = Logger.getLogger(DateHandler.class);
+
     public static Date getFromDateToResume(Date startingDate, String tableName) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -48,7 +52,7 @@ public class DateHandler {
         q = "delete from " + tableName + " where created_date >= '" + sdf.format(latestDateCrawled) + "'"; // logically only the equivalence is significant here (except hiru news)
         session1.createSQLQuery(q).executeUpdate();
         transaction1.commit();
-        System.out.println("DELETED unfinished date");
+        logger.info("DELETED unfinished date");
 
         return latestDateCrawled;
     }
