@@ -15,6 +15,7 @@ import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
+import com.sun.java.util.jar.pack.*;
 import gate.*;
 import gate.Gate;
 import gate.annotation.AnnotationImpl;
@@ -23,6 +24,7 @@ import gate.util.persistence.PersistenceManager;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.text.DateFormat;
@@ -50,29 +52,7 @@ public class BatchProcessApp {
     public static void main(String[] args) throws Exception {
 
         // setting gate.home variable
-        String homePath = "\\home";
-        File gateHome;
-
-        if (Gate.getGateHome() == null) {
-            homePath = System.getenv("GATE_HOME");
-
-            if (homePath == null) {
-                System.out.print("Enter GATE Home path : ");
-                BufferedReader br =
-                        new BufferedReader(new InputStreamReader(System.in));
-                homePath = br.readLine();
-            }
-        }
-
-        File pathCheck = new File(homePath + "\\gate.xml");
-        if (pathCheck.exists()) {
-            gateHome = new File(homePath);
-            Gate.setGateHome(gateHome);
-            System.out.println("GATE Home Configured : " + Gate.getGateHome());
-        } else {
-            System.out.println("GATE Home Path Incorrect");
-            System.exit(0);
-        }
+        File gateHome = getGATEHome();
 
         // initialise GATE
         Gate.init();
@@ -256,7 +236,7 @@ public class BatchProcessApp {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 // check all crime details are properly entered
@@ -316,6 +296,45 @@ public class BatchProcessApp {
                 }
             }
         }
+    }
+
+    private static File getGATEHome() throws InterruptedException{
+        String homePath = null;
+        File gateHome;
+
+        if (Gate.getGateHome() == null) {
+            homePath = System.getenv("GATE_HOME");
+
+            if (homePath == null) {
+                System.out.print("Enter GATE Home path : ");
+                BufferedReader br =
+                        new BufferedReader(new InputStreamReader(System.in));
+                try {
+                    homePath = br.readLine();
+                } catch (IOException e) {
+                    System.out.println("Incorrect Path");
+                    DatabaseHandler.closeDatabase();
+                    throw new InterruptedException("Thread interruption forced.");
+                }
+            }
+        }else{
+            homePath = Gate.getGateHome().getPath();
+        }
+
+        File pathCheck = new File(homePath + "\\gate.xml");
+        if (pathCheck.isFile() && Gate.getGateHome() == null) {
+            gateHome = new File(homePath);
+            Gate.setGateHome(gateHome);
+            System.out.println("GATE Home Configured : " + Gate.getGateHome());
+        } else if(!pathCheck.isFile() && Gate.getGateHome() == null) {
+            System.out.println("GATE Home Path Incorrect : "+homePath);
+            DatabaseHandler.closeDatabase();
+            throw new InterruptedException("Thread interruption forced.");
+        } else {
+            gateHome = new File(homePath);
+        }
+
+        return gateHome;
     }
 }
 
