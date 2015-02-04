@@ -28,6 +28,7 @@
                 <version>2.5.2</version>
                 <executions>
                     <execution>
+                        <id>gate</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>install-file</goal>
@@ -38,6 +39,48 @@
                             <version>8.1</version>
                             <packaging>jar</packaging>
                             <file>${basedir}/libs/gate-core-8.1.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>mltk</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>local-mltk</groupId>
+                            <artifactId>mltk</artifactId>
+                            <version>0</version>
+                            <packaging>jar</packaging>
+                            <file>${basedir}/Analyzer/lib/mltk.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>synthetica</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>local-synthetica</groupId>
+                            <artifactId>synthetica</artifactId>
+                            <version>0</version>
+                            <packaging>jar</packaging>
+                            <file>${basedir}/GUI/libs/synthetica.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>synthetica-blackstar</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>local-synthetica</groupId>
+                            <artifactId>synthetica-BlackStar</artifactId>
+                            <version>0</version>
+                            <packaging>jar</packaging>
+                            <file>${basedir}/GUI/libs/syntheticaBlackStar.jar</file>
                         </configuration>
                     </execution>
                 </executions>
