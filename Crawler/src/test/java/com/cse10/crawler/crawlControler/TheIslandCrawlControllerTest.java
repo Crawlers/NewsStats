@@ -1,7 +1,7 @@
 package com.cse10.crawler.crawlControler;
 
-import com.cse10.article.DailyMirrorArticle;
-import com.cse10.crawler.paperCrawler.DailyMirrorCrawler;
+import com.cse10.article.TheIslandArticle;
+import com.cse10.crawler.paperCrawler.TheIslandCrawler;
 import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import junit.framework.TestCase;
@@ -13,10 +13,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DailyMirrorCrawlControllerTest {
+public class TheIslandCrawlControllerTest {
 
-    DailyMirrorCrawlController dailyMirrorCrawlController;
-    String dateString = "2014-10-17";
+    TheIslandCrawlController theIslandCrawlController;
+    String dateString = "2015-01-01";
     Date date;
 
     @Before
@@ -30,11 +30,11 @@ public class DailyMirrorCrawlControllerTest {
             e.printStackTrace();
         }
 
-        dailyMirrorCrawlController = new DailyMirrorCrawlController();
-        dailyMirrorCrawlController.setStartDate(date);
-        dailyMirrorCrawlController.setEndDate(date);
+        theIslandCrawlController = new TheIslandCrawlController();
+        theIslandCrawlController.setStartDate(date);
+        theIslandCrawlController.setEndDate(date);
 
-        String tableName = new DatabaseConstants().classToTableName.get(DailyMirrorArticle.class);
+        String tableName = new DatabaseConstants().classToTableName.get(TheIslandArticle.class);
         DatabaseHandler.executeUpdate("DELETE FROM " + tableName + " WHERE created_date = '" + dateString + "'");
     }
 
@@ -46,8 +46,8 @@ public class DailyMirrorCrawlControllerTest {
     @Test
     public void testCrawl() throws Exception {
 
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) == 0);
-        dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) > 0);
+        TestCase.assertEquals(true, DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) == 0);
+        theIslandCrawlController.crawl(TheIslandCrawler.class);
+        TestCase.assertEquals(true, DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) > 0);
     }
 }

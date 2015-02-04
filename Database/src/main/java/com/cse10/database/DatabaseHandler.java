@@ -516,6 +516,24 @@ public class DatabaseHandler {
     }
 
     /**
+     * get the count of rows having given value for given property of a table containing articles of given type
+     *
+     * @param articleClass
+     * @param property
+     * @param value
+     * @return
+     */
+    public static int getRowCount(Class articleClass, String property, Date value) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long count = (Long) session.createCriteria(articleClass)
+                .add(Restrictions.eq(property, value))
+                .setProjection(Projections.rowCount()).uniqueResult();
+        session.close();
+        return count.intValue();
+    }
+
+    /**
      * get the count of distinct values of a certain property of the table of the given type
      *
      * @param articleClass
@@ -559,7 +577,7 @@ public class DatabaseHandler {
      * @param articleClass
      * @return
      */
-    public static java.util.Date getLatestDate(Class articleClass) throws NullPointerException{
+    public static java.util.Date getLatestDate(Class articleClass) throws NullPointerException {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         java.sql.Date latestDate = (java.sql.Date) session.createCriteria(articleClass)
