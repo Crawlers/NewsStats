@@ -44,6 +44,11 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Ob
             classifierUIHandler.setEndDate(endDate);
             classifierUIHandler.setName(getPaperName() + " Classifier Thread");
             classifierUIHandler.run();
+            try {
+                classifierUIHandler.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             classifierUIHandler.getClassifierConfigurator().deleteObserver(this);
 
             logger.info(getPaperName() + " Classifer -> Finished Task");
