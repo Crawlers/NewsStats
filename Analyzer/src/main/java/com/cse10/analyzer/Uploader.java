@@ -21,7 +21,7 @@ import org.hibernate.Session;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class Uploader {
+public class Uploader{
     MongoClient mongoClient;
     String dbName;
 
@@ -38,7 +38,7 @@ public class Uploader {
         }
     }
 
-    public void update(String sqlTable, String mongoCollection){
+    public void upload(String sqlTable, String mongoCollection){
         DB db = mongoClient.getDB(dbName);
         DBCollection collection = db.getCollection(mongoCollection);
         BasicDBObject mQuery = new BasicDBObject();
@@ -50,10 +50,7 @@ public class Uploader {
         sQuery.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
         List results = sQuery.list();
         session.close();
-//        String json = JSONArray.toJSONString(results);
-//        json = json.replaceFirst("\\[", "}");
-//        int ind = json.lastIndexOf("]");
-//        json = new StringBuilder(json).replace(ind, ind+1,"}").toString();
+
         DBObject obj = new BasicDBList();
         BulkWriteOperation builder = collection.initializeOrderedBulkOperation();
         for (int i=0; i<results.size(); i++){

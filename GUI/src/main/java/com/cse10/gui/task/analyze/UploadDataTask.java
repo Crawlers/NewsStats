@@ -1,5 +1,6 @@
 package com.cse10.gui.task.analyze;
 
+import com.cse10.analyzer.AnalyzerController;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -23,7 +24,10 @@ public class UploadDataTask extends SwingWorker<Void, Void> implements Observer 
         if (!done) {
             logger.info("In Background");
 
-            //todo
+            AnalyzerController analyzerController = AnalyzerController.getInstance();
+            analyzerController.addObserver(this);
+            analyzerController.upload();
+            analyzerController.deleteObserver(this);
 
         }
         return null;
