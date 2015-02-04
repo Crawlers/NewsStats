@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class Predictor {
+public class Predictor{
 
     private String table;
     private String[] fields;
@@ -33,7 +33,6 @@ public class Predictor {
 
     public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
         this.quarters = quarters;
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         List results = getInput();
         HashMap<String,Integer> series = getSeriesHolder();

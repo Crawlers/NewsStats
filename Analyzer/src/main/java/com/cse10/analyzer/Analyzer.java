@@ -11,11 +11,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by Sampath on 1/16/15.
  */
-public class Analyzer {
+public class Analyzer{
     public void generateStats(){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
@@ -27,6 +28,7 @@ public class Analyzer {
                         "WHERE crime_date >= '2012-01-01' AND crime_date <= '2014-12-31' " +
                         "GROUP BY crime_type, dist, crime_date " +
                         "ORDER BY YEAR (crime_date)").executeUpdate();
+
         session.createSQLQuery("UPDATE news_statistics SET crime_type = 'Other' WHERE crime_type IS NULL OR crime_type = ''").executeUpdate();
         tx.commit();
         session.close();
