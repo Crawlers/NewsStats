@@ -38,6 +38,7 @@ public class DuplicateDetectorTask extends SwingWorker implements Observer {
             } catch (InterruptedException e) {
 
             }
+            duplicateDetectorUIHandler.deleteObserver(this);
             logger.info("Duplicate Detector ->  Finished Task");
         }
 
