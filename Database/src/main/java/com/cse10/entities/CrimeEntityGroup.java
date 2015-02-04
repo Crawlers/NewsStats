@@ -21,6 +21,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
     private String victim;
     private int victimCount;
     private String possession;
+    private String label;
     private boolean isDuplicate;
     private LocationDistrictMapper locationDistrict;
     private Set<CrimePerson> crimePersonSet =  new HashSet<CrimePerson>(0);
@@ -29,7 +30,7 @@ public class CrimeEntityGroup implements java.io.Serializable {
     }
 
 
-    public CrimeEntityGroup(int id, int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession, LocationDistrictMapper locationDistrict, Set<CrimePerson> crimePersonSet) {
+    public CrimeEntityGroup(int id, int crimeArticleId, String crimeType, Date crimeDate, String location, String district, String police, String court, String criminal, String victim, int victimCount, String possession,String label,boolean isDuplicate, LocationDistrictMapper locationDistrict, Set<CrimePerson> crimePersonSet) {
         this.id = id;
         this.crimeArticleId = crimeArticleId;
         this.crimeType = crimeType;
@@ -42,6 +43,8 @@ public class CrimeEntityGroup implements java.io.Serializable {
         this.victim = victim;
         this.victimCount = victimCount;
         this.possession = possession;
+        this.label=label;
+        this.isDuplicate=isDuplicate;
         this.crimePersonSet = crimePersonSet;
         this.locationDistrict = locationDistrict;
     }
@@ -120,13 +123,22 @@ public class CrimeEntityGroup implements java.io.Serializable {
 
     public void setPossession(String possession) { this.possession = possession;}
 
-    public boolean getIsDuplicate() {
-        return isDuplicate;
+    public String getLabel() {
+        return label;
     }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public boolean getIsDuplicate(){
+        return isDuplicate;
+    }
     public void setIsDuplicate(boolean isDuplicate) {
         this.isDuplicate = isDuplicate;
     }
+
+
 
     public Set<CrimePerson> getCrimePersonSet() { return crimePersonSet;}
 
