@@ -54,7 +54,9 @@ public class EntityExtractor extends Observable {
         entityGroupsList = new ArrayList<>();
     }
 
-    public synchronized void startExtraction() throws InterruptedException, IOException, GateException, ParseException {
+    public synchronized boolean startExtraction() throws InterruptedException, IOException, GateException, ParseException {
+        // to check whether execution was successful or not
+        boolean isSuccessful = false;
 
         //get ID of the article to start entity extraction.
         int startID = getLastID();
@@ -63,29 +65,7 @@ public class EntityExtractor extends Observable {
         endID = startID;
 
         // setting gate.home variable
-        String homePath = "\\home";
-        File gateHome;
-
-        if (Gate.getGateHome() == null) {
-            homePath = System.getenv("GATE_HOME");
-
-            if (homePath == null) {
-                System.out.print("Enter GATE Home path : ");
-                BufferedReader br =
-                        new BufferedReader(new InputStreamReader(System.in));
-                homePath = br.readLine();
-            }
-        }
-
-        File pathCheck = new File(homePath + "\\gate.xml");
-        if (pathCheck.isFile()) {
-            gateHome = new File(homePath);
-            Gate.setGateHome(gateHome);
-            System.out.println("GATE Home Configured : " + Gate.getGateHome());
-        } else {
-            System.out.println("GATE Home Path Incorrect");
-            throw new InterruptedException("Thread interruption forced.");
-        }
+        File gateHome = getGATEHome();
 
         // initialise GATE
         Gate.init();
@@ -101,11 +81,151 @@ public class EntityExtractor extends Observable {
         // List<Article> articles = DatabaseHandler.fetchArticles(CrimeArticle.class);
         List<Article> articles = DatabaseHandler.fetchArticlesByIdStarting(CrimeArticle.class,startID+1);
 
+        ArrayList<CrimeEntityGroup> resultsList;
+
+        resultsList = executeProcessPipeline(articles, corpus, application);
+
+        if(resultsList != null && !resultsList.isEmpty()){
+            isSuccessful = true;
+        }
+
+        DatabaseHandler.closeDatabase();
+        System.out.println("All done");
+
+        return isSuccessful;
+    }
+
+    // method to fetch district for the location using google map api, unless it is in the location - district
+    // mapping table
+    private void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
+        LocationDistrictMapper locationDistrict;
+        String district = "NULL";
+
+        try {
+
+            // try to retrieve district of the location from the location - district mapping table
+            locationDistrict = DatabaseHandler.fetchLocation(location);
+            district = locationDistrict.getDistrict();
+            entityGroupOfArticle.setCrimeArticleId(articleID);
+            entityGroupOfArticle.setLocation(location);
+            entityGroupOfArticle.setLocationDistrict(locationDistrict);
+        } catch (ObjectNotFoundException e) {
+
+            // unless district is present in the location - district mapping table
+            // fetch district for the location using google map api and relevant location - district mapping data into
+            // the location - district mapping table for future reference
+            district = de.getDistrict(location);
+            if (!district.equalsIgnoreCase("NULL")) {
+                locationDistrict = new LocationDistrictMapper(location, district);
+                try {
+                    DatabaseHandler.insertLocationDistrict(locationDistrict);
+                    entityGroupOfArticle.setCrimeArticleId(articleID);
+                    entityGroupOfArticle.setLocation(location);
+                    entityGroupOfArticle.setLocationDistrict(locationDistrict);
+                }catch (DataException dataE){
+                    System.out.println("Long district name : "+district+" for location : "+location);
+                    district = null;
+                }
+            }
+        }
+    }
+
+    private int getLastID() throws InterruptedException{
+        int theID = 0;
+
+        BufferedReader br = null;
+
+        try {
+
+            String sCurrentLine;
+
+            br = new BufferedReader(new FileReader(configFile));
+
+            if ((sCurrentLine = br.readLine()) != null) {
+                theID = Integer.parseInt(sCurrentLine);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Configuration File Not Found : "+e);
+            DatabaseHandler.closeDatabase();
+            throw new InterruptedException("Thread interruption forced.");
+        } finally {
+            try {
+                if (br != null)br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return  theID;
+    }
+
+    private void writeLastID(){
+        FileWriter fooWriter = null; // true to append
+        try {
+            fooWriter = new FileWriter(configFile, false);
+            // false to overwrite.
+            fooWriter.write(String.valueOf(endID));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fooWriter.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private File getGATEHome() throws InterruptedException{
+        String homePath = null;
+        File gateHome;
+
+        if (Gate.getGateHome() == null) {
+            homePath = System.getenv("GATE_HOME");
+
+            if (homePath == null) {
+                System.out.print("Enter GATE Home path : ");
+                BufferedReader br =
+                        new BufferedReader(new InputStreamReader(System.in));
+                try {
+                    homePath = br.readLine();
+                } catch (IOException e) {
+                    System.out.println("Incorrect Path");
+                    DatabaseHandler.closeDatabase();
+                    throw new InterruptedException("Thread interruption forced.");
+                }
+            }
+        }else{
+            homePath = Gate.getGateHome().getPath();
+        }
+
+        File pathCheck = new File(homePath + "\\gate.xml");
+        if (pathCheck.isFile() && Gate.getGateHome() == null) {
+            gateHome = new File(homePath);
+            Gate.setGateHome(gateHome);
+            System.out.println("GATE Home Configured : " + Gate.getGateHome());
+        } else if(!pathCheck.isFile() && Gate.getGateHome() == null) {
+            System.out.println("GATE Home Path Incorrect : "+homePath);
+            DatabaseHandler.closeDatabase();
+            throw new InterruptedException("Thread interruption forced.");
+        } else {
+            gateHome = new File(homePath);
+        }
+
+        return gateHome;
+    }
+
+    protected ArrayList<CrimeEntityGroup> executeProcessPipeline(List<Article> articles, Corpus corpus,  CorpusController application) throws InterruptedException, GateException, ParseException {
+
         // number of articles has to be entity extracted to progress the progress bar by 1 step.
         int uiStepSize = articles.size()/100;
 
         // progress of the entity extraction process
         int currentProgress = 0;
+
+        // list of extracted entity groups
+        ArrayList<CrimeEntityGroup> crimeEntityGroupList = new ArrayList<CrimeEntityGroup>();
 
         // process the files one by one
         for (int i = 0; i < articles.size(); i++) {
@@ -272,6 +392,9 @@ public class EntityExtractor extends Observable {
                     // set crime date on crime entity details
                     entityGroupOfArticle.setCrimeDate(crimeDate);
 
+                    // add to local list of crime entity sets
+                    crimeEntityGroupList.add(entityGroupOfArticle);
+
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
                     //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
@@ -313,91 +436,9 @@ public class EntityExtractor extends Observable {
                     notifyObservers(currentProgress);
                 }
             }
-
         }// for each article
 
-        DatabaseHandler.closeDatabase();
-        System.out.println("All done");
-    }
-
-    // method to fetch district for the location using google map api, unless it is in the location - district
-    // mapping table
-    private void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
-        LocationDistrictMapper locationDistrict;
-        String district = "NULL";
-
-        try {
-
-            // try to retrieve district of the location from the location - district mapping table
-            locationDistrict = DatabaseHandler.fetchLocation(location);
-            district = locationDistrict.getDistrict();
-            entityGroupOfArticle.setCrimeArticleId(articleID);
-            entityGroupOfArticle.setLocation(location);
-            entityGroupOfArticle.setLocationDistrict(locationDistrict);
-        } catch (ObjectNotFoundException e) {
-
-            // unless district is present in the location - district mapping table
-            // fetch district for the location using google map api and relevant location - district mapping data into
-            // the location - district mapping table for future reference
-            district = de.getDistrict(location);
-            if (!district.equalsIgnoreCase("NULL")) {
-                locationDistrict = new LocationDistrictMapper(location, district);
-                try {
-                    DatabaseHandler.insertLocationDistrict(locationDistrict);
-                    entityGroupOfArticle.setCrimeArticleId(articleID);
-                    entityGroupOfArticle.setLocation(location);
-                    entityGroupOfArticle.setLocationDistrict(locationDistrict);
-                }catch (DataException dataE){
-                    System.out.println("Long district name : "+district+" for location : "+location);
-                    district = null;
-                }
-            }
-        }
-    }
-
-    private int getLastID(){
-        int theID = 0;
-
-        BufferedReader br = null;
-
-        try {
-
-            String sCurrentLine;
-
-            br = new BufferedReader(new FileReader(configFile));
-
-            if ((sCurrentLine = br.readLine()) != null) {
-                theID = Integer.parseInt(sCurrentLine);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null)br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return  theID;
-    }
-
-    private void writeLastID(){
-        FileWriter fooWriter = null; // true to append
-        try {
-            fooWriter = new FileWriter(configFile, false);
-            // false to overwrite.
-            fooWriter.write(String.valueOf(endID));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                fooWriter.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        return  crimeEntityGroupList;
     }
 
     public synchronized void stopExtraction(){
