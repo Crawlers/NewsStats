@@ -45,7 +45,6 @@ public class NewsStatsGUI {
 
     private JPanel panelMain;
     private JTabbedPane tabbedPane1;
-    private JPanel panelWizard;
     private JScrollPane scrollPaneCrawler;
     private JPanel panelCrawler;
     private JPanel panelCrawlPapers;
@@ -495,18 +494,7 @@ public class NewsStatsGUI {
         drawExtractorChart();
 
         /* duplicate detector chart */
-        final JFreeChart chartDupDetector = ChartFactory.createBarChart(
-                "Detected Duplicates",         // chart title
-                "Type",               // domain axis label
-                "Frequency",                  // range axis label
-                null,                  // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
-        chartPanelDuplicateDetector = new ChartPanel(chartDupDetector);
-        chartPanelDuplicateDetector.setVisible(true);
+        drawDuplicateDetectorChart();
 
     }
 
@@ -788,12 +776,12 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        extractorButton.setText("Cancel Extracting");
+        extractorButton.setText("Cancel Operation");
     }
 
     private void enableExtractorUI() {
 
-        extractorButton.setText("Start Extracting");
+        extractorButton.setText("Start");
         extractorProgressBar.setValue(0);
     }
 
@@ -831,16 +819,49 @@ public class NewsStatsGUI {
 
     private void disableDuplicateDetectorUI() {
 
-        duplicateDetectionButton.setText("Cancel Extracting");
+        duplicateDetectionButton.setText("Cancel Operation");
     }
 
     private void enableDuplicateDetectorUI() {
 
-        duplicateDetectionButton.setText("Start Extracting");
+        duplicateDetectionButton.setText("Start");
         duplicateDetectorProgressBar.setValue(0);
     }
 
     private void drawDuplicateDetectorChart() {
 
+        int originalCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "isDuplicate", false);
+        int duplicateCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "isDuplicate", true);
+
+        // row keys...
+        final String series1 = "Original";
+        final String series2 = "Duplicates";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        dataset.addValue(originalCount, series1, category1);
+        dataset.addValue(duplicateCount, series2, category1);
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Detected Duplicates",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        if (chartPanelDuplicateDetector == null) {
+            chartPanelDuplicateDetector = new ChartPanel(chart);
+        } else {
+            chartPanelDuplicateDetector.setChart(chart);
+        }
+        chartPanelDuplicateDetector.setVisible(true);
     }
 }
