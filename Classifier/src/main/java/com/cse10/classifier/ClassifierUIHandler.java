@@ -3,7 +3,8 @@ package com.cse10.classifier;
 import java.util.Date;
 
 /**
- * Created by chamath on 1/27/2015.
+ * super class for all the ui handlers
+ * Created by Chamath on 1/27/2015.
  */
 public abstract class ClassifierUIHandler extends Thread {
 

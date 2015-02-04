@@ -11,7 +11,7 @@ import java.util.Random;
 
 /**
  * super class for ensemble classifiers
- * Created by hp on 2/3/2015.
+ * Created by Chamath on 2/3/2015.
  */
 
 public abstract class EnsembleClassifierHandler extends ClassifierHandler {

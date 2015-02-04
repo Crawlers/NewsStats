@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  * use to filter the content the filter
- * Created by chamath on 12/20/2014.
+ * Created by Chamath on 12/20/2014.
  */
 public class DocumentContentFilter {
 

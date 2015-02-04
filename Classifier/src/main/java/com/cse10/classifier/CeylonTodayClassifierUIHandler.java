@@ -5,7 +5,8 @@ import com.cse10.article.CeylonTodayArticle;
 import java.util.Date;
 
 /**
- * Created by chamath on 1/27/2015.
+ * UI handler class for CeylonToday
+ * Created by Chamath on 1/27/2015.
  */
 public class CeylonTodayClassifierUIHandler extends ClassifierUIHandler  {
 

@@ -9,7 +9,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 import java.io.*;
 
 /**
- * Created by chamath on 12/16/2014.
+ * Created by Chamath on 12/16/2014.
  */
 
 public class FeatureVectorTransformer{

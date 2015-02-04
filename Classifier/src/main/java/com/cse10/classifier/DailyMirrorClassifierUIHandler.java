@@ -3,7 +3,8 @@ package com.cse10.classifier;
 import com.cse10.article.DailyMirrorArticle;
 
 /**
- * Created by hp on 1/29/2015.
+ * UI handler class for DailyMirror
+ * Created by Chamath on 1/29/2015.
  */
 public class DailyMirrorClassifierUIHandler extends ClassifierUIHandler{
 
