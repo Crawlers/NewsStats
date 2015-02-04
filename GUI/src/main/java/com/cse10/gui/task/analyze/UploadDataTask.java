@@ -47,6 +47,7 @@ public class UploadDataTask extends SwingWorker<Void, Void> implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        //todo. updates for progressbar. send an int value (between 1 and 100) via arg. 100 means completion
+        int progress = ((Integer) arg).intValue();
+        setProgress(progress);
     }
 }
