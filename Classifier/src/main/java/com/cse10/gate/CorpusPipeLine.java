@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  * pipe line which is using for document processing
- * Created by chamath on 12/20/2014.
+ * Created by Chamath on 12/20/2014.
  */
 public class CorpusPipeLine {
 

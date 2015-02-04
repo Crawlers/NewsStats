@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 /**
  * use to filter articles by keywords
  * I have updated gate gazetter lists with crime keyword list
- * Created by chamath on 12/21/2014.
+ * Created by Chamath on 12/21/2014.
  */
 public class DocumentKeyWordFinder {
     private Corpus corpus;
@@ -40,9 +40,6 @@ public class DocumentKeyWordFinder {
         gateHomeEnvVariableName="GATE_HOME";
     }
 
-    public void setGateHomeEnvVariableName(String gateHomeEnvVariableName){
-        this.gateHomeEnvVariableName=gateHomeEnvVariableName;
-    }
 
     /**
      * configure home path of  gate
