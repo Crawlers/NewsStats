@@ -132,7 +132,7 @@ public class Predictor{
 
         String sql = "SELECT "+fieldNames+", crime_yearquarter, sum(crime_count) count" +
                 " from news_statistics" +
-                " where YEAR(crime_date) < 2014" +
+                " where crime_yearquarter >= '" + quarters[0] + "' AND crime_yearquarter <= '" + quarters[quarters.length-1] + "'"+
                 " group by "+fieldNames+", crime_yearquarter" +
                 " order by "+fieldNames+", crime_yearquarter";
         SQLQuery query = session.createSQLQuery(sql);
