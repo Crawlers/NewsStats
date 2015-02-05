@@ -3,7 +3,10 @@ package com.cse10.database;
 import com.cse10.article.*;
 import com.cse10.entities.CrimeEntityGroup;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * Created by Tharindu on 2014-11-14.
@@ -14,13 +17,25 @@ import java.util.HashMap;
  */
 public class DatabaseConstants {
 
-    public static final String DB_USERNAME = "root";
-    public static final String DB_PASSWORD = "";
-    public static final String DB_URL = "jdbc:mysql://localhost:3306/crawler_my"; // there is a entry in DatabaseUtils.props file (top level) that does not use this
+    private static Properties prop;
+
+    // load constants from dbConnection.properties file
+    static {
+        prop = new Properties();
+        InputStream input = null;
+        try {
+            prop.load(DatabaseConstants.class.getResourceAsStream("/dbConnection.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static final String DB_USERNAME = prop.getProperty("hibernate.connection.username");
+    public static final String DB_PASSWORD = prop.getProperty("hibernate.connection.password");
+    public static final String DB_URL = prop.getProperty("hibernate.connection.url"); // there is a entry in DatabaseUtils.props file (top level) that does not use this
 
     /* class to table name mappings */
     public HashMap<Class, String> classToTableName;
-
 
     public DatabaseConstants() {
 
@@ -36,5 +51,6 @@ public class DatabaseConstants {
 
         classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
     }
+
 
 }
