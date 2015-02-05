@@ -29,6 +29,13 @@ public class ExtractorTask extends SwingWorker implements Observer {
             entityExtractorTask.getEntityExtrator().addObserver(this);
             extractorThread = new Thread(entityExtractorTask);
             extractorThread.start();
+
+            try {
+                extractorThread.join();
+                entityExtractorTask.getEntityExtrator().deleteObserver(this);
+            } catch (InterruptedException e) {
+                logger.info("Error: ", e);
+            }
         }
 
         return null;
