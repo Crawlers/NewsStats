@@ -108,7 +108,7 @@ public class NewsStatsGUI {
     private JPanel panelExtractor;
     private JButton extractorButton;
     private JProgressBar extractorProgressBar;
-    private ChartPanel chartPanelExtractor;
+    private ChartPanel chartPanelExtractorPie;
     private JScrollPane scrollPaneDuplicateDetector;
     private JPanel panelDuplicateDetector;
     private JButton duplicateDetectionButton;
@@ -122,6 +122,7 @@ public class NewsStatsGUI {
     private JButton uploadDataButton;
     private JProgressBar predictorProgressBar;
     private JProgressBar uploaderProgressBar;
+    private ChartPanel chartPanelExtractorLine;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -439,6 +440,7 @@ public class NewsStatsGUI {
                 } else {
                     extract = true;
                     enableExtractorUI();
+                    drawExtractorChart();
 
                     if (extractorTask != null) {
                         extractorTask.stopExtract();
@@ -494,7 +496,7 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
                 if (analyze) {
                     analyze = false;
-//                    disableAnalyzerUI();
+
                     analyzeButton.setText("cancel");
 
                     analyzeTask = new AnalyzeTask();
@@ -510,8 +512,8 @@ public class NewsStatsGUI {
                                     InfoDialog infoDialog = new InfoDialog();
                                     infoDialog.init(frame, "Analyze Completed Successfully!");
 
-//                                    enableAnalyzerUI();
                                     analyzeButton.setText("Analyze");
+                                    analyzerProgressBar.setValue(0);
                                 }
                             }
                         }
@@ -520,8 +522,9 @@ public class NewsStatsGUI {
 
                 } else {
                     analyze = true;
-//                    enableAnalyzerUI();
                     analyzeButton.setText("Analyze");
+                    analyzerProgressBar.setValue(0);
+
                     if (analyzeTask != null) {
                         analyzeTask.stop();
                         analyzeTask.cancel(true);
@@ -535,7 +538,7 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
                 if (predict) {
                     predict = false;
-//                    disableAnalyzerUI();
+
                     predictButton.setText("cancel");
 
                     predictTask = new PredictTask();
@@ -551,8 +554,8 @@ public class NewsStatsGUI {
                                     InfoDialog infoDialog = new InfoDialog();
                                     infoDialog.init(frame, "Prediction Completed Successfully!");
 
-//                                    enableAnalyzerUI();
                                     predictButton.setText("Predict");
+                                    predictorProgressBar.setValue(0);
                                 }
                             }
                         }
@@ -561,8 +564,9 @@ public class NewsStatsGUI {
 
                 } else {
                     predict = true;
-//                    enableAnalyzerUI();
                     predictButton.setText("Predict");
+                    predictorProgressBar.setValue(0);
+
                     if (predictTask != null) {
                         predictTask.stop();
                         predictTask.cancel(true);
@@ -576,7 +580,7 @@ public class NewsStatsGUI {
             public void actionPerformed(ActionEvent e) {
                 if (uploadData) {
                     uploadData = false;
-//                    disableAnalyzerUI();
+
                     uploadDataButton.setText("cancel");
 
                     uploadDataTask = new UploadDataTask();
@@ -592,8 +596,8 @@ public class NewsStatsGUI {
                                     InfoDialog infoDialog = new InfoDialog();
                                     infoDialog.init(frame, "Upload Completed Successfully!");
 
-//                                    enableAnalyzerUI();
                                     uploadDataButton.setText("Upload Data");
+                                    uploaderProgressBar.setValue(0);
                                 }
                             }
                         }
@@ -602,8 +606,9 @@ public class NewsStatsGUI {
 
                 } else {
                     uploadData = true;
-//                    enableAnalyzerUI();
                     uploadDataButton.setText("Upload Data");
+                    uploaderProgressBar.setValue(0);
+
                     if (uploadDataTask != null) {
                         uploadDataTask.stop();
                         uploadDataTask.cancel(true);
@@ -981,14 +986,12 @@ public class NewsStatsGUI {
     private void drawExtractorChart() {
 
         int locationCount = DatabaseHandler.getDistinctValueCount(LocationDistrictMapper.class, "location");
-        int crimeTypesCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "crimeType");
         int policeCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "police");
         int courtCount = DatabaseHandler.getDistinctValueCount(CrimeEntityGroup.class, "court");
         int criminalCount = DatabaseHandler.getDistinctValueCount(CrimePerson.class, "name");
 
         DefaultPieDataset dataset = new DefaultPieDataset();
         dataset.setValue("Locations", locationCount);
-        dataset.setValue("Crime Types", crimeTypesCount);
         dataset.setValue("Police Stations", policeCount);
         dataset.setValue("Courts", courtCount);
         dataset.setValue("Criminals/Suspects", criminalCount);
@@ -1000,12 +1003,60 @@ public class NewsStatsGUI {
                 true,                   // tool tips
                 false                   // generate URLs
         );
-        if (chartPanelExtractor == null) {
-            chartPanelExtractor = new ChartPanel(chart);
+        if (chartPanelExtractorPie == null) {
+            chartPanelExtractorPie = new ChartPanel(chart);
         } else {
-            chartPanelExtractor.setChart(chart);
+            chartPanelExtractorPie.setChart(chart);
         }
-        chartPanelExtractor.setVisible(true);
+        chartPanelExtractorPie.setVisible(true);
+
+        /* CHART TWO */
+
+        // row keys...
+        final String[] series = new String[11];
+        series[0] = "Violent Crimes";
+        series[1] = "Theft";
+        series[2] = "Abduction";
+        series[3] = "Terrorism";
+        series[4] = "Sex Crime";
+        series[5] = "Clash";
+        series[6] = "Illegal Trading";
+        series[7] = "Treasure Hunting";
+        series[8] = "Drug Offenses";
+        series[9] = "Unsuitable Consumer Goods";
+        series[10] = "Other";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
+
+        // data
+        int num = 0;
+        for (int i = 0; i < series.length; i++) {
+            num = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "crimeType", series[i]);
+            dataset2.addValue(num, series[i], category1);
+        }
+
+        // create the chart...
+        final JFreeChart chart2 = ChartFactory.createBarChart(
+                "Crime Types",              // chart title
+                "Type",                     // domain axis label
+                "Frequency",                // range axis label
+                dataset2,                    // data
+                PlotOrientation.VERTICAL,   // orientation
+                true,                       // include legend
+                true,                       // tooltips?
+                false                       // URLs?
+        );
+
+        if (chartPanelExtractorLine == null) {
+            chartPanelExtractorLine = new ChartPanel(chart2);
+        } else {
+            chartPanelExtractorLine.setChart(chart2);
+        }
+        chartPanelExtractorLine.setVisible(true);
     }
 
     /* DUPLICATE DETECTOR TAB */

@@ -6,14 +6,19 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+        <!-- followings are loaded from dbConnection.properties file
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/newsstats</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crawler_gui_test</property>
+        -->
+
         <property name="hibernate.connection.title">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
         <property name="hibernate.enable_lazy_load_no_trans">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+
         <mapping resource="com/cse10/article/DailyMirrorArticle.hbm.xml"></mapping>
         <mapping resource="com/cse10/article/TheIslandArticle.hbm.xml"></mapping>
         <mapping resource="com/cse10/article/NewsFirstArticle.hbm.xml"></mapping>
