@@ -697,7 +697,7 @@
                               </component>
                             </children>
                           </grid>
-                          <grid id="833f8" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="833f8" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <splitpane position="right"/>
@@ -705,9 +705,15 @@
                             <properties/>
                             <border type="etched" title="DB state"/>
                             <children>
-                              <component id="d550f" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractor" custom-create="true">
+                              <component id="c62af" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractorPie" custom-create="true">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="2e911" class="org.jfree.chart.ChartPanel" binding="chartPanelExtractorLine" custom-create="true">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                               </component>
@@ -798,54 +804,142 @@
                 <properties/>
                 <border type="empty"/>
                 <children>
-                  <grid id="a0fc3" binding="panelAnalyzer" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="a0fc3" binding="panelAnalyzer" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints/>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="ac70b" class="javax.swing.JButton" binding="analyzeButton" default-binding="true">
+                      <splitpane id="a8d22">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="200" height="200"/>
+                          </grid>
                         </constraints>
                         <properties>
-                          <text value="Analyze"/>
+                          <oneTouchExpandable value="false"/>
+                          <orientation value="0"/>
+                          <resizeWeight value="0.6"/>
                         </properties>
-                      </component>
-                      <component id="9226e" class="javax.swing.JProgressBar" binding="analyzerProgressBar">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
-                      <component id="5d312" class="javax.swing.JButton" binding="predictButton">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Predict"/>
-                        </properties>
-                      </component>
-                      <component id="e050" class="javax.swing.JButton" binding="uploadDataButton" default-binding="true">
-                        <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <text value="Upload Data"/>
-                        </properties>
-                      </component>
-                      <component id="89fc4" class="javax.swing.JProgressBar" binding="predictorProgressBar">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
-                      <component id="6df08" class="javax.swing.JProgressBar" binding="uploaderProgressBar">
-                        <constraints>
-                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
+                        <border type="none"/>
+                        <children>
+                          <splitpane id="a8596">
+                            <constraints>
+                              <splitpane position="left"/>
+                            </constraints>
+                            <properties>
+                              <oneTouchExpandable value="false"/>
+                              <orientation value="0"/>
+                              <resizeWeight value="0.5"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <grid id="cc374" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="10" left="10" bottom="10" right="10"/>
+                                <constraints>
+                                  <splitpane position="left"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Analyzer"/>
+                                <children>
+                                  <component id="8a97c" class="javax.swing.JButton" binding="analyzeButton">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="200" height="-1"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Analyze"/>
+                                    </properties>
+                                  </component>
+                                  <component id="dc388" class="javax.swing.JSeparator">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <orientation value="1"/>
+                                    </properties>
+                                  </component>
+                                  <component id="96cef" class="javax.swing.JProgressBar" binding="analyzerProgressBar">
+                                    <constraints>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                </children>
+                              </grid>
+                              <grid id="6ad31" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                                <margin top="10" left="10" bottom="10" right="10"/>
+                                <constraints>
+                                  <splitpane position="right"/>
+                                </constraints>
+                                <properties/>
+                                <border type="etched" title="Predictor"/>
+                                <children>
+                                  <component id="171f1" class="javax.swing.JButton" binding="predictButton">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                        <preferred-size width="200" height="-1"/>
+                                      </grid>
+                                    </constraints>
+                                    <properties>
+                                      <text value="Predict"/>
+                                    </properties>
+                                  </component>
+                                  <component id="e48c3" class="javax.swing.JProgressBar" binding="predictorProgressBar">
+                                    <constraints>
+                                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties/>
+                                  </component>
+                                  <component id="8763d" class="javax.swing.JSeparator">
+                                    <constraints>
+                                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <orientation value="1"/>
+                                    </properties>
+                                  </component>
+                                </children>
+                              </grid>
+                            </children>
+                          </splitpane>
+                          <grid id="9cb54" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="10" left="10" bottom="10" right="10"/>
+                            <constraints>
+                              <splitpane position="right"/>
+                            </constraints>
+                            <properties/>
+                            <border type="etched" title="Uploader"/>
+                            <children>
+                              <component id="2a147" class="javax.swing.JButton" binding="uploadDataButton">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="200" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties>
+                                  <text value="Upload"/>
+                                </properties>
+                              </component>
+                              <component id="28a0f" class="javax.swing.JProgressBar" binding="uploaderProgressBar">
+                                <constraints>
+                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="1f814" class="javax.swing.JSeparator">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <orientation value="1"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                        </children>
+                      </splitpane>
                     </children>
                   </grid>
                 </children>
