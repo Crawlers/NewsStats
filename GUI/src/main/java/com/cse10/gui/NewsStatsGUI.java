@@ -179,6 +179,10 @@ public class NewsStatsGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                if (!(ceylonTodayCrawlerCheckBox.isSelected() || dailyMirrorCrawlerCheckBox.isSelected() || newsFirstCrawlerCheckBox.isSelected() || theIslandCrawlerCheckBox.isSelected())) {
+                    return; // no paper is selected
+                }
+
                 statusLabel.setText("Crawling...");
 
                 disableCrawlerUI();
@@ -291,6 +295,11 @@ public class NewsStatsGUI {
         startClassifyingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if (!(ceylonTodayClassifierCheckBox.isSelected() || dailyMirrorClassifierCheckBox.isSelected() || newsFirstClassifierCheckBox.isSelected() || theIslandClassifierCheckBox.isSelected())) {
+                    return; // no paper is selected
+                }
+
                 statusLabel.setText("Classifying...");
 
                 disableClassifierUI();
@@ -415,13 +424,12 @@ public class NewsStatsGUI {
                                 extractorProgressBar.setValue(progress);
                                 extractorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    statusLabel.setText("Ready");
-                                    InfoDialog infoDialog = new InfoDialog();
-                                    infoDialog.init(frame, "Entity Extraction Completed Successfully!");
-
                                     enableExtractorUI();
                                     drawExtractorChart();
 
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Entity Extraction Completed Successfully!");
                                 }
                             }
                         }
@@ -456,13 +464,12 @@ public class NewsStatsGUI {
                                 duplicateDetectorProgressBar.setValue(progress);
                                 duplicateDetectorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    statusLabel.setText("Ready");
-                                    InfoDialog infoDialog = new InfoDialog();
-                                    infoDialog.init(frame, "Duplicate Detection Completed Successfully!");
-
                                     enableDuplicateDetectorUI();
                                     drawDuplicateDetectorChart();
 
+                                    statusLabel.setText("Ready");
+                                    InfoDialog infoDialog = new InfoDialog();
+                                    infoDialog.init(frame, "Duplicate Detection Completed Successfully!");
                                 }
                             }
                         }
@@ -472,6 +479,7 @@ public class NewsStatsGUI {
                 } else {
                     duplicateDetect = true;
                     enableDuplicateDetectorUI();
+                    drawDuplicateDetectorChart();
 
                     if (duplicateDetectorTask != null) {
                         duplicateDetectorTask.stop();
@@ -1015,8 +1023,8 @@ public class NewsStatsGUI {
 
     private void drawDuplicateDetectorChart() {
 
-        int originalCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "isDuplicate", false);
-        int duplicateCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "isDuplicate", true);
+        int originalCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "label", "unique");
+        int duplicateCount = DatabaseHandler.getRowCount(CrimeEntityGroup.class, "label", "duplicate");
 
         // row keys...
         final String series1 = "Original";
