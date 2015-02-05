@@ -33,6 +33,11 @@ public class DatabaseConstants {
     public static final String DB_USERNAME = prop.getProperty("hibernate.connection.username");
     public static final String DB_PASSWORD = prop.getProperty("hibernate.connection.password");
     public static final String DB_URL = prop.getProperty("hibernate.connection.url"); // there is a entry in DatabaseUtils.props file (top level) that does not use this
+    public static final String WEBGUIDB_USERNAME = prop.getProperty("webguidb.connection.username");
+    public static final String WEBGUIDB_PASSWORD = prop.getProperty("webguidb.connection.password");
+    public static final String WEBGUIDB_DATABASE = prop.getProperty("webguidb.connection.database");
+    public static final String WEBGUIDB_HOST = prop.getProperty("webguidb.connection.host");
+    public static final String WEBGUIDB_PORT = prop.getProperty("webguidb.connection.port");
 
     /* class to table name mappings */
     public HashMap<Class, String> classToTableName;

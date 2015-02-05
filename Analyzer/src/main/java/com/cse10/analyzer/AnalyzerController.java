@@ -1,6 +1,8 @@
 package com.cse10.analyzer;
 
 
+import com.cse10.database.DatabaseConstants;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -92,7 +94,11 @@ public class AnalyzerController extends Observable {
     }
 
     public void upload(){
-        Uploader uploader = new Uploader("crawler", "csecrawler", "csefypgui","ds033607.mongolab.com",33607);
+        Uploader uploader = new Uploader(DatabaseConstants.WEBGUIDB_USERNAME,
+                DatabaseConstants.WEBGUIDB_PASSWORD,
+                DatabaseConstants.WEBGUIDB_DATABASE,
+                DatabaseConstants.WEBGUIDB_HOST,
+                DatabaseConstants.WEBGUIDB_PORT);
         setProgress(10);
         uploader.upload("news_statistics", "crimes");
         setProgress(60);
