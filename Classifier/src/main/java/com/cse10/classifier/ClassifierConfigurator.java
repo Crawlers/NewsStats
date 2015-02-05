@@ -45,10 +45,13 @@ public class ClassifierConfigurator extends Observable{
      * load training data from the database
      */
     private void loadTrainingData() {
+
+        //check if interrupted
+        checkInterruption();
         try {
-            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Loading");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Data Loading");
             trainingData = dataHandler.loadTrainingData(featureVectorTransformer);
-            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Training Data Details");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Training Data Details");
             System.out.println(Thread.currentThread().getName()+"  Number of Articles= " + trainingData.numInstances());
             int crimeCount = 0;
             int otherCount = 0;
@@ -60,7 +63,7 @@ public class ClassifierConfigurator extends Observable{
             }
             System.out.println(Thread.currentThread().getName()+"  Number of Crime Articles= " + crimeCount);
             System.out.println(Thread.currentThread().getName()+"  Number of Other Articles= " + otherCount);
-            System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Loading");
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Data Loading");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,20 +75,24 @@ public class ClassifierConfigurator extends Observable{
      * filter data.
      */
     private void filterData() {
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Data Filtering");
+        //check if interrupted
+        checkInterruption();
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Data Filtering");
         featureVectorTransformer.configure(1, 1, true);
         featureVectorTransformer.setInputFormat(trainingData);
         filteredTrainingData = featureVectorTransformer.getTransformedArticles(trainingData, dataHandler.getFileName());
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Data Filtering");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Data Filtering");
     }
 
     /**
      * perform grid search to find best cost and gamma values
      */
     private void performGridSearch() {
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start Grid Search");
+        //check if interrupted
+        checkInterruption();
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Grid Search");
         gridSearch.gridSearch(svmClassifierHandler.getSvm(), filteredTrainingData);
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of Grid Search");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Grid Search");
     }
 
     /**
@@ -93,12 +100,13 @@ public class ClassifierConfigurator extends Observable{
      * if we use different weights, we need to normalize data
      */
     private void crossValidateModel() {
-
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start cross validation");
+        //check if interrupted
+        checkInterruption();
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start cross validation");
         // using parameters found during the grid search
         svmClassifierHandler.configure(8.0, 0.001953125, "10 1", true);
         svmClassifierHandler.crossValidateClassifier(filteredTrainingData, 10);
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of cross validation");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of cross validation");
 
     }
 
@@ -106,9 +114,11 @@ public class ClassifierConfigurator extends Observable{
      * buildClassifier the model using training data and save model
      */
     private void buildModel() {
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> Start building model");
+        //check if interrupted
+        checkInterruption();
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start building model");
         svmClassifierHandler.buildSVM(filteredTrainingData, true);
-        System.out.println(Thread.currentThread().getName()+"\n Classifier UI Handler -> End of building model");
+        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of building model");
     }
 
 
@@ -119,60 +129,54 @@ public class ClassifierConfigurator extends Observable{
     private synchronized void buildClassifier(Class tableName) {
         System.out.println("\n--------------------------------------------------------------");
         int progress = 0;
+
+        //if interrupted
+        checkInterruption();
+
         if (!isModelBuild) {
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Building Classifier");
 
             loadTrainingData();
             progress = 20;
-            setChanged();
-            notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
+            notify(new DatabaseConstants().classToTableName.get(tableName) ,progress);
+            //check if interrupted
+            checkInterruption();
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
+            //check whether feature vector transform is required
+            if(dataHandler.isFeatureVectorTransformerRequired()) {
+                filterData();
+            }else{
+                filteredTrainingData=trainingData;
             }
-
-            //DataHandlerWithSampling apply filtering before returning training data, so no need to filter again
-            filterData();
             progress = 40;
-            setChanged();
-            notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
-
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
+            notify(new DatabaseConstants().classToTableName.get(tableName), progress);
+            //check if interrupted
+            checkInterruption();
 
             //only perform this if we need to change  cost and gamma values
             //performGridSearch();
 
             crossValidateModel();
             progress = 60;
-            setChanged();
-            notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
+            notify(new DatabaseConstants().classToTableName.get(tableName), progress);
+            //check if interrupted
+            checkInterruption();
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
 
             buildModel();
             progress = 80;
-            setChanged();
-            notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
+            notify(new DatabaseConstants().classToTableName.get(tableName), progress);
+            //check if interrupted
+            checkInterruption();
             isModelBuild=true;
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
-
-
+            //check if interrupted
+            checkInterruption();
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->  End of Building Classifier");
         }else{
+
             progress = 80;
-            setChanged();
-            notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
+            notify(new DatabaseConstants().classToTableName.get(tableName), progress);
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler ->  Classifier is Already Existing");
         }
         System.out.println("---------------------------------------------------------------------------");
@@ -185,6 +189,8 @@ public class ClassifierConfigurator extends Observable{
      */
     private synchronized void classifyNewsArticles(Class tableName,Date endDate) {
 
+        //check if interrupted
+        checkInterruption();
 
         System.out.println(Thread.currentThread().getName()+"------------------------------------------------------------------------");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Classifying Articles");
@@ -202,6 +208,9 @@ public class ClassifierConfigurator extends Observable{
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Finish Loading Test Data");
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Size of Test Data= " + testData.numInstances());
 
+        //check if interrupted
+        checkInterruption();
+
         if (testData.numInstances() != 0) {
             List<Article> testDataArticles = dataHandler.fetchArticlesWithNullLabels(tableName,endDate);
             HashMap<Integer, Integer> articleIds = dataHandler.getArticleIds();
@@ -215,10 +224,8 @@ public class ClassifierConfigurator extends Observable{
                 }
             }
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
+            //check if interrupted
+            checkInterruption();
 
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> size of ID list = " + crimeArticleIdList.size());
             ListIterator iter;
@@ -234,10 +241,8 @@ public class ClassifierConfigurator extends Observable{
             }
             System.out.println("  }");
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
+            //check if interrupted
+            checkInterruption();
 
 
             // to prepare them as crime articles
@@ -253,10 +258,7 @@ public class ClassifierConfigurator extends Observable{
             }
             System.out.println("  }");
 
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                return;
-            }
+            checkInterruption();
 
              //transaction
             System.out.println(Thread.currentThread().getName()+"   Classifier UI Handler -> Transaction");
@@ -270,19 +272,13 @@ public class ClassifierConfigurator extends Observable{
                         }
                     }
 
-                    if(Thread.currentThread().isInterrupted()){
-                        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                        return;
-                    }
+                    checkInterruption();
 
                 } else {
                     article.setLabel("other");
                     dataHandler.updateArticle(article);
 
-                    if(Thread.currentThread().isInterrupted()){
-                        System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-                        return;
-                    }
+                    checkInterruption();
                 }
 
 
@@ -293,9 +289,9 @@ public class ClassifierConfigurator extends Observable{
         }
 
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> End of Classifying Articles");
+
         int progress = 100;
-        setChanged();
-        notifyObservers(new DatabaseConstants().classToTableName.get(tableName)+" "+Integer.toString(progress));
+        notify(new DatabaseConstants().classToTableName.get(tableName), progress);
 
         //to finish hybernate session and close database. other wise JVM will run continuously
         dataHandler.closeDatabase();
@@ -325,33 +321,35 @@ public class ClassifierConfigurator extends Observable{
 
 
     /**
-     * use to test hybernate and weka db connection
+     * helper function to handle interruption
      */
-    private void testFunction() {
-        //to test weka db connection
-        //loadTrainingData();
-        //to test hybernate connection
-        //Instances testData = dataHandler.loadTestData(DailyMirrorArticle.class, "WHERE  `created_date` <  '2012-01-06'", false);
-       // System.out.println(testData.numInstances());
-
-        try {
-            BufferedReader br=new BufferedReader(new FileReader(new File("Classifier\\src\\main\\resources\\StopWordsR4.txt")));//Extractor/src/main/resources/Complete_v1.gapp
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    private void checkInterruption(){
+        if(Thread.currentThread().isInterrupted()){
+            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
+            dataHandler.closeDatabase();
+            return;
         }
-
     }
 
+    /**
+     * helper function to notify observers
+     * @param name
+     * @param progress
+     */
+    private void notify(String name,int progress){
+        checkInterruption();
+        setChanged();
+        notifyObservers(name+" "+Integer.toString(progress));
+    }
 
     public static void main(String[] args) {
 
         ClassifierConfigurator classifierConfigurator = new ClassifierConfigurator();
         Date d=new Date();
         classifierConfigurator.startClassification(DailyMirrorArticle.class,d );
-        classifierConfigurator.startClassification(CeylonTodayArticle.class,d );
+       /* classifierConfigurator.startClassification(CeylonTodayArticle.class,d );
         classifierConfigurator.startClassification(TheIslandArticle.class,d );
-        classifierConfigurator.startClassification(DailyMirrorArticle.class, d);
+        classifierConfigurator.startClassification(DailyMirrorArticle.class, d);*/
 
     }
 
