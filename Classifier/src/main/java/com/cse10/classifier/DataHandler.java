@@ -23,10 +23,12 @@ public abstract class DataHandler {
 
     protected HashMap<Integer, Integer> articleIds;
     protected String fileName;
+    protected boolean isFeatureVectorTransformerRequired;
 
     public DataHandler() {
         articleIds = new HashMap<Integer, Integer>();
         fileName = "file.arff";
+        isFeatureVectorTransformerRequired=true;
     }
 
     protected abstract void printDescription();
@@ -104,31 +106,68 @@ public abstract class DataHandler {
         return testData;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, Integer> getArticleIds() {
         return articleIds;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFileName() {
         return fileName;
     }
 
+    public boolean isFeatureVectorTransformerRequired() {
+        return isFeatureVectorTransformerRequired;
+    }
+
     //wrapper methods for data base handler class
+
+    /**
+     *
+     * @param tableName
+     * @param endDate
+     * @return
+     */
     public List<Article> fetchArticlesWithNullLabels(Class tableName, Date endDate) {
         return DatabaseHandler.fetchArticlesWithNullLabels(tableName, endDate);
     }
 
+    /**
+     *
+     * @param tableName
+     * @param crimeArticleIdList
+     * @return
+     */
     public List<Article> fetchArticlesByIdList(Class tableName, List<Integer> crimeArticleIdList) {
         return DatabaseHandler.fetchArticlesByIdList(tableName, crimeArticleIdList);
     }
 
+    /**
+     *
+     * @param crimeArticle
+     * @param article
+     */
     public void insertCrimeArticleAndUpdatePprArticle(CrimeArticle crimeArticle,Article article){
         DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
     }
 
+    /**
+     *
+     * @param article
+     */
     public void updateArticle(Article article){
         DatabaseHandler.updateArticle(article);
     }
 
+    /**
+     *
+     */
     public void closeDatabase(){
         DatabaseHandler.closeDatabase();
     }
