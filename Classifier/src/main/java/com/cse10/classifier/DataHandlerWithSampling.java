@@ -1,20 +1,18 @@
 package com.cse10.classifier;
 
-import com.cse10.database.DatabaseConstants;
+import com.cse10.article.TrainingArticle;
+import com.cse10.database.DatabaseHandler;
 import libsvm.svm_model;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
-import weka.core.converters.DatabaseLoader;
 import weka.filters.Filter;
 import weka.filters.supervised.instance.SMOTE;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -24,6 +22,7 @@ import java.util.Random;
 public class DataHandlerWithSampling extends DataHandler {
 
     public DataHandlerWithSampling() {
+        isFeatureVectorTransformerRequired=false;
         fileName = "dataWithSampling";
     }
 
@@ -57,55 +56,17 @@ public class DataHandlerWithSampling extends DataHandler {
         if (trainingData.classIndex() == -1) {
             trainingData.setClassIndex(trainingData.numAttributes() - 1);
         }
-        DatabaseLoader databaseLoader = null;
-        try {
-            databaseLoader = new DatabaseLoader();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (databaseLoader != null) {
-            //I have added this one, Because in weka 3.6.11 version we can not set url from databaseutils.props file
-            //It generates an error with that
-            databaseLoader.setUrl(DatabaseConstants.DB_URL);
-            databaseLoader.setUser(DatabaseConstants.DB_USERNAME);
-            databaseLoader.setPassword(DatabaseConstants.DB_PASSWORD);
+
+        //load training data using database handler
+        List<TrainingArticle> trainingArticles= DatabaseHandler.fetchTrainingArticles();
+        for(TrainingArticle trainingArticle:trainingArticles){
+            Instance inst = new Instance(trainingData.numAttributes());
+            inst.setValue(content, trainingArticle.getContent());
+            inst.setValue(classValue, trainingArticle.getLabel());
+            inst.setDataset(trainingData);
+            trainingData.add(inst);
         }
 
-        ArrayList<String> queries = new ArrayList<String>();
-        queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_daily_mirror_2012 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_daily_mirror_2013 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_the_island_2012 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL");
-
-        ListIterator queryIterator = queries.listIterator();
-        ArrayList<Instances> instancesList = new ArrayList<Instances>();
-        while (queryIterator.hasNext()) {
-            databaseLoader.setQuery((String) queryIterator.next());
-            Instances ins = null;
-            try {
-                ins = databaseLoader.getDataSet();
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            }
-            instancesList.add(ins);
-        }
-
-        ListIterator instancesListIterator = instancesList.listIterator();
-        while (instancesListIterator.hasNext()) {
-            Instances ins = (Instances) instancesListIterator.next();
-            //for each instance
-            for (int i = 0; i < ins.numInstances(); i++) {
-                String news = ins.instance(i).stringValue(0);
-                String label = ins.instance(i).stringValue(1);
-                Instance inst = new Instance(trainingData.numAttributes());
-                inst.setValue(content, news);
-                inst.setValue(classValue, label);
-                inst.setDataset(trainingData);
-                trainingData.add(inst);
-            }
-        }
         trainingData.setClassIndex(trainingData.numAttributes() - 1);
 
         featureVectorTransformer.configure(1, 1, false);
@@ -148,7 +109,7 @@ public class DataHandlerWithSampling extends DataHandler {
         ArffSaver saver = new ArffSaver();
         saver.setInstances(otherClassSupportVectors);
         try {
-            saver.setFile(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\otherClassSupportVectors1.arff"));
+            saver.setFile(new File("Classifier\\src\\main\\resources\\arffData\\otherClassSupportVectors.arff"));
             saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();
@@ -156,7 +117,7 @@ public class DataHandlerWithSampling extends DataHandler {
 
         saver.setInstances(crimeClassSupportVectors);
         try {
-            saver.setFile(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\crimeClassSupportVectors2.arff"));
+            saver.setFile(new File("Classifier\\src\\main\\resources\\arffData\\crimeClassSupportVectors.arff"));
             saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,7 +132,7 @@ public class DataHandlerWithSampling extends DataHandler {
         filteredData.randomize(r);
         saver.setInstances(filteredData);
         try {
-            saver.setFile(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\balancedTrainingDataHybrid7.arff"));
+            saver.setFile(new File("Classifier\\src\\main\\resources\\arffData\\balancedTrainingDataHybrid.arff"));
             saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,7 +156,7 @@ public class DataHandlerWithSampling extends DataHandler {
         dataBalanced.randomize(r);
         saver.setInstances(dataBalanced);
         try {
-            saver.setFile(new File("C:\\Users\\hp\\Desktop\\SVM implementation\\arffData1\\balancedTrainingDataHybrid8.arff"));
+            saver.setFile(new File("Classifier\\src\\main\\resources\\arffData\\balancedTrainingDataHybridRandomized.arff"));
             saver.writeBatch();
         } catch (IOException e) {
             e.printStackTrace();

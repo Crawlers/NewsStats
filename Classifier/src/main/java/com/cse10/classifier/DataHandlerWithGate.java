@@ -1,15 +1,14 @@
 package com.cse10.classifier;
 
-import com.cse10.database.DatabaseConstants;
+import com.cse10.article.TrainingArticle;
+import com.cse10.database.DatabaseHandler;
 import com.cse10.gate.DocumentContentFilter;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
-import weka.core.converters.DatabaseLoader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.List;
+
 
 /**
  * load training data after filtering the content
@@ -27,7 +26,7 @@ public class DataHandlerWithGate extends DataHandler {
 
     @Override
     protected void printDescription() {
-        System.out.println("This data handler will load training data and filter out nouns,adjectives,verbs and adverbs from article content");
+        System.out.println("This data handler will load training data and filter nouns,adjectives,verbs and adverbs from article content");
     }
 
     /**
@@ -40,62 +39,29 @@ public class DataHandlerWithGate extends DataHandler {
     public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer) {
         printDescription();
         FastVector attributeList = new FastVector(2);
-        Attribute a1 = new Attribute("text", (FastVector) null);
+        Attribute content = new Attribute("text", (FastVector) null);
 
         FastVector classVal = new FastVector();
         classVal.addElement("crime");
         classVal.addElement("other");
-        Attribute c = new Attribute("@@class@@", classVal);
+        Attribute classValue = new Attribute("@@class@@", classVal);
 
         //add class attribute and news text
-        attributeList.addElement(a1);
-        attributeList.addElement(c);
+        attributeList.addElement(content);
+        attributeList.addElement(classValue);
         Instances trainingData = new Instances("TrainingNews", attributeList, 0);
         if (trainingData.classIndex() == -1) {
             trainingData.setClassIndex(trainingData.numAttributes() - 1);
         }
-        DatabaseLoader databaseLoader = null;
-        try {
-            databaseLoader = new DatabaseLoader();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        databaseLoader.setUser(DatabaseConstants.DB_USERNAME);
-        databaseLoader.setPassword(DatabaseConstants.DB_PASSWORD);
 
-        ArrayList<String> queries = new ArrayList<String>();
-        queries.add("SELECT content, label FROM article_ceylon_today_2013 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_daily_mirror_2012 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_daily_mirror_2013 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_the_island_2012 where `label` IS NOT NULL");
-        queries.add("SELECT content, label FROM article_the_island_2013 where `label` IS NOT NULL");
-
-        ListIterator queryIterator = queries.listIterator();
-        ArrayList<Instances> instances = new ArrayList<Instances>();
-        while (queryIterator.hasNext()) {
-            databaseLoader.setQuery((String) queryIterator.next());
-            Instances ins = null;
-            try {
-                ins = databaseLoader.getDataSet();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            instances.add(ins);
-        }
-
-        ListIterator instanceIterator = instances.listIterator();
-        while (instanceIterator.hasNext()) {
-            Instances ins = (Instances) instanceIterator.next();
-            //for each instance
-            for (int i = 0; i < ins.numInstances(); i++) {
-                String news = ins.instance(i).stringValue(0);
-                String label = ins.instance(i).stringValue(1);
-                Instance inst = new Instance(trainingData.numAttributes());
-                inst.setValue(a1, documentContentFilter.getFilterdContent(news));
-                inst.setValue(c, label);
-                inst.setDataset(trainingData);
-                trainingData.add(inst);
-            }
+        //load training data using database handler
+        List<TrainingArticle> trainingArticles= DatabaseHandler.fetchTrainingArticles();
+        for(TrainingArticle trainingArticle:trainingArticles){
+            Instance inst = new Instance(trainingData.numAttributes());
+            inst.setValue(content, documentContentFilter.getFilterdContent(trainingArticle.getContent()));
+            inst.setValue(classValue, trainingArticle.getLabel());
+            inst.setDataset(trainingData);
+            trainingData.add(inst);
         }
         trainingData.setClassIndex(trainingData.numAttributes() - 1);
         return trainingData;
