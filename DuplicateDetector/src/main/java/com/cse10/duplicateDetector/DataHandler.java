@@ -81,12 +81,12 @@ public class DataHandler {
                 String[] crimeDateElements = crimeDate.toString().split("-");
                 String crimeDateString = "";
                 for (int i = 0; i < crimeDateElements.length; i++) {
-                    crimeDateString = crimeDateString.concat(crimeDateElements[i]).concat(" ");
+                    crimeDateString = crimeDateString.concat(crimeDateElements[i]);
                 }
                 content = content.concat(crimeDateString);
             }
 
-            String police = crimeEntityGroup.getPolice();
+           /* String police = crimeEntityGroup.getPolice();
             // System.out.println("Police " + police);
             if (police != null)
                 content = content.concat(police).concat(" ");
@@ -95,7 +95,7 @@ public class DataHandler {
             // System.out.println("Court " + court);
             if (court != null)
                 content = content.concat(court).concat(" ");
-
+*/
             LocationDistrictMapper locationDistrictMapper = crimeEntityGroup.getLocationDistrict();
             if (locationDistrictMapper != null) {
                 String location = locationDistrictMapper.getLocation();
