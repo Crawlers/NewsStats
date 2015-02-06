@@ -22,24 +22,26 @@ public class SimHashCalculatorTest {
 
     }
 
-    @Test
-    public void testHammingDistance() throws Exception {
-
-        //TestCase.assertEquals(Long.toBinaryString(new Long(213632246078292797)),simHashCalculator.simhash64("child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura"));
-    }
-
-    @Test
-    public void testHammingDistance1() throws Exception {
-
-    }
 
     @Test
     public void testSimhash64() throws Exception {
+        String testArticleContent1= "child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura";
+        String testArticleContent2="illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura";
+        long testValue1=213632246078292797L;
+        long testValue2=1348539346806932285L;
+        TestCase.assertEquals(testValue1,simHashCalculator.getSimhash64Value(testArticleContent1));
+        TestCase.assertEquals(testValue2,simHashCalculator.getSimhash64Value(testArticleContent2));
 
     }
 
     @Test
     public void testSimhash32() throws Exception {
+        String testArticleContent1= "child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura";
+        String testArticleContent2="illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura";
+        long testValue1=-2145704282;
+        long testValue2=-1877269851;
+        TestCase.assertEquals(testValue1,simHashCalculator.getSimhash32Value(testArticleContent1));
+        TestCase.assertEquals(testValue2,simHashCalculator.getSimhash32Value(testArticleContent2));
 
     }
 }
