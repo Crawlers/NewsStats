@@ -45,7 +45,7 @@ import java.util.Date;
  */
 public class NewsStatsGUI {
 
-    private JFrame frame;
+    private static JFrame frame;
 
     private JPanel panelMain;
     private JTabbedPane tabbedPane1;
@@ -169,6 +169,16 @@ public class NewsStatsGUI {
     private AnalyzeTask analyzeTask;
     private PredictTask predictTask;
     private UploadDataTask uploadDataTask;
+
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+                NewsStatsGUI.init();
+            }
+        });
+    }
 
     public NewsStatsGUI() {
 
@@ -619,7 +629,7 @@ public class NewsStatsGUI {
         });
     }
 
-    public void init() {
+    public static void init() {
 
         try {
             UIManager.setLookAndFeel(new SyntheticaBlackStarLookAndFeel());
