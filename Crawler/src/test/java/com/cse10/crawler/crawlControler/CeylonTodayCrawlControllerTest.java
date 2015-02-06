@@ -7,12 +7,15 @@ import org.junit.Test;
 
 import java.util.Date;
 
-public class CeylonTodayCrawlControllerTest {
+public class CeylonTodayCrawlControllerTest extends BasicCrawlTest {
 
     CeylonTodayCrawlController ceylonTodayCrawlController;
 
     @Before
     public void setUp() throws Exception {
+
+        changeDB();
+
         ceylonTodayCrawlController = new CeylonTodayCrawlController();
         ceylonTodayCrawlController.setStartDate(new Date());
         ceylonTodayCrawlController.setEndDate(new Date());

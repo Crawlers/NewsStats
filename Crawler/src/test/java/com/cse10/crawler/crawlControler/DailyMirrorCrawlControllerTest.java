@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DailyMirrorCrawlControllerTest {
+public class DailyMirrorCrawlControllerTest extends BasicCrawlTest{
 
     DailyMirrorCrawlController dailyMirrorCrawlController;
     String dateString = "2014-10-17";
@@ -21,6 +21,8 @@ public class DailyMirrorCrawlControllerTest {
 
     @Before
     public void setUp() throws Exception {
+
+        changeDB();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {

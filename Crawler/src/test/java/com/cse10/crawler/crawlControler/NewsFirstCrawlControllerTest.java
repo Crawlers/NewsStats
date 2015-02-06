@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class NewsFirstCrawlControllerTest {
+public class NewsFirstCrawlControllerTest extends BasicCrawlTest{
 
     NewsFirstCrawlController newsFirstCrawlController;
     String dateString = "2015-01-01";
@@ -21,6 +21,8 @@ public class NewsFirstCrawlControllerTest {
 
     @Before
     public void setUp() throws Exception {
+
+        changeDB();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
