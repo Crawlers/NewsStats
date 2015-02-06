@@ -81,12 +81,5 @@ public class SimHashCalculator {
         return hash;
     }
 
-    public static void main(String[] args) {
-        SimHashCalculator simHashCalculator=new SimHashCalculator(new FullWordSegmenter());
-        long hash1=simHashCalculator.getSimhash64Value("child sex crime 2012-11-08 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
-        long hash2=simHashCalculator.getSimhash64Value("illegal trade 2012 12 26 Anuradhapura Anuradhapura Anuradhapura Anuradhapura");
-        System.out.println(Long.toBinaryString(hash1));
-        System.out.println(Long.toBinaryString(hash2));
-    }
 
 }

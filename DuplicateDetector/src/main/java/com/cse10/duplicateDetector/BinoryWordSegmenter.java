@@ -18,6 +18,7 @@ public class BinoryWordSegmenter extends WordSegmenter {
     protected List<String> getWords(String document) {
         List<String> binaryWords = new ArrayList<String>();
         for (int i = 0; i < document.length() - 1; i += 1) {
+            stringBuilder.setLength(0);
             stringBuilder.append(document.charAt(i)).append(document.charAt(i + 1));
             binaryWords.add(stringBuilder.toString());
         }

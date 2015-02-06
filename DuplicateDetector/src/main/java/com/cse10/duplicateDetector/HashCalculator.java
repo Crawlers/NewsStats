@@ -20,7 +20,6 @@ public class HashCalculator {
         //Each character is encoded as a 8 bit unit. Each byte of the buffer represents a character.
         //buffer length is equal to the length of the word
         byte[] buffer = document.getBytes(Charset.forName("utf-8"));
-        System.out.println(buffer.length);
         return hash32(buffer, buffer.length, 0);
     }
 
@@ -145,21 +144,5 @@ public class HashCalculator {
 
         return h;
     }
-
-    public static void main(String[] args) {
-        String word = "apple";
-        byte[] buffer = word.getBytes(Charset.forName("utf-8"));
-        ByteBuffer data = ByteBuffer.wrap(buffer);
-        int length = 20;
-        int answer = length >> 2;
-        System.out.println(answer);
-
-        HashCalculator hashCalculator = new HashCalculator();
-        System.out.println(Integer.toBinaryString(hashCalculator.getHash32Value("apple")));
-        System.out.println(Integer.toBinaryString(hashCalculator.getHash32Value("applee")));
-        System.out.println(Long.toBinaryString(hashCalculator.getHash64Value("apple")));
-        System.out.println(Long.toBinaryString(hashCalculator.getHash64Value("applee")));
-    }
-
 
 }

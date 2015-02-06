@@ -21,11 +21,11 @@ public class DataHandler {
      *
      * @return
      */
-    private List<String> readArticlesFromFile() {
+    public List<String> readArticlesFromFile() {
 
         List<String> documents;
         try {
-            documents = Files.readLines(new File("C:\\Users\\hp\\Desktop\\DuplicateDetetcionImplementation\\Implementations\\sim hash\\simhash-java-master\\simhash-java-master\\src\\test_in"), Charsets.UTF_8);
+            documents = Files.readLines(new File("DuplicateDetector\\src\\test\\resources\\test\\test_in.txt"), Charsets.UTF_8);
         } catch (IOException e) {
             documents = new ArrayList<String>();
             e.printStackTrace();
