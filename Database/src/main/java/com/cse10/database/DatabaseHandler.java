@@ -6,6 +6,7 @@ package com.cse10.database;
 
 import com.cse10.article.Article;
 import com.cse10.article.CrimeArticle;
+import com.cse10.article.TrainingArticle;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
@@ -118,6 +119,22 @@ public class DatabaseHandler {
         session.close();
 
         return articles;
+    }
+
+    /**
+     * fetch training article
+     * @return
+     */
+    public static List<TrainingArticle> fetchTrainingArticles() {
+        ArrayList<TrainingArticle> trainingArticles;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        trainingArticles = (ArrayList<TrainingArticle>) session.createCriteria(TrainingArticle.class).list();
+        session.getTransaction().commit();
+        session.close();
+        return trainingArticles;
     }
 
     /**
