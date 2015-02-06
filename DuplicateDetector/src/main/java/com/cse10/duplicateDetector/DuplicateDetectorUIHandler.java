@@ -48,6 +48,8 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         writer.print("");
         writer.close();
 
+        checkInterruption();
+
         Iterator iterator = documents.keySet().iterator();
         int increment = documents.keySet().size() / 40;
         int value = 0;
@@ -69,15 +71,11 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             value++;
             if (value == increment) {
                 progress += 1;
-                setChanged();
-                notifyObservers(progress);
+                notify(progress);
                 value = 0;
             }
 
-            //if user stop the thread
-            if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException();
-            }
+            checkInterruption();
         }
         return documentSimHashes;
     }
@@ -93,9 +91,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         progress=40;
 
         //if user stop the thread
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptedException();
-        }
+        checkInterruption();
 
         File articleHammingDistances = new File("DuplicateDetector\\src\\main\\resources\\hammingDistances.txt");
         PrintWriter writer = null;
@@ -119,6 +115,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         //add duplicate doc ids to a list
         //for each article
         while (iterator.hasNext()) {
+            checkInterruption();
 
             //calculate current doc's simHash
             currentDocumentId = (Integer) iterator.next();
@@ -138,12 +135,12 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             Iterator iter = documentSimHashes.keySet().iterator();
 
             //if user stop the thread
-            if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException();
-            }
+            checkInterruption();
 
             //calculate hamming distance to each article and add it to similarDocs ArrayList
             while (iter.hasNext()) {
+                checkInterruption();
+
                 int hashDocId = (Integer) iter.next();
                 Long hashValue = documentSimHashes.get(hashDocId);
                 int distance = hammingDistanceCalculator.getHammingDistance(docHash, hashValue);
@@ -157,9 +154,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             }
 
             //if user stop the thread
-            if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException();
-            }
+            checkInterruption();
 
             //update db to mark duplicate or write to file
             if (!similarDocIds.isEmpty()) {
@@ -174,6 +169,8 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
                         continue;
                     }
                     System.out.println((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
+
+                    checkInterruption();
 
                     //mark duplicate CrimeEntityGroups in DB
                     CrimeEntityGroup crimeEntityGroup = dataHandler.fetchCrimeEntityGroup(i);
@@ -204,21 +201,19 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             value++;
             if (value == increment) {
                 progress += 1;
-                setChanged();
-                notifyObservers(progress);
+                if(progress>100)
+                    progress=100;
+                notify(progress);
                 value = 0;
             }
 
             //if user stop the thread
-            if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException();
-            }
+            checkInterruption();
 
         }
 
         //set progress to 100, sometimes it may not be exactly equal to 100
-        setChanged();
-        notifyObservers(100);
+        notify(100);
 
     }
 
@@ -239,6 +234,26 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
     @Override
     public void run() {
         startDuplicateDetection();
+    }
+
+
+    /**
+     * helper function to handle interruption
+     */
+    private void checkInterruption() throws InterruptedException{
+        if(Thread.currentThread().isInterrupted()){
+            throw new InterruptedException();
+        }
+    }
+
+    /**
+     * helper function to notify observers
+     * @param progress
+     */
+    private void notify(int progress)throws InterruptedException{
+        checkInterruption();
+        setChanged();
+        notifyObservers(progress);
     }
 
     //testing the functionality
