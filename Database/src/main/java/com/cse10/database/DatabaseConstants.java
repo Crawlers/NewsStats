@@ -4,7 +4,6 @@ import com.cse10.article.*;
 import com.cse10.entities.CrimeEntityGroup;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -17,27 +16,43 @@ import java.util.Properties;
  */
 public class DatabaseConstants {
 
+    public static String DB_USERNAME;
+    public static String DB_PASSWORD;
+    public static String DB_URL; // there is a entry in DatabaseUtils.props file (top level) that does not use this
+    public static String WEBGUIDB_USERNAME;
+    public static String WEBGUIDB_PASSWORD;
+    public static String WEBGUIDB_DATABASE;
+    public static String WEBGUIDB_HOST;
+    public static String WEBGUIDB_PORT;
+
     private static Properties prop;
 
-    // load constants from dbConnection.properties file
+    // runs the init method automatically when the class loads
     static {
+        init();
+    }
+
+    // load constants from dbConnection.properties file
+    public static void init() {
+
         prop = new Properties();
-        InputStream input = null;
         try {
             prop.load(DatabaseConstants.class.getResourceAsStream("/dbConnection.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        DB_USERNAME = prop.getProperty("hibernate.connection.username");
+        DB_PASSWORD = prop.getProperty("hibernate.connection.password");
+        DB_URL = prop.getProperty("hibernate.connection.url"); // there is a entry in DatabaseUtils.props file (top level) that does not use this
+
+        WEBGUIDB_USERNAME = prop.getProperty("webguidb.connection.username");
+        WEBGUIDB_PASSWORD = prop.getProperty("webguidb.connection.password");
+        WEBGUIDB_DATABASE = prop.getProperty("webguidb.connection.database");
+        WEBGUIDB_HOST = prop.getProperty("webguidb.connection.host");
+        WEBGUIDB_PORT = prop.getProperty("webguidb.connection.port");
     }
 
-    public static final String DB_USERNAME = prop.getProperty("hibernate.connection.username");
-    public static final String DB_PASSWORD = prop.getProperty("hibernate.connection.password");
-    public static final String DB_URL = prop.getProperty("hibernate.connection.url"); // there is a entry in DatabaseUtils.props file (top level) that does not use this
-    public static final String WEBGUIDB_USERNAME = prop.getProperty("webguidb.connection.username");
-    public static final String WEBGUIDB_PASSWORD = prop.getProperty("webguidb.connection.password");
-    public static final String WEBGUIDB_DATABASE = prop.getProperty("webguidb.connection.database");
-    public static final String WEBGUIDB_HOST = prop.getProperty("webguidb.connection.host");
-    public static final String WEBGUIDB_PORT = prop.getProperty("webguidb.connection.port");
 
     /* class to table name mappings */
     public HashMap<Class, String> classToTableName;
@@ -56,6 +71,5 @@ public class DatabaseConstants {
 
         classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
     }
-
 
 }
