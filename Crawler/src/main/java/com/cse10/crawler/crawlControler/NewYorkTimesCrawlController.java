@@ -37,7 +37,7 @@ public class NewYorkTimesCrawlController extends BasicCrawlController {
             int month = c.get(Calendar.MONTH) + 1; //java defines january as 0
             int date = c.get(Calendar.DATE);
 
-            for (int partNumber = 5; partNumber < 6; partNumber++) { // there are multiple pages for a date. assuming max <= 5
+            for (int partNumber = 0; partNumber < 6; partNumber++) { // there are multiple pages for a date. assuming max <= 5
 
             /*
          * Instantiate the controller for this crawl.
