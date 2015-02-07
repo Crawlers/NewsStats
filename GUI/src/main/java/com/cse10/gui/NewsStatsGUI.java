@@ -160,11 +160,11 @@ public class NewsStatsGUI {
     private ExtractorTask extractorTask;
     private DuplicateDetectorTask duplicateDetectorTask;
 
-    private boolean extract = true;
-    private boolean duplicateDetect = true;
-    private boolean analyze = true;
-    private boolean predict = true;
-    private boolean uploadData = true;
+    private boolean extractButtonState = true;
+    private boolean duplicateDetectButtonState = true;
+    private boolean analyzeButtonState = true;
+    private boolean predictButtonState = true;
+    private boolean uploadDataButtonState = true;
 
     private AnalyzeTask analyzeTask;
     private PredictTask predictTask;
@@ -299,8 +299,9 @@ public class NewsStatsGUI {
                 }
 
                 statusLabel.setText("Ready");
-                enableCrawlerUI();
+//                enableCrawlerUI();
                 resetCrawlProgressBars();
+                refreshUI();
             }
         });
         startClassifyingButton.addActionListener(new ActionListener() {
@@ -415,15 +416,16 @@ public class NewsStatsGUI {
                 }
 
                 statusLabel.setText("Ready");
-                enableClassifierUI();
+//                enableClassifierUI();
                 resetClassifyProgressBars();
+                refreshUI();
             }
         });
         extractorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (extract) {
-                    extract = false;
+                if (extractButtonState) {
+                    extractButtonState = false;
                     disableExtractorUI();
 
                     extractorTask = new ExtractorTask();
@@ -435,8 +437,10 @@ public class NewsStatsGUI {
                                 extractorProgressBar.setValue(progress);
                                 extractorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    enableExtractorUI();
+                                    extractButtonState = true;
+//                                    enableExtractorUI();
                                     drawExtractorChart();
+                                    refreshUI();
 
                                     statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
@@ -448,9 +452,10 @@ public class NewsStatsGUI {
                     extractorTask.execute();
 
                 } else {
-                    extract = true;
-                    enableExtractorUI();
+                    extractButtonState = true;
+//                    enableExtractorUI();
                     drawExtractorChart();
+                    refreshUI();
 
                     if (extractorTask != null) {
                         extractorTask.stopExtract();
@@ -463,8 +468,8 @@ public class NewsStatsGUI {
         duplicateDetectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (duplicateDetect) {
-                    duplicateDetect = false;
+                if (duplicateDetectButtonState) {
+                    duplicateDetectButtonState = false;
                     disableDuplicateDetectorUI();
 
                     duplicateDetectorTask = new DuplicateDetectorTask();
@@ -476,8 +481,10 @@ public class NewsStatsGUI {
                                 duplicateDetectorProgressBar.setValue(progress);
                                 duplicateDetectorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    enableDuplicateDetectorUI();
+                                    duplicateDetectButtonState = true;
+//                                    enableDuplicateDetectorUI();
                                     drawDuplicateDetectorChart();
+                                    refreshUI();
 
                                     statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
@@ -489,9 +496,10 @@ public class NewsStatsGUI {
                     duplicateDetectorTask.execute();
 
                 } else {
-                    duplicateDetect = true;
-                    enableDuplicateDetectorUI();
+                    duplicateDetectButtonState = true;
+//                    enableDuplicateDetectorUI();
                     drawDuplicateDetectorChart();
+                    refreshUI();
 
                     if (duplicateDetectorTask != null) {
                         duplicateDetectorTask.stop();
@@ -504,8 +512,8 @@ public class NewsStatsGUI {
         analyzeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (analyze) {
-                    analyze = false;
+                if (analyzeButtonState) {
+                    analyzeButtonState = false;
 
                     analyzeButton.setText("cancel");
 
@@ -531,7 +539,7 @@ public class NewsStatsGUI {
                     analyzeTask.execute();
 
                 } else {
-                    analyze = true;
+                    analyzeButtonState = true;
                     analyzeButton.setText("Analyze");
                     analyzerProgressBar.setValue(0);
 
@@ -546,8 +554,8 @@ public class NewsStatsGUI {
         predictButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (predict) {
-                    predict = false;
+                if (predictButtonState) {
+                    predictButtonState = false;
 
                     predictButton.setText("cancel");
 
@@ -573,7 +581,7 @@ public class NewsStatsGUI {
                     predictTask.execute();
 
                 } else {
-                    predict = true;
+                    predictButtonState = true;
                     predictButton.setText("Predict");
                     predictorProgressBar.setValue(0);
 
@@ -588,8 +596,8 @@ public class NewsStatsGUI {
         uploadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (uploadData) {
-                    uploadData = false;
+                if (uploadDataButtonState) {
+                    uploadDataButtonState = false;
 
                     uploadDataButton.setText("cancel");
 
@@ -615,7 +623,7 @@ public class NewsStatsGUI {
                     uploadDataTask.execute();
 
                 } else {
-                    uploadData = true;
+                    uploadDataButtonState = true;
                     uploadDataButton.setText("Upload Data");
                     uploaderProgressBar.setValue(0);
 
@@ -693,9 +701,10 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
 
-            enableCrawlerUI();
+//            enableCrawlerUI();
             resetCrawlProgressBars();
             drawCrawlerChart();
+            refreshUI();
 
             statusLabel.setText("Ready");
             InfoDialog infoDialog = new InfoDialog();
@@ -759,11 +768,6 @@ public class NewsStatsGUI {
 
     private void enableCrawlerUI() {
 
-        ceylonTodayCrawlProgress = 0;
-        dailyMirrorCrawlProgress = 0;
-        newsFirstCrawlProgress = 0;
-        theIslandCrawlProgress = 0;
-
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -824,6 +828,11 @@ public class NewsStatsGUI {
 
     private void resetCrawlProgressBars() {
 
+        ceylonTodayCrawlProgress = 0;
+        dailyMirrorCrawlProgress = 0;
+        newsFirstCrawlProgress = 0;
+        theIslandCrawlProgress = 0;
+
         ceylonTodayCrawlProgressBar.setValue(0);
         dailyMirrorCrawlProgressBar.setValue(0);
         newsFirstCrawlProgressBar.setValue(0);
@@ -846,9 +855,10 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
 
-            enableClassifierUI();
+//            enableClassifierUI();
             resetClassifyProgressBars();
             drawClassifierChart();
+            refreshUI();
 
             statusLabel.setText("Ready");
             InfoDialog infoDialog = new InfoDialog();
@@ -919,11 +929,6 @@ public class NewsStatsGUI {
 
     private void enableClassifierUI() {
 
-        ceylonTodayClassifyProgress = 0;
-        dailyMirrorClassifyProgress = 0;
-        newsFirstClassifyProgress = 0;
-        theIslandClassifyProgress = 0;
-
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
@@ -970,6 +975,11 @@ public class NewsStatsGUI {
     }
 
     private void resetClassifyProgressBars() {
+
+        ceylonTodayClassifyProgress = 0;
+        dailyMirrorClassifyProgress = 0;
+        newsFirstClassifyProgress = 0;
+        theIslandClassifyProgress = 0;
 
         ceylonTodayClassifyProgressBar.setValue(0);
         dailyMirrorClassifyProgressBar.setValue(0);
@@ -1117,5 +1127,19 @@ public class NewsStatsGUI {
             chartPanelDuplicateDetector.setChart(chart);
         }
         chartPanelDuplicateDetector.setVisible(true);
+    }
+
+    private void refreshUI() {
+        enableCrawlerUI();
+        drawCrawlerChart();
+
+        enableClassifierUI();
+        drawClassifierChart();
+
+        enableExtractorUI();
+        drawExtractorChart();
+
+        enableDuplicateDetectorUI();
+        drawDuplicateDetectorChart();
     }
 }
