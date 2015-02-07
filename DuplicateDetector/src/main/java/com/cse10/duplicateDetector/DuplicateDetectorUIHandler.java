@@ -256,22 +256,4 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         notifyObservers(progress);
     }
 
-    //testing the functionality
-    public static void main(String[] args) {
-
-        DuplicateDetectorUIHandler ui = new DuplicateDetectorUIHandler();
-        Thread t = new Thread(ui);
-        t.setName("Duplicate Detector");
-        System.out.println(Thread.currentThread().getName() + "-> Start");
-        t.start();
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(Thread.currentThread().getName() + "-> Finish");
-        // t.interrupt();
-    }
-
-
 }
