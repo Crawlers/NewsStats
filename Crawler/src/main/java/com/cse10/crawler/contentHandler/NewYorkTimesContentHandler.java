@@ -23,7 +23,7 @@ public class NewYorkTimesContentHandler extends BasicContentHandler {
 
         if (page.getParseData() instanceof HtmlParseData) {
 
-            System.out.println("paaaaaaaaaaaaaaath: "+page.getWebURL());
+            System.out.println("Current URL: " + page.getWebURL());
 
             HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
             String html = htmlParseData.getHtml();
@@ -36,7 +36,7 @@ public class NewYorkTimesContentHandler extends BasicContentHandler {
             }
 
             String title = articleElement.getElementById("story-heading").ownText();
-            String dateString = articleElement.getElementsByClass("dateline").first().getElementsByAttribute("datetime").html();
+            String dateString = articleElement.getElementsByClass("dateline").first().attr("datetime");
             Date date = null;
             try {
                 date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);

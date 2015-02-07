@@ -16,7 +16,7 @@ import java.util.Date;
 public class NewYorkTimesCrawlControllerTest extends BasicCrawlTest{
 
     NewYorkTimesCrawlController newYorkTimesCrawlController;
-    String dateString = "2015-01-01";
+    String dateString = "2014-01-01";
     Date date;
 
     @Before

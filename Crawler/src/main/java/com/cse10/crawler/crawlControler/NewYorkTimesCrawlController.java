@@ -44,7 +44,7 @@ public class NewYorkTimesCrawlController extends BasicCrawlController {
          */
                 PageFetcher pageFetcher = new PageFetcher(getConfig());
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-
+//                robotstxtConfig.setEnabled(false);
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 
                 controller = new CrawlController(getConfig(), pageFetcher, robotstxtServer);
