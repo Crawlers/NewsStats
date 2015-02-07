@@ -1,9 +1,6 @@
 package com.cse10.gui;
 
-import com.cse10.article.CeylonTodayArticle;
-import com.cse10.article.DailyMirrorArticle;
-import com.cse10.article.NewsFirstArticle;
-import com.cse10.article.TheIslandArticle;
+import com.cse10.article.*;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
@@ -123,6 +120,13 @@ public class NewsStatsGUI {
     private JProgressBar predictorProgressBar;
     private JProgressBar uploaderProgressBar;
     private ChartPanel chartPanelExtractorLine;
+    private JScrollPane scrollPaneUtil;
+    private JPanel panelUtil;
+    private JLabel databaseLabel;
+    private JButton undoClassificationButton;
+    private JButton undoEntityExtractionButton;
+    private JButton undoDuplicateDetectionButton;
+    private ChartPanel chartPanelTables;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -673,6 +677,9 @@ public class NewsStatsGUI {
         /* duplicate detector chart */
         drawDuplicateDetectorChart();
 
+        /* tables chart in Util tab */
+        drawTablesChart();
+
     }
 
     /**
@@ -1141,5 +1148,65 @@ public class NewsStatsGUI {
 
         enableDuplicateDetectorUI();
         drawDuplicateDetectorChart();
+
+        drawTablesChart();
+    }
+
+    private void drawTablesChart() {
+
+        // row keys...
+        String[] series = new String[9];
+        series[0] = "Crawled Ceylon Today";
+        series[1] = "Crawled Daily Mirror";
+        series[2] = "Crawled News First";
+        series[3] = "Crawled The Island";
+//        series[4] = "Training Articles";
+        series[5] = "Classified Crime Articles";
+        series[6] = "Crime Persons";
+        series[7] = "Crime Entity Groups";
+        series[8] = "Crime Locations";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // data
+        int[] counts = new int[series.length];
+        counts[0] = DatabaseHandler.getRowCount(CeylonTodayArticle.class);
+        counts[1] = DatabaseHandler.getRowCount(DailyMirrorArticle.class);
+        counts[2] = DatabaseHandler.getRowCount(NewsFirstArticle.class);
+        counts[3] = DatabaseHandler.getRowCount(TheIslandArticle.class);
+//        counts[4] = DatabaseHandler.getRowCount(TrainingArticle.class);
+        counts[5] = DatabaseHandler.getRowCount(CrimeArticle.class);
+        counts[6] = DatabaseHandler.getRowCount(CrimePerson.class);
+        counts[7] = DatabaseHandler.getRowCount(CrimeEntityGroup.class);
+        counts[8] = DatabaseHandler.getRowCount(LocationDistrictMapper.class);
+
+        for (int i = 0; i < series.length; i++) {
+            if (i == 4) {
+                continue; // skipping training articles for now
+            }
+            dataset.addValue(counts[i], series[i], category1);
+        }
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Tables",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        if (chartPanelTables == null) {
+            chartPanelTables = new ChartPanel(chart);
+        } else {
+            chartPanelTables.setChart(chart);
+        }
+        chartPanelTables.setVisible(true);
     }
 }
