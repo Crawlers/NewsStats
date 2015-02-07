@@ -27,8 +27,11 @@ public class DataHandlerWithSampling extends DataHandler {
     }
 
     @Override
-    protected void printDescription() {
-        System.out.println("This data handler will load training data and use sampling method to generate training data.");
+    protected String printDescription() {
+        String description="This data handler will load training data and use sampling method to generate training data.";
+        System.out.println(description);
+        return description;
+
     }
 
     /**

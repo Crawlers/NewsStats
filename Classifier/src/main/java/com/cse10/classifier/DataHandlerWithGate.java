@@ -25,8 +25,10 @@ public class DataHandlerWithGate extends DataHandler {
     }
 
     @Override
-    protected void printDescription() {
-        System.out.println("This data handler will load training data and filter nouns,adjectives,verbs and adverbs from article content");
+    protected String printDescription() {
+        String description="This data handler will load training data and filter nouns,adjectives,verbs and adverbs from article content";
+        System.out.println(description);
+        return description;
     }
 
     /**

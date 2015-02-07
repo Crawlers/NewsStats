@@ -68,6 +68,7 @@ public class SVMClassifierHandler extends ClassifierHandler {
     }
 
     /**
+     * return Evaluation object for testing purposes
      * @param filteredTrainingData
      * @param numOfFolds
      * @return

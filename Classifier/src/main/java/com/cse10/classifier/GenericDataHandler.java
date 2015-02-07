@@ -21,8 +21,10 @@ public class GenericDataHandler extends DataHandler {
     }
 
     @Override
-    protected void printDescription() {
-        System.out.println("  Data Handler -> This Data Handler will Load all of the Training Data");
+    protected String printDescription() {
+        String description="Data Handler -> This Data Handler will Load all of the Training Data";
+        System.out.println(description);
+        return description;
     }
 
     /**

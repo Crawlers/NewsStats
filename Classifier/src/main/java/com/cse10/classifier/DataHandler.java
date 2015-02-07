@@ -31,7 +31,7 @@ public abstract class DataHandler {
         isFeatureVectorTransformerRequired=true;
     }
 
-    protected abstract void printDescription();
+    protected abstract String printDescription();
 
     /**
      * fetch training data from database
