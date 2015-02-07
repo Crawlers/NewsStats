@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.Enumeration;
 
+//no effect from db
 public class StanfordCoreNLPLemmatizerTest {
 
     StanfordCoreNLPLemmatizer stanfordCoreNLPLemmatizer;
