@@ -24,7 +24,13 @@ public class NewYorkTimesCrawler extends BasicCrawler {
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        return super.shouldVisit(url) && href.startsWith("http://www.nytimes.com/" + NewYorkTimesCrawlController.currentYearMonth);
+        url.getURL();
+        boolean shouldVisit = super.shouldVisit(url) && href.startsWith("http://www.nytimes.com/" + NewYorkTimesCrawlController.currentYearMonth);
+        if (shouldVisit){
+            url.setURL(url.getURL().replaceAll("www.nytimes.com/","localhost/cookieHandler/newyorkTimes.php?path="));
+            return true;
+        }
+        return false;
     }
 
     /**
