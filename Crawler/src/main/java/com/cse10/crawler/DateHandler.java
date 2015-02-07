@@ -41,6 +41,14 @@ public class DateHandler {
             latestDateCrawled = cal.getTime();
         }
 
+        /* because New York Times is crawled month at a time */
+        if (tableName == "article_new_york_times") {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(latestDateCrawled);
+            cal.set(Calendar.DATE, 1); // set the first date of the given month
+            latestDateCrawled = cal.getTime();
+        }
+
         if (latestDateCrawled.compareTo(startingDate) < 0) { // if starting date > latest date
             return startingDate;
         }
