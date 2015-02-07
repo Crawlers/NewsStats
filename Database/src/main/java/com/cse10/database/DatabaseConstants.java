@@ -42,6 +42,8 @@ public class DatabaseConstants {
         classToTableName.put(HiruNewsArticle.class, "article_hiru_news");
         classToTableName.put(NewsFirstArticle.class, "article_news_first");
         classToTableName.put(TheIslandArticle.class, "article_the_island");
+        classToTableName.put(NewYorkTimesArticle.class, "article_new_york_times");
+
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
@@ -78,6 +80,8 @@ public class DatabaseConstants {
         classToTableName.put(HiruNewsArticle.class, "article_hiru_news");
         classToTableName.put(NewsFirstArticle.class, "article_news_first");
         classToTableName.put(TheIslandArticle.class, "article_the_island");
+        classToTableName.put(NewYorkTimesArticle.class, "article_new_york_times");
+
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
