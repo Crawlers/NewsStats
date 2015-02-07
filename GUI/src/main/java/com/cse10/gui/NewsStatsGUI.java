@@ -1,6 +1,7 @@
 package com.cse10.gui;
 
 import com.cse10.article.*;
+import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
@@ -18,6 +19,7 @@ import com.cse10.gui.task.crawl.NewsFirstCrawlTask;
 import com.cse10.gui.task.crawl.TheIslandCrawlTask;
 import com.cse10.gui.task.duplicateDetect.DuplicateDetectorTask;
 import com.cse10.gui.task.extract.ExtractorTask;
+import com.cse10.util.TableCleaner;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
@@ -189,6 +191,9 @@ public class NewsStatsGUI {
         initComponentLists(); // initialize list containing UI components
         enableCrawlerUI();
         enableClassifierUI();
+        enableExtractorUI();
+        enableDuplicateDetectorUI();
+        setUpUtilUi();
 
         startCrawlingButton.addActionListener(new ActionListener() { //when crawler button is clicked
             @Override
@@ -637,6 +642,30 @@ public class NewsStatsGUI {
                     }
 
                 }
+            }
+        });
+        undoClassificationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TableCleaner.undoClassifications(false); // todo allow user to set true/false
+
+                refreshUI();
+            }
+        });
+        undoEntityExtractionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //todo
+
+                refreshUI();
+            }
+        });
+        undoDuplicateDetectionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TableCleaner.undoDuplicateDetection();
+
+                refreshUI();
             }
         });
     }
@@ -1136,20 +1165,24 @@ public class NewsStatsGUI {
         chartPanelDuplicateDetector.setVisible(true);
     }
 
-    private void refreshUI() {
-        enableCrawlerUI();
-        drawCrawlerChart();
+    /* UTIL TAB */
 
-        enableClassifierUI();
-        drawClassifierChart();
+    private void setUpUtilUi() {
 
-        enableExtractorUI();
-        drawExtractorChart();
+        String dbUrl = DatabaseConstants.DB_URL;
 
-        enableDuplicateDetectorUI();
-        drawDuplicateDetectorChart();
+        databaseLabel.setText(dbUrl);
 
-        drawTablesChart();
+        //allowing to delete entries only in test and demo databases
+        if (dbUrl.contains("test") || dbUrl.contains("demo")) {
+            undoClassificationButton.setEnabled(true);
+            undoEntityExtractionButton.setEnabled(true);
+            undoDuplicateDetectionButton.setEnabled(true);
+        } else {
+            undoClassificationButton.setEnabled(false);
+            undoEntityExtractionButton.setEnabled(false);
+            undoDuplicateDetectionButton.setEnabled(false);
+        }
     }
 
     private void drawTablesChart() {
@@ -1208,5 +1241,22 @@ public class NewsStatsGUI {
             chartPanelTables.setChart(chart);
         }
         chartPanelTables.setVisible(true);
+    }
+
+    private void refreshUI() {
+
+        enableCrawlerUI();
+        drawCrawlerChart();
+
+        enableClassifierUI();
+        drawClassifierChart();
+
+        enableExtractorUI();
+        drawExtractorChart();
+
+        enableDuplicateDetectorUI();
+        drawDuplicateDetectorChart();
+
+        drawTablesChart();
     }
 }
