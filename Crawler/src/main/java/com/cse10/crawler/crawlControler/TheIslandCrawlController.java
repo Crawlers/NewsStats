@@ -10,7 +10,6 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
-import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,7 +25,7 @@ public class TheIslandCrawlController extends BasicCrawlController {
     * put the theIsland directory inside www folder and update the address of localhostProxyUrl below accordingly
     * Make sure the web server runs, and you can access the localhostProxyUrl from the browser before crawling
     * */
-    final String localhostProxyUrl = "http://localhost:8080/theIsland/";
+    final String localhostProxyUrl = "http://localhost/cookieHandler/theIsland.php";
 
     public static String current_date;
 
