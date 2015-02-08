@@ -647,25 +647,39 @@ public class NewsStatsGUI {
         undoClassificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TableCleaner.undoClassifications(false); // todo allow user to set true/false
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        TableCleaner.undoClassifications(true);
 
-                refreshUI();
+                        refreshUI();
+                    }
+                });
             }
         });
         undoEntityExtractionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //todo
+                System.out.println("clicked");
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        System.out.println("invoking");
+                        TableCleaner.undoEntityExtraction();
 
-                refreshUI();
+                        refreshUI();
+                    }
+                });
             }
         });
         undoDuplicateDetectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TableCleaner.undoDuplicateDetection();
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        TableCleaner.undoDuplicateDetection();
 
-                refreshUI();
+                        refreshUI();
+                    }
+                });
             }
         });
     }
