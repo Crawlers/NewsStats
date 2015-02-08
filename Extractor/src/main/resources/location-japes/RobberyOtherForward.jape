@@ -84,6 +84,9 @@ Priority:50
 |
 {Token.string == "robbed"}
 |
+({Token.string == "break"}
+{Token.string == "in"})
+|
 {Token.string == "abducted"}
 |
 {Token.string == "abductor"}
