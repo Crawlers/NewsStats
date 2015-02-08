@@ -1,5 +1,7 @@
 package com.cse10.extractor.gate;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Isuru Jayaweera
@@ -8,6 +10,9 @@ package com.cse10.extractor.gate;
  */
 
 public class GateTest {
+
+    // initialize logger
+    private static Logger logger = Logger.getLogger(GateTest.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -19,36 +24,36 @@ public class GateTest {
             i++;
 
             // check whether all crime details are properly stored
-            System.out.println("Entity Set : " + i + " -Begins Here-");
+            logger.info("Entity Set : " + i + " -Begins Here-");
 
             // check type of the crime
             if (entity.getCrimeType() != null) {
-                System.out.println("Crime Type : " + entity.getCrimeType());
+                logger.info("Crime Type : " + entity.getCrimeType());
             }
 
             // check date of the crime
             if (entity.getCrimeDate() != null) {
-                System.out.println("Crime Date : " + format.format(entity.getCrimeDate()));
+                logger.info("Crime Date : " + format.format(entity.getCrimeDate()));
             }
 
             // check location of the crime
             if (entity.getLocationDistrict().getLocation() != null) {
-                System.out.println("Crime Location : " + entity.getLocationDistrict().getLocation());
+                logger.info("Crime Location : " + entity.getLocationDistrict().getLocation());
             }
 
             // check district of the crime
             if (entity.getLocationDistrict() != null) {
-                System.out.println("District : " + entity.getLocationDistrict().getDistrict());
+                logger.info("District : " + entity.getLocationDistrict().getDistrict());
             }
 
             // check police location related with the crime
             if (entity.getPolice() != null) {
-                System.out.println("Police Location : " + entity.getPolice());
+                logger.info("Police Location : " + entity.getPolice());
             }
 
             // check court location related with the crime
             if (entity.getCourt() != null) {
-                System.out.println("Court Location : " + entity.getCourt());
+                logger.info("Court Location : " + entity.getCourt());
             }
 
             // check people who involved in the crime
@@ -61,14 +66,14 @@ public class GateTest {
                     System.out.print(" : " + person.getName());
                 }
 
-                System.out.println();
+                logger.info("");
             }
 
-            System.out.println("Entity Set : " + i + " -Ends Here-");
-            System.out.println();
+            logger.info("Entity Set : " + i + " -Ends Here-");
+            logger.info("");
         }
 
-        System.out.println("- Test Finishes Here -");*/
+        logger.info("- Test Finishes Here -");*/
 
         // Test running in separate thread
 
@@ -79,7 +84,7 @@ public class GateTest {
 
         Thread.currentThread().sleep(9000);
 
-        System.out.println("Check");
+        logger.info("Check");
         //t.interrupt();
 
         t.join();
