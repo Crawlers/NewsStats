@@ -10,6 +10,7 @@ import com.cse10.article.TrainingArticle;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
 import com.cse10.entities.LocationDistrictMapper;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -24,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class DatabaseHandler {
+
+    private static Logger logger = Logger.getLogger(DatabaseHandler.class);
 
     /**
      * insert an article (table will be selected according to the type of object)
@@ -123,6 +126,7 @@ public class DatabaseHandler {
 
     /**
      * fetch training article
+     *
      * @return
      */
     public static List<TrainingArticle> fetchTrainingArticles() {
@@ -260,11 +264,11 @@ public class DatabaseHandler {
     }
 
     /**
-     * execute an update query without using hibernate and return ResultSet
+     * execute an update query without using hibernate
      *
      * @param query
      */
-    public static void executeUpdate(String query) {
+    public static void executeUpdateWithoutHibernate(String query) {
 
         java.sql.Connection conn = null;
         ResultSet rs = null;
@@ -281,6 +285,22 @@ public class DatabaseHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * execute a update or delete query
+     *
+     * @param query
+     */
+    public static void executeUpdate(String query) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        session.createSQLQuery(query).executeUpdate();
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**
@@ -509,11 +529,18 @@ public class DatabaseHandler {
      */
     public static int getRowCount(Class articleClass) {
 
+        int val = 0;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass)
-                .setProjection(Projections.rowCount()).uniqueResult();
-        session.close();
-        return count.intValue();
+        try {
+            Long count = (Long) session.createCriteria(articleClass)
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            val = count.intValue();
+        } finally {
+            session.close();
+            return val;
+        }
+
     }
 
     /**
@@ -526,12 +553,19 @@ public class DatabaseHandler {
      */
     public static int getRowCount(Class articleClass, String property, String value) {
 
+        int val = 0;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass)
-                .add(Restrictions.eq(property, value))
-                .setProjection(Projections.rowCount()).uniqueResult();
-        session.close();
-        return count.intValue();
+        try {
+            Long count = (Long) session.createCriteria(articleClass)
+                    .add(Restrictions.eq(property, value))
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            val = count.intValue();
+        } finally {
+            session.close();
+            return val;
+        }
+
     }
 
     /**
@@ -544,12 +578,18 @@ public class DatabaseHandler {
      */
     public static int getRowCount(Class articleClass, String property, boolean value) {
 
+        int val = 0;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass)
-                .add(Restrictions.eq(property, value))
-                .setProjection(Projections.rowCount()).uniqueResult();
-        session.close();
-        return count.intValue();
+        try {
+            Long count = (Long) session.createCriteria(articleClass)
+                    .add(Restrictions.eq(property, value))
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            val = count.intValue();
+        } finally {
+            session.close();
+            return val;
+        }
     }
 
     /**
@@ -562,12 +602,18 @@ public class DatabaseHandler {
      */
     public static int getRowCount(Class articleClass, String property, Date value) {
 
+        int val = 0;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long count = (Long) session.createCriteria(articleClass)
-                .add(Restrictions.eq(property, value))
-                .setProjection(Projections.rowCount()).uniqueResult();
-        session.close();
-        return count.intValue();
+        try {
+            Long count = (Long) session.createCriteria(articleClass)
+                    .add(Restrictions.eq(property, value))
+                    .setProjection(Projections.rowCount()).uniqueResult();
+
+            val = count.intValue();
+        } finally {
+            session.close();
+            return val;
+        }
     }
 
     /**
@@ -684,6 +730,24 @@ public class DatabaseHandler {
 
         session.beginTransaction();
         session.update(crimeEntityGroup);
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    /**
+     * delete all entries of given type
+     *
+     * @param articleClass
+     */
+    public static void deleteAll(Class articleClass) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        String tableName = DatabaseConstants.classToTableName.get(articleClass);
+        session.createSQLQuery("DELETE FROM " + tableName).executeUpdate();
+
         session.getTransaction().commit();
 
         session.close();
