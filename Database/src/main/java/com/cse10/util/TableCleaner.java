@@ -4,11 +4,19 @@ import com.cse10.article.*;
 import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
+import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by TharinduWijewardane on 2015-02-07.
  */
 public class TableCleaner {
+
+    private static Logger logger = Logger.getLogger(TableCleaner.class);
 
     /**
      * Undo the classification (so that it can be performed from the beginning again)
@@ -31,6 +39,33 @@ public class TableCleaner {
             String tableCrimeArticles = DatabaseConstants.classToTableName.get(CrimeArticle.class);
             DatabaseHandler.executeUpdate("DELETE FROM " + tableCrimeArticles);
         }
+    }
+
+    /**
+     * Undo the entity extraction (so that it can be performed from the beginning again)
+     */
+    public static void undoEntityExtraction() {
+
+        DatabaseHandler.deleteAll(CrimePerson.class);
+        DatabaseHandler.deleteAll(CrimeEntityGroup.class);
+
+        // set the last extraction performed crime article id to 0
+        File configFile = new File("Extractor/src/main/resources/Configuration.txt");
+        FileWriter fooWriter = null; // true to append
+        try {
+            fooWriter = new FileWriter(configFile, false);
+            // false to overwrite.
+            fooWriter.write("0");
+        } catch (IOException e) {
+            logger.info("Error: ", e);
+        } finally {
+            try {
+                fooWriter.close();
+            } catch (IOException ex) {
+                logger.info("Error: ", ex);
+            }
+        }
+
     }
 
     /**
