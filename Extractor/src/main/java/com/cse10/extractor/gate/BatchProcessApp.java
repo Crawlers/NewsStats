@@ -31,6 +31,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.exception.DataException;
 import org.jdom.JDOMException;
@@ -48,6 +49,9 @@ public class BatchProcessApp {
 
     // stores entities temporary till they are inserted to the table
     private static ArrayList<CrimeEntityGroup> entityGroupsList = new ArrayList<>();
+
+    // initialize logger
+    private static Logger logger = Logger.getLogger(BatchProcessApp.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -96,7 +100,7 @@ public class BatchProcessApp {
                 articleContent = articleContent + ".::" + articleDate + "::.";
 
                 int articleLength = articleContent.length();
-                System.out.println("New Article size : " + articleLength);
+                logger.info("New Article size : " + articleLength);
 
                 if (articleLength > 2500) {
                     articleContent = currentArticle.getTitle();
@@ -137,7 +141,7 @@ public class BatchProcessApp {
                 // Release the document
                 Factory.deleteResource(doc);
 
-                System.out.println("Article : " + i + " -Begins Here-");
+                logger.info("Article : " + i + " -Begins Here-");
 
                 // crime entity details
                 String district = "NULL";
@@ -177,7 +181,7 @@ public class BatchProcessApp {
                             crimeType = CurrentAnnot.getFeatures().get("article_type").toString();
                             entityGroupOfArticle.setCrimeType(crimeType);
                         } catch (NullPointerException e) {
-                            System.out.println("****** Not normalized : " + currentArticle.getTitle() + " **********");
+                            logger.info("****** Not normalized : " + currentArticle.getTitle() + " **********");
                         }
 
                     }
@@ -206,7 +210,7 @@ public class BatchProcessApp {
                         try {
                             crimeDate = format.parse(CurrentAnnot.getFeatures().get("normalized").toString());
                         } catch (NullPointerException e) {
-                            System.out.println("****** Not normalized : " + antText + " **********");
+                            logger.info("****** Not normalized : " + antText + " **********");
                         }
 
                     }
@@ -240,25 +244,25 @@ public class BatchProcessApp {
                 }
 
                 // check all crime details are properly entered
-                System.out.println("CrimeType : " + crimeType);
-                System.out.println("Crime Date : " + format.format(crimeDate));
-                System.out.println("Article Title : " + currentArticle.getTitle());
-                System.out.println("Crime Location : " + location);
+                logger.info("CrimeType : " + crimeType);
+                logger.info("Crime Date : " + format.format(crimeDate));
+                logger.info("Article Title : " + currentArticle.getTitle());
+                logger.info("Crime Location : " + location);
 
                 if (entityGroupOfArticle.getLocationDistrict() != null) {
-                    System.out.println("District : " + entityGroupOfArticle.getLocationDistrict().getDistrict());
+                    logger.info("District : " + entityGroupOfArticle.getLocationDistrict().getDistrict());
                 }
 
-                System.out.println("Crime People : " + crimePeople);
-                System.out.println("Police Location : " + police);
-                System.out.println("Court Location : " + court);
+                logger.info("Crime People : " + crimePeople);
+                logger.info("Police Location : " + police);
+                logger.info("Court Location : " + court);
 
-                System.out.println("Article : " + i + " -Ends Here-");
-                System.out.println();
+                logger.info("Article : " + i + " -Ends Here-");
+                logger.info("");
             }
         }// for each article
 
-        System.out.println("All done");
+        logger.info("All done");
 
         System.exit(0);
     }
@@ -291,7 +295,7 @@ public class BatchProcessApp {
                     entityGroupOfArticle.setLocation(location);
                     entityGroupOfArticle.setLocationDistrict(locationDistrict);
                 }catch (DataException dataE){
-                    System.out.println("Long district name : "+district+" for location : "+location);
+                    logger.info("Long district name : "+district+" for location : "+location);
                     district = null;
                 }
             }
@@ -312,7 +316,7 @@ public class BatchProcessApp {
                 try {
                     homePath = br.readLine();
                 } catch (IOException e) {
-                    System.out.println("Incorrect Path");
+                    logger.info("Incorrect Path");
                     DatabaseHandler.closeDatabase();
                     throw new InterruptedException("Thread interruption forced.");
                 }
@@ -325,9 +329,9 @@ public class BatchProcessApp {
         if (pathCheck.isFile() && Gate.getGateHome() == null) {
             gateHome = new File(homePath);
             Gate.setGateHome(gateHome);
-            System.out.println("GATE Home Configured : " + Gate.getGateHome());
+            logger.info("GATE Home Configured : " + Gate.getGateHome());
         } else if(!pathCheck.isFile() && Gate.getGateHome() == null) {
-            System.out.println("GATE Home Path Incorrect : "+homePath);
+            logger.info("GATE Home Path Incorrect : "+homePath);
             DatabaseHandler.closeDatabase();
             throw new InterruptedException("Thread interruption forced.");
         } else {
