@@ -377,7 +377,7 @@ public class DatabaseHandler {
     /**
      * fetch ArrayList of objects containing crime entities with null labels OR label = "unique"
      *
-     * @return
+     * @return ArrayList<CrimeEntityGroup>
      */
     public static ArrayList<CrimeEntityGroup> fetchCrimeEntityGroupsWithNullOrUniqueLabels() {
         ArrayList<CrimeEntityGroup> entityGroups;
@@ -386,7 +386,7 @@ public class DatabaseHandler {
         session.beginTransaction();
 
         entityGroups = (ArrayList<CrimeEntityGroup>) session.createCriteria(CrimeEntityGroup.class)
-                .add(Restrictions.eqOrIsNull("label", "unique"))
+                .add(Restrictions.or(Restrictions.isNull("label"), Restrictions.eq("label", "unique")))
                 .list();
         session.getTransaction().commit();
         session.close();
