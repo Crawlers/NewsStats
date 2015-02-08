@@ -187,6 +187,39 @@ Priority:50
 |
 {Token.string == "robbed"}
 |
+({Token.string == "break"}
+{Token.string == "in"})
+|
+{Token.string == "steal"}
+|
+{Token.string == "stolen"}
+|
+{Token.string == "stealing"}
+|
+{Token.string == "theft"}
+|
+{Token.string == "thief"}
+|
+{Token.string == "thieves"}
+|
+{Token.string == "hijacked"}
+|
+{Token.string == "ransacked"}
+|
+{Token.string == "extort"}
+|
+{Token.string == "extorted"}
+|
+{Token.string == "extorting"}
+|
+{Token.string == "extortion"}
+|
+({Token.string == "broken"}
+{Token.string == "into"})
+|
+({Token.string == "broke"}
+{Token.string == "into"})
+|
 {Token.string == "abducted"}
 |
 {Token.string == "abduction"}
@@ -255,7 +288,7 @@ Priority:50
 |
 {Token.string == "assaulted"}
 |
-{Token.string == "hijacked"}
+{Token.string == "hijack"}
 |
 {Token.string == "seized"}
 |
@@ -350,20 +383,6 @@ Priority:50
 {Token.string == "explosive"}
 |
 {Token.string == "explosion"}
-|
-{Token.string == "extort"}
-|
-{Token.string == "extorted"}
-|
-{Token.string == "extorting"}
-|
-{Token.string == "extortion"}
-|
-({Token.string == "broken"}
-{Token.string == "into"})
-|
-({Token.string == "broke"}
-{Token.string == "into"})
 |
 {Token.string == "extremist"}
 |
@@ -466,21 +485,9 @@ Priority:50
 |
 {Token.string == "stabbing"}
 |
-{Token.string == "steal"}
-|
-{Token.string == "stolen"}
-|
-{Token.string == "stealing"}
-|
 {Token.string == "surrender"}
 |
 {Token.string == "sword"}
-|
-{Token.string == "theft"}
-|
-{Token.string == "thief"}
-|
-{Token.string == "thieves"}
 |
 {Token.string == "turtle"}
 |
