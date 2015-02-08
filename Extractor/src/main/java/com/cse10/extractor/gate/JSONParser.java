@@ -15,6 +15,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,9 +24,12 @@ import java.io.InputStream;
 
 public class JSONParser {
 
+    // declare logger
+    private Logger logger;
+
     // constructor
     public JSONParser() {
-
+        logger = Logger.getLogger(this.getClass());
     }
 
     // get JSONObject from JSON response from google map api in order to get detailed location identification
@@ -68,7 +72,7 @@ public class JSONParser {
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
         } catch (JSONException e) {
-            System.out.println("Wrong JSON : "+stringBuilder.toString());
+            logger.info("Wrong JSON : "+stringBuilder.toString());
             e.printStackTrace();
         }
 
