@@ -2,6 +2,8 @@ package com.cse10.database;
 
 import com.cse10.article.*;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
+import com.cse10.entities.LocationDistrictMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -47,7 +49,9 @@ public class DatabaseConstants {
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
+        classToTableName.put(CrimePerson.class, "crime_person");
         classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
+        classToTableName.put(LocationDistrictMapper.class, "location_district_mapper");
     }
 
     // load constants from dbConnection.properties file
@@ -85,7 +89,9 @@ public class DatabaseConstants {
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
+        classToTableName.put(CrimePerson.class, "crime_person");
         classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
+        classToTableName.put(LocationDistrictMapper.class, "location_district_mapper");
     }
 
 }
