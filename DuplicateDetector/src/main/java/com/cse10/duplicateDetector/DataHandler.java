@@ -25,7 +25,7 @@ public class DataHandler {
 
         List<String> documents;
         try {
-            documents = Files.readLines(new File("DuplicateDetector\\src\\test\\resources\\test\\test_in.txt"), Charsets.UTF_8);
+            documents = Files.readLines(new File("DuplicateDetector\\src\\main\\resources\\test\\test_in.txt"), Charsets.UTF_8);
         } catch (IOException e) {
             documents = new ArrayList<String>();
             e.printStackTrace();
@@ -52,17 +52,13 @@ public class DataHandler {
 
         System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
         //create article content from entities
-        int k=0;
         while (iterator.hasNext()) {
             CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) iterator.next();
             content = "";
             System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Crime Entity Details --------------------------------");
             //System.out.println("ID " + crimeEntityGroup.getCrimeArticleId());
             id = crimeEntityGroup.getId();
-            if(k==0){
-                System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->**************** FIrst ID"+id);
-                k++;
-            }
+
             String crimeType = crimeEntityGroup.getCrimeType();
             if (crimeType != null) {
                 String[] crimeTypeElements = crimeType.split("_");
@@ -86,6 +82,8 @@ public class DataHandler {
                 content = content.concat(crimeDateString);
             }
 
+            content=content.concat(" ");
+
            /* String police = crimeEntityGroup.getPolice();
             // System.out.println("Police " + police);
             if (police != null)
@@ -94,8 +92,8 @@ public class DataHandler {
             String court = crimeEntityGroup.getCourt();
             // System.out.println("Court " + court);
             if (court != null)
-                content = content.concat(court).concat(" ");
-*/
+                content = content.concat(court).concat(" "); */
+
             LocationDistrictMapper locationDistrictMapper = crimeEntityGroup.getLocationDistrict();
             if (locationDistrictMapper != null) {
                 String location = locationDistrictMapper.getLocation();
@@ -106,7 +104,7 @@ public class DataHandler {
                 String district = crimeEntityGroup.getDistrict();
                 //   System.out.println("District " + district);
                 if (district != null)
-                    content = content.concat(district).concat(" ");
+                    content = content.concat(district);
             }
             System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
             articleContents.put(id, content);

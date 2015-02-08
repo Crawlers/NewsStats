@@ -33,8 +33,10 @@ public abstract class EnsembleClassifierHandler extends ClassifierHandler {
     }
 
     /**
-     * @param filteredTrainingData Instances
-     * @param numOfFolds           int
+     *
+     * @param filteredTrainingData
+     * @param numOfFolds
+     * @return
      */
     public Evaluation crossValidateClassifier(Instances filteredTrainingData, int numOfFolds) {
 

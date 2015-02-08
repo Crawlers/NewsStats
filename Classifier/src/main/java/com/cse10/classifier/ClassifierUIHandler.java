@@ -23,6 +23,11 @@ public abstract class ClassifierUIHandler extends Thread {
         this.endDate=endDate;
     }
 
+    //for functionl testing
+    public Date getEndDate() {
+        return endDate;
+    }
+
     @Override
     public void run() {
 

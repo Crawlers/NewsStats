@@ -24,6 +24,7 @@ public class ClassifierConfigurator extends Observable{
     private boolean isModelBuild;
     // no need if we use DataHandlerWithSampling data handler, it converts training data into feature vector
     private FeatureVectorTransformer featureVectorTransformer;
+    //singleton
     private static ClassifierConfigurator classifierConfigurator;
 
     private ClassifierConfigurator() {
@@ -342,15 +343,5 @@ public class ClassifierConfigurator extends Observable{
         notifyObservers(name+" "+Integer.toString(progress));
     }
 
-    public static void main(String[] args) {
-
-        ClassifierConfigurator classifierConfigurator = new ClassifierConfigurator();
-        Date d=new Date();
-        classifierConfigurator.startClassification(DailyMirrorArticle.class,d );
-       /* classifierConfigurator.startClassification(CeylonTodayArticle.class,d );
-        classifierConfigurator.startClassification(TheIslandArticle.class,d );
-        classifierConfigurator.startClassification(DailyMirrorArticle.class, d);*/
-
-    }
 
 }

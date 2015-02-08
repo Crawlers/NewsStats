@@ -53,13 +53,13 @@ public class SimHashCalculator {
 
     /**
      * calculate signature/finger print value (32 bit) for the given document
-     * @param doc
+     * @param document
      * @return
      */
-    public long getSimhash32Value(String doc) {
+    public long getSimhash32Value(String document) {
         int bitLen = 32;
         int[] bits = new int[bitLen];
-        List<String> tokens = wordSegmenter.getWords(doc);
+        List<String> tokens = wordSegmenter.getWords(document);
         for (String t : tokens) {
             int v = hashCalculator.getHash32Value(t);
             for (int i = bitLen; i >= 1; --i) {

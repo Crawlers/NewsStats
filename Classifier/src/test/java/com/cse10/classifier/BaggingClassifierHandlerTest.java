@@ -13,6 +13,7 @@ import weka.core.Instances;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+//get data from file, no effect from db
 public class BaggingClassifierHandlerTest {
     BaggingClassifierHandler baggingClassifierHandler;
     Instances testTrainingData;
@@ -22,7 +23,7 @@ public class BaggingClassifierHandlerTest {
         baggingClassifierHandler =new BaggingClassifierHandler();
 
         BufferedReader reader = new BufferedReader(
-                new FileReader("C:\\Users\\hp\\IdeaProjects\\NewsStats6\\Classifier\\src\\main\\resources\\arffData\\testData"));
+                new FileReader("Classifier\\src\\main\\resources\\testData\\arffTestData"));
         testTrainingData = new Instances(reader);
         reader.close();
         testTrainingData.setClassIndex(0);

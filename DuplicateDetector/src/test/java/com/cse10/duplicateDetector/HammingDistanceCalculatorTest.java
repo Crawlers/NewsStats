@@ -24,8 +24,6 @@ public class HammingDistanceCalculatorTest {
     public void testGetHammingDistance() throws Exception {
         long testValue1=213632207;
         long testValue2=134853934;
-        /*System.out.println(Long.toBinaryString(testValue1));
-        System.out.println(Long.toBinaryString(testValue2));*/
         TestCase.assertEquals(13, hammingDistanceCalculator.getHammingDistance(testValue1, testValue2));
     }
 
@@ -33,8 +31,6 @@ public class HammingDistanceCalculatorTest {
     public void testGetHammingDistance1() throws Exception {
         int testValue1=12121;
         int testValue2=13442;
-        /*System.out.println(Long.toBinaryString(testValue1));
-        System.out.println(Long.toBinaryString(testValue2));*/
         TestCase.assertEquals(10,hammingDistanceCalculator.getHammingDistance(testValue1, testValue2));
     }
 }

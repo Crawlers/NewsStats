@@ -29,6 +29,7 @@ public class FullWordSegmenterTest {
         TestCase.assertEquals("he",words.get(0));
         TestCase.assertEquals("went",words.get(1));
         TestCase.assertEquals("to",words.get(2));
+        //check conversion to lower case
         TestCase.assertEquals("matara",words.get(3));
         TestCase.assertEquals("today",words.get(4));
     }
