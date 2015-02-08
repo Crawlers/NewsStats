@@ -67,6 +67,10 @@ Priority:50
 |
 {Token.string == "interdicted"}
 |
+{Token.string == "complaint"}
+|
+{Token.string == "complaints"}
+|
 {Token.string == "recovered"}): crimeType1
 |
 ({Token.string == "explosives"}
@@ -226,6 +230,9 @@ Priority:50
 ({Token.string == "broke"}
 {Token.string == "into"})
 |
+({Token.string == "break"}
+{Token.string == "in"})
+|
 {Token.string == "intruder"}
 |
 {Token.string == "intruders"}) : crimeType5
@@ -251,10 +258,6 @@ Priority:50
 {Token.string == "confiscate"}
 |
 {Token.string == "confiscated"}
-|
-{Token.string == "complaint"}
-|
-{Token.string == "complaints"}
 |
 {Token.string == "counterfeit"}
 |
@@ -406,13 +409,13 @@ Priority:50
 
 --> 
 :crimeType1.CrimeType = {type= "Other", kind= "11"},  
-:crimeType2.CrimeType = {type= "Terrorism", kind= "8"},  
-:crimeType3.CrimeType = {type= "Clash", kind= "7"},  
+:crimeType2.CrimeType = {type= "Terrorism", kind= "10"},
+:crimeType3.CrimeType = {type= "Clash", kind= "9"},
 :crimeType4.CrimeType = {type= "Sex Crime", kind= "4"},  
-:crimeType5.CrimeType = {type= "Theft", kind= "9"},  
+:crimeType5.CrimeType = {type= "Theft", kind= "8"},
 :crimeType6.CrimeType = {type= "Abduction", kind= "3"},  
-:crimeType7.CrimeType = {type= "Illegal Trading", kind= "6"},  
+:crimeType7.CrimeType = {type= "Illegal Trading", kind= "7"},
 :crimeType8.CrimeType = {type= "Treasure Hunting", kind= "1"},  
-:crimeType9.CrimeType = {type= "Drug Offenses", kind= "10"},  
+:crimeType9.CrimeType = {type= "Drug Offenses", kind= "6"},
 :crimeType10.CrimeType = {type= "Violent Crimes", kind= "2"},  
 :crimeType11.CrimeType = {type= "Unsuitable Consumer Goods", kind= "5"} 
