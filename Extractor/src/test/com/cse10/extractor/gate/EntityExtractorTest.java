@@ -22,11 +22,12 @@ import static org.junit.Assert.*;
 
 public class EntityExtractorTest {
 
-    EntityExtractor testEntityExtractor;
-    Article testArticle;
-    List<Article> testArticleList;
-    CorpusController application;
-    Corpus corpus;
+    private EntityExtractor testEntityExtractor;
+    private CrimeEntityGroup testCrimeEntityGroup;
+    private Article testArticle;
+    private List<Article> testArticleList;
+    private CorpusController application;
+    private Corpus corpus;
 
 
     @Before
@@ -34,6 +35,7 @@ public class EntityExtractorTest {
 //        Gate.setGateHome(new File(System.getenv("GATE_HOME")));
 //        Gate.init();
         testEntityExtractor = new EntityExtractor();
+        testCrimeEntityGroup = new CrimeEntityGroup();
         testArticle = new NewsFirstArticle();
         testArticle.setId(1);
         testArticle.setAuthor("Madura Ranwala");
@@ -57,7 +59,7 @@ public class EntityExtractorTest {
 
     @Test
     public void testStopExtraction() throws Exception {
-
+        TestCase.assertEquals(true, testEntityExtractor.stopExtraction());
     }
 
     @Test
@@ -71,5 +73,11 @@ public class EntityExtractorTest {
         TestCase.assertEquals("Colombo", testCrimeEntityGroup.getDistrict().toString());
         TestCase.assertEquals("Narahenpita", testCrimeEntityGroup.getPolice().toString());
         TestCase.assertEquals("Maligakanda", testCrimeEntityGroup.getCourt().toString());
+    }
+
+    @Test
+    public void testResolveLocation() throws Exception {
+        testEntityExtractor.resolveLocation("Poththapitiya", testCrimeEntityGroup, 10);
+        TestCase.assertEquals("Kandy", testCrimeEntityGroup.getDistrict());
     }
 }
