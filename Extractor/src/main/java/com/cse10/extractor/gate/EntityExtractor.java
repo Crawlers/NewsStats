@@ -102,7 +102,7 @@ public class EntityExtractor extends Observable {
 
     // method to fetch district for the location using google map api, unless it is in the location - district
     // mapping table
-    private void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
+    public void resolveLocation(String location, CrimeEntityGroup entityGroupOfArticle, int articleID) {
         LocationDistrictMapper locationDistrict;
         String district = "NULL";
 
@@ -446,8 +446,9 @@ public class EntityExtractor extends Observable {
         return  crimeEntityGroupList;
     }
 
-    public synchronized void stopExtraction(){
+    public synchronized boolean stopExtraction(){
         writeLastID();
+        return true;
     }
 }
 
