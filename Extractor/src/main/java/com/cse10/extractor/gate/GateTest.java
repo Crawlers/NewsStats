@@ -14,7 +14,8 @@ public class GateTest {
     // initialize logger
     private static Logger logger = Logger.getLogger(GateTest.class);
 
-    public static void main(String[] args) throws Exception {
+    public static boolean doTest() throws Exception {
+        boolean testSuccess = false;
 
         /*DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         ArrayList<CrimeEntityGroup> entityGroupList = (ArrayList<CrimeEntityGroup>) DatabaseHandler.fetchCrimeEntityGroupsByIdRange(1,10);
@@ -77,19 +78,24 @@ public class GateTest {
 
         // Test running in separate thread
 
-        EntityExtractorTask r = new EntityExtractorTask();
-        Thread t = new Thread(r);
+        try {
+            EntityExtractorTask r = new EntityExtractorTask();
+            Thread t = new Thread(r);
 
-        t.start();
+            t.start();
 
-        Thread.currentThread().sleep(9000);
+            Thread.currentThread().sleep(9000);
 
-        logger.info("Check");
-        //t.interrupt();
+            logger.info("Check");
+            //t.interrupt();
 
-        t.join();
+            t.join();
+            testSuccess = true;
+        }catch (Exception e){
+            logger.info("Exception Occurred : ", e);
+        }
 
-        System.exit(0);
+        return testSuccess;
     }
 }
 
