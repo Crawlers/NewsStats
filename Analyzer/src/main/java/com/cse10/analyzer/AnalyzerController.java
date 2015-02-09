@@ -4,7 +4,6 @@ package com.cse10.analyzer;
 import com.cse10.database.DatabaseConstants;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Sampath on 1/16/15.
@@ -109,19 +108,18 @@ public class AnalyzerController extends Observable {
     }
 
 
-    public static void main(String[] args){
-        AnalyzerController ac = AnalyzerController.getInstance();
-        ac.analyze();
-        ac.predict();
-        ac.upload();
+//    public static void main(String[] args){
+//        AnalyzerController ac = AnalyzerController.getInstance();
+//        ac.analyze();
+//        ac.predict();
+//        ac.upload();
+//
+//    }
 
-    }
-
-    /*
     private void setProgress(int progress){
         System.out.println(progress);
         setChanged();
         notifyObservers(progress);
     }
-    */
+
 }
