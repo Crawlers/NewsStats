@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class SVMClassifierHandler extends ClassifierHandler {
 
     protected LibSVMExtended svm;
-    Logger log;
+    private Logger log;
 
     public SVMClassifierHandler() {
         log = Logger.getLogger(this.getClass());

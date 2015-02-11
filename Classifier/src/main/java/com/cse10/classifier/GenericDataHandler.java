@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class GenericDataHandler extends DataHandler {
 
-    Logger log;
+    private Logger log;
 
     public GenericDataHandler() {
         fileName = "generic";

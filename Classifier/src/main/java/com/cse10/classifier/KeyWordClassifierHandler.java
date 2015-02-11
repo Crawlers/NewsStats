@@ -18,7 +18,7 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
     private DocumentKeyWordFinder documentKeyWordFinder;
     private NGramTokenizer tokenizer;
     private StanfordCoreNLPLemmatizer lemmatizer;
-    Logger log;
+    private Logger log;
 
     public KeyWordClassifierHandler() {
         this.documentKeyWordFinder = new DocumentKeyWordFinder();

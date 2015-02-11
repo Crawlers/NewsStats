@@ -10,10 +10,13 @@ import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.filters.Filter;
 import weka.filters.supervised.instance.SMOTE;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
+import org.apache.log4j.Logger;
 
 /**
  * load training data using sampling technique
@@ -21,15 +24,18 @@ import java.util.Random;
  */
 public class DataHandlerWithSampling extends DataHandler {
 
+    private Logger log;
+
     public DataHandlerWithSampling() {
-        isFeatureVectorTransformerRequired=false;
+        isFeatureVectorTransformerRequired = false;
         fileName = "dataWithSampling";
+        log = Logger.getLogger(this.getClass());
     }
 
     @Override
     protected String printDescription() {
-        String description="This data handler will load training data and use sampling method to generate training data.";
-        System.out.println(description);
+        String description = "This data handler will load training data and use sampling method to generate training data.";
+        log.info(description);
         return description;
 
     }
@@ -61,8 +67,8 @@ public class DataHandlerWithSampling extends DataHandler {
         }
 
         //load training data using database handler
-        List<TrainingArticle> trainingArticles= DatabaseHandler.fetchTrainingArticles();
-        for(TrainingArticle trainingArticle:trainingArticles){
+        List<TrainingArticle> trainingArticles = DatabaseHandler.fetchTrainingArticles();
+        for (TrainingArticle trainingArticle : trainingArticles) {
             Instance inst = new Instance(trainingData.numAttributes());
             inst.setValue(content, trainingArticle.getContent());
             inst.setValue(classValue, trainingArticle.getLabel());
@@ -84,7 +90,7 @@ public class DataHandlerWithSampling extends DataHandler {
         int n[] = svmModel.sv_indices;
 
 
-        System.out.println("Number of support vectors=" + n.length);
+        log.info("Number of support vectors=" + n.length);
 
         double otherCount = 0;
         double crimeCount = 0;
@@ -96,7 +102,7 @@ public class DataHandlerWithSampling extends DataHandler {
 
         for (int k = 0; k < n.length; k++) {
             Instance i = filteredData.instance(n[k] - 1);
-            System.out.println(n[k] - 1 + " " + i.classValue());
+            log.info(n[k] - 1 + " " + i.classValue());
             if (i.classValue() == 0.0) {
                 crimeCount++;
                 crimeClassSupportVectors.add(i);
@@ -106,8 +112,8 @@ public class DataHandlerWithSampling extends DataHandler {
             }
 
         }
-        System.out.println("Crime Count " + crimeCount);
-        System.out.println("Other Count " + otherCount);
+        log.info("Crime Count " + crimeCount);
+        log.info("Other Count " + otherCount);
 
         ArffSaver saver = new ArffSaver();
         saver.setInstances(otherClassSupportVectors);
@@ -148,7 +154,7 @@ public class DataHandlerWithSampling extends DataHandler {
             e.printStackTrace();
         }
         // Specifies percentage of SMOTE instances to create.
-        double percentage = ((otherCount/crimeCount)-1)*100;
+        double percentage = ((otherCount / crimeCount) - 1) * 100;
         s.setPercentage(Math.round(percentage));
         Instances dataBalanced = null;
         try {
