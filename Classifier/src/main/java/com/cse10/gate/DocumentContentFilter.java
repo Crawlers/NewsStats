@@ -5,6 +5,7 @@ import gate.annotation.AnnotationImpl;
 import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.util.GateException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -20,27 +21,27 @@ import java.util.logging.Logger;
 public class DocumentContentFilter {
 
     private Corpus corpus;
-    private CorpusPipeLine cp;
-    private List annotationsRequired;
+    private CorpusPipeLine corpusPipeLine;
+    private List annotationTypesRequired;
     private boolean isGateHomeConfigured;
     private boolean isCorpusPipeLineConfigured;
 
     public DocumentContentFilter() {
-        isGateHomeConfigured=false;
-        isCorpusPipeLineConfigured=false;
+        isGateHomeConfigured = false;
+        isCorpusPipeLineConfigured = false;
     }
 
     /**
      * configure gate home
      */
-    private void configureGateHome(){
-        if(!isGateHomeConfigured) {
+    private void configureGateHome() {
+        if (!isGateHomeConfigured) {
             String homePath = "\\home";
             File gateHome;
             if (Gate.getGateHome() == null) {
                 homePath = System.getenv("GATE_HOME");
                 if (homePath == null) {
-                    //if environment variable is not set then prompt user to enter the path
+                    //if environment variable is null, then prompt user to enter the path
                     System.out.print("Enter GATE Home path : ");
                     BufferedReader br =
                             new BufferedReader(new InputStreamReader(System.in));
@@ -51,41 +52,41 @@ public class DocumentContentFilter {
                     }
                 }
 
-                System.out.println("Home Path= " + homePath);
-                //check whether the provided gate path is correct
+                System.out.println("Gate Home Path= " + homePath);
+                //check whether the provided path is correct
                 File pathCheck = new File(homePath + "\\gate.xml");
                 if (pathCheck.exists()) {
                     gateHome = new File(homePath);
                     Gate.setGateHome(gateHome);
-                    System.out.println("GATE Home Configured : " + Gate.getGateHome());
+                    System.out.println("GATE Home has been Configured : " + Gate.getGateHome());
                 } else {
-                    System.out.println("GATE Home Path Incorrect");
+                    System.out.println("GATE Home Path is Incorrect");
                     System.exit(0);
                 }
             }
-            isGateHomeConfigured=true;
+            isGateHomeConfigured = true;
         }
     }
 
     /**
      * configure corpus pipe line
      */
-    private void configureCorpusPipeLine(){
-        if(!isCorpusPipeLineConfigured) {
+    private void configureCorpusPipeLine() {
+        if (!isCorpusPipeLineConfigured) {
             try {
                 configureGateHome();
                 Gate.init();
             } catch (GateException ex) {
                 Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
-            annotationsRequired = new ArrayList();
-            ArrayList<String> annotationType = new ArrayList();
-            annotationType.add("Token");
+            annotationTypesRequired = new ArrayList();
+            ArrayList<String> annotationTypes = new ArrayList();
+            annotationTypes.add("Token");
 
-            ListIterator iter = annotationType.listIterator();
+            ListIterator iter = annotationTypes.listIterator();
             while (iter.hasNext()) {
                 String annotation = (String) iter.next();
-                annotationsRequired.add(annotation);
+                annotationTypesRequired.add(annotation);
             }
             try {
                 // create corpus
@@ -93,11 +94,12 @@ public class DocumentContentFilter {
             } catch (ResourceInstantiationException ex) {
                 Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
-            cp = new CorpusPipeLine();
-            cp.configure(true);
-            isCorpusPipeLineConfigured=true;
+            corpusPipeLine = new CorpusPipeLine();
+            corpusPipeLine.configure(true);
+            isCorpusPipeLineConfigured = true;
         }
     }
+
     /**
      * get filtered content of the given document content
      *
@@ -111,36 +113,32 @@ public class DocumentContentFilter {
         try {
             doc = Factory.newDocument(content); // create new gate document
             corpus.add(doc);
-            cp.setCorpus(corpus);
+            corpusPipeLine.setCorpus(corpus);
             try {
-                cp.execute();
+                corpusPipeLine.execute();
             } catch (ExecutionException ex) {
                 Logger.getLogger(DocumentContentFilter.class.getName()).log(Level.SEVERE, null, ex);
             }
             corpus.clear();
-            String docXMLString = null;
-            Set annotationsToWrite = new HashSet();
+            //temporary collection to add annotations of required type
+            Set annotationsRequired = new HashSet();
+
             /**
-             * if we want to just write out specific annotation types, we must
-             * extract the annotations into a Set
+             * extract the  required annotations into a Set
              */
-            if (annotationsRequired != null) {
-                /**
-                 * Create a temporary Set to hold the annotations we wish to
-                 * write out // we only extract annotations from the default
-                 * (unnamed) AnnotationSet in this example *
-                 */
-                AnnotationSet defaultAnnots = doc.getAnnotations();
-                Iterator annotTypesIt = annotationsRequired.iterator();
-                while (annotTypesIt.hasNext()) {
+            if (this.annotationTypesRequired != null) {
+
+                AnnotationSet defaultAnnotations = doc.getAnnotations();
+                Iterator annotationsTypesRequiredIterator = this.annotationTypesRequired.iterator();
+                while (annotationsTypesRequiredIterator.hasNext()) {
                     /**
-                     * extract all the annotations of each requested type and
-                     * add them to the temporary set*
+                     * extract all the annotations of each required type and
+                     * add them to collection
                      */
-                    AnnotationSet annotsOfThisType =
-                            defaultAnnots.get((String) annotTypesIt.next());
-                    if (annotsOfThisType != null) {
-                        annotationsToWrite.addAll(annotsOfThisType);
+                    AnnotationSet annotationsOfThisType =
+                            defaultAnnotations.get((String) annotationsTypesRequiredIterator.next());
+                    if (annotationsOfThisType != null) {
+                        annotationsRequired.addAll(annotationsOfThisType);
                     }
                 }
             }
@@ -148,23 +146,21 @@ public class DocumentContentFilter {
             // Release the document, as it is no longer needed
             Factory.deleteResource(doc);
 
-            Iterator annotIt = annotationsToWrite.iterator();
-            while (annotIt.hasNext()) {
-                // extract all the annotations of each requested type and add them to
-                // the temporary set
-                AnnotationImpl CurrentAnnot = (AnnotationImpl) annotIt.next();
+            Iterator annotationsRequiredIterator = annotationsRequired.iterator();
+            while (annotationsRequiredIterator.hasNext()) {
 
-                if (CurrentAnnot.getType().equalsIgnoreCase("Token") && (CurrentAnnot.getFeatures().get("category") == "NN" || CurrentAnnot.getFeatures().get("category") == "NNS")) {
-                    filteredContent = filteredContent.concat(CurrentAnnot.getFeatures().get("string").toString());
+                AnnotationImpl currentAnnotation = (AnnotationImpl) annotationsRequiredIterator.next();
+                if (currentAnnotation.getType().equalsIgnoreCase("Token") && (currentAnnotation.getFeatures().get("category") == "NN" || currentAnnotation.getFeatures().get("category") == "NNS")) {
+                    filteredContent = filteredContent.concat(currentAnnotation.getFeatures().get("string").toString());
                     filteredContent = filteredContent.concat(" ");
-                } else if (CurrentAnnot.getType().equalsIgnoreCase("Token") && (CurrentAnnot.getFeatures().get("category") == "JJ" || CurrentAnnot.getFeatures().get("category") == "JJR" || CurrentAnnot.getFeatures().get("category") == "JJS")) {
-                    filteredContent = filteredContent.concat(CurrentAnnot.getFeatures().get("string").toString());
+                } else if (currentAnnotation.getType().equalsIgnoreCase("Token") && (currentAnnotation.getFeatures().get("category") == "JJ" || currentAnnotation.getFeatures().get("category") == "JJR" || currentAnnotation.getFeatures().get("category") == "JJS")) {
+                    filteredContent = filteredContent.concat(currentAnnotation.getFeatures().get("string").toString());
                     filteredContent = filteredContent.concat(" ");
-                } else if (CurrentAnnot.getType().equalsIgnoreCase("Token") && (CurrentAnnot.getFeatures().get("category") == "RB" || CurrentAnnot.getFeatures().get("category") == "RBR" || CurrentAnnot.getFeatures().get("category") == "RBS")) {
-                    filteredContent = filteredContent.concat(CurrentAnnot.getFeatures().get("string").toString());
+                } else if (currentAnnotation.getType().equalsIgnoreCase("Token") && (currentAnnotation.getFeatures().get("category") == "RB" || currentAnnotation.getFeatures().get("category") == "RBR" || currentAnnotation.getFeatures().get("category") == "RBS")) {
+                    filteredContent = filteredContent.concat(currentAnnotation.getFeatures().get("string").toString());
                     filteredContent = filteredContent.concat(" ");
-                } else if (CurrentAnnot.getType().equalsIgnoreCase("Token") && (CurrentAnnot.getFeatures().get("category").equals("VBD") || CurrentAnnot.getFeatures().get("category") == "VBG" || CurrentAnnot.getFeatures().get("category") == "VBN" || CurrentAnnot.getFeatures().get("category") == "VBP" || CurrentAnnot.getFeatures().get("category") == "VB" || CurrentAnnot.getFeatures().get("category") == "VBZ")) {
-                    filteredContent = filteredContent.concat(CurrentAnnot.getFeatures().get("string").toString());
+                } else if (currentAnnotation.getType().equalsIgnoreCase("Token") && (currentAnnotation.getFeatures().get("category").equals("VBD") || currentAnnotation.getFeatures().get("category") == "VBG" || currentAnnotation.getFeatures().get("category") == "VBN" || currentAnnotation.getFeatures().get("category") == "VBP" || currentAnnotation.getFeatures().get("category") == "VB" || currentAnnotation.getFeatures().get("category") == "VBZ")) {
+                    filteredContent = filteredContent.concat(currentAnnotation.getFeatures().get("string").toString());
                     filteredContent = filteredContent.concat(" ");
                 }
             }
