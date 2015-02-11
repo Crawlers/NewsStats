@@ -736,6 +736,28 @@ public class DatabaseHandler {
     }
 
     /**
+     * delete the entry of the given type and id
+     *
+     * @param articleClass
+     * @param id
+     */
+    public static void delete(Class articleClass, int id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        String tableName = DatabaseConstants.classToTableName.get(articleClass);
+        try {
+            session.createSQLQuery("DELETE FROM " + tableName + " WHERE id = " + id).executeUpdate();
+        } catch (Exception e) {
+            logger.info("sql error occurred: ", e);
+        }
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    /**
      * delete all entries of given type
      *
      * @param articleClass
