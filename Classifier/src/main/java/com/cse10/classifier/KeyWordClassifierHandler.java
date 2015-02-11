@@ -4,9 +4,9 @@ import com.cse10.gate.DocumentKeyWordFinder;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.tokenizers.NGramTokenizer;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * remove obvious non-crime articles
@@ -18,17 +18,19 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
     private DocumentKeyWordFinder documentKeyWordFinder;
     private NGramTokenizer tokenizer;
     private StanfordCoreNLPLemmatizer lemmatizer;
+    Logger log;
 
     public KeyWordClassifierHandler() {
         this.documentKeyWordFinder = new DocumentKeyWordFinder();
         this.tokenizer = new NGramTokenizer();
         this.lemmatizer = new StanfordCoreNLPLemmatizer();
+        log = Logger.getLogger(this.getClass());
     }
 
     /**
      * configure classifier
-     * @param minTokenSize
-     * @param maxTokenSize
+     * @param minTokenSize minimum token size
+     * @param maxTokenSize maximum token size
      * @param delimiter
      */
     public void configure(int minTokenSize,int maxTokenSize, String delimiter ){
@@ -63,23 +65,23 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
 
             exist = documentKeyWordFinder.isKeyWordExist(words);
             if(label.equals("crime") && exist){
-                System.out.println("crime correct");
+                log.info("crime correct");
                 crimeCorrectCount++;
             }else if(label.equals("crime") && !exist){
-                System.out.println("crime incorrect");
+                log.info("crime incorrect");
                 crimeIncorrectCount++;
             }else if(label.equals("other") && !exist){
-                System.out.println("non crime correct");
+                log.info("non crime correct");
                 otherCorrectCount++;
             }else{
-                System.out.println("non crime incorrect");
+                log.info("non crime incorrect");
                 otherIncorrectCount++;
             }
         }
         accuracyValues.add((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount)) * 100);
         accuracyValues.add((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100);
-        System.out.println("Crime Accuracy= " + ((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount)) * 100) + "%");
-        System.out.println("Other Accuracy= " + ((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100) + "%");
+        log.info("Crime Accuracy= " + ((crimeCorrectCount / (crimeCorrectCount + crimeIncorrectCount)) * 100) + "%");
+        log.info("Other Accuracy= " + ((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100) + "%");
         return accuracyValues;
     }
 

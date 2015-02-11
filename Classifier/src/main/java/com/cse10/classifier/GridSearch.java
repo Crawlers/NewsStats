@@ -5,6 +5,8 @@ import weka.core.Instances;
 import weka.core.SelectedTag;
 import weka.filters.AllFilter;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by Chamath on 12/20/2014
  */
@@ -14,12 +16,19 @@ import weka.filters.AllFilter;
  */
 public class GridSearch {
 
+    Logger log;
+
+    public GridSearch() {
+        log = Logger.getLogger(this.getClass());
+    }
+
     /**
      * Perform grid search to find the best values for cost and gamma
+     *
      * @param classifier
      * @param dataFiltered
      */
-    public void gridSearch(Classifier classifier, Instances dataFiltered){
+    public void gridSearch(Classifier classifier, Instances dataFiltered) {
         weka.classifiers.meta.GridSearch gs = new weka.classifiers.meta.GridSearch();
         gs.setClassifier(classifier);
         gs.setFilter(new AllFilter());
@@ -40,7 +49,7 @@ public class GridSearch {
 
         int evaluationCriteriaIndex = 6;
         SelectedTag st;
-        st = new SelectedTag(evaluationCriteriaIndex , weka.classifiers.meta.GridSearch.TAGS_EVALUATION);
+        st = new SelectedTag(evaluationCriteriaIndex, weka.classifiers.meta.GridSearch.TAGS_EVALUATION);
         gs.setEvaluation(st);
         gs.setGridIsExtendable(true);
         gs.setDebug(true);
@@ -49,8 +58,8 @@ public class GridSearch {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Criteria: " + gs.getEvaluation().getSelectedTag().getID());
-        System.out.println("Results: " + gs.getValues());
+        log.info("Criteria: " + gs.getEvaluation().getSelectedTag().getID());
+        log.info("Results: " + gs.getValues());
     }
 
 }
