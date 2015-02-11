@@ -1,6 +1,5 @@
 package com.cse10.classifier;
 
-import weka.classifiers.Classifier;
 
 /**
  * super class for all the classifier handlers

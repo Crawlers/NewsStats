@@ -28,9 +28,14 @@ public abstract class DataHandler {
     public DataHandler() {
         articleIds = new HashMap<Integer, Integer>();
         fileName = "file.arff";
-        isFeatureVectorTransformerRequired=true;
+        isFeatureVectorTransformerRequired = true;
     }
 
+    /**
+     * print description for data handler
+     *
+     * @return
+     */
     protected abstract String printDescription();
 
     /**
@@ -107,7 +112,6 @@ public abstract class DataHandler {
     }
 
     /**
-     *
      * @return
      */
     public HashMap<Integer, Integer> getArticleIds() {
@@ -115,7 +119,6 @@ public abstract class DataHandler {
     }
 
     /**
-     *
      * @return
      */
     public String getFileName() {
@@ -129,7 +132,6 @@ public abstract class DataHandler {
     //wrapper methods for data base handler class
 
     /**
-     *
      * @param tableName
      * @param endDate
      * @return
@@ -139,7 +141,6 @@ public abstract class DataHandler {
     }
 
     /**
-     *
      * @param tableName
      * @param crimeArticleIdList
      * @return
@@ -149,26 +150,24 @@ public abstract class DataHandler {
     }
 
     /**
-     *
      * @param crimeArticle
      * @param article
      */
-    public void insertCrimeArticleAndUpdatePprArticle(CrimeArticle crimeArticle,Article article){
-        DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle,article);
+    public void insertCrimeArticleAndUpdatePprArticle(CrimeArticle crimeArticle, Article article) {
+        DatabaseHandler.insertCrimeArticleAndUpdatePprArticle(crimeArticle, article);
     }
 
     /**
-     *
      * @param article
      */
-    public void updateArticle(Article article){
+    public void updateArticle(Article article) {
         DatabaseHandler.updateArticle(article);
     }
 
     /**
      *
      */
-    public void closeDatabase(){
+    public void closeDatabase() {
         DatabaseHandler.closeDatabase();
     }
 

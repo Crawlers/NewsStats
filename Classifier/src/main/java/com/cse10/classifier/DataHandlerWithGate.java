@@ -7,7 +7,10 @@ import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
+
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -17,26 +20,27 @@ import java.util.List;
 public class DataHandlerWithGate extends DataHandler {
 
     private DocumentContentFilter documentContentFilter;
+    private Logger log;
 
     public DataHandlerWithGate() {
-
+        log = Logger.getLogger(this.getClass());
         fileName = "dataWithGate";
         documentContentFilter = new DocumentContentFilter();
     }
 
     @Override
     protected String printDescription() {
-        String description="This data handler will load training data and filter nouns,adjectives,verbs and adverbs from article content";
-        System.out.println(description);
+        String description = "This data handler will load training data and filter nouns,adjectives,verbs and adverbs from article content";
+        log.info(description);
         return description;
     }
 
     /**
      * fetch training data
      *
+     * @param featureVectorTransformer
      * @return Instances
      * @throws Exception
-     * @param featureVectorTransformer
      */
     public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer) {
         printDescription();
@@ -57,8 +61,8 @@ public class DataHandlerWithGate extends DataHandler {
         }
 
         //load training data using database handler
-        List<TrainingArticle> trainingArticles= DatabaseHandler.fetchTrainingArticles();
-        for(TrainingArticle trainingArticle:trainingArticles){
+        List<TrainingArticle> trainingArticles = DatabaseHandler.fetchTrainingArticles();
+        for (TrainingArticle trainingArticle : trainingArticles) {
             Instance inst = new Instance(trainingData.numAttributes());
             inst.setValue(content, documentContentFilter.getFilterdContent(trainingArticle.getContent()));
             inst.setValue(classValue, trainingArticle.getLabel());
