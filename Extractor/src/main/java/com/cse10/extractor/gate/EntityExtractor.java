@@ -437,18 +437,18 @@ public class EntityExtractor extends Observable {
                 if (i % uiStepSize == 0) {
                     logger.info("Progress updating.");
                     currentProgress = i / uiStepSize;
-                    setChanged();
-                    notifyObservers(currentProgress);
+                    if(currentProgress != 100) {
+                        setChanged();
+                        notifyObservers(currentProgress);
+                    }
                 }
             }
         }// for each article
 
-        if (currentProgress == 1) {
-            System.out.println("Progress updating.");
-            currentProgress = 100;
-            setChanged();
-            notifyObservers(currentProgress);
-        }
+        System.out.println("Progress updating.");
+        currentProgress = 100;
+        setChanged();
+        notifyObservers(currentProgress);
 
         return  crimeEntityGroupList;
     }
