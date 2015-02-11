@@ -17,6 +17,7 @@ public class GateTestTest {
 
     @Test
     public void testDoTest() throws Exception {
+        // test the testing method for threads
         TestCase.assertEquals(true, GateTest.doTest());
     }
 }

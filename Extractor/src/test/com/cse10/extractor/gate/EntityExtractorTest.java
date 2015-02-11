@@ -2,6 +2,7 @@ package com.cse10.extractor.gate;
 
 import com.cse10.article.Article;
 import com.cse10.article.NewsFirstArticle;
+import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import gate.Corpus;
 import gate.CorpusController;
@@ -13,7 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +33,6 @@ public class EntityExtractorTest {
 
     @Before
     public void setUp() throws Exception {
-//        Gate.setGateHome(new File(System.getenv("GATE_HOME")));
-//        Gate.init();
         testEntityExtractor = new EntityExtractor();
         testCrimeEntityGroup = new CrimeEntityGroup();
         testArticle = new NewsFirstArticle();
@@ -54,16 +53,63 @@ public class EntityExtractorTest {
 
     @Test
     public void testStartExtraction() throws Exception {
+        File configFile = new File("Extractor/src/main/resources/Configuration.txt");
+        FileWriter fooWriter = null;
+        int theID = 0;
+        BufferedReader br = null;
+
+        // obtaining article ID to begin entity extraction
+        try {
+            String sCurrentLine;
+            br = new BufferedReader(new FileReader(configFile));
+
+            if ((sCurrentLine = br.readLine()) != null) {
+                theID = Integer.parseInt(sCurrentLine);
+            }
+
+        } catch (IOException e) {
+            DatabaseHandler.closeDatabase();
+            throw new InterruptedException("Thread interruption forced.");
+        } finally {
+            try {
+                if (br != null)br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if ((theID - 10) > 0){
+            theID -= 10;
+        }
+
+        try {
+            // false to overwrite.
+            fooWriter = new FileWriter(configFile, false);
+
+            fooWriter.write(String.valueOf(theID));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                fooWriter.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // check entire process of entity extraction
         TestCase.assertEquals(true, testEntityExtractor.startExtraction());
     }
 
     @Test
     public void testStopExtraction() throws Exception {
+        // check stopping of entity extraction
         TestCase.assertEquals(true, testEntityExtractor.stopExtraction());
     }
 
     @Test
     public void testExecuteProcessPipeline() throws Exception {
+        // check obtaining entities from a given crime article
         application = (CorpusController) PersistenceManager.loadObjectFromFile(new File("Extractor/src/main/resources/Complete_v1.gapp"));
         corpus = Factory.newCorpus("BatchProcessApp Corpus");
         application.setCorpus(corpus);
@@ -77,6 +123,7 @@ public class EntityExtractorTest {
 
     @Test
     public void testResolveLocation() throws Exception {
+        // check mapping a location to its corresponding district
         testEntityExtractor.resolveLocation("Poththapitiya", testCrimeEntityGroup, 10);
         TestCase.assertEquals("Kandy", testCrimeEntityGroup.getDistrict());
     }

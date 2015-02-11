@@ -25,11 +25,13 @@ public class EntityExtractorTaskTest {
 
     @Test
     public void testGetEntityExtrator() throws Exception {
+        // test whether EntityExtractor is created
         TestCase.assertEquals("com.cse10.extractor.gate.EntityExtractor", testEntityExtractorTask.getEntityExtrator().getClass().getName());
     }
 
     @Test
     public void testRun() throws Exception {
+        // test the running of threads
         TestCase.assertEquals(Thread.State.RUNNABLE, testThread.getState());
     }
 }

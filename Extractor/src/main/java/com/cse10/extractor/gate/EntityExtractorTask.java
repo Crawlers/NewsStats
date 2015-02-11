@@ -24,12 +24,14 @@ public class EntityExtractorTask implements Runnable {
     @Override
     public void run() {
         try {
+            // starting extraction process
             eExtrator.startExtraction();
         }catch (InterruptedException e){
             logger.info("Pressed stop button with : ", e);
         }catch (Exception e){
             logger.info("Stopped with : ", e);
         }finally {
+            // stop extraction process
             eExtrator.stopExtraction();
         }
     }
