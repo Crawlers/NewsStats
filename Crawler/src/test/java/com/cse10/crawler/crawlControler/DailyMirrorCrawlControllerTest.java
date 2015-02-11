@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DailyMirrorCrawlControllerTest extends BasicCrawlTest{
+public class DailyMirrorCrawlControllerTest extends BasicCrawlTest {
 
     DailyMirrorCrawlController dailyMirrorCrawlController;
     String dateString = "2014-10-17";
@@ -48,8 +48,8 @@ public class DailyMirrorCrawlControllerTest extends BasicCrawlTest{
     @Test
     public void testCrawl() throws Exception {
 
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) == 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) == 0);
         dailyMirrorCrawlController.crawl(DailyMirrorCrawler.class);
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) > 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(DailyMirrorArticle.class, "createdDate", date) > 0);
     }
 }

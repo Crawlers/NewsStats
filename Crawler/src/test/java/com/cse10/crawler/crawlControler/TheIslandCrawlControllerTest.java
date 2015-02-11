@@ -48,8 +48,8 @@ public class TheIslandCrawlControllerTest extends BasicCrawlTest {
     @Test
     public void testCrawl() throws Exception {
 
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) == 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) == 0);
         theIslandCrawlController.crawl(TheIslandCrawler.class);
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) > 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(TheIslandArticle.class, "createdDate", date) > 0);
     }
 }
