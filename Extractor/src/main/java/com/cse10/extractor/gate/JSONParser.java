@@ -63,9 +63,9 @@ public class JSONParser {
                 stringBuilder.append((char) b);
             }
         } catch (ClientProtocolException e) {
-            e.getStackTrace();
+            logger.info("Client Protocol Exception : ", e);
         } catch (IOException e) {
-            e.getStackTrace();
+            logger.info("IO Exception : ", e);
         }
 
         JSONObject jsonObject = new JSONObject();
@@ -73,7 +73,6 @@ public class JSONParser {
             jsonObject = new JSONObject(stringBuilder.toString());
         } catch (JSONException e) {
             logger.info("Wrong JSON : "+stringBuilder.toString());
-            e.printStackTrace();
         }
 
         return jsonObject;
