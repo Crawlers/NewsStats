@@ -135,6 +135,7 @@ public class EntityExtractor extends Observable {
         }
     }
 
+    // get ID of the crime article which was processed with entity extraction process
     private int getLastID() throws InterruptedException{
         int theID = 0;
 
@@ -165,11 +166,13 @@ public class EntityExtractor extends Observable {
         return  theID;
     }
 
+    // write the last entity extracted article ID to the configuration file
     private void writeLastID(){
-        FileWriter fooWriter = null; // true to append
+        FileWriter fooWriter = null;
         try {
-            fooWriter = new FileWriter(configFile, false);
             // false to overwrite.
+            fooWriter = new FileWriter(configFile, false);
+
             fooWriter.write(String.valueOf(endID));
         } catch (IOException e) {
             e.printStackTrace();
@@ -182,11 +185,13 @@ public class EntityExtractor extends Observable {
         }
     }
 
+    // get and set GATEHOME property to access GATE FrameWork
     private File getGATEHome() throws InterruptedException{
         String homePath = null;
         File gateHome;
 
         if (Gate.getGateHome() == null) {
+            // get GATEHOME from system variables
             homePath = System.getenv("GATE_HOME");
 
             if (homePath == null) {
@@ -205,6 +210,7 @@ public class EntityExtractor extends Observable {
             homePath = Gate.getGateHome().getPath();
         }
 
+        // check whether GATEHOME is correct or not
         File pathCheck = new File(homePath + "\\gate.xml");
         if (pathCheck.isFile() && Gate.getGateHome() == null) {
             gateHome = new File(homePath);
@@ -437,7 +443,7 @@ public class EntityExtractor extends Observable {
                 if (i % uiStepSize == 0) {
                     logger.info("Progress updating.");
                     currentProgress = i / uiStepSize;
-                    if(currentProgress < 100) {
+                    if(currentProgress < 100 && currentProgress >= 0) {
                         setChanged();
                         notifyObservers(currentProgress);
                     }
@@ -445,7 +451,6 @@ public class EntityExtractor extends Observable {
             }
         }// for each article
 
-        System.out.println("Progress updating.");
         currentProgress = 100;
         setChanged();
         notifyObservers(currentProgress);
