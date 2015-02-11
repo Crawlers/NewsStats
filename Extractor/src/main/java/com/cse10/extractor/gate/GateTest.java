@@ -84,7 +84,7 @@ public class GateTest {
 
             t.start();
 
-            Thread.currentThread().sleep(9000);
+            //Thread.currentThread().sleep(9000);
 
             logger.info("Check");
             //t.interrupt();
@@ -96,6 +96,10 @@ public class GateTest {
         }
 
         return testSuccess;
+    }
+
+    public static void main(String[] args) throws Exception {
+        doTest();
     }
 }
 

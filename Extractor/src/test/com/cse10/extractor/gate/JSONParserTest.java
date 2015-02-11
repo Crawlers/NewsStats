@@ -24,6 +24,7 @@ public class JSONParserTest {
 
     @Test
     public void testGetLocationInfo() throws Exception {
+        // test for parsing of JSON object from Google Maps API
         TestCase.assertEquals("OK", testJSONParser.getLocationInfo("Poththapitiya").getString("status"));
         TestCase.assertEquals("ZERO_RESULTS", testJSONParser.getLocationInfo("ziii").getString("status"));
     }

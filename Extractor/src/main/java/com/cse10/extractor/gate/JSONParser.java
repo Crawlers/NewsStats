@@ -45,6 +45,7 @@ public class JSONParser {
 
             HttpClient client;
 
+            // check for proxy settings
             if(GlobalConstants.PROXY_PORT != 0){
                 HttpHost proxy = new HttpHost(GlobalConstants.PROXY_ADDRESS, GlobalConstants.PROXY_PORT, "http");
                 client = HttpClientBuilder.create().setProxy(proxy).build();
@@ -54,6 +55,7 @@ public class JSONParser {
             HttpResponse response;
             stringBuilder = new StringBuilder();
 
+            // obtaining response
             response = client.execute(httppost);
             HttpEntity entity = response.getEntity();
             InputStream stream = entity.getContent();
@@ -63,17 +65,17 @@ public class JSONParser {
                 stringBuilder.append((char) b);
             }
         } catch (ClientProtocolException e) {
-            e.getStackTrace();
+            logger.info("Client Protocol Exception : ", e);
         } catch (IOException e) {
-            e.getStackTrace();
+            logger.info("IO Exception : ", e);
         }
 
+        // forming JSON object from response
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
         } catch (JSONException e) {
             logger.info("Wrong JSON : "+stringBuilder.toString());
-            e.printStackTrace();
         }
 
         return jsonObject;

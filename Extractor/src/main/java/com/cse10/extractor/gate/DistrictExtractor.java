@@ -7,6 +7,7 @@ package com.cse10.extractor.gate;
  * Extracting the necessary information from the JSONObject.
  */
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,13 @@ import java.util.HashSet;
 public class DistrictExtractor {
 
 	private ArrayList<String> localDistricts;
+
+	// declare logger
+	private Logger logger;
+
+	DistrictExtractor(){
+		logger = Logger.getLogger(this.getClass());
+	}
 
 	// extracting the district of the location
 	public String getDistrict(String location) {
@@ -68,8 +76,7 @@ public class DistrictExtractor {
 			}
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("JSON Exception : ", e);
 		}
 
 		if(district.equals("Monaragala")){
