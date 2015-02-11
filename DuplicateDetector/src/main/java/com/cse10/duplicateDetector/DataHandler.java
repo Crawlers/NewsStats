@@ -42,85 +42,84 @@ public class DataHandler {
     public HashMap<Integer, String> readArticlesFromDB() throws InterruptedException {
 
         HashMap<Integer, String> articleContents = new HashMap<>();
-        //only fetch crime entity groups with null label
-        ArrayList<CrimeEntityGroup> crimeEntityGroups = DatabaseHandler.fetchCrimeEntityGroupsWithNullLabels();
+        //only fetch crime entity groups with null label and unique labels
+        ArrayList<CrimeEntityGroup> crimeEntityGroups = DatabaseHandler.fetchCrimeEntityGroupsWithNullOrUniqueLabels();
+        int counter=0;
+        for(CrimeEntityGroup crimeEntityGroup:crimeEntityGroups){
+            if(crimeEntityGroup.getLabel()==null){
+                counter++;
+            }
+        }
+        if(counter>0) {
 
-        Iterator iterator = crimeEntityGroups.listIterator();
-        System.out.println(crimeEntityGroups.size());
-        String content;
-        int id;
+            Iterator iterator = crimeEntityGroups.listIterator();
+            System.out.println(crimeEntityGroups.size());
+            String content;
+            int id;
 
-        System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
-        //create article content from entities
-        while (iterator.hasNext()) {
-            CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) iterator.next();
-            content = "";
-            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Crime Entity Details --------------------------------");
-            //System.out.println("ID " + crimeEntityGroup.getCrimeArticleId());
-            id = crimeEntityGroup.getId();
+            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
+            //create article content from entities
+            while (iterator.hasNext()) {
+                CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) iterator.next();
+                content = "";
+                System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Crime Entity Details --------------------------------");
+                id = crimeEntityGroup.getId();
 
-            String crimeType = crimeEntityGroup.getCrimeType();
-            if (crimeType != null) {
-                String[] crimeTypeElements = crimeType.split("_");
-                crimeType = "";
-                for (int i = 0; i < crimeTypeElements.length; i++) {
-                    crimeType = crimeType.concat(crimeTypeElements[i]).concat(" ");
+                String crimeType = crimeEntityGroup.getCrimeType();
+                if (crimeType != null) {
+                    String[] crimeTypeElements = crimeType.split("_");
+                    crimeType = "";
+                    for (int i = 0; i < crimeTypeElements.length; i++) {
+                        crimeType = crimeType.concat(crimeTypeElements[i]).concat(" ");
+                    }
+                    content = content.concat(crimeType);
                 }
-                // System.out.println("Crime Type " + crimeType);
-                content = content.concat(crimeType);
-            }
 
 
-            Date crimeDate = crimeEntityGroup.getCrimeDate();
-            // System.out.println("Crime Date " + crimeDate);
-            if (crimeDate != null) {
-                String[] crimeDateElements = crimeDate.toString().split("-");
-                String crimeDateString = "";
-                for (int i = 0; i < crimeDateElements.length; i++) {
-                    crimeDateString = crimeDateString.concat(crimeDateElements[i]);
+                Date crimeDate = crimeEntityGroup.getCrimeDate();
+                if (crimeDate != null) {
+                    String[] crimeDateElements = crimeDate.toString().split("-");
+                    String crimeDateString = "";
+                    for (int i = 0; i < crimeDateElements.length; i++) {
+                        crimeDateString = crimeDateString.concat(crimeDateElements[i]);
+                    }
+                    content = content.concat(crimeDateString);
                 }
-                content = content.concat(crimeDateString);
-            }
 
-            content=content.concat(" ");
+                content = content.concat(" ");
 
-           /* String police = crimeEntityGroup.getPolice();
-            // System.out.println("Police " + police);
-            if (police != null)
-                content = content.concat(police).concat(" ");
+                LocationDistrictMapper locationDistrictMapper = crimeEntityGroup.getLocationDistrict();
+                if (locationDistrictMapper != null) {
+                    String location = locationDistrictMapper.getLocation();
+                    if (location != null)
+                        content = content.concat(location).concat(" ");
 
-            String court = crimeEntityGroup.getCourt();
-            // System.out.println("Court " + court);
-            if (court != null)
-                content = content.concat(court).concat(" "); */
+                    String district = crimeEntityGroup.getDistrict();
+                    if (district != null)
+                        content = content.concat(district);
+                }
+                System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
+                articleContents.put(id, content);
 
-            LocationDistrictMapper locationDistrictMapper = crimeEntityGroup.getLocationDistrict();
-            if (locationDistrictMapper != null) {
-                String location = locationDistrictMapper.getLocation();
-                //  System.out.println("Location " + location);
-                if (location != null)
-                    content = content.concat(location).concat(" ");
+                //if user stop the thread
+                checkInterruption();
 
-                String district = crimeEntityGroup.getDistrict();
-                //   System.out.println("District " + district);
-                if (district != null)
-                    content = content.concat(district);
-            }
-            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
-            articleContents.put(id, content);
-
-            //if user stop the thread
-            if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException();
             }
 
         }
         //close data base
         DatabaseHandler.closeDatabase();
         System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Finish Loading Data from Database");
-
-        System.out.println("End");
         return articleContents;
+    }
+
+    /**
+     * helper function to handle interruption
+     */
+    private void checkInterruption() throws InterruptedException{
+        if(Thread.currentThread().isInterrupted()){
+            throw new InterruptedException();
+        }
     }
 
     //wrapper methods for data base handler class methods
