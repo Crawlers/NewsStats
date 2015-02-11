@@ -4,10 +4,7 @@ import com.cse10.article.*;
 import com.cse10.database.DatabaseConstants;
 import com.cse10.util.ArticleConverter;
 import weka.core.Instances;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.util.*;
 
 /**
@@ -45,7 +42,7 @@ public class ClassifierConfigurator extends Observable{
     /**
      * load training data from the database
      */
-    private void loadTrainingData() {
+    private void loadTrainingData() throws InterruptedException {
 
         //check if interrupted
         checkInterruption();
@@ -75,7 +72,7 @@ public class ClassifierConfigurator extends Observable{
      * If data handler return filtered training data ( i.e. in DataHandlerWithSampling) then no need to
      * filter data.
      */
-    private void filterData() {
+    private void filterData() throws InterruptedException {
         //check if interrupted
         checkInterruption();
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Data Filtering");
@@ -88,7 +85,7 @@ public class ClassifierConfigurator extends Observable{
     /**
      * perform grid search to find best cost and gamma values
      */
-    private void performGridSearch() {
+    private void performGridSearch() throws InterruptedException {
         //check if interrupted
         checkInterruption();
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start Grid Search");
@@ -100,7 +97,7 @@ public class ClassifierConfigurator extends Observable{
      * cross validate the svm model using
      * if we use different weights, we need to normalize data
      */
-    private void crossValidateModel() {
+    private void crossValidateModel() throws InterruptedException {
         //check if interrupted
         checkInterruption();
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start cross validation");
@@ -114,7 +111,7 @@ public class ClassifierConfigurator extends Observable{
     /**
      * buildClassifier the model using training data and save model
      */
-    private void buildModel() {
+    private void buildModel() throws InterruptedException {
         //check if interrupted
         checkInterruption();
         System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Start building model");
@@ -127,12 +124,13 @@ public class ClassifierConfigurator extends Observable{
      * load training data, filter data and perform grid search, cross validate model,buildClassifier and save
      * model, this function is used by GUI
      */
-    private synchronized void buildClassifier(Class tableName) {
+    private synchronized void buildClassifier(Class tableName) throws InterruptedException {
         System.out.println("\n--------------------------------------------------------------");
         int progress = 0;
 
         //if interrupted
         checkInterruption();
+
 
         if (!isModelBuild) {
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Building Classifier");
@@ -169,6 +167,7 @@ public class ClassifierConfigurator extends Observable{
             notify(new DatabaseConstants().classToTableName.get(tableName), progress);
             //check if interrupted
             checkInterruption();
+
             isModelBuild=true;
 
             //check if interrupted
@@ -188,7 +187,7 @@ public class ClassifierConfigurator extends Observable{
      *
      * @param tableName
      */
-    private synchronized void classifyNewsArticles(Class tableName,Date endDate) {
+    private synchronized void classifyNewsArticles(Class tableName,Date endDate) throws InterruptedException {
 
         //check if interrupted
         checkInterruption();
@@ -260,7 +259,6 @@ public class ClassifierConfigurator extends Observable{
             System.out.println("  }");
 
             checkInterruption();
-
              //transaction
             System.out.println(Thread.currentThread().getName()+"   Classifier UI Handler -> Transaction");
 
@@ -304,12 +302,13 @@ public class ClassifierConfigurator extends Observable{
      */
     public void startClassification(Class tableName, Date endDate){
         System.out.println(Thread.currentThread().getName()+ "Classifier UI Handler -> Start Classification");
-        buildClassifier(tableName);
-        if(Thread.currentThread().isInterrupted()){
-            System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
-            return;
+        try {
+            buildClassifier(tableName);
+            classifyNewsArticles(tableName,endDate);
+        } catch (InterruptedException e) {
+            System.out.println("#############");
         }
-        classifyNewsArticles(tableName,endDate);
+        
     }
 
     /**
@@ -320,15 +319,15 @@ public class ClassifierConfigurator extends Observable{
 
     }
 
-
     /**
      * helper function to handle interruption
+     * @return
      */
-    private void checkInterruption(){
+    private void checkInterruption() throws InterruptedException {
         if(Thread.currentThread().isInterrupted()){
             System.out.println(Thread.currentThread().getName()+" Classifier UI Handler -> Interrupted  ");
             dataHandler.closeDatabase();
-            return;
+            throw new InterruptedException();
         }
     }
 
@@ -337,10 +336,11 @@ public class ClassifierConfigurator extends Observable{
      * @param name
      * @param progress
      */
-    private void notify(String name,int progress){
+    private void notify(String name,int progress) throws InterruptedException {
         checkInterruption();
         setChanged();
-        notifyObservers(name+" "+Integer.toString(progress));
+        notifyObservers(name + " " + Integer.toString(progress));
+        
     }
 
 
