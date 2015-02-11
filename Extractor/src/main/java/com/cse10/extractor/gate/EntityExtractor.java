@@ -402,7 +402,7 @@ public class EntityExtractor extends Observable {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 endID = articleID;
