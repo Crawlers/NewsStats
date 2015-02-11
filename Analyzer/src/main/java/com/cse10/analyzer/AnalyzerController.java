@@ -118,8 +118,8 @@ public class AnalyzerController extends Observable {
 
     public static void main(String[] args){
         AnalyzerController ac = AnalyzerController.getInstance();
-        ac.analyze();
-        ac.predict();
+       // ac.analyze();
+       // ac.predict();
         ac.upload();
     }
 
