@@ -1,6 +1,6 @@
 package com.cse10.duplicateDetector;
 
-import com.cse10.article.Article;
+
 import com.cse10.database.DatabaseConstants;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.LocationDistrictMapper;
@@ -11,8 +11,6 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class DataHandlerTest {
 

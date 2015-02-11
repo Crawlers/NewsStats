@@ -5,8 +5,6 @@ import com.cse10.database.DatabaseHandler;
 import junit.framework.TestCase;
 import org.junit.*;
 
-import static org.junit.Assert.*;
-
 public class DuplicateDetectorUIHandlerTest {
 
     private DuplicateDetectorUIHandler duplicateDetectorUIHandler;

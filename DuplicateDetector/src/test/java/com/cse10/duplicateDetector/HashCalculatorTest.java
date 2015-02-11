@@ -4,8 +4,6 @@ import com.cse10.database.DatabaseConstants;
 import junit.framework.TestCase;
 import org.junit.*;
 
-import static org.junit.Assert.*;
-
 public class HashCalculatorTest {
 
     HashCalculator hashCalculator;
