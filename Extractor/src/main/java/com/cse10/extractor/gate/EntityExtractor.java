@@ -437,7 +437,7 @@ public class EntityExtractor extends Observable {
                 if (i % uiStepSize == 0) {
                     logger.info("Progress updating.");
                     currentProgress = i / uiStepSize;
-                    if(currentProgress != 100) {
+                    if(currentProgress < 100) {
                         setChanged();
                         notifyObservers(currentProgress);
                     }
