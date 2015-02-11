@@ -6,7 +6,10 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SelectedTag;
 import weka.core.SerializationHelper;
+
 import java.util.Random;
+
+import org.apache.log4j.Logger;
 
 /**
  * Wrapper class for LibSVM
@@ -16,8 +19,10 @@ import java.util.Random;
 public class SVMClassifierHandler extends ClassifierHandler {
 
     protected LibSVMExtended svm;
+    private Logger log;
 
     public SVMClassifierHandler() {
+        log = Logger.getLogger(this.getClass());
         svm = new LibSVMExtended();
         int kernelTypeIndex = 2;
         SelectedTag st;
@@ -31,7 +36,7 @@ public class SVMClassifierHandler extends ClassifierHandler {
      * @param cost
      * @param gamma
      * @param weights
-     * @param isNormalizeData
+     * @param isNormalizeData check whether data normalization is required
      */
     public void configure(double cost, double gamma, String weights, boolean isNormalizeData) {
         svm.setCost(cost);
@@ -44,7 +49,7 @@ public class SVMClassifierHandler extends ClassifierHandler {
      * build classifier with given training data and save it
      *
      * @param filteredTrainingData
-     * @param isSaving
+     * @param isSaving             check whether model need to be save into file
      * @return
      */
     public void buildSVM(Instances filteredTrainingData, boolean isSaving) {
@@ -61,6 +66,8 @@ public class SVMClassifierHandler extends ClassifierHandler {
     }
 
     /**
+     * access svm model
+     *
      * @return
      */
     public LibSVMExtended getSvm() {
@@ -69,6 +76,7 @@ public class SVMClassifierHandler extends ClassifierHandler {
 
     /**
      * return Evaluation object for testing purposes
+     *
      * @param filteredTrainingData
      * @param numOfFolds
      * @return
@@ -80,18 +88,18 @@ public class SVMClassifierHandler extends ClassifierHandler {
         try {
             evaluation = new Evaluation(filteredTrainingData);
             evaluation.crossValidateModel(svm, filteredTrainingData, numOfFolds, new Random(1));
-            System.out.println(evaluation.toSummaryString());
-            System.out.println(evaluation.weightedAreaUnderROC());
+            log.info(evaluation.toSummaryString());
+            log.info(evaluation.weightedAreaUnderROC() + "\n");
             double[][] confusionMatrix = evaluation.confusionMatrix();
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 2; j++) {
-                    System.out.print(confusionMatrix[i][j] + "  ");
+                    log.info(confusionMatrix[i][j] + "  \n");
 
                 }
-                System.out.println();
+                log.info("\n");
             }
-            System.out.println("accuracy for crime class= " + (confusionMatrix[0][0] / (confusionMatrix[0][1] + confusionMatrix[0][0])) * 100 + "%");
-            System.out.println("accuracy for other class= " + (confusionMatrix[1][1] / (confusionMatrix[1][1] + confusionMatrix[1][0])) * 100 + "%");
+            log.info("accuracy for crime class= " + (confusionMatrix[0][0] / (confusionMatrix[0][1] + confusionMatrix[0][0])) * 100 + "% \n");
+            log.info("accuracy for other class= " + (confusionMatrix[1][1] / (confusionMatrix[1][1] + confusionMatrix[1][0])) * 100 + "% \n");
         } catch (Exception e) {
             e.printStackTrace();
         }

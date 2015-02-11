@@ -11,19 +11,19 @@ public abstract class ClassifierUIHandler extends Thread {
     protected ClassifierConfigurator classifierConfigurator;
     protected Date endDate;
 
-    public ClassifierUIHandler(){
-        classifierConfigurator=ClassifierConfigurator.getInstance();
+    public ClassifierUIHandler() {
+        classifierConfigurator = ClassifierConfigurator.getInstance();
     }
 
-    public ClassifierConfigurator getClassifierConfigurator(){
+    public ClassifierConfigurator getClassifierConfigurator() {
         return classifierConfigurator;
     }
 
-    public void setEndDate(Date endDate){
-        this.endDate=endDate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    //for functionl testing
+    //for functional testing
     public Date getEndDate() {
         return endDate;
     }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * Wrapper class for StanfordCoreNLP
+ * Wrapper class for StanfordCoreNLP which provides lemmatizer functionality
  * Created by Chamath on 12/20/2014
  */
 public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serializable {
@@ -28,15 +28,16 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
         props.put("annotators", "tokenize, ssplit, pos, lemma");
         this.pipeline = new StanfordCoreNLP(props);
 
-        currentVersion="1.0";
+        currentVersion = "1.0";
 
-        options=new String[2];
-        options[0]="-S";
-        options[1]="Stanford Core NLP";
+        options = new String[2];
+        options[0] = "-S";
+        options[1] = "Stanford Core NLP";
     }
 
     /**
      * Convert given word into its base form
+     *
      * @param word
      * @return
      */
@@ -68,8 +69,8 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
 
     @Override
     public Enumeration listOptions() {
-        Vector v=new Vector();
-        for(String s:options){
+        Vector v = new Vector();
+        for (String s : options) {
             v.add(s);
         }
         return v.elements();
@@ -77,16 +78,11 @@ public class StanfordCoreNLPLemmatizer implements Stemmer, OptionHandler, Serial
 
     @Override
     public void setOptions(String[] options) throws Exception {
-            this.options=options;
+        this.options = options;
     }
 
     @Override
     public String[] getOptions() {
-        /*ArrayList result;
-        result = new ArrayList();
-        result.add("-S");
-        result.add("Stanford Core NLP");
-        return (String[]) result.toArray(new String[result.size()]);*/
         return options;
     }
 

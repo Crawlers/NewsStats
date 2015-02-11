@@ -12,16 +12,17 @@ public class SimHashCalculator {
 
     public SimHashCalculator(WordSegmenter wordSegmenter) {
         this.wordSegmenter = wordSegmenter;
-        hashCalculator=new HashCalculator();
+        hashCalculator = new HashCalculator();
     }
 
 
     /**
      * calculate signature/finger print value (64 bit) for the given document
+     *
      * @param document
      * @return
      */
-    public long getSimhash64Value(String document)  {
+    public long getSimhash64Value(String document) {
         int bitLen = 64;
         int[] bits = new int[bitLen];
         List<String> tokens = wordSegmenter.getWords(document);
@@ -53,6 +54,7 @@ public class SimHashCalculator {
 
     /**
      * calculate signature/finger print value (32 bit) for the given document
+     *
      * @param document
      * @return
      */

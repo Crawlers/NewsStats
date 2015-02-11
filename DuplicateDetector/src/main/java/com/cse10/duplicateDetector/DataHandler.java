@@ -10,11 +10,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by Chamath on 2/4/2015.
  */
 public class DataHandler {
 
+    private Logger log;
+
+    public DataHandler(){
+        log=Logger.getLogger(this.getClass());
+    }
 
     /**
      * read articles from file
@@ -44,20 +51,20 @@ public class DataHandler {
         HashMap<Integer, String> articleContents = new HashMap<>();
         //only fetch crime entity groups with null label and unique labels
         ArrayList<CrimeEntityGroup> crimeEntityGroups = DatabaseHandler.fetchCrimeEntityGroupsWithNullOrUniqueLabels();
-        int counter=0;
-        for(CrimeEntityGroup crimeEntityGroup:crimeEntityGroups){
-            if(crimeEntityGroup.getLabel()==null){
+        int counter = 0;
+        for (CrimeEntityGroup crimeEntityGroup : crimeEntityGroups) {
+            if (crimeEntityGroup.getLabel() == null) {
                 counter++;
             }
         }
-        if(counter>0) {
+        if (counter > 0) {
 
             Iterator iterator = crimeEntityGroups.listIterator();
             System.out.println(crimeEntityGroups.size());
             String content;
             int id;
 
-            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
+            log.info(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Start Loading Data from Database");
             //create article content from entities
             while (iterator.hasNext()) {
                 CrimeEntityGroup crimeEntityGroup = (CrimeEntityGroup) iterator.next();
@@ -65,6 +72,7 @@ public class DataHandler {
                 System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Crime Entity Details --------------------------------");
                 id = crimeEntityGroup.getId();
 
+                //crime type
                 String crimeType = crimeEntityGroup.getCrimeType();
                 if (crimeType != null) {
                     String[] crimeTypeElements = crimeType.split("_");
@@ -75,7 +83,7 @@ public class DataHandler {
                     content = content.concat(crimeType);
                 }
 
-
+                //crime date
                 Date crimeDate = crimeEntityGroup.getCrimeDate();
                 if (crimeDate != null) {
                     String[] crimeDateElements = crimeDate.toString().split("-");
@@ -85,9 +93,9 @@ public class DataHandler {
                     }
                     content = content.concat(crimeDateString);
                 }
-
                 content = content.concat(" ");
 
+                //crime location and district
                 LocationDistrictMapper locationDistrictMapper = crimeEntityGroup.getLocationDistrict();
                 if (locationDistrictMapper != null) {
                     String location = locationDistrictMapper.getLocation();
@@ -98,7 +106,7 @@ public class DataHandler {
                     if (district != null)
                         content = content.concat(district);
                 }
-                System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
+                log.info(Thread.currentThread().getName() + " Duplicate Detector UI Handler ->  Content---" + content);
                 articleContents.put(id, content);
 
                 //if user stop the thread
@@ -109,29 +117,29 @@ public class DataHandler {
         }
         //close data base
         DatabaseHandler.closeDatabase();
-        System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Finish Loading Data from Database");
+        log.info(Thread.currentThread().getName() + " Duplicate Detector UI Handler -> Finish Loading Data from Database");
         return articleContents;
     }
 
     /**
      * helper function to handle interruption
      */
-    private void checkInterruption() throws InterruptedException{
-        if(Thread.currentThread().isInterrupted()){
+    private void checkInterruption() throws InterruptedException {
+        if (Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
     }
 
     //wrapper methods for data base handler class methods
-    public CrimeEntityGroup fetchCrimeEntityGroup(int i){
+    public CrimeEntityGroup fetchCrimeEntityGroup(int i) {
         return DatabaseHandler.fetchCrimeEntityGroup(i);
     }
 
-    public void updateCrimeEntityGroup(CrimeEntityGroup crimeEntityGroup){
+    public void updateCrimeEntityGroup(CrimeEntityGroup crimeEntityGroup) {
         DatabaseHandler.updateCrimeEntityGroup(crimeEntityGroup);
     }
 
-    public void closeDatabase(){
+    public void closeDatabase() {
         DatabaseHandler.closeDatabase();
     }
 

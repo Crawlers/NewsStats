@@ -6,6 +6,7 @@ import weka.classifiers.RandomizableIteratedSingleClassifierEnhancer;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+import org.apache.log4j.Logger;
 
 import java.util.Random;
 
@@ -17,6 +18,7 @@ import java.util.Random;
 public abstract class EnsembleClassifierHandler extends ClassifierHandler {
 
     protected RandomizableIteratedSingleClassifierEnhancer randomizableIteratedSingleClassifierEnhancer;
+    private Logger log;
 
     public EnsembleClassifierHandler() {
 
@@ -33,7 +35,6 @@ public abstract class EnsembleClassifierHandler extends ClassifierHandler {
     }
 
     /**
-     *
      * @param filteredTrainingData
      * @param numOfFolds
      * @return
@@ -45,18 +46,18 @@ public abstract class EnsembleClassifierHandler extends ClassifierHandler {
         try {
             evaluation = new Evaluation(filteredTrainingData);
             evaluation.crossValidateModel(randomizableIteratedSingleClassifierEnhancer, filteredTrainingData, numOfFolds, new Random(1));
-            System.out.println(evaluation.toSummaryString());
-            System.out.println(evaluation.weightedAreaUnderROC());
+            log.info(evaluation.toSummaryString());
+            log.info(evaluation.weightedAreaUnderROC());
             double[][] confusionMatrix = evaluation.confusionMatrix();
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 2; j++) {
-                    System.out.print(confusionMatrix[i][j] + "  ");
+                    log.info(confusionMatrix[i][j] + "  ");
 
                 }
-                System.out.println();
+                log.info("\n");
             }
-            System.out.println("accuracy for crime class= " + (confusionMatrix[0][0] / (confusionMatrix[0][1] + confusionMatrix[0][0])) * 100 + "%");
-            System.out.println("accuracy for other class= " + (confusionMatrix[1][1] / (confusionMatrix[1][1] + confusionMatrix[1][0])) * 100 + "%");
+            log.info("accuracy for crime class= " + (confusionMatrix[0][0] / (confusionMatrix[0][1] + confusionMatrix[0][0])) * 100 + "%");
+            log.info("accuracy for other class= " + (confusionMatrix[1][1] / (confusionMatrix[1][1] + confusionMatrix[1][0])) * 100 + "%");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,7 +100,7 @@ public abstract class EnsembleClassifierHandler extends ClassifierHandler {
         return result;
     }
 
-    public RandomizableIteratedSingleClassifierEnhancer getModel(){
+    public RandomizableIteratedSingleClassifierEnhancer getModel() {
         return randomizableIteratedSingleClassifierEnhancer;
     }
 

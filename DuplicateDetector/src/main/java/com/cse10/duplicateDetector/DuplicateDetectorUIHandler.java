@@ -1,9 +1,5 @@
 package com.cse10.duplicateDetector;
 
-/**
- * this class combine all the functionality of this module
- * Created by Chamath on 1/19/2015.
- */
 
 import com.cse10.entities.CrimeEntityGroup;
 import com.google.common.base.Charsets;
@@ -15,20 +11,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
+/**
+ * this class combine all the functionality of this module
+ * Created by Chamath on 1/19/2015.
+ */
 public class DuplicateDetectorUIHandler extends Observable implements Runnable {
 
     SimHashCalculator simHashCalculator;
     DataHandler dataHandler;
     HammingDistanceCalculator hammingDistanceCalculator;
+    private Logger log;
 
     public DuplicateDetectorUIHandler() {
         simHashCalculator = new SimHashCalculator(new FullWordSegmenter());
-        dataHandler=new DataHandler();
-        hammingDistanceCalculator=new HammingDistanceCalculator();
+        dataHandler = new DataHandler();
+        hammingDistanceCalculator = new HammingDistanceCalculator();
+        log = Logger.getLogger(this.getClass());
     }
 
     /**
      * calculate sim hash values for each document
+     *
      * @param documents
      * @return
      * @throws InterruptedException
@@ -37,7 +42,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
 
 
         HashMap<Integer, Long> documentSimHashes = new HashMap<>();
-        if(documents!=null) {
+        if (documents != null) {
             int progress = 0;
             File articleHashValues = new File("DuplicateDetector\\src\\main\\resources\\hashValues.txt");
             //clear the file before writing
@@ -61,7 +66,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
                 int id = (java.lang.Integer) iterator.next();
                 String document = documents.get(id);
                 long docHash = simHashCalculator.getSimhash64Value(document);
-                System.out.println(Thread.currentThread().getName() + "Duplicate Detector UI Handler->Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits");
+                log.info(Thread.currentThread().getName() + "Duplicate Detector UI Handler->Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits");
                 try {
                     Files.append("Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits \n", articleHashValues, Charsets.UTF_8);
                 } catch (IOException e) {
@@ -93,7 +98,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         HashMap<Integer, String> documents = dataHandler.readArticlesFromDB();
         //this will contain all the calculated sim hash value (LONG) with related crime entity group id (Integer)
         HashMap<Integer, Long> documentSimHashes = calculateSimHashValues(documents);
-        progress=40;
+        progress = 40;
 
         //if user stop the thread
         checkInterruption();
@@ -113,11 +118,9 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
         Iterator iterator = documents.keySet().iterator();
         int increment = documents.keySet().size() / 60;
         int value = 0;
-        //to store all the duplicate article ids, this is used to identify duplicates
-        //during iteration.
+        //to store all the duplicate article ids, this is used to identify duplicates during iteration.
         List<Integer> duplicateArticleIds = new ArrayList();
-        //calculate duplicates for each document
-        //add duplicate doc ids to a list
+        //calculate duplicates for each document,add duplicate doc ids to a list
         //for each article
         while (iterator.hasNext()) {
             checkInterruption();
@@ -149,7 +152,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
                 int hashDocId = (Integer) iter.next();
                 Long hashValue = documentSimHashes.get(hashDocId);
                 int distance = hammingDistanceCalculator.getHammingDistance(docHash, hashValue);
-                // System.out.println(distance);
+
                 //check the hamming distance difference
                 if (distance <= 0) {
                     similarDocIds.add(hashDocId);
@@ -163,7 +166,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
 
             //update db to mark duplicate or write to file
             if (!similarDocIds.isEmpty()) {
-                System.out.println((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> Documents similar as [" + document + currentDocumentId + "]:\n"));
+                log.info((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> Documents similar as [" + document + currentDocumentId + "]:\n"));
                 try {
                     Files.append("Documents similar as [" + document + " " + currentDocumentId + "]:\n", articleHammingDistances, Charsets.UTF_8);
                 } catch (IOException e) {
@@ -173,7 +176,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
                     if (i == currentDocumentId) {
                         continue;
                     }
-                    System.out.println((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
+                    log.info((Thread.currentThread().getName() + " Duplicate Detector UI Handler-> [" + i + "]\tDistance=[" + docDistances.get(i) + "]\n"));
 
                     checkInterruption();
 
@@ -206,8 +209,8 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             value++;
             if (value == increment) {
                 progress += 1;
-                if(progress>100)
-                    progress=100;
+                if (progress > 100)
+                    progress = 100;
                 notify(progress);
                 value = 0;
             }
@@ -230,7 +233,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
             findDuplicates();
         } catch (InterruptedException e) {
             //if user has stopped the process
-            System.out.println(Thread.currentThread().getName() + " Duplicate Detector UI Handler-> STOPPED");
+            log.info(Thread.currentThread().getName() + " Duplicate Detector UI Handler-> STOPPED");
             dataHandler.closeDatabase();
         }
     }
@@ -245,18 +248,18 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
     /**
      * helper function to handle interruption
      */
-    private void checkInterruption() throws InterruptedException{
-        if(Thread.currentThread().isInterrupted()){
+    private void checkInterruption() throws InterruptedException {
+        if (Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
     }
 
     /**
      * helper function to notify observers
+     *
      * @param progress
      */
-    private void notify(int progress)throws InterruptedException{
-        System.out.println("NOTIFIED  "+progress);
+    private void notify(int progress) throws InterruptedException {
         checkInterruption();
         setChanged();
         notifyObservers(progress);

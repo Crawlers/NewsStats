@@ -22,6 +22,7 @@ public class DistrictExtractorTest {
 
     @Test
     public void testGetDistrict() throws Exception {
+        // testing of extracting district from the JSON object response
         TestCase.assertEquals("Kandy", testDistrictExtractor.getDistrict("Poththapitiya"));
         TestCase.assertEquals("NULL", testDistrictExtractor.getDistrict("ziii"));
     }

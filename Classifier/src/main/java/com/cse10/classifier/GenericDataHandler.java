@@ -7,6 +7,8 @@ import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 
@@ -16,25 +18,28 @@ import java.util.List;
  */
 public class GenericDataHandler extends DataHandler {
 
-    public GenericDataHandler(){
-        fileName="generic";
+    private Logger log;
+
+    public GenericDataHandler() {
+        fileName = "generic";
+        log = Logger.getLogger(this.getClass());
     }
 
     @Override
     protected String printDescription() {
-        String description="Data Handler -> This Data Handler will Load all of the Training Data";
-        System.out.println(description);
+        String description = "Data Handler -> This Data Handler will Load all of the Training Data";
+        log.info(description);
         return description;
     }
 
     /**
      * fetch training data
      *
+     * @param featureVectorTransformer
      * @return Instances
      * @throws Exception
-     * @param featureVectorTransformer
      */
-    public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer)  {
+    public Instances loadTrainingData(FeatureVectorTransformer featureVectorTransformer) {
         printDescription();
         FastVector attributeList = new FastVector(2);
         Attribute content = new Attribute("text", (FastVector) null);
@@ -53,8 +58,8 @@ public class GenericDataHandler extends DataHandler {
         }
 
         //load training data using database handler
-        List<TrainingArticle> trainingArticles=DatabaseHandler.fetchTrainingArticles();
-        for(TrainingArticle trainingArticle:trainingArticles){
+        List<TrainingArticle> trainingArticles = DatabaseHandler.fetchTrainingArticles();
+        for (TrainingArticle trainingArticle : trainingArticles) {
             Instance inst = new Instance(trainingData.numAttributes());
             inst.setValue(content, trainingArticle.getContent());
             inst.setValue(classValue, trainingArticle.getLabel());

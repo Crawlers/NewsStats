@@ -5,13 +5,14 @@ import gate.creole.ExecutionException;
 import gate.creole.ResourceInstantiationException;
 import gate.creole.SerialAnalyserController;
 import gate.util.GateException;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * pipe line which is using for document processing
+ * pipe line which is used for document processing
  * Created by Chamath on 12/20/2014.
  */
 public class CorpusPipeLine {
@@ -20,9 +21,10 @@ public class CorpusPipeLine {
 
     /**
      * add required processing resources and configure the pipe line
-     * @param isPOSRequired
+     *
+     * @param isPOSRequired check whether part of speech tagging is required
      */
-    public void configure(boolean isPOSRequired){
+    public void configure(boolean isPOSRequired) {
         try {
             //load the plugin ANNIE first to use resources under that
             try {
@@ -32,6 +34,7 @@ public class CorpusPipeLine {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+
             //create a application using the contorller
             serialAnalyserController = (SerialAnalyserController) Factory.createResource("gate.creole.SerialAnalyserController",
                     Factory.newFeatureMap(),
@@ -43,9 +46,8 @@ public class CorpusPipeLine {
             ProcessingResource defaultTokeniser = (ProcessingResource) Factory.createResource("gate.creole.tokeniser.DefaultTokeniser", params);
 
             //if POS is required, then use default gazetter lists.
-            if(!isPOSRequired) {
+            if (!isPOSRequired) {
                 try {
-                    //TODO path problem
                     params.put("listsURL", new File("Classifier\\src\\main\\resources\\gazetterLists\\lists.def").toURL());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -61,7 +63,7 @@ public class CorpusPipeLine {
             serialAnalyserController.add(annotationDeletePR);
             serialAnalyserController.add(defaultTokeniser);
             serialAnalyserController.add(defaultGazetteer);
-            if(isPOSRequired) {
+            if (isPOSRequired) {
                 serialAnalyserController.add(sentenceSplitter);
                 serialAnalyserController.add(posTagger);
                 serialAnalyserController.add(ANNIETransducer);
