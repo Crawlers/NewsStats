@@ -228,6 +228,9 @@ Priority:50
 ({Token.string == "broke"}
 {Token.string == "into"})
 |
+({Token.string == "break"}
+{Token.string == "in"})
+|
 {Token.string == "extremist"}
 |
 {Token.string == "extremists"}

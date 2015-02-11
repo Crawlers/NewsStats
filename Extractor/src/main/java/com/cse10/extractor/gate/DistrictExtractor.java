@@ -11,12 +11,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class DistrictExtractor {
+
+	private ArrayList<String> localDistricts;
 
 	// extracting the district of the location
 	public String getDistrict(String location) {
 		String district = "NULL";
 		String status = "error";
+
+		localDistricts = getDistricts();
+
 		try {
 
 			// using JSONParser to make a request and receive the response as a JSONObject
@@ -62,6 +71,20 @@ public class DistrictExtractor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		if(district.equals("Monaragala")){
+			district = "Moneragala";
+		}
+
+		if(!localDistricts.contains(district)){
+			district = "NULL";
+		}
+
 		return district;
+	}
+
+	private ArrayList<String> getDistricts(){
+		String[] districtArray = {"Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle", "Gampaha", "Hambantota", "Jaffna", "Kalutara", "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar", "Matale", "Matara", "Moneragala", "Mullaitivu", "Nuwara Eliya", "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee"};
+		return new ArrayList<String>(Arrays.asList(districtArray));
 	}
 }

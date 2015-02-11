@@ -1,5 +1,7 @@
 package com.cse10.extractor.gate;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by Isuru on 1/26/2015.
  */
@@ -7,9 +9,12 @@ public class EntityExtractorTask implements Runnable {
     // entity extractor which runs extraction pipeline to extract entities
     private EntityExtractor eExtrator;
 
+    // declare logger
+    private Logger logger;
+
     public EntityExtractorTask(){
         eExtrator = new EntityExtractor();
-        System.out.println("EntityExtractorTask Instantiated");
+        logger = Logger.getLogger(this.getClass());
     }
 
     public EntityExtractor getEntityExtrator() {
@@ -21,9 +26,9 @@ public class EntityExtractorTask implements Runnable {
         try {
             eExtrator.startExtraction();
         }catch (InterruptedException e){
-            System.out.println("Pressed stop button with : "+e);
+            logger.info("Pressed stop button with : ", e);
         }catch (Exception e){
-            System.out.println("Stopped with : " + e);
+            logger.info("Stopped with : ", e);
         }finally {
             eExtrator.stopExtraction();
         }
