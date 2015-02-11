@@ -9,6 +9,7 @@ public class HammingDistanceCalculator {
      * calculate hamming distance for two integers
      * Hamming distance between two strings of equal length is the number of positions at which the corresponding
      * symbols are different
+     *
      * @param hash1
      * @param hash2
      * @return
@@ -25,6 +26,7 @@ public class HammingDistanceCalculator {
 
     /**
      * calculate hamming distance for two long values
+     *
      * @param hash1
      * @param hash2
      * @return

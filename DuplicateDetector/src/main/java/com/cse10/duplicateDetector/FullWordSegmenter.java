@@ -1,24 +1,27 @@
 package com.cse10.duplicateDetector;
 
 import weka.core.tokenizers.NGramTokenizer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * use to generate full words
  * Created by Chamath on 1/2/2015.
  */
-public class FullWordSegmenter  extends WordSegmenter{
+public class FullWordSegmenter extends WordSegmenter {
 
     private NGramTokenizer nGramTokenizer;
 
     public FullWordSegmenter() {
-        nGramTokenizer=new NGramTokenizer();
+        nGramTokenizer = new NGramTokenizer();
         nGramTokenizer.setNGramMaxSize(1);
         nGramTokenizer.setNGramMinSize(1);
     }
 
     /**
      * tokenize the given string into words
+     *
      * @param document
      * @return
      */
@@ -27,10 +30,10 @@ public class FullWordSegmenter  extends WordSegmenter{
 
         ArrayList<String> words = new ArrayList();
         nGramTokenizer.tokenize(document);
-        String token="";
-        while(nGramTokenizer.hasMoreElements()){
-            token= (String)nGramTokenizer.nextElement();
-            token=token.toLowerCase();
+        String token = "";
+        while (nGramTokenizer.hasMoreElements()) {
+            token = (String) nGramTokenizer.nextElement();
+            token = token.toLowerCase();
             words.add(token);
         }
         return words;
