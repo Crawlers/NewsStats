@@ -4,7 +4,6 @@ package com.cse10.analyzer;
 import com.cse10.database.DatabaseConstants;
 
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Sampath on 1/16/15.
@@ -74,17 +73,17 @@ public class AnalyzerController extends Observable {
         setProgress(60);
 
         predictor.predict(quarters,"2015 - 2",13);
-        predictor_type.predict(quarters, "2015 - 2",13);
+        //predictor_type.predict(quarters, "2015 - 2",13);
         predictor_district.predict(quarters,"2015 - 2",13);
         setProgress(70);
 
         predictor.predict(quarters,"2015 - 3",14);
-        predictor_type.predict(quarters, "2015 - 3",14);
+        //predictor_type.predict(quarters, "2015 - 3",14);
         predictor_district.predict(quarters,"2015 - 3",14);
         setProgress(80);
 
         predictor.predict(quarters,"2015 - 4",15);
-        predictor_type.predict(quarters, "2015 - 4",15);
+        //predictor_type.predict(quarters, "2015 - 4",15);
         predictor_district.predict(quarters,"2015 - 4",15);
         setProgress(90);
 
@@ -101,23 +100,26 @@ public class AnalyzerController extends Observable {
                 DatabaseConstants.WEBGUIDB_PORT);
         setProgress(10);
         uploader.upload("news_statistics", "crimes");
-        setProgress(60);
+        setProgress(40);
         uploader.upload("predictions", "predictions");
+        setProgress(70);
+        uploader.upload("predictions_type", "predictions_type");
         setProgress(100);
     }
 
 
-    public static void main(String[] args){
-        AnalyzerController ac = AnalyzerController.getInstance();
-        ac.analyze();
-        ac.predict();
-        ac.upload();
-    }
-
+//    public static void main(String[] args){
+//        AnalyzerController ac = AnalyzerController.getInstance();
+//        ac.analyze();
+//        ac.predict();
+//        ac.upload();
+//
+//    }
 
     private void setProgress(int progress){
         System.out.println(progress);
         setChanged();
         notifyObservers(progress);
     }
+
 }

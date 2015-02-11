@@ -227,7 +227,7 @@ public class EntityExtractor extends Observable {
         int uiStepSize = articles.size()/100;
 
         // progress of the entity extraction process
-        int currentProgress = 0;
+        int currentProgress = 1;
 
         // list of extracted entity groups
         ArrayList<CrimeEntityGroup> crimeEntityGroupList = new ArrayList<CrimeEntityGroup>();
@@ -402,7 +402,7 @@ public class EntityExtractor extends Observable {
 
                     // insert people involved in the crime to crime etity details and add crime entity and people
                     // involved it into the DB
-                    //DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
+                    DatabaseHandler.insertCrimeDetails(entityGroupOfArticle, crimePeopleSet);
                 }
 
                 endID = articleID;
@@ -442,6 +442,13 @@ public class EntityExtractor extends Observable {
                 }
             }
         }// for each article
+
+        if (currentProgress == 1) {
+            System.out.println("Progress updating.");
+            currentProgress = 100;
+            setChanged();
+            notifyObservers(currentProgress);
+        }
 
         return  crimeEntityGroupList;
     }

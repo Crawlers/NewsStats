@@ -2,6 +2,8 @@ package com.cse10.database;
 
 import com.cse10.article.*;
 import com.cse10.entities.CrimeEntityGroup;
+import com.cse10.entities.CrimePerson;
+import com.cse10.entities.LocationDistrictMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,17 +21,37 @@ public class DatabaseConstants {
     public static String DB_USERNAME;
     public static String DB_PASSWORD;
     public static String DB_URL; // there is a entry in DatabaseUtils.props file (top level) that does not use this
+
     public static String WEBGUIDB_USERNAME;
     public static String WEBGUIDB_PASSWORD;
     public static String WEBGUIDB_DATABASE;
     public static String WEBGUIDB_HOST;
     public static String WEBGUIDB_PORT;
 
+    /* class to table name mappings */
+    public static HashMap<Class, String> classToTableName;
+
     private static Properties prop;
 
     // runs the init method automatically when the class loads
     static {
         init();
+
+        classToTableName = new HashMap<Class, String>();
+
+        classToTableName.put(CeylonTodayArticle.class, "article_ceylon_today"); // these are not used in hibernate xml files
+        classToTableName.put(DailyMirrorArticle.class, "article_daily_mirror");
+        classToTableName.put(HiruNewsArticle.class, "article_hiru_news");
+        classToTableName.put(NewsFirstArticle.class, "article_news_first");
+        classToTableName.put(TheIslandArticle.class, "article_the_island");
+        classToTableName.put(NewYorkTimesArticle.class, "article_new_york_times");
+
+        classToTableName.put(CrimeArticle.class, "article_crime");
+        classToTableName.put(TrainingArticle.class, "article_training");
+
+        classToTableName.put(CrimePerson.class, "crime_person");
+        classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
+        classToTableName.put(LocationDistrictMapper.class, "location_district_mapper");
     }
 
     // load constants from dbConnection.properties file
@@ -53,10 +75,6 @@ public class DatabaseConstants {
         WEBGUIDB_PORT = prop.getProperty("webguidb.connection.port");
     }
 
-
-    /* class to table name mappings */
-    public HashMap<Class, String> classToTableName;
-
     public DatabaseConstants() {
 
         classToTableName = new HashMap<Class, String>();
@@ -66,10 +84,14 @@ public class DatabaseConstants {
         classToTableName.put(HiruNewsArticle.class, "article_hiru_news");
         classToTableName.put(NewsFirstArticle.class, "article_news_first");
         classToTableName.put(TheIslandArticle.class, "article_the_island");
+        classToTableName.put(NewYorkTimesArticle.class, "article_new_york_times");
+
         classToTableName.put(CrimeArticle.class, "article_crime");
         classToTableName.put(TrainingArticle.class, "article_training");
 
+        classToTableName.put(CrimePerson.class, "crime_person");
         classToTableName.put(CrimeEntityGroup.class, "crime_entity_group");
+        classToTableName.put(LocationDistrictMapper.class, "location_district_mapper");
     }
 
 }

@@ -5,6 +5,9 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.tokenizers.NGramTokenizer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * remove obvious non-crime articles
  * this is working with raw article data
@@ -37,8 +40,10 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
     /**
      * cross validate the model, training data should be raw data
      * @param trainingData
+     * @return
      */
-    public void crossValidateClassifier(Instances trainingData){
+    public List<Double> crossValidateClassifier(Instances trainingData){
+        List<Double> accuracyValues=new ArrayList<>();
         String words;
         boolean exist=false;
         double crimeCorrectCount=0;
@@ -71,9 +76,11 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
                 otherIncorrectCount++;
             }
         }
-
-        System.out.println("Crime Accuracy= "+ ((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount))*100)+"%");
+        accuracyValues.add((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount)) * 100);
+        accuracyValues.add((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100);
+        System.out.println("Crime Accuracy= " + ((crimeCorrectCount/(crimeCorrectCount+crimeIncorrectCount)) * 100) + "%");
         System.out.println("Other Accuracy= " + ((otherCorrectCount / (otherCorrectCount + otherIncorrectCount)) * 100) + "%");
+        return accuracyValues;
     }
 
     /**
@@ -92,11 +99,15 @@ public class KeyWordClassifierHandler extends ClassifierHandler{
             words = words.concat(lemmatizer.stem(element));
             words = words.concat(" ");
         }
-        //System.out.println("WORDS OF CONTENT ===" + words);
         exist = documentKeyWordFinder.isKeyWordExist(words);
         if(exist)
             return 0.0;
         else
             return 1.0;
+    }
+
+    //for functional testing
+    public NGramTokenizer getTokenizer(){
+        return tokenizer;
     }
 }

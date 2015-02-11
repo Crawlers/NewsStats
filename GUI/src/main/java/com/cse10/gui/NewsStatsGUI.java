@@ -1,9 +1,7 @@
 package com.cse10.gui;
 
-import com.cse10.article.CeylonTodayArticle;
-import com.cse10.article.DailyMirrorArticle;
-import com.cse10.article.NewsFirstArticle;
-import com.cse10.article.TheIslandArticle;
+import com.cse10.article.*;
+import com.cse10.database.DatabaseConstants;
 import com.cse10.database.DatabaseHandler;
 import com.cse10.entities.CrimeEntityGroup;
 import com.cse10.entities.CrimePerson;
@@ -21,6 +19,7 @@ import com.cse10.gui.task.crawl.NewsFirstCrawlTask;
 import com.cse10.gui.task.crawl.TheIslandCrawlTask;
 import com.cse10.gui.task.duplicateDetect.DuplicateDetectorTask;
 import com.cse10.gui.task.extract.ExtractorTask;
+import com.cse10.util.TableCleaner;
 import com.toedter.calendar.JDateChooser;
 import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
 import org.jfree.chart.ChartFactory;
@@ -45,7 +44,7 @@ import java.util.Date;
  */
 public class NewsStatsGUI {
 
-    private JFrame frame;
+    private static JFrame frame;
 
     private JPanel panelMain;
     private JTabbedPane tabbedPane1;
@@ -123,6 +122,13 @@ public class NewsStatsGUI {
     private JProgressBar predictorProgressBar;
     private JProgressBar uploaderProgressBar;
     private ChartPanel chartPanelExtractorLine;
+    private JScrollPane scrollPaneUtil;
+    private JPanel panelUtil;
+    private JLabel databaseLabel;
+    private JButton undoClassificationButton;
+    private JButton undoEntityExtractionButton;
+    private JButton undoDuplicateDetectionButton;
+    private ChartPanel chartPanelTables;
 
     private UIComponents uiComponentsAll;
     private UIComponents uiComponentsActive;
@@ -160,21 +166,34 @@ public class NewsStatsGUI {
     private ExtractorTask extractorTask;
     private DuplicateDetectorTask duplicateDetectorTask;
 
-    private boolean extract = true;
-    private boolean duplicateDetect = true;
-    private boolean analyze = true;
-    private boolean predict = true;
-    private boolean uploadData = true;
+    private boolean extractButtonState = true;
+    private boolean duplicateDetectButtonState = true;
+    private boolean analyzeButtonState = true;
+    private boolean predictButtonState = true;
+    private boolean uploadDataButtonState = true;
 
     private AnalyzeTask analyzeTask;
     private PredictTask predictTask;
     private UploadDataTask uploadDataTask;
+
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+
+                NewsStatsGUI.init();
+            }
+        });
+    }
 
     public NewsStatsGUI() {
 
         initComponentLists(); // initialize list containing UI components
         enableCrawlerUI();
         enableClassifierUI();
+        enableExtractorUI();
+        enableDuplicateDetectorUI();
+        setUpUtilUi();
 
         startCrawlingButton.addActionListener(new ActionListener() { //when crawler button is clicked
             @Override
@@ -289,8 +308,9 @@ public class NewsStatsGUI {
                 }
 
                 statusLabel.setText("Ready");
-                enableCrawlerUI();
+//                enableCrawlerUI();
                 resetCrawlProgressBars();
+                refreshUI();
             }
         });
         startClassifyingButton.addActionListener(new ActionListener() {
@@ -405,15 +425,16 @@ public class NewsStatsGUI {
                 }
 
                 statusLabel.setText("Ready");
-                enableClassifierUI();
+//                enableClassifierUI();
                 resetClassifyProgressBars();
+                refreshUI();
             }
         });
         extractorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (extract) {
-                    extract = false;
+                if (extractButtonState) {
+                    extractButtonState = false;
                     disableExtractorUI();
 
                     extractorTask = new ExtractorTask();
@@ -425,8 +446,10 @@ public class NewsStatsGUI {
                                 extractorProgressBar.setValue(progress);
                                 extractorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    enableExtractorUI();
+                                    extractButtonState = true;
+//                                    enableExtractorUI();
                                     drawExtractorChart();
+                                    refreshUI();
 
                                     statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
@@ -438,9 +461,10 @@ public class NewsStatsGUI {
                     extractorTask.execute();
 
                 } else {
-                    extract = true;
-                    enableExtractorUI();
+                    extractButtonState = true;
+//                    enableExtractorUI();
                     drawExtractorChart();
+                    refreshUI();
 
                     if (extractorTask != null) {
                         extractorTask.stopExtract();
@@ -453,8 +477,8 @@ public class NewsStatsGUI {
         duplicateDetectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (duplicateDetect) {
-                    duplicateDetect = false;
+                if (duplicateDetectButtonState) {
+                    duplicateDetectButtonState = false;
                     disableDuplicateDetectorUI();
 
                     duplicateDetectorTask = new DuplicateDetectorTask();
@@ -466,8 +490,10 @@ public class NewsStatsGUI {
                                 duplicateDetectorProgressBar.setValue(progress);
                                 duplicateDetectorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
-                                    enableDuplicateDetectorUI();
+                                    duplicateDetectButtonState = true;
+//                                    enableDuplicateDetectorUI();
                                     drawDuplicateDetectorChart();
+                                    refreshUI();
 
                                     statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
@@ -479,9 +505,10 @@ public class NewsStatsGUI {
                     duplicateDetectorTask.execute();
 
                 } else {
-                    duplicateDetect = true;
-                    enableDuplicateDetectorUI();
+                    duplicateDetectButtonState = true;
+//                    enableDuplicateDetectorUI();
                     drawDuplicateDetectorChart();
+                    refreshUI();
 
                     if (duplicateDetectorTask != null) {
                         duplicateDetectorTask.stop();
@@ -494,8 +521,8 @@ public class NewsStatsGUI {
         analyzeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (analyze) {
-                    analyze = false;
+                if (analyzeButtonState) {
+                    analyzeButtonState = false;
 
                     analyzeButton.setText("cancel");
 
@@ -521,7 +548,7 @@ public class NewsStatsGUI {
                     analyzeTask.execute();
 
                 } else {
-                    analyze = true;
+                    analyzeButtonState = true;
                     analyzeButton.setText("Analyze");
                     analyzerProgressBar.setValue(0);
 
@@ -536,8 +563,8 @@ public class NewsStatsGUI {
         predictButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (predict) {
-                    predict = false;
+                if (predictButtonState) {
+                    predictButtonState = false;
 
                     predictButton.setText("cancel");
 
@@ -563,7 +590,7 @@ public class NewsStatsGUI {
                     predictTask.execute();
 
                 } else {
-                    predict = true;
+                    predictButtonState = true;
                     predictButton.setText("Predict");
                     predictorProgressBar.setValue(0);
 
@@ -578,8 +605,8 @@ public class NewsStatsGUI {
         uploadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (uploadData) {
-                    uploadData = false;
+                if (uploadDataButtonState) {
+                    uploadDataButtonState = false;
 
                     uploadDataButton.setText("cancel");
 
@@ -605,7 +632,7 @@ public class NewsStatsGUI {
                     uploadDataTask.execute();
 
                 } else {
-                    uploadData = true;
+                    uploadDataButtonState = true;
                     uploadDataButton.setText("Upload Data");
                     uploaderProgressBar.setValue(0);
 
@@ -617,9 +644,47 @@ public class NewsStatsGUI {
                 }
             }
         });
+        undoClassificationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        TableCleaner.undoClassifications(true);
+
+                        refreshUI();
+                    }
+                });
+            }
+        });
+        undoEntityExtractionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("clicked");
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        System.out.println("invoking");
+                        TableCleaner.undoEntityExtraction();
+
+                        refreshUI();
+                    }
+                });
+            }
+        });
+        undoDuplicateDetectionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        TableCleaner.undoDuplicateDetection();
+
+                        refreshUI();
+                    }
+                });
+            }
+        });
     }
 
-    public void init() {
+    public static void init() {
 
         try {
             UIManager.setLookAndFeel(new SyntheticaBlackStarLookAndFeel());
@@ -655,6 +720,9 @@ public class NewsStatsGUI {
         /* duplicate detector chart */
         drawDuplicateDetectorChart();
 
+        /* tables chart in Util tab */
+        drawTablesChart();
+
     }
 
     /**
@@ -683,9 +751,10 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
 
-            enableCrawlerUI();
+//            enableCrawlerUI();
             resetCrawlProgressBars();
             drawCrawlerChart();
+            refreshUI();
 
             statusLabel.setText("Ready");
             InfoDialog infoDialog = new InfoDialog();
@@ -749,11 +818,6 @@ public class NewsStatsGUI {
 
     private void enableCrawlerUI() {
 
-        ceylonTodayCrawlProgress = 0;
-        dailyMirrorCrawlProgress = 0;
-        newsFirstCrawlProgress = 0;
-        theIslandCrawlProgress = 0;
-
         ceylonTodayCrawlerCheckBox.setEnabled(true);
         dailyMirrorCrawlerCheckBox.setEnabled(true);
         newsFirstCrawlerCheckBox.setEnabled(true);
@@ -814,6 +878,11 @@ public class NewsStatsGUI {
 
     private void resetCrawlProgressBars() {
 
+        ceylonTodayCrawlProgress = 0;
+        dailyMirrorCrawlProgress = 0;
+        newsFirstCrawlProgress = 0;
+        theIslandCrawlProgress = 0;
+
         ceylonTodayCrawlProgressBar.setValue(0);
         dailyMirrorCrawlProgressBar.setValue(0);
         newsFirstCrawlProgressBar.setValue(0);
@@ -836,9 +905,10 @@ public class NewsStatsGUI {
 
         if (overallProgress == 100) {
 
-            enableClassifierUI();
+//            enableClassifierUI();
             resetClassifyProgressBars();
             drawClassifierChart();
+            refreshUI();
 
             statusLabel.setText("Ready");
             InfoDialog infoDialog = new InfoDialog();
@@ -909,11 +979,6 @@ public class NewsStatsGUI {
 
     private void enableClassifierUI() {
 
-        ceylonTodayClassifyProgress = 0;
-        dailyMirrorClassifyProgress = 0;
-        newsFirstClassifyProgress = 0;
-        theIslandClassifyProgress = 0;
-
         ceylonTodayClassifierCheckBox.setEnabled(true);
         dailyMirrorClassifierCheckBox.setEnabled(true);
         newsFirstClassifierCheckBox.setEnabled(true);
@@ -960,6 +1025,11 @@ public class NewsStatsGUI {
     }
 
     private void resetClassifyProgressBars() {
+
+        ceylonTodayClassifyProgress = 0;
+        dailyMirrorClassifyProgress = 0;
+        newsFirstClassifyProgress = 0;
+        theIslandClassifyProgress = 0;
 
         ceylonTodayClassifyProgressBar.setValue(0);
         dailyMirrorClassifyProgressBar.setValue(0);
@@ -1107,5 +1177,100 @@ public class NewsStatsGUI {
             chartPanelDuplicateDetector.setChart(chart);
         }
         chartPanelDuplicateDetector.setVisible(true);
+    }
+
+    /* UTIL TAB */
+
+    private void setUpUtilUi() {
+
+        String dbUrl = DatabaseConstants.DB_URL;
+
+        databaseLabel.setText(dbUrl);
+
+        //allowing to delete entries only in test and demo databases
+        if (dbUrl.contains("test") || dbUrl.contains("demo")) {
+            undoClassificationButton.setEnabled(true);
+            undoEntityExtractionButton.setEnabled(true);
+            undoDuplicateDetectionButton.setEnabled(true);
+        } else {
+            undoClassificationButton.setEnabled(false);
+            undoEntityExtractionButton.setEnabled(false);
+            undoDuplicateDetectionButton.setEnabled(false);
+        }
+    }
+
+    private void drawTablesChart() {
+
+        // row keys...
+        String[] series = new String[9];
+        series[0] = "Crawled Ceylon Today";
+        series[1] = "Crawled Daily Mirror";
+        series[2] = "Crawled News First";
+        series[3] = "Crawled The Island";
+//        series[4] = "Training Articles";
+        series[5] = "Classified Crime Articles";
+        series[6] = "Crime Persons";
+        series[7] = "Crime Entity Groups";
+        series[8] = "Crime Locations";
+
+        // column keys...
+        final String category1 = "";
+
+        // create the dataset...
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // data
+        int[] counts = new int[series.length];
+        counts[0] = DatabaseHandler.getRowCount(CeylonTodayArticle.class);
+        counts[1] = DatabaseHandler.getRowCount(DailyMirrorArticle.class);
+        counts[2] = DatabaseHandler.getRowCount(NewsFirstArticle.class);
+        counts[3] = DatabaseHandler.getRowCount(TheIslandArticle.class);
+//        counts[4] = DatabaseHandler.getRowCount(TrainingArticle.class);
+        counts[5] = DatabaseHandler.getRowCount(CrimeArticle.class);
+        counts[6] = DatabaseHandler.getRowCount(CrimePerson.class);
+        counts[7] = DatabaseHandler.getRowCount(CrimeEntityGroup.class);
+        counts[8] = DatabaseHandler.getRowCount(LocationDistrictMapper.class);
+
+        for (int i = 0; i < series.length; i++) {
+            if (i == 4) {
+                continue; // skipping training articles for now
+            }
+            dataset.addValue(counts[i], series[i], category1);
+        }
+
+        // create the chart...
+        final JFreeChart chart = ChartFactory.createBarChart(
+                "Tables",         // chart title
+                "Type",               // domain axis label
+                "Frequency",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+        );
+        if (chartPanelTables == null) {
+            chartPanelTables = new ChartPanel(chart);
+        } else {
+            chartPanelTables.setChart(chart);
+        }
+        chartPanelTables.setVisible(true);
+    }
+
+    private void refreshUI() {
+
+        enableCrawlerUI();
+        drawCrawlerChart();
+
+        enableClassifierUI();
+        drawClassifierChart();
+
+        enableExtractorUI();
+        drawExtractorChart();
+
+        enableDuplicateDetectorUI();
+        drawDuplicateDetectorChart();
+
+        drawTablesChart();
     }
 }

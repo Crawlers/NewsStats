@@ -120,7 +120,7 @@ public class FeatureVectorTransformer{
     }
 
 
-    //getters
+    //for functional testing
     public StringToWordVector getFilter() {
         return filter;
     }
