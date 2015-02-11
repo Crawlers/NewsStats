@@ -35,48 +35,53 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
      */
     private HashMap<Integer, Long> calculateSimHashValues(HashMap<Integer, String> documents) throws InterruptedException {
 
+
         HashMap<Integer, Long> documentSimHashes = new HashMap<>();
-        int progress=0;
-        File articleHashValues = new File("DuplicateDetector\\src\\main\\resources\\hashValues.txt");
-        //clear the file before writing
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(articleHashValues);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        writer.print("");
-        writer.close();
-
-        checkInterruption();
-
-        Iterator iterator = documents.keySet().iterator();
-        int increment = documents.keySet().size() / 40;
-        int value = 0;
-        //for each document calculate sim hash value
-        while (iterator.hasNext()) {
-            // Calculate the sim hash value of document.
-            int id = (java.lang.Integer) iterator.next();
-            String document = documents.get(id);
-            long docHash = simHashCalculator.getSimhash64Value(document);
-            System.out.println(Thread.currentThread().getName() + "Duplicate Detector UI Handler->Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits");
+        if(documents!=null) {
+            int progress = 0;
+            File articleHashValues = new File("DuplicateDetector\\src\\main\\resources\\hashValues.txt");
+            //clear the file before writing
+            PrintWriter writer = null;
             try {
-                Files.append("Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits \n", articleHashValues, Charsets.UTF_8);
-            } catch (IOException e) {
+                writer = new PrintWriter(articleHashValues);
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            documentSimHashes.put(id, docHash);
-
-            //send updates to GUI
-            value++;
-            if (value == increment) {
-                progress += 1;
-                notify(progress);
-                value = 0;
-            }
+            writer.print("");
+            writer.close();
 
             checkInterruption();
+
+            Iterator iterator = documents.keySet().iterator();
+            int increment = documents.keySet().size() / 40;
+            int value = 0;
+            //for each document calculate sim hash value
+            while (iterator.hasNext()) {
+                // Calculate the sim hash value of document.
+                int id = (java.lang.Integer) iterator.next();
+                String document = documents.get(id);
+                long docHash = simHashCalculator.getSimhash64Value(document);
+                System.out.println(Thread.currentThread().getName() + "Duplicate Detector UI Handler->Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits");
+                try {
+                    Files.append("Document=[" + document + "] Hash=[" + docHash + " , " + java.lang.Long.toBinaryString(docHash) + "]" + "Bit Length of Hash:" + java.lang.Long.toBinaryString(docHash).length() + "bits \n", articleHashValues, Charsets.UTF_8);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                documentSimHashes.put(id, docHash);
+
+                //send updates to GUI
+                value++;
+                if (value == increment) {
+                    progress += 1;
+                    notify(progress);
+                    value = 0;
+                }
+
+                checkInterruption();
+            }
+
         }
+        notify(40);
         return documentSimHashes;
     }
 
@@ -251,6 +256,7 @@ public class DuplicateDetectorUIHandler extends Observable implements Runnable {
      * @param progress
      */
     private void notify(int progress)throws InterruptedException{
+        System.out.println("NOTIFIED  "+progress);
         checkInterruption();
         setChanged();
         notifyObservers(progress);
