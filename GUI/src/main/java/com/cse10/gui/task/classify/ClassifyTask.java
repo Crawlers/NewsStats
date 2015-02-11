@@ -72,7 +72,6 @@ public abstract class ClassifyTask extends SwingWorker<Void, Void> implements Ob
 
     //to stop classification process
     public void stopClassification() {
-        classifierUIHandler.getClassifierConfigurator().stopClassification();
         classifierUIHandler.interrupt();
     }
 
