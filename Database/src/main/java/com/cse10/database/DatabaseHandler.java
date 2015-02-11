@@ -638,15 +638,14 @@ public class DatabaseHandler {
      * @param articleClass ex:- CeylonTodayArticle.class
      * @return
      */
-    public static int getMaxIdOf(Class articleClass, String newsPaper) {
+    public static int getMaxIdOf(Class articleClass) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
 
         Integer count = (Integer) session.createCriteria(articleClass)
-                .add(Restrictions.eq("newspaper", newsPaper))
-                .setProjection(Projections.max("newspaperId")).uniqueResult();
+                .setProjection(Projections.max("id")).uniqueResult();
 
         session.getTransaction().commit();
         session.close();

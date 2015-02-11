@@ -1,6 +1,5 @@
 package com.cse10.crawler.crawlControler;
 
-import com.cse10.crawler.paperCrawler.NewYorkTimesCrawler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,7 @@ public class NewYorkTimesCrawlControllerTest extends BasicCrawlTest{
 
     NewYorkTimesCrawlController newYorkTimesCrawlController;
     String startDateString = "2014-01-01";
-    String endDateString = "2014-07-01";
+    String endDateString = "2014-02-01";
     Date startDate;
     Date endDate;
 
@@ -48,8 +47,8 @@ public class NewYorkTimesCrawlControllerTest extends BasicCrawlTest{
     @Test
     public void testCrawl() throws Exception {
 
-//        TestCase.assertEquals(true, DatabaseHandler.getRowCount(NewYorkTimesArticle.class, "createdDate", date) == 0);
-        newYorkTimesCrawlController.crawl(NewYorkTimesCrawler.class);
-//        TestCase.assertEquals(true, DatabaseHandler.getRowCount(NewYorkTimesArticle.class, "createdDate", date) > 0);
+//        TestCase.assertTrue(DatabaseHandler.getRowCount(NewYorkTimesArticle.class, "createdDate", startDate) == 0);
+//        newYorkTimesCrawlController.crawl(NewYorkTimesCrawler.class);
+//        TestCase.assertTrue(DatabaseHandler.getRowCount(NewYorkTimesArticle.class, "createdDate", startDate) > 0);
     }
 }

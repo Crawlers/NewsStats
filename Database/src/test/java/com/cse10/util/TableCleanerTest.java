@@ -21,14 +21,14 @@ public class TableCleanerTest {
     private static String previousDB;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUpClass() throws Exception {
         previousDB = DatabaseConstants.DB_URL;
         DatabaseConstants.DB_URL = "jdbc:mysql://localhost:3306/newsstats_test";
         logger.info("Database changed into test db");
     }
 
     @AfterClass
-    public static void tearDown() throws Exception {
+    public static void tearDownClass() throws Exception {
         DatabaseConstants.DB_URL = previousDB;
         logger.info("Database changed back");
         DatabaseHandler.closeDatabase();

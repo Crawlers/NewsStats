@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class NewsFirstCrawlControllerTest extends BasicCrawlTest{
+public class NewsFirstCrawlControllerTest extends BasicCrawlTest {
 
     NewsFirstCrawlController newsFirstCrawlController;
     String dateString = "2015-01-01";
@@ -48,8 +48,8 @@ public class NewsFirstCrawlControllerTest extends BasicCrawlTest{
     @Test
     public void testCrawl() throws Exception {
 
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(NewsFirstArticle.class, "createdDate", date) == 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(NewsFirstArticle.class, "createdDate", date) == 0);
         newsFirstCrawlController.crawl(NewsFirstCrawler.class);
-        TestCase.assertEquals(true, DatabaseHandler.getRowCount(NewsFirstArticle.class, "createdDate", date) > 0);
+        TestCase.assertTrue(DatabaseHandler.getRowCount(NewsFirstArticle.class, "createdDate", date) > 0);
     }
 }
