@@ -1,9 +1,8 @@
 package com.cse10.classifier;
 
+import com.cse10.database.DatabaseConstants;
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.LibSVM;
@@ -17,10 +16,22 @@ import java.io.FileReader;
 public class BaggingClassifierHandlerTest {
     BaggingClassifierHandler baggingClassifierHandler;
     Instances testTrainingData;
+    static String previousDB;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        previousDB = DatabaseConstants.DB_URL;
+        DatabaseConstants.DB_URL = "jdbc:mysql://localhost:3306/newsstats_test";
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        DatabaseConstants.DB_URL = previousDB;
+    }
 
     @Before
     public void setUp() throws Exception {
-        baggingClassifierHandler =new BaggingClassifierHandler();
+        baggingClassifierHandler = new BaggingClassifierHandler();
 
         BufferedReader reader = new BufferedReader(
                 new FileReader("Classifier\\src\\main\\resources\\testData\\arffTestData"));
@@ -43,7 +54,7 @@ public class BaggingClassifierHandlerTest {
 
     @Test
     public void testCrossValidateClassifier() throws Exception {
-        Evaluation e= baggingClassifierHandler.crossValidateClassifier(testTrainingData,2);
+        Evaluation e = baggingClassifierHandler.crossValidateClassifier(testTrainingData, 2);
         TestCase.assertEquals(0.7187074829931973, e.weightedAreaUnderROC());
         double[][] confusionMatrix = e.confusionMatrix();
         for (int i = 0; i < 2; i++) {
@@ -59,6 +70,7 @@ public class BaggingClassifierHandlerTest {
 
     /**
      * test both build and classify methods
+     *
      * @throws Exception
      */
     @Test

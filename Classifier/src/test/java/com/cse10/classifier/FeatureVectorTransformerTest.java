@@ -1,5 +1,6 @@
 package com.cse10.classifier;
 
+import com.cse10.database.DatabaseConstants;
 import junit.framework.TestCase;
 import org.junit.*;
 import org.junit.Test;
@@ -14,10 +15,22 @@ import java.io.FileReader;
 public class FeatureVectorTransformerTest {
 
     private FeatureVectorTransformer featureVectorTransformer;
+    static String previousDB;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        previousDB = DatabaseConstants.DB_URL;
+        DatabaseConstants.DB_URL = "jdbc:mysql://localhost:3306/newsstats_test";
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        DatabaseConstants.DB_URL = previousDB;
+    }
 
     @Before
     public void setUp() throws Exception {
-        featureVectorTransformer=new FeatureVectorTransformer();
+        featureVectorTransformer = new FeatureVectorTransformer();
     }
 
     @After
@@ -27,12 +40,12 @@ public class FeatureVectorTransformerTest {
 
     @Test
     public void testConfigure() throws Exception {
-        featureVectorTransformer.configure(1,1,true);
-        StringToWordVector stringToWordVector=featureVectorTransformer.getFilter();
+        featureVectorTransformer.configure(1, 1, true);
+        StringToWordVector stringToWordVector = featureVectorTransformer.getFilter();
         TestCase.assertEquals(true, stringToWordVector.getIDFTransform());
-        TestCase.assertEquals(true,stringToWordVector.getLowerCaseTokens());
-        TestCase.assertEquals(true,stringToWordVector.getTFTransform());
-        TestCase.assertEquals(true,stringToWordVector.getLowerCaseTokens());
+        TestCase.assertEquals(true, stringToWordVector.getLowerCaseTokens());
+        TestCase.assertEquals(true, stringToWordVector.getTFTransform());
+        TestCase.assertEquals(true, stringToWordVector.getLowerCaseTokens());
     }
 
     @Test
@@ -43,7 +56,7 @@ public class FeatureVectorTransformerTest {
         data = new Instances(reader);
         reader.close();
         featureVectorTransformer.setInputFormat(data);
-        Instances transformedData=featureVectorTransformer.getTransformedArticles(data);
+        Instances transformedData = featureVectorTransformer.getTransformedArticles(data);
         TestCase.assertTrue(Instances.class.isInstance(transformedData));
 
     }
@@ -56,7 +69,7 @@ public class FeatureVectorTransformerTest {
         data = new Instances(reader);
         reader.close();
         featureVectorTransformer.setInputFormat(data);
-        Instances transformedData=featureVectorTransformer.getTransformedArticles(data);
+        Instances transformedData = featureVectorTransformer.getTransformedArticles(data);
         TestCase.assertTrue(Instances.class.isInstance(transformedData));
     }
 
@@ -68,13 +81,13 @@ public class FeatureVectorTransformerTest {
         data = new Instances(reader);
         reader.close();
         featureVectorTransformer.setInputFormat(data);
-        Instances transformedData=featureVectorTransformer.getTransformedArticles(data, "FVTTest");
-        File file=new File("Classifier\\src\\main\\resources\\arffData\\FVTTest");
-        TestCase.assertEquals(true,file.exists());
+        Instances transformedData = featureVectorTransformer.getTransformedArticles(data, "FVTTest");
+        File file = new File("Classifier\\src\\main\\resources\\arffData\\FVTTest");
+        TestCase.assertEquals(true, file.exists());
     }
 
     @Test
     public void testGetFilter() throws Exception {
-         TestCase.assertTrue(StringToWordVector.class.isInstance(featureVectorTransformer.getFilter()));
+        TestCase.assertTrue(StringToWordVector.class.isInstance(featureVectorTransformer.getFilter()));
     }
 }

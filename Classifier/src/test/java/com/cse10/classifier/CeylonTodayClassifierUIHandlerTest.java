@@ -1,5 +1,6 @@
 package com.cse10.classifier;
 
+import com.cse10.database.DatabaseConstants;
 import junit.framework.TestCase;
 import org.junit.*;
 import org.junit.Test;
@@ -10,9 +11,24 @@ import java.util.Date;
 public class CeylonTodayClassifierUIHandlerTest {
 
     private CeylonTodayClassifierUIHandler ceylonTodayClassifierUIHandler;
+
+    static String previousDB;
+
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        previousDB = DatabaseConstants.DB_URL;
+        DatabaseConstants.DB_URL = "jdbc:mysql://localhost:3306/newsstats_test";
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+        DatabaseConstants.DB_URL = previousDB;
+    }
+
     @Before
     public void setUp() throws Exception {
-        ceylonTodayClassifierUIHandler=new CeylonTodayClassifierUIHandler();
+        ceylonTodayClassifierUIHandler = new CeylonTodayClassifierUIHandler();
         ceylonTodayClassifierUIHandler.setEndDate(new Date());
     }
 
@@ -29,7 +45,7 @@ public class CeylonTodayClassifierUIHandlerTest {
     @Test
     public void testSetEndDate() throws Exception {
         ceylonTodayClassifierUIHandler.setEndDate(new Date());
-        TestCase.assertEquals(new Date(),ceylonTodayClassifierUIHandler.getEndDate());
+        TestCase.assertEquals(new Date(), ceylonTodayClassifierUIHandler.getEndDate());
     }
 
     @Test
@@ -39,7 +55,7 @@ public class CeylonTodayClassifierUIHandlerTest {
 
     //test the functionality of the thread
     @Test
-    public void testConfigurator(){
+    public void testConfigurator() {
         //not tested, tested in other articles
     }
 }
