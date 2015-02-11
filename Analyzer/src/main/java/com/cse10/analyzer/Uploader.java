@@ -21,29 +21,35 @@ import org.hibernate.Session;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+
 public class Uploader{
     MongoClient mongoClient;
     String dbName;
-
 
     public Uploader(String user, String password, String dbName, String host, String port){
         this.dbName = dbName;
         MongoCredential credential = MongoCredential.createMongoCRCredential(user, dbName, password.toCharArray());
         try {
             ServerAddress address = new ServerAddress(host,Integer.parseInt(port));
-            mongoClient = new MongoClient(address, Arrays.asList(credential));
-            //mongoClient = new MongoClient(address);
+            //mongoClient = new MongoClient(address, Arrays.asList(credential));
+            mongoClient = new MongoClient(address);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
 
+
+    /*
+     * upload data to remort database
+     */
     public void upload(String sqlTable, String mongoCollection){
+        //remove existing data
         DB db = mongoClient.getDB(dbName);
         DBCollection collection = db.getCollection(mongoCollection);
         BasicDBObject mQuery = new BasicDBObject();
         collection.remove(mQuery);
 
+        //get the results from local database
         Session session = HibernateUtil.getSessionFactory().openSession();
         String sql = "SELECT * FROM "+sqlTable;
         SQLQuery sQuery = session.createSQLQuery(sql);
@@ -51,6 +57,7 @@ public class Uploader{
         List results = sQuery.list();
         session.close();
 
+        //upload data to remote database
         DBObject obj = new BasicDBList();
         BulkWriteOperation builder = collection.initializeOrderedBulkOperation();
         for (int i=0; i<results.size(); i++){
