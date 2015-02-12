@@ -447,11 +447,10 @@ public class NewsStatsGUI {
                                 extractorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
                                     extractButtonState = true;
-//                                    enableExtractorUI();
+                                    enableExtractorUI();
                                     drawExtractorChart();
                                     refreshUI();
 
-                                    statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
                                     infoDialog.init(frame, "Entity Extraction Completed Successfully!");
                                 }
@@ -462,7 +461,7 @@ public class NewsStatsGUI {
 
                 } else {
                     extractButtonState = true;
-//                    enableExtractorUI();
+                    enableExtractorUI();
                     drawExtractorChart();
                     refreshUI();
 
@@ -491,11 +490,10 @@ public class NewsStatsGUI {
                                 duplicateDetectorProgressBar.setStringPainted(true);
                                 if (progress == 100) {
                                     duplicateDetectButtonState = true;
-//                                    enableDuplicateDetectorUI();
+                                    enableDuplicateDetectorUI();
                                     drawDuplicateDetectorChart();
                                     refreshUI();
 
-                                    statusLabel.setText("Ready");
                                     InfoDialog infoDialog = new InfoDialog();
                                     infoDialog.init(frame, "Duplicate Detection Completed Successfully!");
                                 }
@@ -506,7 +504,7 @@ public class NewsStatsGUI {
 
                 } else {
                     duplicateDetectButtonState = true;
-//                    enableDuplicateDetectorUI();
+                    enableDuplicateDetectorUI();
                     drawDuplicateDetectorChart();
                     refreshUI();
 
@@ -1044,7 +1042,7 @@ public class NewsStatsGUI {
 
     private void disableExtractorUI() {
 
-        extractorButton.setText("Cancel Operation");
+        extractorButton.setText("Stop Operation");
     }
 
     private void enableExtractorUI() {
@@ -1133,7 +1131,7 @@ public class NewsStatsGUI {
 
     private void disableDuplicateDetectorUI() {
 
-        duplicateDetectionButton.setText("Cancel Operation");
+        duplicateDetectionButton.setText("Stop Operation");
     }
 
     private void enableDuplicateDetectorUI() {
