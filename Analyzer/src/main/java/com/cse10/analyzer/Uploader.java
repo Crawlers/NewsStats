@@ -31,8 +31,8 @@ public class Uploader{
         MongoCredential credential = MongoCredential.createMongoCRCredential(user, dbName, password.toCharArray());
         try {
             ServerAddress address = new ServerAddress(host,Integer.parseInt(port));
-            //mongoClient = new MongoClient(address, Arrays.asList(credential));
-            mongoClient = new MongoClient(address);
+            mongoClient = new MongoClient(address, Arrays.asList(credential));
+            //mongoClient = new MongoClient(address);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

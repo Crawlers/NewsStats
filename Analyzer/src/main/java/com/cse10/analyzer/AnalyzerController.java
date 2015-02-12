@@ -115,13 +115,14 @@ public class AnalyzerController extends Observable {
         setProgress(100);
     }
 
-
+    /*
     public static void main(String[] args){
         AnalyzerController ac = AnalyzerController.getInstance();
         ac.analyze();
         ac.predict();
         ac.upload();
     }
+    */
 
     /*
      * notify the progress to admin gui
