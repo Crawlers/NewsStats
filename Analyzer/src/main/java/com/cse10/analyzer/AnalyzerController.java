@@ -13,7 +13,6 @@ public class AnalyzerController extends Observable {
     private static AnalyzerController analyzerController;
 
     private AnalyzerController(){
-
     }
 
     public static AnalyzerController getInstance(){
@@ -22,17 +21,22 @@ public class AnalyzerController extends Observable {
         return analyzerController;
     }
 
+    /*
+     * initiate analysis process
+     */
     public void analyze(){
-
         setProgress(10);
         Analyzer statGen = new Analyzer();
         setProgress(25);
-        statGen.generateStats();
+        statGen.generateStats("2012-01-01", "2014-12-31");
         setProgress(100);
     }
 
+    /*
+     * initiate prediction process
+     */
     public void predict(){
-        //predictions
+        //Initializing the prediction
         String[] fields1= {"crime_type", "crime_district"};
         String[] fields2= {"crime_type"};
         String[] fields3= {"crime_district"};
@@ -42,49 +46,50 @@ public class AnalyzerController extends Observable {
         Predictor predictor_district = new Predictor(enlAlgo,"predictions_district",fields3);
         setProgress(10);
 
+        //predictions
         String[] quarters1 = {"2012 - 1", "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4"};
-        predictor.predict(quarters1,"2014 - 1",8);
-        predictor_type.predict(quarters1, "2014 - 1",8);
-        predictor_district.predict(quarters1,"2014 - 1",8);
+        predictor.predict(quarters1,"2014 - 1");
+        predictor_type.predict(quarters1, "2014 - 1");
+        predictor_district.predict(quarters1,"2014 - 1");
         setProgress(20);
 
         String[] quarters2 = { "2012 - 2", "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1"};
-        predictor.predict(quarters2,"2014 - 2",9);
-        predictor_type.predict(quarters2, "2014 - 2",9);
-        predictor_district.predict(quarters2,"2014 - 2",9);
+        predictor.predict(quarters2,"2014 - 2");
+        predictor_type.predict(quarters2, "2014 - 2");
+        predictor_district.predict(quarters2,"2014 - 2");
         setProgress(30);
 
         String[] quarters3 = { "2012 - 3", "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2"};
-        predictor.predict(quarters3,"2014 - 3",10);
-        predictor_type.predict(quarters3, "2014 - 3",10);
-        predictor_district.predict(quarters3,"2014 - 3",10);
+        predictor.predict(quarters3,"2014 - 3");
+        predictor_type.predict(quarters3, "2014 - 3");
+        predictor_district.predict(quarters3,"2014 - 3");
         setProgress(40);
 
         String[] quarters4 = { "2012 - 4", "2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2", "2014 - 3"};
-        predictor.predict(quarters4,"2014 - 4",11);
-        predictor_type.predict(quarters4, "2014 - 4",11);
-        predictor_district.predict(quarters4,"2014 - 4",11);
+        predictor.predict(quarters4,"2014 - 4");
+        predictor_type.predict(quarters4, "2014 - 4");
+        predictor_district.predict(quarters4,"2014 - 4");
         setProgress(50);
 
         String[] quarters = {"2013 - 1", "2013 - 2", "2013 - 3", "2013 - 4", "2014 - 1", "2014 - 2", "2014 - 3", "2014 - 4"};
-        predictor.predict(quarters,"2015 - 1",12);
-        predictor_type.predict(quarters, "2015 - 1",12);
-        predictor_district.predict(quarters,"2015 - 1",12);
+        predictor.predict(quarters,"2015 - 1");
+        predictor_type.predict(quarters, "2015 - 1");
+        predictor_district.predict(quarters,"2015 - 1");
         setProgress(60);
 
-        predictor.predict(quarters,"2015 - 2",13);
+        predictor.predict(quarters,"2015 - 2");
         //predictor_type.predict(quarters, "2015 - 2",13);
-        predictor_district.predict(quarters,"2015 - 2",13);
+        predictor_district.predict(quarters,"2015 - 2");
         setProgress(70);
 
-        predictor.predict(quarters,"2015 - 3",14);
-        //predictor_type.predict(quarters, "2015 - 3",14);
-        predictor_district.predict(quarters,"2015 - 3",14);
+        predictor.predict(quarters,"2015 - 3");
+        //predictor_type.predict(quarters, "2015 - 3",8);
+        predictor_district.predict(quarters,"2015 - 3");
         setProgress(80);
 
-        predictor.predict(quarters,"2015 - 4",15);
-        //predictor_type.predict(quarters, "2015 - 4",15);
-        predictor_district.predict(quarters,"2015 - 4",15);
+        predictor.predict(quarters,"2015 - 4");
+        //predictor_type.predict(quarters, "2015 - 4",8);
+        predictor_district.predict(quarters,"2015 - 4");
         setProgress(90);
 
         //measuring accuracy
@@ -92,6 +97,9 @@ public class AnalyzerController extends Observable {
         setProgress(100);
     }
 
+    /*
+     * initiation upload process
+     */
     public void upload(){
         Uploader uploader = new Uploader(DatabaseConstants.WEBGUIDB_USERNAME,
                 DatabaseConstants.WEBGUIDB_PASSWORD,
@@ -107,15 +115,18 @@ public class AnalyzerController extends Observable {
         setProgress(100);
     }
 
+    /*
+    public static void main(String[] args){
+        AnalyzerController ac = AnalyzerController.getInstance();
+        ac.analyze();
+        ac.predict();
+        ac.upload();
+    }
+    */
 
-//    public static void main(String[] args){
-//        AnalyzerController ac = AnalyzerController.getInstance();
-//        ac.analyze();
-//        ac.predict();
-//        ac.upload();
-//
-//    }
-
+    /*
+     * notify the progress to admin gui
+     */
     private void setProgress(int progress){
         System.out.println(progress);
         setChanged();

@@ -13,6 +13,9 @@ import org.hibernate.Transaction;
 import java.math.BigDecimal;
 import java.util.*;
 
+/*
+ * Main predictor class
+ */
 public class Predictor{
 
     private String table;
@@ -24,6 +27,8 @@ public class Predictor{
         this.predictorAlgo = predictorAlgo;
         this.table = table;
         this.fields = fields;
+
+        //empty the table
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         session.createSQLQuery("truncate table "+table).executeUpdate();
@@ -31,13 +36,16 @@ public class Predictor{
         session.close();
     }
 
-    public void  predict(String[] quarters, String targetQuarter, int indexToPredict){
+    //predict
+    public void  predict(String[] quarters, String targetQuarter){
+        int indexToPredict = quarters.length;
         this.quarters = quarters;
         Session session = HibernateUtil.getSessionFactory().openSession();
         List results = getInput();
         HashMap<String,Integer> series = getSeriesHolder();
         HashMap pre = (HashMap) results.get(0);
         series.put((String) pre.get("crime_yearquarter"),((BigDecimal) pre.get("count")).intValue());
+        //for each time series
         for (int i=1; i<results.size(); i++){
             HashMap ele = (HashMap) results.get(i);
             boolean flag = false;
@@ -48,7 +56,7 @@ public class Predictor{
                 }
             }
             if (flag){
-                int predicted = predictorAlgo.predict(series,indexToPredict);
+                int predicted = predictorAlgo.predict(series);
                 insertToDB(pre,targetQuarter,predicted);
                 series = getSeriesHolder();
                 pre = ele;
@@ -58,6 +66,7 @@ public class Predictor{
         }
     }
 
+    //get mean square error
     public double getMeanSqureError(String predictionTable){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -122,6 +131,7 @@ public class Predictor{
         return (double) ((HashMap) results.get(0)).get("err");
     }
 
+    //get the input
     protected List  getInput(){
         Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -142,10 +152,12 @@ public class Predictor{
         return results;
     }
 
+    //setting the predictor algorithm
     public void setPredictorAlgorithm (PredictorAlgorithm predictorAlgo){
         this.predictorAlgo = predictorAlgo;
     }
 
+    //save the output
     protected void insertToDB(HashMap ele, String key, int count){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
@@ -169,6 +181,7 @@ public class Predictor{
         session.close();
     }
 
+    //get empty series
     protected HashMap<String,Integer> getSeriesHolder(){
         HashMap<String,Integer> series = new HashMap<String,Integer>();
         for (int i=0; i<quarters.length; i++){
@@ -180,12 +193,19 @@ public class Predictor{
 
 }
 
+/*
+ * interface to implement strategy design pattern
+ */
 interface PredictorAlgorithm{
-    public int predict(HashMap<String,Integer> series, int indexToPredict);
+    public int predict(HashMap<String,Integer> series);
 }
 
+/*
+ * elastic net regression algorithm class
+ */
 class ENLPredictorAlgorithm implements PredictorAlgorithm{
-    public int predict(HashMap<String,Integer> series, int indexToPredict){
+    public int predict(HashMap<String,Integer> series){
+        int indexToPredict = series.size();
         List keys = new ArrayList(series.keySet());
         Collections.sort(keys);
 
@@ -282,8 +302,12 @@ class ENLPredictorAlgorithm implements PredictorAlgorithm{
     }
 }
 
+/*
+ * linear regression class
+ */
 class LRPredictorAlgorithm implements PredictorAlgorithm{
-    public int predict(HashMap<String,Integer> series, int indexToPredict) {
+    public int predict(HashMap<String,Integer> series) {
+        int indexToPredict = series.size();
 
         List keys = new ArrayList(series.keySet());
         Collections.sort(keys);
