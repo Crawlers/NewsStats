@@ -788,7 +788,7 @@ public class NewsStatsGUI {
         final JFreeChart chart = ChartFactory.createBarChart(
                 "Crawled Articles",         // chart title
                 "Type",               // domain axis label
-                "Frequency",                  // range axis label
+                "Count",                  // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
@@ -948,7 +948,7 @@ public class NewsStatsGUI {
         final JFreeChart chart = ChartFactory.createBarChart(
                 "Classified Articles",         // chart title
                 "Type",               // domain axis label
-                "Frequency",                  // range axis label
+                "Count",                  // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
@@ -1043,12 +1043,15 @@ public class NewsStatsGUI {
     private void disableExtractorUI() {
 
         extractorButton.setText("Stop Operation");
+        statusLabel.setText("Extracting...");
     }
 
     private void enableExtractorUI() {
 
         extractorButton.setText("Start");
         extractorProgressBar.setValue(0);
+        statusLabel.setText("Ready");
+
     }
 
     private void drawExtractorChart() {
@@ -1111,7 +1114,7 @@ public class NewsStatsGUI {
         final JFreeChart chart2 = ChartFactory.createBarChart(
                 "Crime Types",              // chart title
                 "Type",                     // domain axis label
-                "Frequency",                // range axis label
+                "Count",                // range axis label
                 dataset2,                    // data
                 PlotOrientation.VERTICAL,   // orientation
                 true,                       // include legend
@@ -1132,12 +1135,17 @@ public class NewsStatsGUI {
     private void disableDuplicateDetectorUI() {
 
         duplicateDetectionButton.setText("Stop Operation");
+        statusLabel.setText("Detecting...");
+
+
     }
 
     private void enableDuplicateDetectorUI() {
 
         duplicateDetectionButton.setText("Start");
         duplicateDetectorProgressBar.setValue(0);
+        statusLabel.setText("Ready");
+
     }
 
     private void drawDuplicateDetectorChart() {
@@ -1162,7 +1170,7 @@ public class NewsStatsGUI {
         final JFreeChart chart = ChartFactory.createBarChart(
                 "Detected Duplicates",         // chart title
                 "Type",               // domain axis label
-                "Frequency",                  // range axis label
+                "Count",                  // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
@@ -1240,7 +1248,7 @@ public class NewsStatsGUI {
         final JFreeChart chart = ChartFactory.createBarChart(
                 "Tables",         // chart title
                 "Type",               // domain axis label
-                "Frequency",                  // range axis label
+                "Count",                  // range axis label
                 dataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
