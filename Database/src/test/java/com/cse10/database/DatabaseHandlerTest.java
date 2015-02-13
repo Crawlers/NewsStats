@@ -95,25 +95,6 @@ public class DatabaseHandlerTest {
         DatabaseHandler.delete(NewsFirstArticle.class, id);
     }
 
-    @Test
-    public void testInsertCrimeArticleAndUpdatePprArticle() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertArticles() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchArticles() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchTrainingArticles() throws Exception {
-
-    }
 
     @Test
     public void testFetchArticlesByIdList() throws Exception {
@@ -145,80 +126,6 @@ public class DatabaseHandlerTest {
         TestCase.assertTrue(DatabaseHandler.fetchArticlesByIdStarting(TrainingArticle.class, maxId - 1).size() > 0);
     }
 
-    @Test
-    public void testFetchArticlesWithNullLabels() throws Exception {
-
-    }
-
-    @Test
-    public void testExecuteQuery() throws Exception {
-
-    }
-
-    @Test
-    public void testExecuteUpdateWithoutHibernate() throws Exception {
-
-    }
-
-    @Test
-    public void testExecuteUpdate() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertCrimeEntities() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertCrimeEntityGroups() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimeEntityGroups() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimeEntityGroupsWithNullLabels() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimeEntityGroupsWithNullOrUniqueLabels() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimeEntityGroupsByIdRange() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertLocationDistrict() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchLocation() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertCrimePerson() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimePeople() throws Exception {
-
-    }
-
-    @Test
-    public void testInsertCrimeDetails() throws Exception {
-
-    }
 
     @Test
     public void testGetRowCount() throws Exception {
@@ -227,68 +134,5 @@ public class DatabaseHandlerTest {
 
     }
 
-    @Test
-    public void testGetRowCount1() throws Exception {
 
-    }
-
-    @Test
-    public void testGetRowCount2() throws Exception {
-
-    }
-
-    @Test
-    public void testGetRowCount3() throws Exception {
-
-    }
-
-    @Test
-    public void testGetDistinctValueCount() throws Exception {
-
-    }
-
-    @Test
-    public void testGetMaxIdOf() throws Exception {
-
-    }
-
-    @Test
-    public void testGetLatestDate() throws Exception {
-
-    }
-
-    @Test
-    public void testGetEarliestDateWithNullLabel() throws Exception {
-
-    }
-
-    @Test
-    public void testGetLatestDateWithNullLabel() throws Exception {
-
-    }
-
-    @Test
-    public void testFetchCrimeEntityGroup() throws Exception {
-
-    }
-
-    @Test
-    public void testUpdateCrimeEntityGroup() throws Exception {
-
-    }
-
-    @Test
-    public void testDelete() throws Exception {
-
-    }
-
-    @Test
-    public void testDeleteAll() throws Exception {
-
-    }
-
-    @Test
-    public void testCloseDatabase() throws Exception {
-
-    }
 }
