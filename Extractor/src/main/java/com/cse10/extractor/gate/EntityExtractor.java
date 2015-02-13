@@ -61,7 +61,7 @@ public class EntityExtractor extends Observable {
 
     public synchronized boolean startExtraction() throws InterruptedException, IOException, GateException, ParseException {
         // to check whether execution was successful or not
-        boolean isSuccessful = false;
+        boolean isSuccessful = true;
 
         //get ID of the article to start entity extraction.
         int startID = getLastID();
@@ -458,6 +458,7 @@ public class EntityExtractor extends Observable {
         return  crimeEntityGroupList;
     }
 
+    // execute on interrupt or end of the process
     public synchronized boolean stopExtraction(){
         writeLastID();
         return true;
